@@ -28,7 +28,7 @@ Both modes share the same UI; only the data source differs.
 ## Tech stack
 
 - Next.js (App Router)
-- React 18
+- React 19
 - TanStack Table for sorting, filtering, and search
 - No database. Local mode reads scraper output from disk via a Next API
   route; production mode fetches from GitHub.
