@@ -16,9 +16,9 @@ export default function ScrapersPage() {
       <Box sx={{ mt: 2 }}>
         <Button
           variant="contained"
-          onClick={() => router.push("/scrapers/example-spider")}
+          onClick={() => router.push("/scrapers/atl-city-council")}
         >
-          View example-spider meetings
+          View Atlanta City Council meetings
         </Button>
       </Box>
     </Container>
