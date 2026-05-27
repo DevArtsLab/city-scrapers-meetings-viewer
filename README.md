@@ -131,17 +131,17 @@ layer — App Router handles data fetching at the component level.
 The viewer expects each JSON file to be an array of objects with these
 fields. Status values are lowercase.
 
-| Field            | Type                                          |
-| ---------------- | --------------------------------------------- |
-| `id`             | string                                        |
-| `title`          | string                                        |
-| `description`    | string                                        |
-| `classification` | string                                        |
-| `start`          | string, `"YYYY-MM-DD HH:mm:ss"`               |
-| `end`            | string, `"YYYY-MM-DD HH:mm:ss"`               |
-| `all_day`        | boolean                                       |
-| `time_notes`     | string                                        |
-| `location`       | `{ name: string, address: string }`           |
-| `links`          | `{ href: string, title: string }[]`           |
-| `source`         | string (URL)                                  |
-| `status`         | `"passed"` \| `"cancelled"` \| `"tentative"`  |
+| Field            | Type                                         |
+| ---------------- | -------------------------------------------- |
+| `id`             | string                                       |
+| `title`          | string                                       |
+| `description`    | string                                       |
+| `classification` | string                                       |
+| `start`          | string, `"YYYY-MM-DD HH:mm:ss"`              |
+| `end`            | string, `"YYYY-MM-DD HH:mm:ss"`              |
+| `all_day`        | boolean                                      |
+| `time_notes`     | string                                       |
+| `location`       | `{ name: string, address: string }`          |
+| `links`          | `{ href: string, title: string }[]`          |
+| `source`         | string (URL)                                 |
+| `status`         | `"passed"` \| `"cancelled"` \| `"tentative"` |
