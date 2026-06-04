@@ -1,0 +1,64 @@
+[
+    {
+        "title": "Sample title 1",
+        "description": "This is a an example description with a – character",
+        "classification": "City Council",
+        "start": "2024-06-17 13:00:00",
+        "end": "2024-06-17 15:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            },
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.html",
+                "title": "Attachment 2"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "example_spider_city_council/202406171300/x/board"
+    },
+    {
+        "title": "Sample title 2",
+        "description": "This is a an example description",
+        "classification": "City Council",
+        "start": "2024-06-20 00:00:00",
+        "end": "2024-06-20 00:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes",
+        "location": {"name": "", "address": ""},
+        "links": [],
+        "source": "https://www.example.com/",
+        "status": "cancelled",
+        "id": "example_spider_city_council/202406200000/x/board"
+    },
+    {
+        "title": "Sample title 3",
+        "description": "Lorem Ipsum is simply dummy text of the printing and typesetting industry – Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets.",
+        "classification": "City Council",
+        "start": "2028-06-17 13:00:00",
+        "end": "2028-06-17 15:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "tentative",
+        "id": "example_spider_city_council/202806171300/x/board"
+    }
+]
