@@ -28,12 +28,11 @@ Both modes share the same UI; only the data source differs.
 ## Tech stack
 
 - Next.js (App Router)
-- React 19
-- TanStack Table for sorting, filtering, and search
+- MUI for component primitives (Container, Button, Typography, etc.)
 - No database. Local mode reads scraper output from disk via a Next API
   route; production mode fetches from GitHub.
 
-## Local development
+## Local Mode
 
 ### Requirements
 
@@ -43,105 +42,103 @@ Both modes share the same UI; only the data source differs.
 ### Setup
 
 ```sh
+git clone <repo-url> meetings-viewer
+cd meetings-viewer
 npm install
 npm run dev
 ```
 
 The dev server runs at http://localhost:3000. Opening `/` redirects to
-`/scrapers`.
+`/scrapers`. With no data loaded, the index page shows an empty table.
 
-### Connecting a scraper
+### Loading data
 
-The viewer watches a directory on disk for scraper output. By default
-this is `./scraper-output/` relative to the repo root. To point it at
-a different directory — for example, the output folder of a scrapy
-project living in another repo — set `SCRAPER_OUTPUT_DIR` in `.env.local`:
+The viewer reads scraper output from `data/scrapers/*.json` relative to the
+meetings-viewer repo root. To populate it, run a scrapy spider from inside the
+city-scrapers repo and direct output to that path using scrapy's `-O` flag:
 
-```
-SCRAPER_OUTPUT_DIR=/path/to/your/scrapy-project/output
-```
-
-Each `*.json` file in that directory becomes a scraper in the index.
-The filename (without `.json`) is used as the scraper name in URLs —
-so `atl_council.json` shows up at `/scrapers/atl_council`.
-
-### Typical workflow
-
-1. Start the viewer, configured to read from your scraper repo's output
-   directory.
-2. In your scraper repo, run the spider with output overwriting that
-   file (note the uppercase `-O` — lowercase `-o` appends and will
-   double your records on every run):
-
-   ```sh
-   scrapy crawl atl_council -O /path/to/output/atl_council.json
-   ```
-
-3. Reload the viewer; the table reflects the latest run.
-
-The detail page re-reads the file from disk on every request in dev, so
-running the scraper and refreshing the browser is all that's needed.
-
-## Production mode
-
-Not yet wired up. The plan is to add a second data source implementation
-behind the same interface as the local one: when a PR is opened against
-a scraper repo, a GitHub Actions workflow runs the scraper and commits
-its JSON output to a long-lived `scraper-data` branch under a path keyed
-by the PR number. The viewer fetches those files directly from
-`raw.githubusercontent.com`. When the PR is merged or closed, a cleanup
-workflow removes the file.
-
-The UI does not change between modes. Only `src/lib/dataSource.js` is
-swapped.
-
-## Project structure
-
-```
-src/
-  app/
-    layout.jsx              root layout (header, global CSS)
-    page.jsx                / → redirects to /scrapers
-    globals.css             base styles
-    scrapers/
-      page.jsx              /scrapers          (server component)
-      [name]/
-        page.jsx            /scrapers/:name    (server component)
-    api/
-      scrapers/
-        route.js            GET /api/scrapers
-        [name]/
-          route.js          GET /api/scrapers/:name
-  components/
-    MeetingsTable.jsx       client component: sort, filter, search
-    StatsBar.jsx            total + per-status counts
-  lib/
-    dataSource.js           contract + factory (local for now)
-    localDataSource.js      reads from the filesystem
-scraper-output/             default directory for local scraper output
-                            (gitignored except for .gitkeep)
+```sh
+cd <path-to-city-scrapers-repo>
+scrapy crawl <spider_name> -O <path-to-meetings-viewer>/data/scrapers/<spider_name>.json
 ```
 
-Server components (the page files) fetch data directly and pass it as
-props into the client table component. There is no separate hooks
-layer — App Router handles data fetching at the component level.
+For example, if both repos are siblings under `~/code/`:
 
-## Meeting record schema
+```sh
+cd ~/code/city-scrapers-fortx
+scrapy crawl fortx_council -O ~/code/meetings-viewer/data/scrapers/fortx_council.json
+```
 
-The viewer expects each JSON file to be an array of objects with these
-fields. Status values are lowercase.
+Notes:
 
-| Field            | Type                                         |
-| ---------------- | -------------------------------------------- |
-| `id`             | string                                       |
-| `title`          | string                                       |
-| `description`    | string                                       |
-| `classification` | string                                       |
-| `start`          | string, `"YYYY-MM-DD HH:mm:ss"`              |
-| `end`            | string, `"YYYY-MM-DD HH:mm:ss"`              |
-| `all_day`        | boolean                                      |
-| `time_notes`     | string                                       |
-| `location`       | `{ name: string, address: string }`          |
-| `links`          | `{ href: string, title: string }[]`          |
-| `source`         | string (URL)                                 |
-| `status`         | `"passed"` \| `"cancelled"` \| `"tentative"` |
+- Use the capital `-O` flag, which overwrites the file on each run. The
+  lowercase `-o` flag appends and will produce duplicate records on
+  subsequent runs.
+- The output filename without `.json` must match the spider's `name`
+  attribute. It becomes the slug in the viewer's URL: `fortx_council.json`
+  becomes `/scrapers/fortx_council`.
+
+### Project structure
+
+```
+meetings-viewer/
+├── app/
+│   └── scrapers/
+│       ├── page.tsx               # /scrapers
+│       └── [spider]/
+│           └── page.tsx           # /scrapers/:spider
+├── data/
+│   └── scrapers/
+│       ├── .gitkeep
+│       └── *.json                 # scrapy output, gitignored
+└── lib/
+    └── scrapers.ts                # data-source module
+```
+
+## Data shapes
+
+### Meeting record
+
+Each scraper's output JSON is an array of meeting records:
+
+| Field            | Type    | Notes                                                   |
+| ---------------- | ------- | ------------------------------------------------------- |
+| `id`             | string  | Format: `{spider}/{timestamp}/{...}`                    |
+| `title`          | string  |                                                         |
+| `description`    | string  |                                                         |
+| `classification` | string  | e.g. `"Board"`, `"Committee"`                           |
+| `start`          | string  | `"YYYY-MM-DD HH:mm:ss"`, no timezone                    |
+| `end`            | string  | `"YYYY-MM-DD HH:mm:ss"`, no timezone                    |
+| `all_day`        | boolean |                                                         |
+| `time_notes`     | string  |                                                         |
+| `location`       | object  | `{ name: string, address: string }`                     |
+| `links`          | array   | `[{ href: string, title: string }, ...]`                |
+| `source`         | string  | URL of the page the meeting was scraped from            |
+| `status`         | string  | `"passed"`, `"cancelled"`, or `"tentative"` (lowercase) |
+
+### Index response
+
+The `/scrapers` page is populated by the data-source module's
+`listScrapers()` function, which returns:
+
+```json
+{
+  "spiders": [{ "slug": "atl_council" }, { "slug": "charnc_meck_schools" }]
+}
+```
+
+In local mode this shape is constructed at request time by listing
+`data/scrapers/*.json`. There is no manifest file on disk; the directory
+listing is the source of truth.
+
+## Production Mode (planned)
+
+When production is built, the viewer will fetch scraper output from a
+dedicated public GitHub repository (`meetings-viewer-data`) populated by
+GitHub Actions workflows attached to each city-scrapers repo. PR-scoped data
+is created when a PR is opened and removed when the PR closes. Implementation
+details are tracked in the technical specification and are not part of the
+current build.
+
+The production version reuses every component and route from the local
+version. Only `lib/scrapers.ts` changes between modes.
