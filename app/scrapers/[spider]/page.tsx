@@ -23,7 +23,7 @@ export default async function SpiderPage({
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6 } }}>
       <Box sx={{ mb: 2 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={NextLink} href="/scrapers" underline="hover">
@@ -32,7 +32,14 @@ export default async function SpiderPage({
           <Typography color="text.primary">{spider}</Typography>
         </Breadcrumbs>
       </Box>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          fontWeight: 600,
+          fontSize: { xs: "1.5rem", sm: "2.125rem" },
+        }}
+      >
         {spider}
       </Typography>
       <MeetingsTable records={records} />

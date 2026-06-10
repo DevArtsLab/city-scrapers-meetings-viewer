@@ -33,6 +33,8 @@ const STATUS_OPTIONS = [
   { value: "tentative", label: "Tentative" },
 ];
 
+const STAT_STATUSES = STATUS_OPTIONS.filter((o) => o.value !== "all");
+
 const STATUS_CHIP_COLOR: Record<
   string,
   "success" | "error" | "warning" | "default"
@@ -42,29 +44,88 @@ const STATUS_CHIP_COLOR: Record<
   tentative: "warning",
 };
 
+function normalizeStatus(status: string | undefined): string {
+  return (status ?? "").toLowerCase();
+}
+
+function StatusChip({ status }: { status: string }) {
+  return (
+    <Chip
+      label={status || "—"}
+      size="small"
+      color={STATUS_CHIP_COLOR[status] ?? "default"}
+      variant="outlined"
+    />
+  );
+}
+
+function EmptyState() {
+  return (
+    <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
+      No meetings match the current filters.
+    </Typography>
+  );
+}
+
 function locationText(record: MeetingRecord): string {
   const name = record.location?.name ?? "";
   const address = record.location?.address ?? "";
   return [name, address].filter(Boolean).join(", ");
 }
 
+const SORT_EXTRACTORS: Partial<Record<SortKey, (r: MeetingRecord) => string>> =
+  {
+    location: (r) => locationText(r).toLowerCase(),
+    classification: (r) => (r.classification ?? "").toLowerCase(),
+  };
+
 function sortValue(record: MeetingRecord, key: SortKey): string {
-  if (key === "location") return locationText(record).toLowerCase();
-  if (key === "classification")
-    return (record.classification ?? "").toLowerCase();
-  return (record[key] ?? "").toLowerCase();
+  const extractor = SORT_EXTRACTORS[key];
+  if (extractor) return extractor(record);
+  const val = record[key as keyof MeetingRecord];
+  return typeof val === "string" ? val.toLowerCase() : "";
 }
+
+const COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "title", label: "Title" },
+  { key: "start", label: "Start" },
+  { key: "end", label: "End" },
+  { key: "location", label: "Location" },
+  { key: "classification", label: "Type" },
+  { key: "status", label: "Status" },
+];
 
 function StatBox({ label, value }: { label: string; value: number }) {
   return (
-    <Paper variant="outlined" sx={{ px: 3, py: 1.5, minWidth: 120 }}>
+    <Paper
+      variant="outlined"
+      sx={{ px: { xs: 2, sm: 3 }, py: { xs: 1, sm: 1.5 } }}
+    >
       <Typography variant="caption" color="text.secondary">
         {label}
       </Typography>
-      <Typography variant="h6" sx={{ fontWeight: 600 }}>
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 600, fontSize: { xs: "1.1rem", sm: "1.25rem" } }}
+      >
         {value}
       </Typography>
     </Paper>
+  );
+}
+
+function CardField({ label, value }: { label: string; value: string }) {
+  return (
+    <Stack direction="row" spacing={1}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ minWidth: 72, flexShrink: 0 }}
+      >
+        {label}
+      </Typography>
+      <Typography variant="body2">{value}</Typography>
+    </Stack>
   );
 }
 
@@ -79,14 +140,12 @@ export default function MeetingsTable({
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
   const stats = useMemo(() => {
-    const byStatus = (status: string) =>
-      records.filter((r) => (r.status ?? "").toLowerCase() === status).length;
-    return {
-      total: records.length,
-      passed: byStatus("passed"),
-      cancelled: byStatus("cancelled"),
-      tentative: byStatus("tentative"),
-    };
+    const counts: Record<string, number> = {};
+    for (const r of records) {
+      const s = normalizeStatus(r.status);
+      counts[s] = (counts[s] ?? 0) + 1;
+    }
+    return { total: records.length, counts };
   }, [records]);
 
   const visibleRecords = useMemo(() => {
@@ -95,7 +154,7 @@ export default function MeetingsTable({
 
     if (statusFilter !== "all") {
       filtered = filtered.filter(
-        (r) => (r.status ?? "").toLowerCase() === statusFilter
+        (r) => normalizeStatus(r.status) === statusFilter
       );
     }
 
@@ -130,31 +189,38 @@ export default function MeetingsTable({
     }
   };
 
-  const columns: { key: SortKey; label: string }[] = [
-    { key: "title", label: "Title" },
-    { key: "start", label: "Start" },
-    { key: "end", label: "End" },
-    { key: "location", label: "Location" },
-    { key: "classification", label: "Type" },
-    { key: "status", label: "Status" },
-  ];
-
   return (
     <Box>
-      <Stack direction="row" spacing={2} sx={{ mb: 3, flexWrap: "wrap" }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
+          gap: { xs: 1.5, sm: 2 },
+          mb: 3,
+        }}
+      >
         <StatBox label="Total" value={stats.total} />
-        <StatBox label="Passed" value={stats.passed} />
-        <StatBox label="Cancelled" value={stats.cancelled} />
-        <StatBox label="Tentative" value={stats.tentative} />
-      </Stack>
+        {STAT_STATUSES.map((s) => (
+          <StatBox
+            key={s.value}
+            label={s.label}
+            value={stats.counts[s.value] ?? 0}
+          />
+        ))}
+      </Box>
 
-      <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mb: 2 }}>
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={2}
+        sx={{ mb: 2 }}
+        useFlexGap
+      >
         <TextField
           label="Search"
           size="small"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          sx={{ flexGrow: 1, maxWidth: 400 }}
+          sx={{ flexGrow: 1, width: { xs: "100%" } }}
         />
         <TextField
           label="Status"
@@ -162,7 +228,7 @@ export default function MeetingsTable({
           select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
-          sx={{ minWidth: 160 }}
+          sx={{ minWidth: 160, width: { xs: "100%", sm: "auto" } }}
         >
           {STATUS_OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -170,13 +236,40 @@ export default function MeetingsTable({
             </MenuItem>
           ))}
         </TextField>
+        <TextField
+          label="Sort by"
+          size="small"
+          select
+          value={sortKey}
+          onChange={(e) => handleSort(e.target.value as SortKey)}
+          sx={{
+            minWidth: 160,
+            width: { xs: "100%" },
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          {COLUMNS.map((column) => (
+            <MenuItem key={column.key} value={column.key}>
+              {column.label}
+            </MenuItem>
+          ))}
+        </TextField>
       </Stack>
 
-      <TableContainer component={Paper} variant="outlined">
-        <Table aria-label="meetings table" size="small">
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+        Showing {visibleRecords.length} of {records.length} meetings
+      </Typography>
+
+      {/* Desktop / tablet: full table with horizontal scroll as a fallback */}
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ display: { xs: "none", md: "block" }, overflowX: "auto" }}
+      >
+        <Table aria-label="meetings table" size="small" sx={{ minWidth: 720 }}>
           <TableHead>
             <TableRow>
-              {columns.map((column) => (
+              {COLUMNS.map((column) => (
                 <TableCell
                   key={column.key}
                   sortDirection={sortKey === column.key ? sortDirection : false}
@@ -196,45 +289,72 @@ export default function MeetingsTable({
           <TableBody>
             {visibleRecords.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={columns.length} align="center">
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ py: 2 }}
-                  >
-                    No meetings match the current filters.
-                  </Typography>
+                <TableCell colSpan={COLUMNS.length} align="center">
+                  <EmptyState />
                 </TableCell>
               </TableRow>
             ) : (
-              visibleRecords.map((record) => {
-                const status = (record.status ?? "").toLowerCase();
-                return (
-                  <TableRow key={record.id} hover>
-                    <TableCell>{record.title}</TableCell>
-                    <TableCell sx={{ whiteSpace: "nowrap" }}>
-                      {record.start}
-                    </TableCell>
-                    <TableCell sx={{ whiteSpace: "nowrap" }}>
-                      {record.end}
-                    </TableCell>
-                    <TableCell>{locationText(record) || "—"}</TableCell>
-                    <TableCell>{record.classification || "—"}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={status || "—"}
-                        size="small"
-                        color={STATUS_CHIP_COLOR[status] ?? "default"}
-                        variant="outlined"
-                      />
-                    </TableCell>
-                  </TableRow>
-                );
-              })
+              visibleRecords.map((record) => (
+                <TableRow key={record.id} hover>
+                  <TableCell>{record.title}</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {record.start}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {record.end}
+                  </TableCell>
+                  <TableCell>{locationText(record) || "—"}</TableCell>
+                  <TableCell>{record.classification || "—"}</TableCell>
+                  <TableCell>
+                    <StatusChip status={normalizeStatus(record.status)} />
+                  </TableCell>
+                </TableRow>
+              ))
             )}
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Mobile: card layout */}
+      <Stack
+        spacing={1.5}
+        sx={{ display: { xs: "flex", md: "none" } }}
+        aria-label="meetings list"
+      >
+        {visibleRecords.length === 0 ? (
+          <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
+            <EmptyState />
+          </Paper>
+        ) : (
+          visibleRecords.map((record) => (
+            <Paper key={record.id} variant="outlined" sx={{ p: 2 }}>
+              <Stack
+                direction="row"
+                spacing={1}
+                sx={{
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  mb: 1,
+                }}
+              >
+                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                  {record.title}
+                </Typography>
+                <StatusChip status={normalizeStatus(record.status)} />
+              </Stack>
+              <Stack spacing={0.5}>
+                <CardField label="Start" value={record.start} />
+                <CardField label="End" value={record.end} />
+                <CardField
+                  label="Location"
+                  value={locationText(record) || "—"}
+                />
+                <CardField label="Type" value={record.classification || "—"} />
+              </Stack>
+            </Paper>
+          ))
+        )}
+      </Stack>
     </Box>
   );
 }

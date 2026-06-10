@@ -21,12 +21,20 @@ export default async function ScrapersPage() {
   const { spiders } = await listScrapers();
 
   return (
-    <Container maxWidth="lg" sx={{ py: 6 }}>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: 600 }}>
+    <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6 } }}>
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{ fontWeight: 600, fontSize: { xs: "1.5rem", sm: "2.125rem" } }}
+      >
         City Scrapers
       </Typography>
-      <TableContainer component={Paper} variant="outlined" sx={{ mt: 3 }}>
-        <Table aria-label="scrapers table">
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ mt: 3, overflowX: "auto" }}
+      >
+        <Table aria-label="scrapers table" sx={{ minWidth: 480 }}>
           <TableHead>
             <TableRow>
               <TableCell sx={{ fontWeight: 700 }}>Slug/Spider Name</TableCell>
