@@ -68,6 +68,29 @@ function sortValue(record: MeetingRecord, key: SortKey): string {
   return typeof val === "string" ? val.toLowerCase() : "";
 }
 
+function ExpandableDescriptionCell({ description }: { description: string }) {
+  const [expanded, setExpanded] = useState(false);
+  const text = description || "—";
+  return (
+    <TableCell
+      onClick={() => setExpanded((prev) => !prev)}
+      sx={{
+        maxWidth: 350,
+        cursor: "pointer",
+        ...(expanded
+          ? { whiteSpace: "normal", wordBreak: "break-word" }
+          : {
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }),
+      }}
+    >
+      {text}
+    </TableCell>
+  );
+}
+
 const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "title", label: "Title" },
   { key: "description", label: "Description" },
@@ -270,16 +293,7 @@ export default function MeetingsTable({
               visibleRecords.map((record) => (
                 <TableRow key={record.id} hover>
                   <TableCell>{record.title}</TableCell>
-                  <TableCell
-                    sx={{
-                      maxWidth: 300,
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {record.description || "—"}
-                  </TableCell>
+                  <ExpandableDescriptionCell description={record.description} />
                   <TableCell>{record.classification || "—"}</TableCell>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     {record.start}
