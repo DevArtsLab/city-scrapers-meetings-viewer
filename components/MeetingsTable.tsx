@@ -23,11 +23,17 @@ import MeetingCard, {
 
 type SortKey =
   | "title"
+  | "description"
+  | "classification"
   | "start"
   | "end"
+  | "all_day"
+  | "time_notes"
   | "location"
-  | "classification"
-  | "status";
+  | "links"
+  | "source"
+  | "status"
+  | "id";
 type SortDirection = "asc" | "desc";
 
 const STATUS_OPTIONS = [
@@ -51,6 +57,8 @@ const SORT_EXTRACTORS: Partial<Record<SortKey, (r: MeetingRecord) => string>> =
   {
     location: (r) => locationText(r).toLowerCase(),
     classification: (r) => (r.classification ?? "").toLowerCase(),
+    all_day: (r) => (r.all_day ? "yes" : "no"),
+    links: (r) => String(r.links?.length ?? 0),
   };
 
 function sortValue(record: MeetingRecord, key: SortKey): string {
@@ -62,11 +70,17 @@ function sortValue(record: MeetingRecord, key: SortKey): string {
 
 const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "title", label: "Title" },
+  { key: "description", label: "Description" },
+  { key: "classification", label: "Classification" },
   { key: "start", label: "Start" },
   { key: "end", label: "End" },
+  { key: "all_day", label: "All Day" },
+  { key: "time_notes", label: "Time Notes" },
   { key: "location", label: "Location" },
-  { key: "classification", label: "Type" },
+  { key: "links", label: "Links" },
+  { key: "source", label: "Source" },
   { key: "status", label: "Status" },
+  { key: "id", label: "ID" },
 ];
 
 function StatBox({ label, value }: { label: string; value: number }) {
@@ -256,16 +270,59 @@ export default function MeetingsTable({
               visibleRecords.map((record) => (
                 <TableRow key={record.id} hover>
                   <TableCell>{record.title}</TableCell>
+                  <TableCell
+                    sx={{
+                      maxWidth: 300,
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {record.description || "—"}
+                  </TableCell>
+                  <TableCell>{record.classification || "—"}</TableCell>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     {record.start}
                   </TableCell>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     {record.end}
                   </TableCell>
+                  <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
+                  <TableCell>{record.time_notes || "—"}</TableCell>
                   <TableCell>{locationText(record) || "—"}</TableCell>
-                  <TableCell>{record.classification || "—"}</TableCell>
+                  <TableCell>
+                    {record.links?.length
+                      ? record.links.map((link, i) => (
+                          <a
+                            key={i}
+                            href={link.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{ display: "block" }}
+                          >
+                            {link.title || link.href}
+                          </a>
+                        ))
+                      : "—"}
+                  </TableCell>
+                  <TableCell>
+                    {record.source ? (
+                      <a
+                        href={record.source}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {record.source}
+                      </a>
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
                   <TableCell>
                     <StatusChip status={normalizeStatus(record.status)} />
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>
+                    {record.id}
                   </TableCell>
                 </TableRow>
               ))
