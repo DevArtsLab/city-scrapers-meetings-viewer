@@ -15,6 +15,7 @@ import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
+import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
   locationText,
   normalizeStatus,
@@ -132,8 +133,18 @@ export default function MeetingsTable({
 }) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFrom, setDateFrom] = useState("");
+  const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+
+  // Convert "YYYY-MM-DD" to Date object in local time
+  const parseLocalDate = (s: string): Date | null => {
+    if (!s) return null;
+    const [y, m, d] = s.split("-").map(Number);
+    const date = new Date(y, m - 1, d, 0, 0, 0, 0);
+    return isNaN(date.getTime()) ? null : date;
+  };
 
   const stats = useMemo(() => {
     const counts: Record<string, number> = {};
@@ -152,6 +163,25 @@ export default function MeetingsTable({
       filtered = filtered.filter(
         (r) => normalizeStatus(r.status) === statusFilter
       );
+    }
+
+    // Date filterring: include meetings that start or end within the selected date range
+    if (dateFrom || dateTo) {
+      const from = parseLocalDate(dateFrom);
+      const toDate = parseLocalDate(dateTo);
+      if (toDate) toDate.setHours(23, 59, 59, 999);
+
+      filtered = filtered.filter((r) => {
+        const isWithinDateRange = (dateStr: string | undefined) => {
+          if (!dateStr) return false;
+          const meetingDate = new Date(dateStr);
+          if (isNaN(meetingDate.getTime())) return false;
+          if (from && meetingDate < from) return false;
+          if (toDate && meetingDate > toDate) return false;
+          return true;
+        };
+        return isWithinDateRange(r.start) || isWithinDateRange(r.end);
+      });
     }
 
     if (query) {
@@ -174,7 +204,7 @@ export default function MeetingsTable({
       const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey));
       return sortDirection === "asc" ? cmp : -cmp;
     });
-  }, [records, search, statusFilter, sortKey, sortDirection]);
+  }, [records, search, statusFilter, dateFrom, dateTo, sortKey, sortDirection]);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -204,6 +234,17 @@ export default function MeetingsTable({
           />
         ))}
       </Box>
+
+      <DateRangeFilter
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        onDateFromChange={setDateFrom}
+        onDateToChange={setDateTo}
+        onClear={() => {
+          setDateFrom("");
+          setDateTo("");
+        }}
+      />
 
       <Stack
         direction={{ xs: "column", sm: "row" }}
