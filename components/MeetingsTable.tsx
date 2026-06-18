@@ -20,6 +20,7 @@ import MeetingCard, {
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
+import TruncatedText from "./TruncatedText";
 
 type SortKey =
   | "title"
@@ -66,29 +67,6 @@ function sortValue(record: MeetingRecord, key: SortKey): string {
   if (extractor) return extractor(record);
   const val = record[key as keyof MeetingRecord];
   return typeof val === "string" ? val.toLowerCase() : "";
-}
-
-function ExpandableDescriptionCell({ description }: { description: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const text = description || "—";
-  return (
-    <TableCell
-      onClick={() => setExpanded((prev) => !prev)}
-      sx={{
-        maxWidth: 350,
-        cursor: "pointer",
-        ...(expanded
-          ? { whiteSpace: "normal", wordBreak: "break-word" }
-          : {
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            }),
-      }}
-    >
-      {text}
-    </TableCell>
-  );
 }
 
 const COLUMNS: { key: SortKey; label: string }[] = [
@@ -292,8 +270,10 @@ export default function MeetingsTable({
             ) : (
               visibleRecords.map((record) => (
                 <TableRow key={record.id} hover>
-                  <TableCell>{record.title}</TableCell>
-                  <ExpandableDescriptionCell description={record.description} />
+                  <TableCell><TruncatedText text={record.title} /></TableCell>
+                  <TableCell>
+                    <TruncatedText text={record.description} />
+                  </TableCell>
                   <TableCell>{record.classification || "—"}</TableCell>
                   <TableCell sx={{ whiteSpace: "nowrap" }}>
                     {record.start}
@@ -302,7 +282,7 @@ export default function MeetingsTable({
                     {record.end}
                   </TableCell>
                   <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
-                  <TableCell>{record.time_notes || "—"}</TableCell>
+                  <TableCell><TruncatedText text={record.time_notes} /></TableCell>
                   <TableCell>{locationText(record) || "—"}</TableCell>
                   <TableCell>
                     {record.links?.length
