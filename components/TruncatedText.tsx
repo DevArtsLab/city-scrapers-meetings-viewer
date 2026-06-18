@@ -8,21 +8,26 @@ interface TruncatedDescriptionProps {
   maxLength?: number;
 }
 
-export default function TruncatedDescription({
+export default function TruncatedText({
   text,
   maxLength = MAX_LENGTH,
 }: TruncatedDescriptionProps) {
   if (!text) return <>—</>;
 
   const isTruncated = text.length > maxLength;
-  const displayText = isTruncated ? text.slice(0, maxLength).trimEnd() + "…" : text;
+  const displayText = isTruncated
+    ? text.slice(0, maxLength).trimEnd() + "…"
+    : text;
 
   if (!isTruncated) return <>{displayText}</>;
 
   return (
     <Tooltip
       title={
-        <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
+        <Typography
+          variant="body2"
+          sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
+        >
           {text}
         </Typography>
       }

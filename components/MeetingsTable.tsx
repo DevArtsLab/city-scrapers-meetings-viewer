@@ -270,7 +270,9 @@ export default function MeetingsTable({
             ) : (
               visibleRecords.map((record) => (
                 <TableRow key={record.id} hover>
-                  <TableCell><TruncatedText text={record.title} /></TableCell>
+                  <TableCell>
+                    <TruncatedText text={record.title} />
+                  </TableCell>
                   <TableCell>
                     <TruncatedText text={record.description} />
                   </TableCell>
@@ -282,7 +284,9 @@ export default function MeetingsTable({
                     {record.end}
                   </TableCell>
                   <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
-                  <TableCell><TruncatedText text={record.time_notes} /></TableCell>
+                  <TableCell>
+                    <TruncatedText text={record.time_notes} />
+                  </TableCell>
                   <TableCell>{locationText(record) || "—"}</TableCell>
                   <TableCell>
                     {record.links?.length
