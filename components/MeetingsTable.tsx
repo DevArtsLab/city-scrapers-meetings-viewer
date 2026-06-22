@@ -168,7 +168,7 @@ export default function MeetingsTable({
     // Date filterring: include meetings that start or end within the selected date range
     if (dateFrom || dateTo) {
       const from = parseLocalDate(dateFrom);
-      const toDate = parseLocalDate(dateTo);
+      const toDate = parseLocalDate(dateTo) ?? (from ? new Date(from) : null);
       if (toDate) toDate.setHours(23, 59, 59, 999);
 
       filtered = filtered.filter((r) => {
