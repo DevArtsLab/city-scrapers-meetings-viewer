@@ -1,6 +1,6 @@
 [
     {
-        "title": "Sample title 1",
+        "title": "Sample title 1 with a long title that should be truncated in the table view to ensure that the layout remains clean and readable",
         "description": "This is a an example description",
         "classification": "Board",
         "start": "2024-06-17 13:00:00",
@@ -50,7 +50,7 @@
         "start": "2028-06-17 13:00:00",
         "end": "2028-06-17 15:00:00",
         "all_day": false,
-        "time_notes": "This is an example time notes",
+        "time_notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
         "location": {
             "name": "Test Building, Hall #1",
             "address": "123 N. Example St., Test City, XY 12345"
