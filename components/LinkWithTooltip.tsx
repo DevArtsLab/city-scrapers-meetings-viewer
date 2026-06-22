@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
@@ -25,7 +26,7 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
             {
               name: "offset",
               options: {
-                offset: [0, -5],
+                offset: [0, -4],
               },
             },
           ],
@@ -44,14 +45,15 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
         },
       }}
     >
-      <a
+      <Box
+        component="a"
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        style={{ display: "inline-block", color: "#1976d2" }}
+        sx={{ display: "inline-block", color: "primary.main" }}
       >
         {displayLabel}
-      </a>
+      </Box>
     </Tooltip>
   );
 }
