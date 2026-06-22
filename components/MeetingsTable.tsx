@@ -22,6 +22,7 @@ import MeetingCard, {
   StatusChip,
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
+import LinkWithTooltip from "./LinkWithTooltip";
 
 type SortKey =
   | "title"
@@ -332,27 +333,18 @@ export default function MeetingsTable({
                   <TableCell>
                     {record.links?.length
                       ? record.links.map((link, i) => (
-                          <a
+                          <LinkWithTooltip
                             key={i}
                             href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ display: "block" }}
-                          >
-                            {link.title || link.href}
-                          </a>
+                            label={link.title || link.href}
+                            tooltipText={link.href}
+                          />
                         ))
                       : "—"}
                   </TableCell>
                   <TableCell>
                     {record.source ? (
-                      <a
-                        href={record.source}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {record.source}
-                      </a>
+                      <LinkWithTooltip href={record.source} />
                     ) : (
                       "—"
                     )}
