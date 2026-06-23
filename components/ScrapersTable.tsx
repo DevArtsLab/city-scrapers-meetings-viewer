@@ -63,7 +63,10 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
         columns={columns}
         disableColumnMenu
         autoHeight
-        hideFooter
+        pageSizeOptions={[10, 25, 50]}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 25 } },
+        }}
         aria-label="scrapers table"
         sx={{ border: "none" }}
       />

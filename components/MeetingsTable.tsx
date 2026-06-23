@@ -401,9 +401,10 @@ export default function MeetingsTable({
           columns={DATAGRID_COLUMNS}
           disableColumnMenu
           autoHeight
-          hideFooter
           density="compact"
+          pageSizeOptions={[10, 25, 50]}
           initialState={{
+            pagination: { paginationModel: { pageSize: 25 } },
             sorting: {
               sortModel: [{ field: "start", sort: "asc" }],
             },
