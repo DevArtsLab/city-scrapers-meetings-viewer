@@ -23,7 +23,7 @@ export default async function SpiderPage({
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6 } }}>
+    <Container maxWidth="xl" sx={{ py: { xs: 3, sm: 6 } }}>
       <Box sx={{ mb: 2 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={NextLink} href="/scrapers" underline="hover">
