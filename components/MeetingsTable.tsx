@@ -17,11 +17,13 @@ import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
+  LocationDisplay,
   locationText,
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
+import LinkWithTooltip from "./LinkWithTooltip";
 
 type SortKey =
   | "title"
@@ -328,31 +330,30 @@ export default function MeetingsTable({
                   <TableCell>
                     <TruncatedText text={record.time_notes} />
                   </TableCell>
-                  <TableCell>{locationText(record) || "—"}</TableCell>
+                  <TableCell>
+                    <LocationDisplay record={record} />
+                  </TableCell>
                   <TableCell>
                     {record.links?.length
                       ? record.links.map((link, i) => (
-                          <a
+                          <Box
                             key={i}
-                            href={link.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{ display: "block" }}
+                            sx={{ mb: i < record.links!.length - 1 ? 0.75 : 0 }}
                           >
-                            {link.title || link.href}
-                          </a>
+                            <LinkWithTooltip
+                              href={link.href}
+                              label={link.title}
+                            />
+                          </Box>
                         ))
                       : "—"}
                   </TableCell>
                   <TableCell>
                     {record.source ? (
-                      <a
+                      <LinkWithTooltip
                         href={record.source}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {record.source}
-                      </a>
+                        label="Source Link"
+                      />
                     ) : (
                       "—"
                     )}
