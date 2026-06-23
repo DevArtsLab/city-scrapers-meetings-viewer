@@ -1,15 +1,22 @@
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { ReactNode } from "react";
 
 interface LinkWithTooltipProps {
   href: string;
-  label?: string;
-  tooltipText?: string;
+  label?: ReactNode;
 }
 
 export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
-  const displayLabel = label || href;
+  const displayLabel: ReactNode = label || (
+    <Typography
+      component="span"
+      sx={{ color: "error.main", fontSize: "inherit" }}
+    >
+      No title
+    </Typography>
+  );
 
   return (
     <Tooltip

@@ -333,18 +333,24 @@ export default function MeetingsTable({
                   <TableCell>
                     {record.links?.length
                       ? record.links.map((link, i) => (
-                          <LinkWithTooltip
+                          <Box
                             key={i}
-                            href={link.href}
-                            label={link.title || link.href}
-                            tooltipText={link.href}
-                          />
+                            sx={{ mb: i < record.links!.length - 1 ? 0.75 : 0 }}
+                          >
+                            <LinkWithTooltip
+                              href={link.href}
+                              label={link.title}
+                            />
+                          </Box>
                         ))
                       : "—"}
                   </TableCell>
                   <TableCell>
                     {record.source ? (
-                      <LinkWithTooltip href={record.source} />
+                      <LinkWithTooltip
+                        href={record.source}
+                        label={record.source}
+                      />
                     ) : (
                       "—"
                     )}
