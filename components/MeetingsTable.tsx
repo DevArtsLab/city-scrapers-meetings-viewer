@@ -17,6 +17,7 @@ import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
+  LocationDisplay,
   locationText,
   normalizeStatus,
   StatusChip,
@@ -329,7 +330,9 @@ export default function MeetingsTable({
                   <TableCell>
                     <TruncatedText text={record.time_notes} />
                   </TableCell>
-                  <TableCell>{locationText(record) || "—"}</TableCell>
+                  <TableCell>
+                    <LocationDisplay record={record} />
+                  </TableCell>
                   <TableCell>
                     {record.links?.length
                       ? record.links.map((link, i) => (

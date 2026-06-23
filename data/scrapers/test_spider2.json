@@ -39,7 +39,7 @@
     "time_notes": "This is an example time notes",
     "location": {
       "name": "",
-      "address": "Test Building, Hall #1, 123 N. Example St., Test City, XY 12345"
+      "address": ""
     },
     "links": [],
     "source": "https://www.example.com/",
@@ -55,8 +55,8 @@
     "all_day": false,
     "time_notes": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
     "location": {
-      "name": "",
-      "address": "123 N. Example St., Test City, XY 12345"
+      "name": "Test Building, Hall #1",
+      "address": ""
     },
     "links": [
       {
