@@ -17,11 +17,13 @@ import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
+  LocationDisplay,
   locationText,
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
+import LinkWithTooltip from "./LinkWithTooltip";
 import MeetingDetailPanel from "@/components/MeetingDetailPanel";
 
 type SortKey =
@@ -325,12 +327,7 @@ export default function MeetingsTable({
                 </TableRow>
               ) : (
                 visibleRecords.map((record) => (
-                  <TableRow
-                    key={record.id}
-                    hover
-                    onClick={() => handleRowClick(record)}
-                    sx={{ cursor: "pointer" }}
-                  >
+                  <TableRow key={record.id} hover>
                     <TableCell>
                       <TruncatedText text={record.title} />
                     </TableCell>
