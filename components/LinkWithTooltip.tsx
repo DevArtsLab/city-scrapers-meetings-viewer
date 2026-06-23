@@ -33,7 +33,7 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
             {
               name: "offset",
               options: {
-                offset: [0, -4],
+                offset: [0, -3],
               },
             },
           ],
@@ -58,12 +58,13 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
         target="_blank"
         rel="noopener noreferrer"
         sx={{
-          display: "block",
+          display: "inline-block",
           color: "primary.main",
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
           maxWidth: 95,
+          verticalAlign: "top",
         }}
       >
         {displayLabel}

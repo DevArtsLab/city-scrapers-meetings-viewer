@@ -39,7 +39,7 @@
     "time_notes": "This is an example time notes",
     "location": {
       "name": "",
-      "address": ""
+      "address": "123 N. Example St., Test City, XY 12345"
     },
     "links": [],
     "source": "https://www.example.com/",
