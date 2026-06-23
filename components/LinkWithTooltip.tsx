@@ -57,7 +57,14 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        sx={{ display: "inline-block", color: "primary.main" }}
+        sx={{
+          display: "block",
+          color: "primary.main",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          whiteSpace: "nowrap",
+          maxWidth: 95,
+        }}
       >
         {displayLabel}
       </Box>

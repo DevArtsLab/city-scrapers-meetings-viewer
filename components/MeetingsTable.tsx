@@ -349,7 +349,7 @@ export default function MeetingsTable({
                     {record.source ? (
                       <LinkWithTooltip
                         href={record.source}
-                        label={record.source}
+                        label="source link"
                       />
                     ) : (
                       "—"
