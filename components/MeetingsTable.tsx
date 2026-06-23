@@ -4,16 +4,16 @@ import { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import dynamic from "next/dynamic";
+import type { GridColDef } from "@mui/x-data-grid";
+
+const DataGrid = dynamic(
+  () => import("@mui/x-data-grid").then((mod) => mod.DataGrid),
+  { ssr: false }
+);
 import type { MeetingRecord } from "@/lib/scrapers";
 import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
@@ -49,6 +49,128 @@ const STATUS_OPTIONS = [
 
 const STAT_STATUSES = STATUS_OPTIONS.filter((o) => o.value !== "all");
 
+const COLUMNS: { key: SortKey; label: string }[] = [
+  { key: "title", label: "Title" },
+  { key: "description", label: "Description" },
+  { key: "classification", label: "Classification" },
+  { key: "start", label: "Start" },
+  { key: "end", label: "End" },
+  { key: "all_day", label: "All Day" },
+  { key: "time_notes", label: "Time Notes" },
+  { key: "location", label: "Location" },
+  { key: "links", label: "Links" },
+  { key: "source", label: "Source" },
+  { key: "status", label: "Status" },
+  { key: "id", label: "ID" },
+];
+
+const DATAGRID_COLUMNS: GridColDef[] = [
+  {
+    field: "title",
+    headerName: "Title",
+    flex: 1.5,
+    minWidth: 120,
+    renderCell: ({ row }) => <TruncatedText text={row.title} />,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    flex: 2,
+    minWidth: 150,
+    renderCell: ({ row }) => <TruncatedText text={row.description} />,
+  },
+  {
+    field: "classification",
+    headerName: "Classification",
+    flex: 1,
+    minWidth: 110,
+    valueFormatter: (value: string) => value || "—",
+  },
+  {
+    field: "start",
+    headerName: "Start",
+    flex: 1,
+    minWidth: 90,
+  },
+  {
+    field: "end",
+    headerName: "End",
+    flex: 1,
+    minWidth: 90,
+  },
+  {
+    field: "all_day",
+    headerName: "All Day",
+    flex: 0.6,
+    minWidth: 70,
+    renderCell: ({ row }) => (row.all_day ? "Yes" : "No"),
+  },
+  {
+    field: "time_notes",
+    headerName: "Time Notes",
+    flex: 1,
+    minWidth: 100,
+    renderCell: ({ row }) => <TruncatedText text={row.time_notes} />,
+  },
+  {
+    field: "location",
+    headerName: "Location",
+    flex: 1.5,
+    minWidth: 120,
+    valueGetter: (_value: unknown, row: unknown) =>
+      locationText(row as MeetingRecord),
+    renderCell: ({ row }) => <LocationDisplay record={row as MeetingRecord} />,
+  },
+  {
+    field: "links",
+    headerName: "Links",
+    flex: 1.5,
+    minWidth: 120,
+    sortable: false,
+    renderCell: ({ row }) => {
+      const r = row as MeetingRecord;
+      return r.links?.length ? (
+        <Box>
+          {r.links.map((link, i) => (
+            <Box key={i} sx={{ mb: i < r.links!.length - 1 ? 0.75 : 0 }}>
+              <LinkWithTooltip href={link.href} label={link.title} />
+            </Box>
+          ))}
+        </Box>
+      ) : (
+        "—"
+      );
+    },
+  },
+  {
+    field: "source",
+    headerName: "Source",
+    flex: 1.5,
+    minWidth: 120,
+    renderCell: ({ row }) =>
+      row.source ? (
+        <LinkWithTooltip href={row.source} label="Source Link" />
+      ) : (
+        "—"
+      ),
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    flex: 0.8,
+    minWidth: 90,
+    valueGetter: (_value: unknown, row: unknown) =>
+      normalizeStatus((row as MeetingRecord).status),
+    renderCell: ({ value }) => <StatusChip status={value} />,
+  },
+  {
+    field: "id",
+    headerName: "ID",
+    flex: 0.8,
+    minWidth: 80,
+  },
+];
+
 function EmptyState() {
   return (
     <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
@@ -71,21 +193,6 @@ function sortValue(record: MeetingRecord, key: SortKey): string {
   const val = record[key as keyof MeetingRecord];
   return typeof val === "string" ? val.toLowerCase() : "";
 }
-
-const COLUMNS: { key: SortKey; label: string }[] = [
-  { key: "title", label: "Title" },
-  { key: "description", label: "Description" },
-  { key: "classification", label: "Classification" },
-  { key: "start", label: "Start" },
-  { key: "end", label: "End" },
-  { key: "all_day", label: "All Day" },
-  { key: "time_notes", label: "Time Notes" },
-  { key: "location", label: "Location" },
-  { key: "links", label: "Links" },
-  { key: "source", label: "Source" },
-  { key: "status", label: "Status" },
-  { key: "id", label: "ID" },
-];
 
 function StatBox({ label, value }: { label: string; value: number }) {
   return (
@@ -135,7 +242,7 @@ export default function MeetingsTable({
     return { total: records.length, counts };
   }, [records]);
 
-  const visibleRecords = useMemo(() => {
+  const filteredRecords = useMemo(() => {
     const query = search.trim().toLowerCase();
     let filtered = records;
 
@@ -180,11 +287,18 @@ export default function MeetingsTable({
       );
     }
 
-    return [...filtered].sort((a, b) => {
-      const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey));
-      return sortDirection === "asc" ? cmp : -cmp;
-    });
-  }, [records, search, statusFilter, dateFrom, dateTo, sortKey, sortDirection]);
+    return filtered;
+  }, [records, search, statusFilter, dateFrom, dateTo]);
+
+  // Sorted records used only for the mobile card view
+  const sortedRecords = useMemo(
+    () =>
+      [...filteredRecords].sort((a, b) => {
+        const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey));
+        return sortDirection === "asc" ? cmp : -cmp;
+      }),
+    [filteredRecords, sortKey, sortDirection]
+  );
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -274,102 +388,33 @@ export default function MeetingsTable({
       </Stack>
 
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        Showing {visibleRecords.length} of {records.length} meetings
+        Showing {filteredRecords.length} of {records.length} meetings
       </Typography>
 
-      {/* Desktop / tablet: full table with horizontal scroll as a fallback */}
-      <TableContainer
-        component={Paper}
+      {/* Desktop / tablet: DataGrid with resizable columns */}
+      <Paper
         variant="outlined"
-        sx={{ display: { xs: "none", md: "block" }, overflowX: "auto" }}
+        sx={{ display: { xs: "none", md: "block" }, width: "100%" }}
       >
-        <Table aria-label="meetings table" size="small" sx={{ minWidth: 720 }}>
-          <TableHead>
-            <TableRow>
-              {COLUMNS.map((column) => (
-                <TableCell
-                  key={column.key}
-                  sortDirection={sortKey === column.key ? sortDirection : false}
-                  sx={{ fontWeight: 700 }}
-                >
-                  <TableSortLabel
-                    active={sortKey === column.key}
-                    direction={sortKey === column.key ? sortDirection : "asc"}
-                    onClick={() => handleSort(column.key)}
-                  >
-                    {column.label}
-                  </TableSortLabel>
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {visibleRecords.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={COLUMNS.length} align="center">
-                  <EmptyState />
-                </TableCell>
-              </TableRow>
-            ) : (
-              visibleRecords.map((record) => (
-                <TableRow key={record.id} hover>
-                  <TableCell>
-                    <TruncatedText text={record.title} />
-                  </TableCell>
-                  <TableCell>
-                    <TruncatedText text={record.description} />
-                  </TableCell>
-                  <TableCell>{record.classification || "—"}</TableCell>
-                  <TableCell sx={{ whiteSpace: "nowrap" }}>
-                    {record.start}
-                  </TableCell>
-                  <TableCell sx={{ whiteSpace: "nowrap" }}>
-                    {record.end}
-                  </TableCell>
-                  <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
-                  <TableCell>
-                    <TruncatedText text={record.time_notes} />
-                  </TableCell>
-                  <TableCell>
-                    <LocationDisplay record={record} />
-                  </TableCell>
-                  <TableCell>
-                    {record.links?.length
-                      ? record.links.map((link, i) => (
-                          <Box
-                            key={i}
-                            sx={{ mb: i < record.links!.length - 1 ? 0.75 : 0 }}
-                          >
-                            <LinkWithTooltip
-                              href={link.href}
-                              label={link.title}
-                            />
-                          </Box>
-                        ))
-                      : "—"}
-                  </TableCell>
-                  <TableCell>
-                    {record.source ? (
-                      <LinkWithTooltip
-                        href={record.source}
-                        label="Source Link"
-                      />
-                    ) : (
-                      "—"
-                    )}
-                  </TableCell>
-                  <TableCell>
-                    <StatusChip status={normalizeStatus(record.status)} />
-                  </TableCell>
-                  <TableCell sx={{ fontSize: "0.75rem" }}>
-                    {record.id}
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+        <DataGrid
+          rows={filteredRecords}
+          columns={DATAGRID_COLUMNS}
+          disableColumnMenu
+          autoHeight
+          hideFooter
+          density="compact"
+          initialState={{
+            sorting: {
+              sortModel: [{ field: "start", sort: "asc" }],
+            },
+          }}
+          slots={{
+            noRowsOverlay: EmptyState,
+          }}
+          aria-label="meetings table"
+          sx={{ border: "none" }}
+        />
+      </Paper>
 
       {/* Mobile: card layout */}
       <Stack
@@ -377,12 +422,12 @@ export default function MeetingsTable({
         sx={{ display: { xs: "flex", md: "none" } }}
         aria-label="meetings list"
       >
-        {visibleRecords.length === 0 ? (
+        {sortedRecords.length === 0 ? (
           <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
             <EmptyState />
           </Paper>
         ) : (
-          visibleRecords.map((record) => (
+          sortedRecords.map((record) => (
             <MeetingCard key={record.id} record={record} />
           ))
         )}
