@@ -327,7 +327,12 @@ export default function MeetingsTable({
                 </TableRow>
               ) : (
                 visibleRecords.map((record) => (
-                  <TableRow key={record.id} hover>
+                  <TableRow
+                    key={record.id}
+                    hover
+                    onClick={() => handleRowClick(record)}
+                    sx={{ cursor: "pointer" }}
+                  >
                     <TableCell>
                       <TruncatedText text={record.title} />
                     </TableCell>
@@ -345,31 +350,23 @@ export default function MeetingsTable({
                     <TableCell>
                       <TruncatedText text={record.time_notes} />
                     </TableCell>
-                    <TableCell>{locationText(record) || "—"}</TableCell>
+                    <TableCell>
+                      <LocationDisplay record={record} />
+                    </TableCell>
                     <TableCell>
                       {record.links?.length
                         ? record.links.map((link, i) => (
-                            <a
+                            <LinkWithTooltip
                               key={i}
                               href={link.href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{ display: "block" }}
-                            >
-                              {link.title || link.href}
-                            </a>
+                              label={link.title}
+                            />
                           ))
                         : "—"}
                     </TableCell>
                     <TableCell>
                       {record.source ? (
-                        <a
-                          href={record.source}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {record.source}
-                        </a>
+                        <LinkWithTooltip href={record.source} label="Source" />
                       ) : (
                         "—"
                       )}

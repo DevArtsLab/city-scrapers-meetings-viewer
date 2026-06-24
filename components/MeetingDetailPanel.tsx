@@ -155,9 +155,15 @@ export default function MeetingDetailPanel({
           {record.links?.length ? (
             record.links.map((link, i) => (
               <Box key={i} sx={{ mb: 1.5 }}>
-                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                <Box
+                  component="a"
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{ color: "primary.main" }}
+                >
                   {link.title || link.href}
-                </a>
+                </Box>
                 <Typography
                   variant="caption"
                   sx={{
@@ -179,9 +185,15 @@ export default function MeetingDetailPanel({
         <Section label="Source">
           {record.source ? (
             <Box>
-              <a href={record.source} target="_blank" rel="noopener noreferrer">
+              <Box
+                component="a"
+                href={record.source}
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{ color: "primary.main" }}
+              >
                 Source
-              </a>
+              </Box>
               <Typography
                 variant="caption"
                 sx={{
