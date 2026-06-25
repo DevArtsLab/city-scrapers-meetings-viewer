@@ -24,7 +24,7 @@ import MeetingCard, {
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
-import MeetingDetailPanel from "@/components/MeetingDetailPanel";
+import { useMeetingSelection } from "@/contexts/MeetingSelectionContext";
 
 type SortKey =
   | "title"
@@ -118,9 +118,7 @@ export default function MeetingsTable({
   const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const [selectedRecord, setSelectedRecord] = useState<MeetingRecord | null>(
-    null
-  );
+  const { setSelectedRecord } = useMeetingSelection();
 
   // Convert "YYYY-MM-DD" to Date object in local time
   const parseLocalDate = (s: string): Date | null => {
@@ -204,210 +202,195 @@ export default function MeetingsTable({
   };
 
   return (
-    <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
-      <Box sx={{ flex: 1, minWidth: 0 }}>
-        <Box
-          sx={{
-            display: "grid",
-            gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
-            gap: { xs: 1.5, sm: 2 },
-            mb: 3,
-          }}
-        >
-          <StatBox label="Total" value={stats.total} />
-          {STAT_STATUSES.map((s) => (
-            <StatBox
-              key={s.value}
-              label={s.label}
-              value={stats.counts[s.value] ?? 0}
-            />
-          ))}
-        </Box>
-
-        <DateRangeFilter
-          dateFrom={dateFrom}
-          dateTo={dateTo}
-          onDateFromChange={setDateFrom}
-          onDateToChange={setDateTo}
-          onClear={() => {
-            setDateFrom("");
-            setDateTo("");
-          }}
-        />
-
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          spacing={2}
-          sx={{ mb: 2 }}
-          useFlexGap
-        >
-          <TextField
-            label="Search"
-            size="small"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            sx={{ flexGrow: 1, width: { xs: "100%" } }}
+    <Box sx={{ flex: 1, minWidth: 0 }}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
+          gap: { xs: 1.5, sm: 2 },
+          mb: 3,
+        }}
+      >
+        <StatBox label="Total" value={stats.total} />
+        {STAT_STATUSES.map((s) => (
+          <StatBox
+            key={s.value}
+            label={s.label}
+            value={stats.counts[s.value] ?? 0}
           />
-          <TextField
-            label="Status"
-            size="small"
-            select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            sx={{ minWidth: 160, width: { xs: "100%", sm: "auto" } }}
-          >
-            {STATUS_OPTIONS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            label="Sort by"
-            size="small"
-            select
-            value={sortKey}
-            onChange={(e) => handleSort(e.target.value as SortKey)}
-            sx={{
-              minWidth: 160,
-              width: { xs: "100%" },
-              display: { xs: "flex", md: "none" },
-            }}
-          >
-            {COLUMNS.map((column) => (
-              <MenuItem key={column.key} value={column.key}>
-                {column.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Stack>
-
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Showing {visibleRecords.length} of {records.length} meetings
-        </Typography>
-
-        {/* Desktop / tablet: full table with horizontal scroll as a fallback */}
-        <TableContainer
-          component={Paper}
-          variant="outlined"
-          sx={{ display: { xs: "none", md: "block" }, overflowX: "auto" }}
-        >
-          <Table
-            aria-label="meetings table"
-            size="small"
-            sx={{ minWidth: 720 }}
-          >
-            <TableHead>
-              <TableRow>
-                {COLUMNS.map((column) => (
-                  <TableCell
-                    key={column.key}
-                    sortDirection={
-                      sortKey === column.key ? sortDirection : false
-                    }
-                    sx={{ fontWeight: 700 }}
-                  >
-                    <TableSortLabel
-                      active={sortKey === column.key}
-                      direction={sortKey === column.key ? sortDirection : "asc"}
-                      onClick={() => handleSort(column.key)}
-                    >
-                      {column.label}
-                    </TableSortLabel>
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {visibleRecords.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={COLUMNS.length} align="center">
-                    <EmptyState />
-                  </TableCell>
-                </TableRow>
-              ) : (
-                visibleRecords.map((record) => (
-                  <TableRow
-                    key={record.id}
-                    hover
-                    onClick={() => handleRowClick(record)}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell>
-                      <TruncatedText text={record.title} />
-                    </TableCell>
-                    <TableCell>
-                      <TruncatedText text={record.description} />
-                    </TableCell>
-                    <TableCell>{record.classification || "—"}</TableCell>
-                    <TableCell sx={{ whiteSpace: "nowrap" }}>
-                      {record.start}
-                    </TableCell>
-                    <TableCell sx={{ whiteSpace: "nowrap" }}>
-                      {record.end}
-                    </TableCell>
-                    <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
-                    <TableCell>
-                      <TruncatedText text={record.time_notes} />
-                    </TableCell>
-                    <TableCell>
-                      <LocationDisplay record={record} />
-                    </TableCell>
-                    <TableCell>
-                      {record.links?.length
-                        ? record.links.map((link, i) => (
-                            <LinkWithTooltip
-                              key={i}
-                              href={link.href}
-                              label={link.title}
-                            />
-                          ))
-                        : "—"}
-                    </TableCell>
-                    <TableCell>
-                      {record.source ? (
-                        <LinkWithTooltip href={record.source} label="Source" />
-                      ) : (
-                        "—"
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <StatusChip status={normalizeStatus(record.status)} />
-                    </TableCell>
-                    <TableCell sx={{ fontSize: "0.75rem" }}>
-                      {record.id}
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {/* Mobile: card layout */}
-        <Stack
-          spacing={1.5}
-          sx={{ display: { xs: "flex", md: "none" } }}
-          aria-label="meetings list"
-        >
-          {visibleRecords.length === 0 ? (
-            <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
-              <EmptyState />
-            </Paper>
-          ) : (
-            visibleRecords.map((record) => (
-              <MeetingCard key={record.id} record={record} />
-            ))
-          )}
-        </Stack>
+        ))}
       </Box>
 
-      {selectedRecord && (
-        <MeetingDetailPanel
-          record={selectedRecord}
-          onClose={() => setSelectedRecord(null)}
+      <DateRangeFilter
+        dateFrom={dateFrom}
+        dateTo={dateTo}
+        onDateFromChange={setDateFrom}
+        onDateToChange={setDateTo}
+        onClear={() => {
+          setDateFrom("");
+          setDateTo("");
+        }}
+      />
+
+      <Stack
+        direction={{ xs: "column", sm: "row" }}
+        spacing={2}
+        sx={{ mb: 2 }}
+        useFlexGap
+      >
+        <TextField
+          label="Search"
+          size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          sx={{ flexGrow: 1, width: { xs: "100%" } }}
         />
-      )}
+        <TextField
+          label="Status"
+          size="small"
+          select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          sx={{ minWidth: 160, width: { xs: "100%", sm: "auto" } }}
+        >
+          {STATUS_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          label="Sort by"
+          size="small"
+          select
+          value={sortKey}
+          onChange={(e) => handleSort(e.target.value as SortKey)}
+          sx={{
+            minWidth: 160,
+            width: { xs: "100%" },
+            display: { xs: "flex", md: "none" },
+          }}
+        >
+          {COLUMNS.map((column) => (
+            <MenuItem key={column.key} value={column.key}>
+              {column.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Stack>
+
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+        Showing {visibleRecords.length} of {records.length} meetings
+      </Typography>
+
+      {/* Desktop / tablet: full table with horizontal scroll as a fallback */}
+      <TableContainer
+        component={Paper}
+        variant="outlined"
+        sx={{ display: { xs: "none", md: "block" }, overflowX: "auto" }}
+      >
+        <Table aria-label="meetings table" size="small" sx={{ minWidth: 720 }}>
+          <TableHead>
+            <TableRow>
+              {COLUMNS.map((column) => (
+                <TableCell
+                  key={column.key}
+                  sortDirection={sortKey === column.key ? sortDirection : false}
+                  sx={{ fontWeight: 700 }}
+                >
+                  <TableSortLabel
+                    active={sortKey === column.key}
+                    direction={sortKey === column.key ? sortDirection : "asc"}
+                    onClick={() => handleSort(column.key)}
+                  >
+                    {column.label}
+                  </TableSortLabel>
+                </TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {visibleRecords.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={COLUMNS.length} align="center">
+                  <EmptyState />
+                </TableCell>
+              </TableRow>
+            ) : (
+              visibleRecords.map((record) => (
+                <TableRow
+                  key={record.id}
+                  hover
+                  onClick={() => handleRowClick(record)}
+                  sx={{ cursor: "pointer" }}
+                >
+                  <TableCell>
+                    <TruncatedText text={record.title} />
+                  </TableCell>
+                  <TableCell>
+                    <TruncatedText text={record.description} />
+                  </TableCell>
+                  <TableCell>{record.classification || "—"}</TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {record.start}
+                  </TableCell>
+                  <TableCell sx={{ whiteSpace: "nowrap" }}>
+                    {record.end}
+                  </TableCell>
+                  <TableCell>{record.all_day ? "Yes" : "No"}</TableCell>
+                  <TableCell>
+                    <TruncatedText text={record.time_notes} />
+                  </TableCell>
+                  <TableCell>
+                    <LocationDisplay record={record} />
+                  </TableCell>
+                  <TableCell>
+                    {record.links?.length
+                      ? record.links.map((link, i) => (
+                          <LinkWithTooltip
+                            key={i}
+                            href={link.href}
+                            label={link.title}
+                          />
+                        ))
+                      : "—"}
+                  </TableCell>
+                  <TableCell>
+                    {record.source ? (
+                      <LinkWithTooltip href={record.source} label="Source" />
+                    ) : (
+                      "—"
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <StatusChip status={normalizeStatus(record.status)} />
+                  </TableCell>
+                  <TableCell sx={{ fontSize: "0.75rem" }}>
+                    {record.id}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Mobile: card layout */}
+      <Stack
+        spacing={1.5}
+        sx={{ display: { xs: "flex", md: "none" } }}
+        aria-label="meetings list"
+      >
+        {visibleRecords.length === 0 ? (
+          <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
+            <EmptyState />
+          </Paper>
+        ) : (
+          visibleRecords.map((record) => (
+            <MeetingCard key={record.id} record={record} />
+          ))
+        )}
+      </Stack>
     </Box>
   );
 }

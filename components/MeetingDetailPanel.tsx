@@ -4,12 +4,12 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import type { MeetingRecord } from "@/lib/scrapers";
 import {
   locationText,
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
+import { useMeetingSelection } from "@/contexts/MeetingSelectionContext";
 
 function Section({
   label,
@@ -38,13 +38,13 @@ function Section({
   );
 }
 
-export default function MeetingDetailPanel({
-  record,
-  onClose,
-}: {
-  record: MeetingRecord;
-  onClose: () => void;
-}) {
+export default function MeetingDetailPanel() {
+  const { selectedRecord, setSelectedRecord } = useMeetingSelection();
+
+  if (!selectedRecord) return null;
+
+  const record = selectedRecord;
+
   return (
     <Box
       sx={{
@@ -90,7 +90,7 @@ export default function MeetingDetailPanel({
           </Box>
           <IconButton
             size="small"
-            onClick={onClose}
+            onClick={() => setSelectedRecord(null)}
             aria-label="Close panel"
             sx={{ flexShrink: 0 }}
           >
