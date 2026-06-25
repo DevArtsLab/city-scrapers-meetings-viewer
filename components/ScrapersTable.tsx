@@ -21,8 +21,9 @@ function placeholderValue(value?: string) {
 const columns: GridColDef[] = [
   {
     field: "slug",
-    headerName: "Slug/Spider Name",
-    flex: 1,
+    headerName: "Slug / Spider Name",
+    flex: 1.5,
+    minWidth: 160,
     renderCell: ({ value }) => (
       <MuiLink
         component={NextLink}
@@ -36,19 +37,20 @@ const columns: GridColDef[] = [
   {
     field: "agency",
     headerName: "Agency",
-    flex: 1,
+    flex: 2,
+    minWidth: 200,
     valueFormatter: (value?: string) => placeholderValue(value),
   },
   {
     field: "last_run_status",
     headerName: "Status",
-    flex: 1,
+    width: 110,
     valueFormatter: (value?: string) => placeholderValue(value),
   },
   {
     field: "last_run",
     headerName: "Last Run",
-    flex: 1,
+    width: 170,
     valueFormatter: (value?: string) => placeholderValue(value),
   },
 ];
@@ -63,6 +65,7 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
         columns={columns}
         disableColumnMenu
         autoHeight
+        density="compact"
         pageSizeOptions={[10, 25, 50]}
         initialState={{
           pagination: { paginationModel: { pageSize: 25 } },

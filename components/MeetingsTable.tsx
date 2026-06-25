@@ -68,55 +68,55 @@ const DATAGRID_COLUMNS: GridColDef[] = [
   {
     field: "title",
     headerName: "Title",
-    flex: 1.5,
-    minWidth: 120,
-    renderCell: ({ row }) => <TruncatedText text={row.title} />,
+    flex: 2,
+    minWidth: 140,
+    renderCell: ({ row }) => <TruncatedText text={row.title} maxLength={90} />,
   },
   {
     field: "description",
     headerName: "Description",
-    flex: 2,
-    minWidth: 150,
-    renderCell: ({ row }) => <TruncatedText text={row.description} />,
+    flex: 2.5,
+    minWidth: 160,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.description} maxLength={90} />
+    ),
   },
   {
     field: "classification",
     headerName: "Classification",
     flex: 1,
-    minWidth: 110,
+    minWidth: 115,
     valueFormatter: (value: string) => value || "—",
   },
   {
     field: "start",
     headerName: "Start",
-    flex: 1,
-    minWidth: 90,
+    width: 105,
   },
   {
     field: "end",
     headerName: "End",
-    flex: 1,
-    minWidth: 90,
+    width: 105,
   },
   {
     field: "all_day",
     headerName: "All Day",
-    flex: 0.6,
-    minWidth: 70,
+    width: 80,
     renderCell: ({ row }) => (row.all_day ? "Yes" : "No"),
   },
   {
     field: "time_notes",
     headerName: "Time Notes",
-    flex: 1,
-    minWidth: 100,
-    renderCell: ({ row }) => <TruncatedText text={row.time_notes} />,
+    flex: 1.5,
+    minWidth: 120,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.time_notes} maxLength={90} />
+    ),
   },
   {
     field: "location",
     headerName: "Location",
-    flex: 1.5,
-    minWidth: 120,
+    width: 200,
     valueGetter: (_value: unknown, row: unknown) =>
       locationText(row as MeetingRecord),
     renderCell: ({ row }) => <LocationDisplay record={row as MeetingRecord} />,
@@ -146,7 +146,7 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     field: "source",
     headerName: "Source",
     flex: 1.5,
-    minWidth: 120,
+    minWidth: 130,
     renderCell: ({ row }) =>
       row.source ? (
         <LinkWithTooltip href={row.source} label="Source Link" />
@@ -157,8 +157,7 @@ const DATAGRID_COLUMNS: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    flex: 0.8,
-    minWidth: 90,
+    width: 105,
     valueGetter: (_value: unknown, row: unknown) =>
       normalizeStatus((row as MeetingRecord).status),
     renderCell: ({ value }) => <StatusChip status={value} />,
@@ -166,8 +165,7 @@ const DATAGRID_COLUMNS: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    flex: 0.8,
-    minWidth: 80,
+    width: 85,
   },
 ];
 
@@ -401,6 +399,7 @@ export default function MeetingsTable({
           columns={DATAGRID_COLUMNS}
           disableColumnMenu
           autoHeight
+          getRowHeight={() => "auto"}
           density="compact"
           pageSizeOptions={[10, 25, 50]}
           initialState={{
@@ -413,7 +412,13 @@ export default function MeetingsTable({
             noRowsOverlay: EmptyState,
           }}
           aria-label="meetings table"
-          sx={{ border: "none" }}
+          sx={{
+            border: "none",
+            "& .MuiDataGrid-cell": {
+              display: "flex",
+              alignItems: "center",
+            },
+          }}
         />
       </Paper>
 
