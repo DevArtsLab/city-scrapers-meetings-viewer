@@ -70,33 +70,33 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Title",
     flex: 2,
     minWidth: 140,
-    renderCell: ({ row }) => <TruncatedText text={row.title} maxLength={90} />,
+    renderCell: ({ row }) => <TruncatedText text={row.title} wrap maxLines={4} />,
   },
   {
     field: "description",
     headerName: "Description",
     flex: 2.5,
     minWidth: 160,
-    renderCell: ({ row }) => (
-      <TruncatedText text={row.description} maxLength={90} />
-    ),
+    renderCell: ({ row }) => <TruncatedText text={row.description} wrap maxLines={4} />,
   },
   {
     field: "classification",
     headerName: "Classification",
     flex: 1,
     minWidth: 115,
-    valueFormatter: (value: string) => value || "—",
+    renderCell: ({ row }) => <TruncatedText text={row.classification} />,
   },
   {
     field: "start",
     headerName: "Start",
     width: 105,
+    renderCell: ({ row }) => <TruncatedText text={row.start} wrap maxLines={4} />,
   },
   {
     field: "end",
     headerName: "End",
     width: 105,
+    renderCell: ({ row }) => <TruncatedText text={row.end} wrap maxLines={4} />,
   },
   {
     field: "all_day",
@@ -109,9 +109,7 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Time Notes",
     flex: 1.5,
     minWidth: 120,
-    renderCell: ({ row }) => (
-      <TruncatedText text={row.time_notes} maxLength={90} />
-    ),
+    renderCell: ({ row }) => <TruncatedText text={row.time_notes} wrap maxLines={4} />,
   },
   {
     field: "location",
@@ -165,7 +163,9 @@ const DATAGRID_COLUMNS: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 85,
+    flex: 1,
+    minWidth: 120,
+    renderCell: ({ row }) => <TruncatedText text={row.id} />,
   },
 ];
 
@@ -414,9 +414,17 @@ export default function MeetingsTable({
           aria-label="meetings table"
           sx={{
             border: "none",
+            "& .MuiDataGrid-row": {
+              minHeight: "52px !important",
+              maxHeight: "96px !important",
+            },
             "& .MuiDataGrid-cell": {
               display: "flex",
               alignItems: "center",
+              paddingTop: "14px !important",
+              paddingBottom: "14px !important",
+              paddingLeft: "16px",
+              paddingRight: "16px",
             },
           }}
         />

@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import type { GridColDef } from "@mui/x-data-grid";
 import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
 
 const DataGrid = dynamic(
   () => import("@mui/x-data-grid").then((mod) => mod.DataGrid),
@@ -11,6 +12,7 @@ const DataGrid = dynamic(
 import MuiLink from "@mui/material/Link";
 import NextLink from "@/components/NextLink";
 import type { SpiderEntry } from "@/lib/scrapers";
+import TruncatedText from "@/components/TruncatedText";
 
 const PLACEHOLDER = "—";
 
@@ -25,13 +27,15 @@ const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 160,
     renderCell: ({ value }) => (
-      <MuiLink
-        component={NextLink}
-        href={`/scrapers/${value}`}
-        underline="hover"
-      >
-        {value}
-      </MuiLink>
+      <Box sx={{ whiteSpace: "normal", wordBreak: "break-word", width: "100%" }}>
+        <MuiLink
+          component={NextLink}
+          href={`/scrapers/${value}`}
+          underline="hover"
+        >
+          {value}
+        </MuiLink>
+      </Box>
     ),
   },
   {
@@ -39,7 +43,7 @@ const columns: GridColDef[] = [
     headerName: "Agency",
     flex: 2,
     minWidth: 200,
-    valueFormatter: (value?: string) => placeholderValue(value),
+    renderCell: ({ value }) => <TruncatedText text={value} wrap maxLines={4} />,
   },
   {
     field: "last_run_status",
@@ -65,13 +69,25 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
         columns={columns}
         disableColumnMenu
         autoHeight
+        getRowHeight={() => "auto"}
         density="compact"
         pageSizeOptions={[10, 25, 50]}
         initialState={{
           pagination: { paginationModel: { pageSize: 25 } },
         }}
         aria-label="scrapers table"
-        sx={{ border: "none" }}
+        sx={{
+          border: "none",
+          "& .MuiDataGrid-row": {
+            minHeight: "52px !important",
+            maxHeight: "96px !important",
+          },
+          "& .MuiDataGrid-cell": {
+            display: "flex",
+            alignItems: "center",
+            padding: "14px",
+          },
+        }}
       />
     </Paper>
   );
