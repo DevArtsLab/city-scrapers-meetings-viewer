@@ -9,7 +9,10 @@ import {
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
-import { useMeetingSelection } from "@/contexts/MeetingSelectionContext";
+import {
+  useSelectedMeeting,
+  useSetSelectedMeeting,
+} from "@/contexts/MeetingSelectionContext";
 
 function Section({
   label,
@@ -39,11 +42,12 @@ function Section({
 }
 
 export default function MeetingDetailPanel() {
-  const { selectedRecord, setSelectedRecord } = useMeetingSelection();
+  const selectedMeeting = useSelectedMeeting();
+  const setSelectedMeeting = useSetSelectedMeeting();
 
-  if (!selectedRecord) return null;
+  if (!selectedMeeting) return null;
 
-  const record = selectedRecord;
+  const record = selectedMeeting;
 
   return (
     <Box
@@ -90,7 +94,7 @@ export default function MeetingDetailPanel() {
           </Box>
           <IconButton
             size="small"
-            onClick={() => setSelectedRecord(null)}
+            onClick={() => setSelectedMeeting(null)}
             aria-label="Close panel"
             sx={{ flexShrink: 0 }}
           >

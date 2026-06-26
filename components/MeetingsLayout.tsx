@@ -12,9 +12,9 @@ export default function MeetingsLayout({
   records: MeetingRecord[];
 }) {
   return (
-    <MeetingSelectionProvider>
+    <MeetingSelectionProvider records={records}>
       <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
-        <MeetingsTable records={records} />
+        <MeetingsTable />
         <MeetingDetailPanel />
       </Box>
     </MeetingSelectionProvider>

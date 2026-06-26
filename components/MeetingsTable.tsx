@@ -24,7 +24,10 @@ import MeetingCard, {
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
-import { useMeetingSelection } from "@/contexts/MeetingSelectionContext";
+import {
+  useRecords,
+  useSetSelectedMeeting,
+} from "@/contexts/MeetingSelectionContext";
 
 type SortKey =
   | "title"
@@ -107,18 +110,15 @@ function StatBox({ label, value }: { label: string; value: number }) {
   );
 }
 
-export default function MeetingsTable({
-  records,
-}: {
-  records: MeetingRecord[];
-}) {
+export default function MeetingsTable() {
+  const records = useRecords();
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
-  const { setSelectedRecord } = useMeetingSelection();
+  const setSelectedMeeting = useSetSelectedMeeting();
 
   // Convert "YYYY-MM-DD" to Date object in local time
   const parseLocalDate = (s: string): Date | null => {
@@ -198,7 +198,7 @@ export default function MeetingsTable({
   };
 
   const handleRowClick = (record: MeetingRecord) => {
-    setSelectedRecord((prev) => (prev?.id === record.id ? null : record));
+    setSelectedMeeting((prev) => (prev?.id === record.id ? null : record));
   };
 
   return (

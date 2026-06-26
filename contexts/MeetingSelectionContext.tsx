@@ -3,41 +3,51 @@
 import { createContext, useContext, useState } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
 
-interface MeetingSelectionContextValue {
-  selectedRecord: MeetingRecord | null;
-  setSelectedRecord: (
-    update:
-      | MeetingRecord
-      | null
-      | ((prev: MeetingRecord | null) => MeetingRecord | null)
-  ) => void;
-}
+type SetSelectedMeetingFn = (
+  update:
+    | MeetingRecord
+    | null
+    | ((prev: MeetingRecord | null) => MeetingRecord | null)
+) => void;
 
-const MeetingSelectionContext =
-  createContext<MeetingSelectionContextValue | null>(null);
+const RecordsContext = createContext<MeetingRecord[]>([]);
+const SelectedMeetingContext = createContext<MeetingRecord | null>(null);
+const SetSelectedMeetingContext = createContext<SetSelectedMeetingFn | null>(null);
 
 export function MeetingSelectionProvider({
+  records,
   children,
 }: {
+  records: MeetingRecord[];
   children: React.ReactNode;
 }) {
-  const [selectedRecord, setSelectedRecord] = useState<MeetingRecord | null>(
+  const [selectedMeeting, setSelectedMeeting] = useState<MeetingRecord | null>(
     null
   );
   return (
-    <MeetingSelectionContext.Provider
-      value={{ selectedRecord, setSelectedRecord }}
-    >
-      {children}
-    </MeetingSelectionContext.Provider>
+    <RecordsContext.Provider value={records}>
+      <SetSelectedMeetingContext.Provider value={setSelectedMeeting}>
+        <SelectedMeetingContext.Provider value={selectedMeeting}>
+          {children}
+        </SelectedMeetingContext.Provider>
+      </SetSelectedMeetingContext.Provider>
+    </RecordsContext.Provider>
   );
 }
 
-export function useMeetingSelection() {
-  const ctx = useContext(MeetingSelectionContext);
-  if (!ctx)
+export function useRecords() {
+  return useContext(RecordsContext);
+}
+
+export function useSelectedMeeting() {
+  return useContext(SelectedMeetingContext);
+}
+
+export function useSetSelectedMeeting() {
+  const setSelectedMeeting = useContext(SetSelectedMeetingContext);
+  if (!setSelectedMeeting)
     throw new Error(
-      "useMeetingSelection must be used inside MeetingSelectionProvider"
+      "useSetSelectedMeeting must be used inside MeetingSelectionProvider"
     );
-  return ctx;
+  return setSelectedMeeting;
 }
