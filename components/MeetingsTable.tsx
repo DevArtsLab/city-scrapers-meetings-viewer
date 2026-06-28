@@ -24,10 +24,7 @@ import MeetingCard, {
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
-import {
-  useRecords,
-  useSetSelectedMeeting,
-} from "@/contexts/MeetingSelectionContext";
+import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 
 type SortKey =
   | "title"
@@ -110,8 +107,11 @@ function StatBox({ label, value }: { label: string; value: number }) {
   );
 }
 
-export default function MeetingsTable() {
-  const records = useRecords();
+export default function MeetingsTable({
+  records,
+}: {
+  records: MeetingRecord[];
+}) {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");

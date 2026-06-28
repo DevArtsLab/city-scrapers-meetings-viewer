@@ -10,33 +10,24 @@ type SetSelectedMeetingFn = (
     | ((prev: MeetingRecord | null) => MeetingRecord | null)
 ) => void;
 
-const RecordsContext = createContext<MeetingRecord[]>([]);
 const SelectedMeetingContext = createContext<MeetingRecord | null>(null);
 const SetSelectedMeetingContext = createContext<SetSelectedMeetingFn | null>(null);
 
 export function MeetingSelectionProvider({
-  records,
   children,
 }: {
-  records: MeetingRecord[];
   children: React.ReactNode;
 }) {
   const [selectedMeeting, setSelectedMeeting] = useState<MeetingRecord | null>(
     null
   );
   return (
-    <RecordsContext.Provider value={records}>
-      <SetSelectedMeetingContext.Provider value={setSelectedMeeting}>
-        <SelectedMeetingContext.Provider value={selectedMeeting}>
-          {children}
-        </SelectedMeetingContext.Provider>
-      </SetSelectedMeetingContext.Provider>
-    </RecordsContext.Provider>
+    <SetSelectedMeetingContext.Provider value={setSelectedMeeting}>
+      <SelectedMeetingContext.Provider value={selectedMeeting}>
+        {children}
+      </SelectedMeetingContext.Provider>
+    </SetSelectedMeetingContext.Provider>
   );
-}
-
-export function useRecords() {
-  return useContext(RecordsContext);
 }
 
 export function useSelectedMeeting() {
