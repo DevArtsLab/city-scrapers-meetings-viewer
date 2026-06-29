@@ -24,6 +24,7 @@ import MeetingCard, {
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
+import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 
 type SortKey =
   | "title"
@@ -117,6 +118,7 @@ export default function MeetingsTable({
   const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const setSelectedMeeting = useSetSelectedMeeting();
 
   // Convert "YYYY-MM-DD" to Date object in local time
   const parseLocalDate = (s: string): Date | null => {
@@ -195,8 +197,12 @@ export default function MeetingsTable({
     }
   };
 
+  const handleRowClick = (record: MeetingRecord) => {
+    setSelectedMeeting((prev) => (prev?.id === record.id ? null : record));
+  };
+
   return (
-    <Box>
+    <Box sx={{ flex: 1, minWidth: 0 }}>
       <Box
         sx={{
           display: "grid",
@@ -312,7 +318,12 @@ export default function MeetingsTable({
               </TableRow>
             ) : (
               visibleRecords.map((record) => (
-                <TableRow key={record.id} hover>
+                <TableRow
+                  key={record.id}
+                  hover
+                  onClick={() => handleRowClick(record)}
+                  sx={{ cursor: "pointer" }}
+                >
                   <TableCell>
                     <TruncatedText text={record.title} />
                   </TableCell>
@@ -336,24 +347,17 @@ export default function MeetingsTable({
                   <TableCell>
                     {record.links?.length
                       ? record.links.map((link, i) => (
-                          <Box
+                          <LinkWithTooltip
                             key={i}
-                            sx={{ mb: i < record.links!.length - 1 ? 0.75 : 0 }}
-                          >
-                            <LinkWithTooltip
-                              href={link.href}
-                              label={link.title}
-                            />
-                          </Box>
+                            href={link.href}
+                            label={link.title}
+                          />
                         ))
                       : "—"}
                   </TableCell>
                   <TableCell>
                     {record.source ? (
-                      <LinkWithTooltip
-                        href={record.source}
-                        label="Source Link"
-                      />
+                      <LinkWithTooltip href={record.source} label="Source" />
                     ) : (
                       "—"
                     )}

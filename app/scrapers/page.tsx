@@ -21,7 +21,7 @@ export default async function ScrapersPage() {
   const { spiders } = await listScrapers();
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6 } }}>
+    <Container maxWidth="xl" sx={{ py: { xs: 3, sm: 6 } }}>
       <Typography
         variant="h4"
         gutterBottom
