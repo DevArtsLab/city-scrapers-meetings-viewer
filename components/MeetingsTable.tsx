@@ -127,16 +127,22 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     sortable: false,
     renderCell: ({ row }) => {
       const r = row as MeetingRecord;
-      return r.links?.length ? (
+      if (!r.links?.length) return "—";
+      const visible = r.links.slice(0, 3);
+      const extra = r.links.length - 3;
+      return (
         <Box>
-          {r.links.map((link, i) => (
-            <Box key={i} sx={{ mb: i < r.links!.length - 1 ? 0.75 : 0 }}>
+          {visible.map((link, i) => (
+            <Box key={i} sx={{ mb: i < visible.length - 1 ? 0.75 : 0 }}>
               <LinkWithTooltip href={link.href} label={link.title} />
             </Box>
           ))}
+          {extra > 0 && (
+            <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
+              +{extra} more link{extra > 1 ? "s" : ""}
+            </Typography>
+          )}
         </Box>
-      ) : (
-        "—"
       );
     },
   },

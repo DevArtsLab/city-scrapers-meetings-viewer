@@ -19,8 +19,10 @@ export default function TruncatedText({
 }: TruncatedTextProps) {
   if (!text) return <>—</>;
 
+  const isTruncated = text.length > maxLength;
+
   if (wrap) {
-    return (
+    const box = (
       <Box
         sx={{
           whiteSpace: "normal",
@@ -37,9 +39,25 @@ export default function TruncatedText({
         {text}
       </Box>
     );
-  }
 
-  const isTruncated = text.length > maxLength;
+    if (!isTruncated) return box;
+
+    return (
+      <Tooltip
+        title={
+          <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
+            {text}
+          </Typography>
+        }
+        placement="top"
+        arrow
+        enterDelay={200}
+        slotProps={TOOLTIP_SLOT_PROPS}
+      >
+        {box}
+      </Tooltip>
+    );
+  }
 
   const inner = (
     <Box
