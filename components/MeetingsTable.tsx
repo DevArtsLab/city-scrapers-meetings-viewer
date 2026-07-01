@@ -85,19 +85,19 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Classification",
     flex: 1,
     minWidth: 115,
-    renderCell: ({ row }) => <TruncatedText text={row.classification} />,
+    renderCell: ({ row }) => row.classification || "—",
   },
   {
     field: "start",
     headerName: "Start",
     width: 105,
-    renderCell: ({ row }) => <TruncatedText text={row.start} wrap maxLines={4} />,
+    renderCell: ({ row }) => row.start || "—",
   },
   {
     field: "end",
     headerName: "End",
     width: 105,
-    renderCell: ({ row }) => <TruncatedText text={row.end} wrap maxLines={4} />,
+    renderCell: ({ row }) => row.end || "—",
   },
   {
     field: "all_day",
@@ -423,9 +423,11 @@ export default function MeetingsTable({
           slots={{
             noRowsOverlay: EmptyState,
           }}
+          onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
           aria-label="meetings table"
           sx={{
             border: "none",
+            cursor: "pointer",
             "& .MuiDataGrid-row": {
               minHeight: "52px !important",
               maxHeight: "96px !important",

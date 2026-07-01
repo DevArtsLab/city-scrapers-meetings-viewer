@@ -36,7 +36,19 @@ export default function TruncatedText({
           }),
         }}
       >
-        {text}
+        {isTruncated ? (
+          <span
+            style={{
+              cursor: "pointer",
+              borderBottom: "1px dashed currentColor",
+              textDecorationSkipInk: "none",
+            }}
+          >
+            {text}
+          </span>
+        ) : (
+          text
+        )}
       </Box>
     );
 
