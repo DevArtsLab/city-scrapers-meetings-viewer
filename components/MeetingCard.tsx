@@ -23,12 +23,7 @@ export function normalizeStatus(status: string | undefined): string {
 export function locationText(record: MeetingRecord): string {
   const name = record.location?.name ?? "";
   const address = record.location?.address ?? "";
-
-  if (!name && !address) return "";
-  if (!name) return `No Name, ${address}`;
-  if (!address) return `${name}, No address`;
-
-  return `${name}, ${address}`;
+  return [name, address].filter(Boolean).join(", ");
 }
 
 export function StatusChip({ status }: { status: string }) {
@@ -63,38 +58,19 @@ function CardField({
   );
 }
 
-// Renders a value, or a fallback label in error color if the value is empty
-function LocationPart({
-  value,
-  fallback,
-}: {
-  value: string;
-  fallback: string;
-}) {
-  if (value) return <>{value}</>;
-  return (
-    <Typography
-      component="span"
-      sx={{ color: "error.main", fontSize: "inherit" }}
-    >
-      {fallback}
-    </Typography>
-  );
-}
-
-// For display, highlighting "No Name"/"No address" in error color
 export function LocationDisplay({ record }: { record: MeetingRecord }) {
   const name = record.location?.name?.trim() ?? "";
   const address = record.location?.address?.trim() ?? "";
 
   if (!name && !address) return <>—</>;
+  if (!name) return <>{address}</>;
+  if (!address) return <>{name}</>;
 
   return (
     <>
-      <LocationPart value={name} fallback="No Name" />
-      {","}
+      {name}
       <br />
-      <LocationPart value={address} fallback="No address" />
+      {address}
     </>
   );
 }

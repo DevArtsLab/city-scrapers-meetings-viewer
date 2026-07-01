@@ -1,70 +1,132 @@
+import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 
 const MAX_LENGTH = 50;
 
-interface TruncatedDescriptionProps {
+interface TruncatedTextProps {
   text: string | null | undefined;
   maxLength?: number;
+  wrap?: boolean;
+  maxLines?: number;
 }
 
 export default function TruncatedText({
   text,
   maxLength = MAX_LENGTH,
-}: TruncatedDescriptionProps) {
+  wrap = false,
+  maxLines,
+}: TruncatedTextProps) {
   if (!text) return <>—</>;
 
   const isTruncated = text.length > maxLength;
-  const displayText = isTruncated
-    ? text.slice(0, maxLength).trimEnd() + "…"
-    : text;
 
-  if (!isTruncated) return <>{displayText}</>;
+  if (wrap) {
+    const box = (
+      <Box
+        sx={{
+          whiteSpace: "normal",
+          wordBreak: "break-word",
+          width: "100%",
+          ...(maxLines && {
+            display: "-webkit-box",
+            WebkitLineClamp: maxLines,
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+          }),
+        }}
+      >
+        {isTruncated ? (
+          <span
+            style={{
+              cursor: "pointer",
+              borderBottom: "1px dashed currentColor",
+              textDecorationSkipInk: "none",
+            }}
+          >
+            {text}
+          </span>
+        ) : (
+          text
+        )}
+      </Box>
+    );
+
+    if (!isTruncated) return box;
+
+    return (
+      <Tooltip
+        title={
+          <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
+            {text}
+          </Typography>
+        }
+        placement="top"
+        arrow
+        enterDelay={200}
+        slotProps={TOOLTIP_SLOT_PROPS}
+      >
+        {box}
+      </Tooltip>
+    );
+  }
+
+  const inner = (
+    <Box
+      component="span"
+      sx={{
+        display: "block",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        whiteSpace: "nowrap",
+        ...(isTruncated && {
+          cursor: "pointer",
+          borderBottom: "1px dashed currentColor",
+          textDecorationSkipInk: "none",
+        }),
+      }}
+    >
+      {text}
+    </Box>
+  );
+
+  if (!isTruncated) return inner;
 
   return (
     <Tooltip
       title={
-        <Typography
-          variant="body2"
-          sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
-        >
+        <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
           {text}
         </Typography>
       }
       placement="top"
       arrow
       enterDelay={200}
-      slotProps={{
-        tooltip: {
-          sx: {
-            bgcolor: "background.paper",
-            color: "text.primary",
-            boxShadow: 3,
-            border: "1px solid",
-            borderColor: "divider",
-            p: 1.5,
-          },
-        },
-        arrow: {
-          sx: {
-            color: "background.paper",
-            "&::before": {
-              border: "1px solid",
-              borderColor: "divider",
-            },
-          },
-        },
-      }}
+      slotProps={TOOLTIP_SLOT_PROPS}
     >
-      <span
-        style={{
-          cursor: "pointer",
-          borderBottom: "1px dashed currentColor",
-          textDecorationSkipInk: "none",
-        }}
-      >
-        {displayText}
-      </span>
+      {inner}
     </Tooltip>
   );
 }
+
+const TOOLTIP_SLOT_PROPS = {
+  tooltip: {
+    sx: {
+      bgcolor: "background.paper",
+      color: "text.primary",
+      boxShadow: 3,
+      border: "1px solid",
+      borderColor: "divider",
+      p: 1.5,
+    },
+  },
+  arrow: {
+    sx: {
+      color: "background.paper",
+      "&::before": {
+        border: "1px solid",
+        borderColor: "divider",
+      },
+    },
+  },
+};
