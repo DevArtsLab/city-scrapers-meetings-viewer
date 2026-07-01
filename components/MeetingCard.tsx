@@ -87,7 +87,7 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
   if (!name && !address) return <>—</>;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, py: 1, px: 1, wordBreak: "break-word", width: "100%", overflow: "hidden" }}>
+    <Box sx={{ display: "flex", flexDirection: "column", py: 1, px: 1, wordBreak: "break-word", width: "100%", overflow: "hidden" }}>
       <LocationPart value={name} fallback="No name" />
       <LocationPart value={address} fallback="No address" />
     </Box>
