@@ -2,14 +2,19 @@
 
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { normalizeStatus } from "@/components/MeetingCard";
 
-type StatColor = "text.primary" | "success.main" | "error.main" | "warning.main";
+// Numbers carry the status color; labels stay high-contrast text.secondary so
+// meaning never depends on color alone (WCAG 1.4.1).
+type ValueColor =
+  | "text.primary"
+  | "success.main"
+  | "error.main"
+  | "warning.main";
 
-const STAT_ITEMS: { key: string; label: string; color: StatColor }[] = [
+const STAT_ITEMS: { key: string; label: string; color: ValueColor }[] = [
   { key: "total", label: "Total", color: "text.primary" },
   { key: "passed", label: "Passed", color: "success.main" },
   { key: "cancelled", label: "Cancelled", color: "error.main" },
@@ -23,24 +28,40 @@ function StatItem({
 }: {
   value: number;
   label: string;
-  color: StatColor;
+  color: ValueColor;
 }) {
   return (
     <Box
-      sx={{ display: "flex", alignItems: "baseline", gap: 0.5 }}
+      role="listitem"
       aria-label={`${label}: ${value}`}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        gap: 0.5,
+        // Match the small Button height (~32px) for visual consistency.
+        px: 1.5,
+        py: 0.375,
+        borderRadius: 1,
+        bgcolor: "action.hover",
+        minHeight: 32,
+        boxSizing: "border-box",
+      }}
     >
       <Typography
         component="span"
-        sx={{ fontWeight: 700, fontSize: "0.95rem", color, lineHeight: 1 }}
+        sx={{
+          fontWeight: 700,
+          fontSize: "0.875rem",
+          color,
+          lineHeight: 1.2,
+        }}
         aria-hidden
       >
         {value}
       </Typography>
       <Typography
         component="span"
-        variant="body2"
-        sx={{ color: "text.secondary", lineHeight: 1 }}
+        sx={{ fontSize: "0.8rem", color: "text.secondary", lineHeight: 1.2 }}
         aria-hidden
       >
         {label}
@@ -64,16 +85,14 @@ export default function MeetingStats({
   }, [records]);
 
   return (
-    <Stack
-      role="group"
+    <Box
+      role="list"
       aria-label="Meeting statistics"
-      direction="row"
-      useFlexGap
       sx={{
-        flexWrap: "wrap",
-        alignItems: "center",
-        columnGap: { xs: 1.5, sm: 2.5 },
-        rowGap: 0.5,
+        display: "grid",
+        gridTemplateColumns: "repeat(4, 1fr)",
+        gap: { xs: 0.75, sm: 1 },
+        width: { xs: "100%", sm: "auto" },
       }}
     >
       {STAT_ITEMS.map((item) => (
@@ -88,6 +107,6 @@ export default function MeetingStats({
           }
         />
       ))}
-    </Stack>
+    </Box>
   );
 }

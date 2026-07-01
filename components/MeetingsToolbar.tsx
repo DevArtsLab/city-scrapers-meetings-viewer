@@ -37,9 +37,9 @@ export default function MeetingsToolbar({
     <Box
       sx={{
         display: "flex",
-        flexWrap: "wrap",
-        alignItems: "center",
-        justifyContent: "space-between",
+        flexDirection: { xs: "column", sm: "row" },
+        alignItems: { xs: "stretch", sm: "center" },
+        justifyContent: { sm: "space-between" },
         gap: 2,
         mb: 2,
       }}
