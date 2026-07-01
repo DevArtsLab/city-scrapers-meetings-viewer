@@ -1,5 +1,6 @@
 "use client";
 
+import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -53,8 +54,29 @@ function CardField({
       >
         {label}
       </Typography>
-      <Typography variant="body2">{value}</Typography>
+      <Typography variant="body2" component="div">{value}</Typography>
     </Stack>
+  );
+}
+
+function LocationPart({ value, fallback }: { value: string; fallback: string }) {
+  return (
+    <Box
+      sx={{
+        display: "-webkit-box",
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: "vertical",
+        overflow: "hidden",
+      }}
+    >
+      {value ? (
+        value
+      ) : (
+        <Typography component="span" sx={{ color: "error.main", fontSize: "inherit" }}>
+          {fallback}
+        </Typography>
+      )}
+    </Box>
   );
 }
 
@@ -63,15 +85,12 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
   const address = record.location?.address?.trim() ?? "";
 
   if (!name && !address) return <>—</>;
-  if (!name) return <>{address}</>;
-  if (!address) return <>{name}</>;
 
   return (
-    <>
-      {name}
-      <br />
-      {address}
-    </>
+    <Box sx={{ display: "flex", flexDirection: "column", py: 1, px: 1, wordBreak: "break-word", width: "100%", overflow: "hidden" }}>
+      <LocationPart value={name} fallback="No name" />
+      <LocationPart value={address} fallback="No address" />
+    </Box>
   );
 }
 

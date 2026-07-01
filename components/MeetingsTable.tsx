@@ -116,6 +116,7 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     field: "location",
     headerName: "Location",
     width: 200,
+    minWidth: 99,
     valueGetter: (_value: unknown, row: unknown) =>
       locationText(row as MeetingRecord),
     renderCell: ({ row }) => <LocationDisplay record={row as MeetingRecord} />,
