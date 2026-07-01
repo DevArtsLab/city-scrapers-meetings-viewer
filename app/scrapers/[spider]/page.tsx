@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import MuiLink from "@mui/material/Link";
 import NextLink from "@/components/NextLink";
-import MeetingsTable from "@/components/MeetingsTable";
+import MeetingsLayout from "@/components/MeetingsLayout";
 import { getScraperOutput, type MeetingRecord } from "@/lib/scrapers";
 
 export default async function SpiderPage({
@@ -23,7 +23,7 @@ export default async function SpiderPage({
   }
 
   return (
-    <Container maxWidth="lg" sx={{ py: { xs: 3, sm: 6 } }}>
+    <Container maxWidth="xl" sx={{ py: { xs: 3, sm: 6 } }}>
       <Box sx={{ mb: 2 }}>
         <Breadcrumbs aria-label="breadcrumb">
           <MuiLink component={NextLink} href="/scrapers" underline="hover">
@@ -42,7 +42,7 @@ export default async function SpiderPage({
       >
         {spider}
       </Typography>
-      <MeetingsTable records={records} />
+      <MeetingsLayout records={records} />
     </Container>
   );
 }

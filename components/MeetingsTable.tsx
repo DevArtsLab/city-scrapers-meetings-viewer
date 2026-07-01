@@ -24,6 +24,7 @@ import MeetingCard, {
 } from "@/components/MeetingCard";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
+import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 
 type SortKey =
   | "title"
@@ -228,6 +229,7 @@ export default function MeetingsTable({
   const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
+  const setSelectedMeeting = useSetSelectedMeeting();
 
   // Convert "YYYY-MM-DD" to Date object in local time
   const parseLocalDate = (s: string): Date | null => {
@@ -313,8 +315,12 @@ export default function MeetingsTable({
     }
   };
 
+  const handleRowClick = (record: MeetingRecord) => {
+    setSelectedMeeting((prev) => (prev?.id === record.id ? null : record));
+  };
+
   return (
-    <Box>
+    <Box sx={{ flex: 1, minWidth: 0 }}>
       <Box
         sx={{
           display: "grid",
