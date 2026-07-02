@@ -1,5 +1,33 @@
 [
   {
+    "title": "Sample title with 10 links",
+    "description": "This record has 10 links to test the link limit display.",
+    "classification": "Board",
+    "start": "2024-07-01 10:00:00",
+    "end": "2024-07-01 12:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Test Building",
+      "address": "123 N. Example St., Test City, XY 12345"
+    },
+    "links": [
+      { "href": "https://example.com/doc1.pdf", "title": "Agenda" },
+      { "href": "https://example.com/doc2.pdf", "title": "Minutes" },
+      { "href": "https://example.com/doc3.pdf", "title": "Attachment 1" },
+      { "href": "https://example.com/doc4.pdf", "title": "Attachment 2" },
+      { "href": "https://example.com/doc5.pdf", "title": "Attachment 3" },
+      { "href": "https://example.com/doc6.pdf", "title": "Exhibit A" },
+      { "href": "https://example.com/doc7.pdf", "title": "Exhibit B" },
+      { "href": "https://example.com/doc8.pdf", "title": "Budget Report" },
+      { "href": "https://example.com/doc9.pdf", "title": "Staff Report" },
+      { "href": "https://example.com/doc10.pdf", "title": "Resolution" }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "example_spider_board/202407011000/x/board"
+  },
+  {
     "title": "Sample title 1 with a long title that should be truncated in the table view to ensure that the layout remains clean and readable",
     "description": "This is a an example description",
     "classification": "Board",
