@@ -6,9 +6,14 @@ import { ReactNode } from "react";
 interface LinkWithTooltipProps {
   href: string;
   label?: ReactNode;
+  maxWidth?: number | string;
 }
 
-export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
+export default function LinkWithTooltip({
+  href,
+  label,
+  maxWidth = 95,
+}: LinkWithTooltipProps) {
   const displayLabel: ReactNode = label || (
     <Typography
       component="span"
@@ -58,12 +63,13 @@ export default function LinkWithTooltip({ href, label }: LinkWithTooltipProps) {
         target="_blank"
         rel="noopener noreferrer"
         sx={{
-          display: "inline-block",
+          display: "block",
+          width: "100%",
           color: "primary.main",
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
-          maxWidth: 95,
+          maxWidth,
           verticalAlign: "top",
         }}
       >

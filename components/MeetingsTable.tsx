@@ -71,14 +71,18 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Title",
     flex: 2,
     minWidth: 140,
-    renderCell: ({ row }) => <TruncatedText text={row.title} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.title} wrap maxLines={4} />
+    ),
   },
   {
     field: "description",
     headerName: "Description",
     flex: 2.5,
     minWidth: 160,
-    renderCell: ({ row }) => <TruncatedText text={row.description} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.description} wrap maxLines={4} />
+    ),
   },
   {
     field: "classification",
@@ -110,7 +114,9 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Time Notes",
     flex: 1.5,
     minWidth: 120,
-    renderCell: ({ row }) => <TruncatedText text={row.time_notes} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.time_notes} wrap maxLines={4} />
+    ),
   },
   {
     field: "location",
@@ -133,14 +139,29 @@ const DATAGRID_COLUMNS: GridColDef[] = [
       const visible = r.links.slice(0, 3);
       const extra = r.links.length - 3;
       return (
-        <Box>
+        <Box sx={{ width: "100%", minWidth: 0 }}>
           {visible.map((link, i) => (
-            <Box key={i} sx={{ mb: i < visible.length - 1 ? 0.75 : 0 }}>
-              <LinkWithTooltip href={link.href} label={link.title} />
+            <Box
+              key={i}
+              sx={{
+                mb: i < visible.length - 1 ? 0.75 : 0,
+                width: "100%",
+                minWidth: 0,
+              }}
+            >
+              <LinkWithTooltip
+                href={link.href}
+                label={link.title}
+                maxWidth="100%"
+              />
             </Box>
           ))}
           {extra > 0 && (
-            <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ mt: 0.5, display: "block" }}
+            >
               +{extra} more link{extra > 1 ? "s" : ""}
             </Typography>
           )}
