@@ -27,7 +27,9 @@ const columns: GridColDef[] = [
     flex: 1.5,
     minWidth: 160,
     renderCell: ({ value }) => (
-      <Box sx={{ whiteSpace: "normal", wordBreak: "break-word", width: "100%" }}>
+      <Box
+        sx={{ whiteSpace: "normal", wordBreak: "break-word", width: "100%" }}
+      >
         <MuiLink
           component={NextLink}
           href={`/scrapers/${value}`}
