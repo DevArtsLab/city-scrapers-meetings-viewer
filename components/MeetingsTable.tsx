@@ -129,10 +129,21 @@ const DATAGRID_COLUMNS: GridColDef[] = [
       const visible = r.links.slice(0, 3);
       const extra = r.links.length - 3;
       return (
-        <Box>
+        <Box sx={{ width: "100%", minWidth: 0 }}>
           {visible.map((link, i) => (
-            <Box key={i} sx={{ mb: i < visible.length - 1 ? 0.75 : 0 }}>
-              <LinkWithTooltip href={link.href} label={link.title} />
+            <Box
+              key={i}
+              sx={{
+                mb: i < visible.length - 1 ? 0.75 : 0,
+                width: "100%",
+                minWidth: 0,
+              }}
+            >
+              <LinkWithTooltip
+                href={link.href}
+                label={link.title}
+                maxWidth="100%"
+              />
             </Box>
           ))}
           {extra > 0 && (

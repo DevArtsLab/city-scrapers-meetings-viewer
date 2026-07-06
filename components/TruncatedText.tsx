@@ -57,7 +57,10 @@ export default function TruncatedText({
     return (
       <Tooltip
         title={
-          <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
+          <Typography
+            variant="body2"
+            sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
+          >
             {text}
           </Typography>
         }
@@ -95,7 +98,10 @@ export default function TruncatedText({
   return (
     <Tooltip
       title={
-        <Typography variant="body2" sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}>
+        <Typography
+          variant="body2"
+          sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
+        >
           {text}
         </Typography>
       }
