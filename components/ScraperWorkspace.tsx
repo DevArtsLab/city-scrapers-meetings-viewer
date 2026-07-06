@@ -5,7 +5,9 @@ import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingsToolbar from "@/components/MeetingsToolbar";
 import FiltersPanel from "@/components/FiltersPanel";
+import MeetingFilters from "@/components/MeetingFilters";
 import MeetingsLayout from "@/components/MeetingsLayout";
+import { useMeetingFilters } from "@/hooks/useMeetingFilters";
 
 const FILTERS_PANEL_ID = "meetings-filters-panel";
 
@@ -15,6 +17,7 @@ export default function ScraperWorkspace({
   records: MeetingRecord[];
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const filters = useMeetingFilters(records);
 
   return (
     <Box>
@@ -36,11 +39,16 @@ export default function ScraperWorkspace({
           id={FILTERS_PANEL_ID}
           open={filtersOpen}
           onClose={() => setFiltersOpen(false)}
-        />
+        >
+          <MeetingFilters filters={filters} />
+        </FiltersPanel>
 
         {/* Only this region is pushed when the panel opens. */}
         <Box sx={{ flex: 1, minWidth: 0, width: "100%" }}>
-          <MeetingsLayout records={records} />
+          <MeetingsLayout
+            records={filters.filteredRecords}
+            totalCount={records.length}
+          />
         </Box>
       </Box>
     </Box>

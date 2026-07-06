@@ -15,7 +15,6 @@ const DataGrid = dynamic(
   { ssr: false }
 );
 import type { MeetingRecord } from "@/lib/scrapers";
-import DateRangeFilter from "@/components/DateRangeFilter";
 import MeetingCard, {
   LocationDisplay,
   locationText,
@@ -41,15 +40,6 @@ type SortKey =
   | "id";
 type SortDirection = "asc" | "desc";
 
-const STATUS_OPTIONS = [
-  { value: "all", label: "All" },
-  { value: "passed", label: "Passed" },
-  { value: "cancelled", label: "Cancelled" },
-  { value: "tentative", label: "Tentative" },
-];
-
-const STAT_STATUSES = STATUS_OPTIONS.filter((o) => o.value !== "all");
-
 const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "title", label: "Title" },
   { key: "description", label: "Description" },
@@ -71,14 +61,18 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Title",
     flex: 2,
     minWidth: 140,
-    renderCell: ({ row }) => <TruncatedText text={row.title} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.title} wrap maxLines={4} />
+    ),
   },
   {
     field: "description",
     headerName: "Description",
     flex: 2.5,
     minWidth: 160,
-    renderCell: ({ row }) => <TruncatedText text={row.description} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.description} wrap maxLines={4} />
+    ),
   },
   {
     field: "classification",
@@ -110,7 +104,9 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     headerName: "Time Notes",
     flex: 1.5,
     minWidth: 120,
-    renderCell: ({ row }) => <TruncatedText text={row.time_notes} wrap maxLines={4} />,
+    renderCell: ({ row }) => (
+      <TruncatedText text={row.time_notes} wrap maxLines={4} />
+    ),
   },
   {
     field: "location",
@@ -140,7 +136,11 @@ const DATAGRID_COLUMNS: GridColDef[] = [
             </Box>
           ))}
           {extra > 0 && (
-            <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: "block" }}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{ mt: 0.5, display: "block" }}
+            >
               +{extra} more link{extra > 1 ? "s" : ""}
             </Typography>
           )}
@@ -200,111 +200,27 @@ function sortValue(record: MeetingRecord, key: SortKey): string {
   return typeof val === "string" ? val.toLowerCase() : "";
 }
 
-function StatBox({ label, value }: { label: string; value: number }) {
-  return (
-    <Paper
-      variant="outlined"
-      sx={{ px: { xs: 2, sm: 3 }, py: { xs: 1, sm: 1.5 } }}
-    >
-      <Typography variant="caption" color="text.secondary">
-        {label}
-      </Typography>
-      <Typography
-        variant="h6"
-        sx={{ fontWeight: 600, fontSize: { xs: "1.1rem", sm: "1.25rem" } }}
-      >
-        {value}
-      </Typography>
-    </Paper>
-  );
-}
-
 export default function MeetingsTable({
   records,
+  totalCount,
 }: {
+  /** Records to display, already filtered upstream. */
   records: MeetingRecord[];
+  /** Unfiltered record count, for the "Showing X of Y" summary. */
+  totalCount: number;
 }) {
-  const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState("all");
-  const [dateFrom, setDateFrom] = useState("");
-  const [dateTo, setDateTo] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
 
-  // Convert "YYYY-MM-DD" to Date object in local time
-  const parseLocalDate = (s: string): Date | null => {
-    if (!s) return null;
-    const [y, m, d] = s.split("-").map(Number);
-    const date = new Date(y, m - 1, d, 0, 0, 0, 0);
-    return isNaN(date.getTime()) ? null : date;
-  };
-
-  const stats = useMemo(() => {
-    const counts: Record<string, number> = {};
-    for (const r of records) {
-      const s = normalizeStatus(r.status);
-      counts[s] = (counts[s] ?? 0) + 1;
-    }
-    return { total: records.length, counts };
-  }, [records]);
-
-  const filteredRecords = useMemo(() => {
-    const query = search.trim().toLowerCase();
-    let filtered = records;
-
-    if (statusFilter !== "all") {
-      filtered = filtered.filter(
-        (r) => normalizeStatus(r.status) === statusFilter
-      );
-    }
-
-    // Date filterring: include meetings that start or end within the selected date range
-    if (dateFrom || dateTo) {
-      const from = parseLocalDate(dateFrom);
-      const toDate = parseLocalDate(dateTo) ?? (from ? new Date(from) : null);
-      if (toDate) toDate.setHours(23, 59, 59, 999);
-
-      filtered = filtered.filter((r) => {
-        const isWithinDateRange = (dateStr: string | undefined) => {
-          if (!dateStr) return false;
-          const meetingDate = new Date(dateStr);
-          if (isNaN(meetingDate.getTime())) return false;
-          if (from && meetingDate < from) return false;
-          if (toDate && meetingDate > toDate) return false;
-          return true;
-        };
-        return isWithinDateRange(r.start) || isWithinDateRange(r.end);
-      });
-    }
-
-    if (query) {
-      filtered = filtered.filter((r) =>
-        [
-          r.title,
-          r.description,
-          r.classification,
-          r.time_notes,
-          r.status,
-          locationText(r),
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(query)
-      );
-    }
-
-    return filtered;
-  }, [records, search, statusFilter, dateFrom, dateTo]);
-
   // Sorted records used only for the mobile card view
   const sortedRecords = useMemo(
     () =>
-      [...filteredRecords].sort((a, b) => {
+      [...records].sort((a, b) => {
         const cmp = sortValue(a, sortKey).localeCompare(sortValue(b, sortKey));
         return sortDirection === "asc" ? cmp : -cmp;
       }),
-    [filteredRecords, sortKey, sortDirection]
+    [records, sortKey, sortDirection]
   );
 
   const handleSort = (key: SortKey) => {
@@ -322,84 +238,29 @@ export default function MeetingsTable({
 
   return (
     <Box sx={{ flex: 1, minWidth: 0 }}>
-      <Box
+      {/* Mobile-only sort control; the DataGrid handles sorting on desktop. */}
+      <TextField
+        label="Sort by"
+        size="small"
+        select
+        value={sortKey}
+        onChange={(e) => handleSort(e.target.value as SortKey)}
         sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr 1fr", sm: "repeat(4, 1fr)" },
-          gap: { xs: 1.5, sm: 2 },
-          mb: 3,
+          minWidth: 160,
+          width: "100%",
+          mb: 2,
+          display: { xs: "flex", md: "none" },
         }}
       >
-        <StatBox label="Total" value={stats.total} />
-        {STAT_STATUSES.map((s) => (
-          <StatBox
-            key={s.value}
-            label={s.label}
-            value={stats.counts[s.value] ?? 0}
-          />
+        {COLUMNS.map((column) => (
+          <MenuItem key={column.key} value={column.key}>
+            {column.label}
+          </MenuItem>
         ))}
-      </Box>
-
-      <DateRangeFilter
-        dateFrom={dateFrom}
-        dateTo={dateTo}
-        onDateFromChange={setDateFrom}
-        onDateToChange={setDateTo}
-        onClear={() => {
-          setDateFrom("");
-          setDateTo("");
-        }}
-      />
-
-      <Stack
-        direction={{ xs: "column", sm: "row" }}
-        spacing={2}
-        sx={{ mb: 2 }}
-        useFlexGap
-      >
-        <TextField
-          label="Search"
-          size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={{ flexGrow: 1, width: { xs: "100%" } }}
-        />
-        <TextField
-          label="Status"
-          size="small"
-          select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          sx={{ minWidth: 160, width: { xs: "100%", sm: "auto" } }}
-        >
-          {STATUS_OPTIONS.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        <TextField
-          label="Sort by"
-          size="small"
-          select
-          value={sortKey}
-          onChange={(e) => handleSort(e.target.value as SortKey)}
-          sx={{
-            minWidth: 160,
-            width: { xs: "100%" },
-            display: { xs: "flex", md: "none" },
-          }}
-        >
-          {COLUMNS.map((column) => (
-            <MenuItem key={column.key} value={column.key}>
-              {column.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Stack>
+      </TextField>
 
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        Showing {filteredRecords.length} of {records.length} meetings
+        Showing {records.length} of {totalCount} meetings
       </Typography>
 
       {/* Desktop / tablet: DataGrid with resizable columns */}
@@ -408,7 +269,7 @@ export default function MeetingsTable({
         sx={{ display: { xs: "none", md: "block" }, width: "100%" }}
       >
         <DataGrid
-          rows={filteredRecords}
+          rows={records}
           columns={DATAGRID_COLUMNS}
           disableColumnMenu
           autoHeight
