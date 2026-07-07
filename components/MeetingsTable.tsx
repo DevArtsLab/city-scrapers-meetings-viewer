@@ -24,8 +24,9 @@ import MeetingCard, {
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
+import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
 
-type SortKey =
+export type SortKey =
   | "title"
   | "description"
   | "classification"
@@ -40,7 +41,7 @@ type SortKey =
   | "id";
 type SortDirection = "asc" | "desc";
 
-const COLUMNS: { key: SortKey; label: string }[] = [
+export const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "title", label: "Title" },
   { key: "description", label: "Description" },
   { key: "classification", label: "Classification" },
@@ -220,6 +221,7 @@ export default function MeetingsTable({
   /** Unfiltered record count, for the "Showing X of Y" summary. */
   totalCount: number;
 }) {
+  const { columnVisibilityModel } = useColumnVisibility();
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
@@ -282,6 +284,7 @@ export default function MeetingsTable({
         <DataGrid
           rows={records}
           columns={DATAGRID_COLUMNS}
+          columnVisibilityModel={columnVisibilityModel}
           disableColumnMenu
           autoHeight
           getRowHeight={() => "auto"}

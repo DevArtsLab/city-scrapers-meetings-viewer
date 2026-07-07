@@ -1,5 +1,7 @@
 "use client";
 
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -9,6 +11,8 @@ import {
   STATUS_OPTIONS,
   type MeetingFiltersState,
 } from "@/hooks/useMeetingFilters";
+import { COLUMNS } from "@/components/MeetingsTable";
+import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
 
 function FilterSection({
   label,
@@ -45,6 +49,8 @@ export default function MeetingFilters({
 }: {
   filters: MeetingFiltersState;
 }) {
+  const { columnVisibilityModel, toggleColumn } = useColumnVisibility();
+
   return (
     <Stack spacing={2.5} sx={{ pt: 0.5 }}>
       <FilterSection label="Search">
@@ -82,6 +88,24 @@ export default function MeetingFilters({
           onDateToChange={filters.setDateTo}
           onClear={filters.clearDates}
         />
+      </FilterSection>
+
+      <FilterSection label="Manage columns">
+        <Stack spacing={0}>
+          {COLUMNS.map((col) => (
+            <FormControlLabel
+              key={col.key}
+              label={<Typography variant="body2">{col.label}</Typography>}
+              control={
+                <Checkbox
+                  size="small"
+                  checked={columnVisibilityModel[col.key] !== false}
+                  onChange={() => toggleColumn(col.key)}
+                />
+              }
+            />
+          ))}
+        </Stack>
       </FilterSection>
     </Stack>
   );
