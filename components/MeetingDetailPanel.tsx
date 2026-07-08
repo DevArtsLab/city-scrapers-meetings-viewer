@@ -124,15 +124,11 @@ export default function MeetingDetailPanel() {
         </Section>
 
         <Section label="Start">
-          <Typography variant="body2" sx={{ fontFamily: "monospace" }}>
-            {record.start || "—"}
-          </Typography>
+          <Typography variant="body2">{record.start || "—"}</Typography>
         </Section>
 
         <Section label="End">
-          <Typography variant="body2" sx={{ fontFamily: "monospace" }}>
-            {record.end || "—"}
-          </Typography>
+          <Typography variant="body2">{record.end || "—"}</Typography>
         </Section>
 
         <Section label="All Day">
@@ -166,7 +162,7 @@ export default function MeetingDetailPanel() {
                   rel="noopener noreferrer"
                   sx={{ color: "primary.main" }}
                 >
-                  {link.title || link.href}
+                  {link.title || "No title"}
                 </Box>
                 <Typography
                   variant="caption"
@@ -216,14 +212,7 @@ export default function MeetingDetailPanel() {
         </Section>
 
         <Section label="ID">
-          <Typography
-            variant="body2"
-            sx={{
-              fontFamily: "monospace",
-              fontSize: "0.75rem",
-              wordBreak: "break-all",
-            }}
-          >
+          <Typography variant="body2" sx={{ wordBreak: "break-all" }}>
             {record.id}
           </Typography>
         </Section>
