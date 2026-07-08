@@ -24,7 +24,13 @@ export function ColumnVisibilityProvider({
 }) {
   const [columnVisibilityModel, setColumnVisibilityModel] = useState<
     Record<string, boolean>
-  >({});
+  >({
+    classification: false,
+    all_day: false,
+    time_notes: false,
+    source: false,
+    id: false,
+  });
 
   const toggleColumn = useCallback((field: string) => {
     setColumnVisibilityModel((prev) => ({
