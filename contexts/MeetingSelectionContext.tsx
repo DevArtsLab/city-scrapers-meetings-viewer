@@ -11,7 +11,9 @@ type SetSelectedMeetingFn = (
 ) => void;
 
 const SelectedMeetingContext = createContext<MeetingRecord | null>(null);
-const SetSelectedMeetingContext = createContext<SetSelectedMeetingFn | null>(null);
+const SetSelectedMeetingContext = createContext<SetSelectedMeetingFn | null>(
+  null
+);
 
 export function MeetingSelectionProvider({
   children,

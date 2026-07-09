@@ -54,12 +54,20 @@ function CardField({
       >
         {label}
       </Typography>
-      <Typography variant="body2" component="div">{value}</Typography>
+      <Typography variant="body2" component="div">
+        {value}
+      </Typography>
     </Stack>
   );
 }
 
-function LocationPart({ value, fallback }: { value: string; fallback: string }) {
+function LocationPart({
+  value,
+  fallback,
+}: {
+  value: string;
+  fallback: string;
+}) {
   return (
     <Box
       sx={{
@@ -72,7 +80,10 @@ function LocationPart({ value, fallback }: { value: string; fallback: string }) 
       {value ? (
         value
       ) : (
-        <Typography component="span" sx={{ color: "error.main", fontSize: "inherit" }}>
+        <Typography
+          component="span"
+          sx={{ color: "error.main", fontSize: "inherit" }}
+        >
           {fallback}
         </Typography>
       )}
@@ -87,7 +98,17 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
   if (!name && !address) return <>—</>;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", py: 1, px: 1, wordBreak: "break-word", width: "100%", overflow: "hidden" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        py: 1,
+        px: 1,
+        wordBreak: "break-word",
+        width: "100%",
+        overflow: "hidden",
+      }}
+    >
       <LocationPart value={name} fallback="No name" />
       <LocationPart value={address} fallback="No address" />
     </Box>

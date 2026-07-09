@@ -1,0 +1,112 @@
+[
+    {
+        "title": "Duplicated Record Twice",
+        "description": "",
+        "classification": "Board",
+        "start": "2026-06-17 13:00:00",
+        "end": "2026-06-17 15:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+    },
+    {
+        "title": "Duplicated Record Twice",
+        "description": "",
+        "classification": "Board",
+        "start": "2026-06-17 13:00:00",
+        "end": "2026-06-17 15:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+    },
+    {
+        "title": "Duplicated Record Thrice",
+        "description": "",
+        "classification": "Board",
+        "start": "2026-08-20 15:00:00",
+        "end": "2026-08-20 17:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+    },
+    {
+        "title": "Duplicated Record Thrice",
+        "description": "",
+        "classification": "Board",
+        "start": "2026-08-20 15:00:00",
+        "end": "2026-08-20 17:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+    },
+    {
+        "title": "Duplicated Record Thrice",
+        "description": "",
+        "classification": "Board",
+        "start": "2026-08-20 15:00:00",
+        "end": "2026-08-20 17:00:00",
+        "all_day": false,
+        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+        "location": {
+            "name": "Test Building, Hall #1",
+            "address": "123 N. Example St., Test City, XY 12345"
+        },
+        "links": [
+            {
+                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+                "title": "Attachment 1"
+            }
+        ],
+        "source": "https://www.example.com/",
+        "status": "passed",
+        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+    }
+]
