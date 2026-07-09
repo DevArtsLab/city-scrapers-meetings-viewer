@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingsToolbar from "@/components/MeetingsToolbar";
@@ -19,6 +19,7 @@ export default function ScraperWorkspace({
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filters = useMeetingFilters(records);
+  const openFiltersPanel = useCallback(() => setFiltersOpen(true), []);
 
   return (
     <Box>
@@ -29,7 +30,7 @@ export default function ScraperWorkspace({
         panelId={FILTERS_PANEL_ID}
       />
 
-      <ColumnVisibilityProvider>
+      <ColumnVisibilityProvider onOpenFilters={openFiltersPanel}>
         <Box
           sx={{
             display: "flex",

@@ -197,6 +197,24 @@ function EmptyState() {
   );
 }
 
+function NoColumnsOverlay() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 1,
+        p: 3,
+      }}
+    >
+      <Typography variant="body2" color="text.secondary">
+        All columns are hidden.
+      </Typography>
+    </Box>
+  );
+}
+
 const SORT_EXTRACTORS: Partial<Record<SortKey, (r: MeetingRecord) => string>> =
   {
     location: (r) => locationText(r).toLowerCase(),
@@ -298,6 +316,7 @@ export default function MeetingsTable({
           }}
           slots={{
             noRowsOverlay: EmptyState,
+            noColumnsOverlay: NoColumnsOverlay,
           }}
           onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
           aria-label="meetings table"

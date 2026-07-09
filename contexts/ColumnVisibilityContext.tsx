@@ -9,9 +9,19 @@ import {
   type ReactNode,
 } from "react";
 
+export const DEFAULT_COLUMN_VISIBILITY: Record<string, boolean> = {
+  classification: false,
+  all_day: false,
+  time_notes: false,
+  source: false,
+  id: false,
+};
+
 interface ColumnVisibilityContextValue {
   columnVisibilityModel: Record<string, boolean>;
   toggleColumn: (field: string) => void;
+  applyVisibilityModel: (model: Record<string, boolean>) => void;
+  openFilters: () => void;
 }
 
 const ColumnVisibilityContext =
@@ -19,18 +29,15 @@ const ColumnVisibilityContext =
 
 export function ColumnVisibilityProvider({
   children,
+  onOpenFilters,
 }: {
   children: ReactNode;
+  /** Stable callback (wrap in useCallback at the call site). */
+  onOpenFilters: () => void;
 }) {
   const [columnVisibilityModel, setColumnVisibilityModel] = useState<
     Record<string, boolean>
-  >({
-    classification: false,
-    all_day: false,
-    time_notes: false,
-    source: false,
-    id: false,
-  });
+  >(DEFAULT_COLUMN_VISIBILITY);
 
   const toggleColumn = useCallback((field: string) => {
     setColumnVisibilityModel((prev) => ({
@@ -39,9 +46,19 @@ export function ColumnVisibilityProvider({
     }));
   }, []);
 
+  const applyVisibilityModel = useCallback(
+    (model: Record<string, boolean>) => setColumnVisibilityModel(model),
+    []
+  );
+
   const value = useMemo(
-    () => ({ columnVisibilityModel, toggleColumn }),
-    [columnVisibilityModel, toggleColumn]
+    () => ({
+      columnVisibilityModel,
+      toggleColumn,
+      applyVisibilityModel,
+      openFilters: onOpenFilters,
+    }),
+    [columnVisibilityModel, toggleColumn, applyVisibilityModel, onOpenFilters]
   );
 
   return (
