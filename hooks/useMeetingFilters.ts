@@ -11,12 +11,22 @@ export const STATUS_OPTIONS = [
   { value: "tentative", label: "Tentative" },
 ];
 
+export const SEARCH_FIELD_OPTIONS = [
+  { value: "title", label: "Title" },
+  { value: "description", label: "Description" },
+  { value: "time_notes", label: "Time Notes" },
+  { value: "location", label: "Location" },
+  { value: "source", label: "Source" },
+];
+
 export interface MeetingFiltersState {
   search: string;
+  searchField: string;
   statusFilter: string;
   dateFrom: string;
   dateTo: string;
   setSearch: (value: string) => void;
+  setSearchField: (value: string) => void;
   setStatusFilter: (value: string) => void;
   setDateFrom: (value: string) => void;
   setDateTo: (value: string) => void;
@@ -32,6 +42,24 @@ function parseLocalDate(s: string): Date | null {
   return isNaN(date.getTime()) ? null : date;
 }
 
+// Pulls the raw text for a given field so search only looks at that column
+function getFieldValue(record: MeetingRecord, field: string): string {
+  switch (field) {
+    case "title":
+      return record.title ?? "";
+    case "description":
+      return record.description ?? "";
+    case "time_notes":
+      return record.time_notes ?? "";
+    case "location":
+      return locationText(record) ?? "";
+    case "source":
+      return record.source ?? "";
+    default:
+      return "";
+  }
+}
+
 /**
  * Owns the search / status / date-range filter state and applies it to the
  * given records. Lifted out of the table so the filter controls can live in
@@ -41,6 +69,7 @@ export function useMeetingFilters(
   records: MeetingRecord[]
 ): MeetingFiltersState {
   const [search, setSearch] = useState("");
+  const [searchField, setSearchField] = useState("title");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
@@ -76,29 +105,21 @@ export function useMeetingFilters(
 
     if (query) {
       filtered = filtered.filter((r) =>
-        [
-          r.title,
-          r.description,
-          r.classification,
-          r.time_notes,
-          r.status,
-          locationText(r),
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(query)
+        getFieldValue(r, searchField).toLowerCase().includes(query)
       );
     }
 
     return filtered;
-  }, [records, search, statusFilter, dateFrom, dateTo]);
+  }, [records, search, searchField, statusFilter, dateFrom, dateTo]);
 
   return {
     search,
+    searchField,
     statusFilter,
     dateFrom,
     dateTo,
     setSearch,
+    setSearchField,
     setStatusFilter,
     setDateFrom,
     setDateTo,

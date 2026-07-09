@@ -40,7 +40,7 @@ export default function ScraperWorkspace({
           open={filtersOpen}
           onClose={() => setFiltersOpen(false)}
         >
-          <MeetingFilters filters={filters} />
+          <MeetingFilters filters={filters} open={filtersOpen} />
         </FiltersPanel>
 
         {/* Only this region is pushed when the panel opens. */}
