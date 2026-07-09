@@ -16,7 +16,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { Typography } from "@mui/material";
-import { CalendarIcon } from "@mui/x-date-pickers";
+import { CalendarIcon, ClearIcon } from "@mui/x-date-pickers";
 
 interface DateRangeFilterProps {
   dateFrom: string;
@@ -89,6 +89,12 @@ function DateField({
     }
   };
 
+  const handleClear = () => {
+    setText("");
+    onChange("");
+    setTouched(false);
+  };
+
   return (
     <Box ref={setAnchorEl} sx={{ position: "relative" }}>
       <TextField
@@ -105,6 +111,16 @@ function DateField({
           input: {
             endAdornment: (
               <InputAdornment position="end">
+                {text && (
+                  <IconButton
+                    size="small"
+                    aria-label={`Clear ${label.toLowerCase()}`}
+                    onClick={handleClear}
+                    edge="end"
+                  >
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                )}
                 <IconButton
                   size="small"
                   aria-label={`Open ${label.toLowerCase()} calendar`}
