@@ -1,112 +1,321 @@
 [
-    {
-        "title": "Duplicated Record Twice",
-        "description": "",
-        "classification": "Board",
-        "start": "2026-06-17 13:00:00",
-        "end": "2026-06-17 15:00:00",
-        "all_day": false,
-        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
-        "location": {
-            "name": "Test Building, Hall #1",
-            "address": "123 N. Example St., Test City, XY 12345"
-        },
-        "links": [
-            {
-                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
-                "title": "Attachment 1"
-            }
-        ],
-        "source": "https://www.example.com/",
-        "status": "passed",
-        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+  {
+    "title": "Duplicated Record Twice",
+    "description": "",
+    "classification": "Board",
+    "start": "2026-06-17 13:00:00",
+    "end": "2026-06-17 15:00:00",
+    "all_day": false,
+    "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+    "location": {
+      "name": "Test Building, Hall #1",
+      "address": "123 N. Example St., Test City, XY 12345"
     },
-    {
-        "title": "Duplicated Record Twice",
-        "description": "",
-        "classification": "Board",
-        "start": "2026-06-17 13:00:00",
-        "end": "2026-06-17 15:00:00",
-        "all_day": false,
-        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
-        "location": {
-            "name": "Test Building, Hall #1",
-            "address": "123 N. Example St., Test City, XY 12345"
-        },
-        "links": [
-            {
-                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
-                "title": "Attachment 1"
-            }
-        ],
-        "source": "https://www.example.com/",
-        "status": "passed",
-        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+    "links": [
+      {
+        "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+        "title": "Attachment 1"
+      }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+  },
+  {
+    "title": "Duplicated Record Twice",
+    "description": "",
+    "classification": "Board",
+    "start": "2026-06-17 13:00:00",
+    "end": "2026-06-17 15:00:00",
+    "all_day": false,
+    "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+    "location": {
+      "name": "Test Building, Hall #1",
+      "address": "123 N. Example St., Test City, XY 12345"
     },
-    {
-        "title": "Duplicated Record Thrice",
-        "description": "",
-        "classification": "Board",
-        "start": "2026-08-20 15:00:00",
-        "end": "2026-08-20 17:00:00",
-        "all_day": false,
-        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
-        "location": {
-            "name": "Test Building, Hall #1",
-            "address": "123 N. Example St., Test City, XY 12345"
-        },
-        "links": [
-            {
-                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
-                "title": "Attachment 1"
-            }
-        ],
-        "source": "https://www.example.com/",
-        "status": "passed",
-        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+    "links": [
+      {
+        "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+        "title": "Attachment 1"
+      }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_twice"
+  },
+  {
+    "title": "Duplicated Record Thrice",
+    "description": "",
+    "classification": "Board",
+    "start": "2026-08-20 15:00:00",
+    "end": "2026-08-20 17:00:00",
+    "all_day": false,
+    "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+    "location": {
+      "name": "Test Building, Hall #1",
+      "address": "123 N. Example St., Test City, XY 12345"
     },
-    {
-        "title": "Duplicated Record Thrice",
-        "description": "",
-        "classification": "Board",
-        "start": "2026-08-20 15:00:00",
-        "end": "2026-08-20 17:00:00",
-        "all_day": false,
-        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
-        "location": {
-            "name": "Test Building, Hall #1",
-            "address": "123 N. Example St., Test City, XY 12345"
-        },
-        "links": [
-            {
-                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
-                "title": "Attachment 1"
-            }
-        ],
-        "source": "https://www.example.com/",
-        "status": "passed",
-        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+    "links": [
+      {
+        "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+        "title": "Attachment 1"
+      }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+  },
+  {
+    "title": "Duplicated Record Thrice",
+    "description": "",
+    "classification": "Board",
+    "start": "2026-08-20 15:00:00",
+    "end": "2026-08-20 17:00:00",
+    "all_day": false,
+    "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+    "location": {
+      "name": "Test Building, Hall #1",
+      "address": "123 N. Example St., Test City, XY 12345"
     },
-    {
-        "title": "Duplicated Record Thrice",
-        "description": "",
-        "classification": "Board",
-        "start": "2026-08-20 15:00:00",
-        "end": "2026-08-20 17:00:00",
-        "all_day": false,
-        "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
-        "location": {
-            "name": "Test Building, Hall #1",
-            "address": "123 N. Example St., Test City, XY 12345"
-        },
-        "links": [
-            {
-                "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
-                "title": "Attachment 1"
-            }
-        ],
-        "source": "https://www.example.com/",
-        "status": "passed",
-        "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
-    }
+    "links": [
+      {
+        "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+        "title": "Attachment 1"
+      }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+  },
+  {
+    "title": "Duplicated Record Thrice",
+    "description": "",
+    "classification": "Board",
+    "start": "2026-08-20 15:00:00",
+    "end": "2026-08-20 17:00:00",
+    "all_day": false,
+    "time_notes": "This is an example time notes - Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.",
+    "location": {
+      "name": "Test Building, Hall #1",
+      "address": "123 N. Example St., Test City, XY 12345"
+    },
+    "links": [
+      {
+        "href": "https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf",
+        "title": "Attachment 1"
+      }
+    ],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202606171300/x/duplicated_record_thrice"
+  },
+  {
+    "title": "Work Session",
+    "description": "Fuzzy duplicate test: shorter title is a substring of the other record's title at the same time.",
+    "classification": "Board",
+    "start": "2026-09-10 09:00:00",
+    "end": "2026-09-10 11:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "City Hall",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "tentative",
+    "id": "test_spider3_duplicatesjson/202609100900/x/work_session_short"
+  },
+  {
+    "title": "Board of Commissioners - Work Session",
+    "description": "Fuzzy duplicate test: longer title contains the other record's title at the same time.",
+    "classification": "Board",
+    "start": "2026-09-10 09:00:00",
+    "end": "2026-09-10 11:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "City Hall",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "tentative",
+    "id": "test_spider3_duplicatesjson/202609100900/x/work_session_long"
+  },
+
+  {
+    "title": "Finance Committee",
+    "description": "Fuzzy duplicate test: one title is the other with an acronym appended in parentheses.",
+    "classification": "Committee",
+    "start": "2026-09-17 14:00:00",
+    "end": "2026-09-17 16:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Conference Room A",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202609171400/x/finance_committee_short"
+  },
+  {
+    "title": "Finance Committee (FC)",
+    "description": "Fuzzy duplicate test: one title is the other with an acronym appended in parentheses.",
+    "classification": "Committee",
+    "start": "2026-09-17 14:00:00",
+    "end": "2026-09-17 16:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Conference Room A",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202609171400/x/finance_committee_long"
+  },
+
+  {
+    "title": "Regular Council Meeting",
+    "description": "Fuzzy duplicate test: word overlap — 'council' from the shorter title after stripping generic words ('regular', 'meeting') is found in the other title.",
+    "classification": "Board",
+    "start": "2026-09-24 17:00:00",
+    "end": "2026-09-24 19:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Council Chambers",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202609241700/x/regular_council_meeting"
+  },
+  {
+    "title": "City Council",
+    "description": "Fuzzy duplicate test: word overlap — 'council' from the other title after stripping generic words is found in this title.",
+    "classification": "Board",
+    "start": "2026-09-24 17:00:00",
+    "end": "2026-09-24 19:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Council Chambers",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202609241700/x/city_council"
+  },
+
+  {
+    "title": "Zoning Committee Meeting",
+    "description": "Non-duplicate test: same time as the Finance Committee Meeting below, but different committee — should NOT be flagged.",
+    "classification": "Committee",
+    "start": "2026-10-01 10:00:00",
+    "end": "2026-10-01 12:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Room 101",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202610011000/x/zoning_committee"
+  },
+  {
+    "title": "Finance Committee Meeting",
+    "description": "Non-duplicate test: same time as the Zoning Committee Meeting above, but different committee — should NOT be flagged.",
+    "classification": "Committee",
+    "start": "2026-10-01 10:00:00",
+    "end": "2026-10-01 12:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Room 202",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202610011000/x/finance_committee_meeting"
+  },
+
+  {
+    "title": "Planning Board Meeting",
+    "description": "Non-duplicate test: same time as the School Board Meeting below, but different board — should NOT be flagged.",
+    "classification": "Board",
+    "start": "2026-10-08 15:00:00",
+    "end": "2026-10-08 17:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Room 101",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "tentative",
+    "id": "test_spider3_duplicatesjson/202610081500/x/planning_board"
+  },
+  {
+    "title": "School Board Meeting",
+    "description": "Non-duplicate test: same time as the Planning Board Meeting above, but different board — should NOT be flagged.",
+    "classification": "Board",
+    "start": "2026-10-08 15:00:00",
+    "end": "2026-10-08 17:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Room 303",
+      "address": "456 Education Ave, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "tentative",
+    "id": "test_spider3_duplicatesjson/202610081500/x/school_board"
+  },
+
+  {
+    "title": "Budget Hearing",
+    "description": "Non-duplicate test: same time as the Parks and Recreation Workshop below, but completely unrelated topics — should NOT be flagged.",
+    "classification": "Committee",
+    "start": "2026-10-15 18:00:00",
+    "end": "2026-10-15 20:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "City Hall Auditorium",
+      "address": "1 Government Plaza, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202610151800/x/budget_hearing"
+  },
+  {
+    "title": "Parks and Recreation Workshop",
+    "description": "Non-duplicate test: same time as the Budget Hearing above, but completely unrelated topics — should NOT be flagged.",
+    "classification": "Committee",
+    "start": "2026-10-15 18:00:00",
+    "end": "2026-10-15 20:00:00",
+    "all_day": false,
+    "time_notes": "",
+    "location": {
+      "name": "Parks Department",
+      "address": "789 Parks Rd, Test City, XY 12345"
+    },
+    "links": [],
+    "source": "https://www.example.com/",
+    "status": "passed",
+    "id": "test_spider3_duplicatesjson/202610151800/x/parks_workshop"
+  }
 ]

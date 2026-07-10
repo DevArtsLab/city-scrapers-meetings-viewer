@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
@@ -16,11 +17,13 @@ const DataGrid = dynamic(
 );
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingCard, {
+  DUPLICATE_GROUP_COLORS,
   LocationDisplay,
   locationText,
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
+import { buildDuplicateGroups } from "@/lib/duplicates";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
@@ -63,7 +66,30 @@ const DATAGRID_COLUMNS: GridColDef[] = [
     flex: 2,
     minWidth: 140,
     renderCell: ({ row }) => (
-      <TruncatedText text={row.title} wrap maxLines={4} />
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 0.75,
+          width: "100%",
+          minWidth: 0,
+        }}
+      >
+        <TruncatedText text={row.title} wrap maxLines={4} />
+        {row._isFirst && (
+          <Chip
+            label={`×${row._duplicateCount}`}
+            size="small"
+            color="warning"
+            sx={{
+              flexShrink: 0,
+              height: 20,
+              fontSize: "0.7rem",
+              "& .MuiChip-label": { px: 0.75 },
+            }}
+          />
+        )}
+      </Box>
     ),
   },
   {
@@ -244,6 +270,25 @@ export default function MeetingsTable({
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
 
+  const perRecordInfo = useMemo(() => buildDuplicateGroups(records), [records]);
+
+  const recordInfoMap = useMemo(
+    () => new Map(records.map((r, i) => [r, perRecordInfo[i]])),
+    [records, perRecordInfo]
+  );
+
+  const enrichedRows = useMemo(
+    () =>
+      records.map((r, i) => ({
+        ...r,
+        _idx: i,
+        _isFirst: perRecordInfo[i].isFirst,
+        _duplicateCount: perRecordInfo[i].count,
+        _duplicateGroup: perRecordInfo[i].groupIndex,
+      })),
+    [records, perRecordInfo]
+  );
+
   // Sorted records used only for the mobile card view
   const sortedRecords = useMemo(
     () =>
@@ -253,6 +298,18 @@ export default function MeetingsTable({
       }),
     [records, sortKey, sortDirection]
   );
+
+  const sortedDupInfo = useMemo(() => {
+    const seenFirst = new Set<number>();
+    return sortedRecords.map((r) => {
+      const info = recordInfoMap.get(r);
+      if (!info?.isDuplicate)
+        return { isFirst: false, count: 1, groupIndex: -1 };
+      const isFirst = !seenFirst.has(info.groupIndex);
+      if (isFirst) seenFirst.add(info.groupIndex);
+      return { isFirst, count: info.count, groupIndex: info.groupIndex };
+    });
+  }, [sortedRecords, recordInfoMap]);
 
   const handleSort = (key: SortKey) => {
     if (key === sortKey) {
@@ -264,7 +321,7 @@ export default function MeetingsTable({
   };
 
   const handleRowClick = (record: MeetingRecord) => {
-    setSelectedMeeting((prev) => (prev?.id === record.id ? null : record));
+    setSelectedMeeting((prev) => (prev === record ? null : record));
   };
 
   return (
@@ -300,7 +357,8 @@ export default function MeetingsTable({
         sx={{ display: { xs: "none", md: "block" }, width: "100%" }}
       >
         <DataGrid
-          rows={records}
+          rows={enrichedRows}
+          getRowId={(row) => row._idx}
           columns={DATAGRID_COLUMNS}
           columnVisibilityModel={columnVisibilityModel}
           disableColumnMenu
@@ -318,6 +376,12 @@ export default function MeetingsTable({
             noRowsOverlay: EmptyState,
             noColumnsOverlay: NoColumnsOverlay,
           }}
+          getRowClassName={(params) => {
+            const g = params.row._duplicateGroup;
+            return typeof g === "number" && g >= 0
+              ? `duplicate-group-${g % DUPLICATE_GROUP_COLORS.length}`
+              : "";
+          }}
           onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
           aria-label="meetings table"
           sx={{
@@ -327,6 +391,18 @@ export default function MeetingsTable({
               minHeight: "52px !important",
               maxHeight: "96px !important",
             },
+            ...Object.fromEntries(
+              DUPLICATE_GROUP_COLORS.flatMap((c, i) => [
+                [
+                  `& .MuiDataGrid-row.duplicate-group-${i}`,
+                  { backgroundColor: c.bg },
+                ],
+                [
+                  `& .MuiDataGrid-row.duplicate-group-${i}:hover`,
+                  { backgroundColor: `${c.bgHover} !important` },
+                ],
+              ])
+            ),
             "& .MuiDataGrid-cell": {
               display: "flex",
               alignItems: "center",
@@ -350,8 +426,14 @@ export default function MeetingsTable({
             <EmptyState />
           </Paper>
         ) : (
-          sortedRecords.map((record) => (
-            <MeetingCard key={record.id} record={record} />
+          sortedRecords.map((record, index) => (
+            <MeetingCard
+              key={index}
+              record={record}
+              duplicateGroupIndex={sortedDupInfo[index].groupIndex}
+              isFirstDuplicate={sortedDupInfo[index].isFirst}
+              duplicateCount={sortedDupInfo[index].count}
+            />
           ))
         )}
       </Stack>
