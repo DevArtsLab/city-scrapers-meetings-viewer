@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import DateRangeFilter from "@/components/DateRangeFilter";
+import ColumnVisibilityFilter from "@/components/ColumnVisibilityFilter";
 import {
   STATUS_OPTIONS,
   type MeetingFiltersState,
@@ -82,6 +83,10 @@ export default function MeetingFilters({
           onDateToChange={filters.setDateTo}
           onClear={filters.clearDates}
         />
+      </FilterSection>
+
+      <FilterSection label="Manage columns">
+        <ColumnVisibilityFilter />
       </FilterSection>
     </Stack>
   );
