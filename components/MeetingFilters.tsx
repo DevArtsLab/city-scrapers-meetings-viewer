@@ -93,21 +93,20 @@ export default function MeetingFilters({
           />
         </FilterSection>
 
-        <FilterSection label="By">
-          <TextField
-            size="small"
-            select
-            fullWidth
-            value={filters.searchField}
-            onChange={(e) => filters.setSearchField(e.target.value)}
-          >
-            {SEARCH_FIELD_OPTIONS.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </FilterSection>
+        <TextField
+          size="small"
+          label="By"
+          select
+          fullWidth
+          value={filters.searchField}
+          onChange={(e) => filters.setSearchField(e.target.value)}
+        >
+          {SEARCH_FIELD_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
       </Stack>
 
       <FilterSection label="Status">
