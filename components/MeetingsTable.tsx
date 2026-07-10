@@ -24,8 +24,9 @@ import MeetingCard, {
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
+import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
 
-type SortKey =
+export type SortKey =
   | "title"
   | "description"
   | "classification"
@@ -40,7 +41,7 @@ type SortKey =
   | "id";
 type SortDirection = "asc" | "desc";
 
-const COLUMNS: { key: SortKey; label: string }[] = [
+export const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "title", label: "Title" },
   { key: "description", label: "Description" },
   { key: "classification", label: "Classification" },
@@ -196,6 +197,24 @@ function EmptyState() {
   );
 }
 
+function NoColumnsOverlay() {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: 1,
+        p: 3,
+      }}
+    >
+      <Typography variant="body2" color="text.secondary">
+        All columns are hidden.
+      </Typography>
+    </Box>
+  );
+}
+
 const SORT_EXTRACTORS: Partial<Record<SortKey, (r: MeetingRecord) => string>> =
   {
     location: (r) => locationText(r).toLowerCase(),
@@ -220,6 +239,7 @@ export default function MeetingsTable({
   /** Unfiltered record count, for the "Showing X of Y" summary. */
   totalCount: number;
 }) {
+  const { columnVisibilityModel } = useColumnVisibility();
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
@@ -282,6 +302,7 @@ export default function MeetingsTable({
         <DataGrid
           rows={records}
           columns={DATAGRID_COLUMNS}
+          columnVisibilityModel={columnVisibilityModel}
           disableColumnMenu
           autoHeight
           getRowHeight={() => "auto"}
@@ -295,6 +316,7 @@ export default function MeetingsTable({
           }}
           slots={{
             noRowsOverlay: EmptyState,
+            noColumnsOverlay: NoColumnsOverlay,
           }}
           onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
           aria-label="meetings table"
