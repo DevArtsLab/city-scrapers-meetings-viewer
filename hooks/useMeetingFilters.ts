@@ -34,7 +34,6 @@ export interface MeetingFiltersState {
   filteredRecords: MeetingRecord[];
 }
 
-// Convert "YYYY-MM-DD" to Date object in local time
 function parseLocalDate(s: string): Date | null {
   if (!s) return null;
   const [y, m, d] = s.split("-").map(Number);
@@ -42,7 +41,6 @@ function parseLocalDate(s: string): Date | null {
   return isNaN(date.getTime()) ? null : date;
 }
 
-// Pulls the raw text for a given field so search only looks at that column
 function getFieldValue(record: MeetingRecord, field: string): string {
   switch (field) {
     case "title":
@@ -60,11 +58,22 @@ function getFieldValue(record: MeetingRecord, field: string): string {
   }
 }
 
-/**
- * Owns the search / status / date-range filter state and applies it to the
- * given records. Lifted out of the table so the filter controls can live in
- * the FiltersPanel while the table only receives the filtered result.
- */
+// "no name" / "no address" to find records missing that part, in addition to
+// normal substring matching against the actual name/address text.
+function matchesLocationQuery(record: MeetingRecord, query: string): boolean {
+  const name = record.location?.name?.trim() ?? "";
+  const address = record.location?.address?.trim() ?? "";
+  const q = query.trim().toLowerCase();
+
+  const isMissingName = name === "";
+  const isMissingAddress = address === "";
+
+  if (isMissingName && "no name".startsWith(q)) return true;
+  if (isMissingAddress && "no address".startsWith(q)) return true;
+
+  return [name, address].filter(Boolean).join(", ").toLowerCase().includes(q);
+}
+
 export function useMeetingFilters(
   records: MeetingRecord[]
 ): MeetingFiltersState {
@@ -84,7 +93,6 @@ export function useMeetingFilters(
       );
     }
 
-    // Date filtering: include meetings that start or end within the selected date range
     if (dateFrom || dateTo) {
       const from = parseLocalDate(dateFrom);
       const toDate = parseLocalDate(dateTo) ?? (from ? new Date(from) : null);
@@ -105,7 +113,9 @@ export function useMeetingFilters(
 
     if (query) {
       filtered = filtered.filter((r) =>
-        getFieldValue(r, searchField).toLowerCase().includes(query)
+        searchField === "location"
+          ? matchesLocationQuery(r, query)
+          : getFieldValue(r, searchField).toLowerCase().includes(query)
       );
     }
 
