@@ -117,6 +117,22 @@ export default function MeetingFilters({
           fullWidth
           value={filters.statusFilter}
           onChange={(e) => filters.setStatusFilter(e.target.value)}
+          slotProps={{
+            input: {
+              endAdornment: filters.statusFilter !== "all" && (
+                <InputAdornment position="end" sx={{ mr: 2 }}>
+                  <IconButton
+                    size="small"
+                    aria-label="Reset status to All"
+                    onClick={() => filters.setStatusFilter("all")}
+                    edge="end"
+                  >
+                    <ClearIcon fontSize="small" />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            },
+          }}
         >
           {STATUS_OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.value}>
