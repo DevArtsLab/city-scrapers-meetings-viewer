@@ -17,16 +17,18 @@ export const SEARCH_FIELD_OPTIONS = [
   { value: "time_notes", label: "Time Notes" },
   { value: "location", label: "Location" },
   { value: "source", label: "Source" },
-];
+] as const;
+
+export type SearchField = (typeof SEARCH_FIELD_OPTIONS)[number]["value"];
 
 export interface MeetingFiltersState {
   search: string;
-  searchField: string;
+  searchField: SearchField;
   statusFilter: string;
   dateFrom: string;
   dateTo: string;
   setSearch: (value: string) => void;
-  setSearchField: (value: string) => void;
+  setSearchField: (value: SearchField) => void;
   setStatusFilter: (value: string) => void;
   setDateFrom: (value: string) => void;
   setDateTo: (value: string) => void;
@@ -34,6 +36,7 @@ export interface MeetingFiltersState {
   filteredRecords: MeetingRecord[];
 }
 
+// Convert "YYYY-MM-DD" to Date object in local time
 function parseLocalDate(s: string): Date | null {
   if (!s) return null;
   const [y, m, d] = s.split("-").map(Number);
@@ -41,7 +44,13 @@ function parseLocalDate(s: string): Date | null {
   return isNaN(date.getTime()) ? null : date;
 }
 
-function getFieldValue(record: MeetingRecord, field: string): string {
+/**
+ * Owns the search / status / date-range filter state and applies it to the
+ * given records. Lifted out of the table so the filter controls can live in
+ * the FiltersPanel while the table only receives the filtered result.
+ */
+
+function getFieldValue(record: MeetingRecord, field: SearchField): string {
   switch (field) {
     case "title":
       return record.title ?? "";
@@ -63,22 +72,24 @@ function getFieldValue(record: MeetingRecord, field: string): string {
 function matchesLocationQuery(record: MeetingRecord, query: string): boolean {
   const name = record.location?.name?.trim() ?? "";
   const address = record.location?.address?.trim() ?? "";
-  const q = query.trim().toLowerCase();
-
   const isMissingName = name === "";
   const isMissingAddress = address === "";
 
-  if (isMissingName && "no name".startsWith(q)) return true;
-  if (isMissingAddress && "no address".startsWith(q)) return true;
+  if (isMissingName && "no name".startsWith(query)) return true;
+  if (isMissingAddress && "no address".startsWith(query)) return true;
 
-  return [name, address].filter(Boolean).join(", ").toLowerCase().includes(q);
+  return [name, address]
+    .filter(Boolean)
+    .join(", ")
+    .toLowerCase()
+    .includes(query);
 }
 
 export function useMeetingFilters(
   records: MeetingRecord[]
 ): MeetingFiltersState {
   const [search, setSearch] = useState("");
-  const [searchField, setSearchField] = useState("title");
+  const [searchField, setSearchField] = useState<SearchField>("title");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");

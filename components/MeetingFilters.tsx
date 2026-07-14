@@ -9,11 +9,13 @@ import DateRangeFilter from "@/components/DateRangeFilter";
 import ColumnVisibilityFilter from "@/components/ColumnVisibilityFilter";
 import {
   SEARCH_FIELD_OPTIONS,
+  SearchField,
   STATUS_OPTIONS,
   type MeetingFiltersState,
 } from "@/hooks/useMeetingFilters";
-import { IconButton, InputAdornment } from "@mui/material";
-import { ClearIcon } from "@mui/x-date-pickers";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
+import { ClearIcon } from "@mui/x-date-pickers/icons";
 
 function FilterSection({
   label,
@@ -100,7 +102,9 @@ export default function MeetingFilters({
           select
           fullWidth
           value={filters.searchField}
-          onChange={(e) => filters.setSearchField(e.target.value)}
+          onChange={(e) =>
+            filters.setSearchField(e.target.value as SearchField)
+          }
         >
           {SEARCH_FIELD_OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -118,6 +122,7 @@ export default function MeetingFilters({
           value={filters.statusFilter}
           onChange={(e) => filters.setStatusFilter(e.target.value)}
           slotProps={{
+            select: { "aria-label": "Status" },
             input: {
               endAdornment: filters.statusFilter !== "all" && (
                 <InputAdornment position="end" sx={{ mr: 2 }}>
