@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { linkifyText } from "./Linkify";
 
 const MAX_LENGTH = 50;
 
@@ -44,10 +45,10 @@ export default function TruncatedText({
               textDecorationSkipInk: "none",
             }}
           >
-            {text}
+            {linkifyText(text)}
           </span>
         ) : (
-          text
+          linkifyText(text)
         )}
       </Box>
     );
@@ -61,7 +62,7 @@ export default function TruncatedText({
             variant="body2"
             sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
           >
-            {text}
+            {linkifyText(text)}
           </Typography>
         }
         placement="top"
@@ -89,7 +90,7 @@ export default function TruncatedText({
         }),
       }}
     >
-      {text}
+      {linkifyText(text)}
     </Box>
   );
 
@@ -102,7 +103,7 @@ export default function TruncatedText({
           variant="body2"
           sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
         >
-          {text}
+          {linkifyText(text)}
         </Typography>
       }
       placement="top"
