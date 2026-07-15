@@ -11,12 +11,24 @@ export const STATUS_OPTIONS = [
   { value: "tentative", label: "Tentative" },
 ];
 
+export const SEARCH_FIELD_OPTIONS = [
+  { value: "title", label: "Title" },
+  { value: "description", label: "Description" },
+  { value: "time_notes", label: "Time Notes" },
+  { value: "location", label: "Location" },
+  { value: "source", label: "Source" },
+] as const;
+
+export type SearchField = (typeof SEARCH_FIELD_OPTIONS)[number]["value"];
+
 export interface MeetingFiltersState {
   search: string;
+  searchField: SearchField;
   statusFilter: string;
   dateFrom: string;
   dateTo: string;
   setSearch: (value: string) => void;
+  setSearchField: (value: SearchField) => void;
   setStatusFilter: (value: string) => void;
   setDateFrom: (value: string) => void;
   setDateTo: (value: string) => void;
@@ -37,10 +49,47 @@ function parseLocalDate(s: string): Date | null {
  * given records. Lifted out of the table so the filter controls can live in
  * the FiltersPanel while the table only receives the filtered result.
  */
+
+function getFieldValue(record: MeetingRecord, field: SearchField): string {
+  switch (field) {
+    case "title":
+      return record.title ?? "";
+    case "description":
+      return record.description ?? "";
+    case "time_notes":
+      return record.time_notes ?? "";
+    case "location":
+      return locationText(record) ?? "";
+    case "source":
+      return record.source ?? "";
+    default:
+      return "";
+  }
+}
+
+// "no name" / "no address" to find records missing that part, in addition to
+// normal substring matching against the actual name/address text.
+function matchesLocationQuery(record: MeetingRecord, query: string): boolean {
+  const name = record.location?.name?.trim() ?? "";
+  const address = record.location?.address?.trim() ?? "";
+  const isMissingName = name === "";
+  const isMissingAddress = address === "";
+
+  if (isMissingName && "no name".startsWith(query)) return true;
+  if (isMissingAddress && "no address".startsWith(query)) return true;
+
+  return [name, address]
+    .filter(Boolean)
+    .join(", ")
+    .toLowerCase()
+    .includes(query);
+}
+
 export function useMeetingFilters(
   records: MeetingRecord[]
 ): MeetingFiltersState {
   const [search, setSearch] = useState("");
+  const [searchField, setSearchField] = useState<SearchField>("title");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
@@ -55,7 +104,6 @@ export function useMeetingFilters(
       );
     }
 
-    // Date filtering: include meetings that start or end within the selected date range
     if (dateFrom || dateTo) {
       const from = parseLocalDate(dateFrom);
       const toDate = parseLocalDate(dateTo) ?? (from ? new Date(from) : null);
@@ -76,29 +124,23 @@ export function useMeetingFilters(
 
     if (query) {
       filtered = filtered.filter((r) =>
-        [
-          r.title,
-          r.description,
-          r.classification,
-          r.time_notes,
-          r.status,
-          locationText(r),
-        ]
-          .join(" ")
-          .toLowerCase()
-          .includes(query)
+        searchField === "location"
+          ? matchesLocationQuery(r, query)
+          : getFieldValue(r, searchField).toLowerCase().includes(query)
       );
     }
 
     return filtered;
-  }, [records, search, statusFilter, dateFrom, dateTo]);
+  }, [records, search, searchField, statusFilter, dateFrom, dateTo]);
 
   return {
     search,
+    searchField,
     statusFilter,
     dateFrom,
     dateTo,
     setSearch,
+    setSearchField,
     setStatusFilter,
     setDateFrom,
     setDateTo,

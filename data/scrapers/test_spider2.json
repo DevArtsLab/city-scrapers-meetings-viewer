@@ -2,7 +2,7 @@
   {
     "title": "Sample title with 10 links",
     "description": "This record has 10 links to test the link limit display.",
-    "classification": "Board",
+    "classification": "Co",
     "start": "2024-07-01 10:00:00",
     "end": "2024-07-01 12:00:00",
     "all_day": false,
