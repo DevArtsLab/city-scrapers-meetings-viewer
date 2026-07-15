@@ -17,7 +17,7 @@ const DataGrid = dynamic(
 );
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingCard, {
-  DUPLICATE_GROUP_COLORS,
+  colorForDuplicateCount,
   LocationDisplay,
   locationText,
   normalizeStatus,
@@ -289,6 +289,30 @@ export default function MeetingsTable({
     [records, perRecordInfo]
   );
 
+  // Generate CSS rules for each duplicate count that appears in the data
+  const duplicateColorStyles = useMemo(() => {
+    const counts = new Set(
+      enrichedRows
+        .filter((r) => r._duplicateGroup >= 0)
+        .map((r) => r._duplicateCount)
+    );
+    return Object.fromEntries(
+      [...counts].flatMap((count) => {
+        const c = colorForDuplicateCount(count);
+        return [
+          [
+            `& .MuiDataGrid-row.duplicate-count-${count}`,
+            { backgroundColor: c.bg },
+          ],
+          [
+            `& .MuiDataGrid-row.duplicate-count-${count}:hover`,
+            { backgroundColor: `${c.bgHover} !important` },
+          ],
+        ];
+      })
+    );
+  }, [enrichedRows]);
+
   // Sorted records used only for the mobile card view
   const sortedRecords = useMemo(
     () =>
@@ -378,9 +402,8 @@ export default function MeetingsTable({
           }}
           getRowClassName={(params) => {
             const g = params.row._duplicateGroup;
-            return typeof g === "number" && g >= 0
-              ? `duplicate-group-${g % DUPLICATE_GROUP_COLORS.length}`
-              : "";
+            if (typeof g !== "number" || g < 0) return "";
+            return `duplicate-count-${params.row._duplicateCount}`;
           }}
           onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
           aria-label="meetings table"
@@ -391,18 +414,7 @@ export default function MeetingsTable({
               minHeight: "52px !important",
               maxHeight: "96px !important",
             },
-            ...Object.fromEntries(
-              DUPLICATE_GROUP_COLORS.flatMap((c, i) => [
-                [
-                  `& .MuiDataGrid-row.duplicate-group-${i}`,
-                  { backgroundColor: c.bg },
-                ],
-                [
-                  `& .MuiDataGrid-row.duplicate-group-${i}:hover`,
-                  { backgroundColor: `${c.bgHover} !important` },
-                ],
-              ])
-            ),
+            ...duplicateColorStyles,
             "& .MuiDataGrid-cell": {
               display: "flex",
               alignItems: "center",
@@ -430,7 +442,6 @@ export default function MeetingsTable({
             <MeetingCard
               key={index}
               record={record}
-              duplicateGroupIndex={sortedDupInfo[index].groupIndex}
               isFirstDuplicate={sortedDupInfo[index].isFirst}
               duplicateCount={sortedDupInfo[index].count}
             />

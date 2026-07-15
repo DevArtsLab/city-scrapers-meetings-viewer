@@ -3,12 +3,14 @@
 import { useMemo, useState } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { locationText, normalizeStatus } from "@/components/MeetingCard";
+import { buildDuplicateGroups } from "@/lib/duplicates";
 
 export const STATUS_OPTIONS = [
   { value: "all", label: "All" },
   { value: "passed", label: "Passed" },
   { value: "cancelled", label: "Cancelled" },
   { value: "tentative", label: "Tentative" },
+  { value: "duplicates", label: "Duplicates" },
 ];
 
 export interface MeetingFiltersState {
@@ -44,12 +46,18 @@ export function useMeetingFilters(
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const duplicateSet = useMemo(() => {
+    const info = buildDuplicateGroups(records);
+    return new Set(records.filter((_, i) => info[i].isDuplicate));
+  }, [records]);
 
   const filteredRecords = useMemo(() => {
     const query = search.trim().toLowerCase();
     let filtered = records;
 
-    if (statusFilter !== "all") {
+    if (statusFilter === "duplicates") {
+      filtered = filtered.filter((r) => duplicateSet.has(r));
+    } else if (statusFilter !== "all") {
       filtered = filtered.filter(
         (r) => normalizeStatus(r.status) === statusFilter
       );
@@ -91,7 +99,7 @@ export function useMeetingFilters(
     }
 
     return filtered;
-  }, [records, search, statusFilter, dateFrom, dateTo]);
+  }, [records, search, statusFilter, dateFrom, dateTo, duplicateSet]);
 
   return {
     search,

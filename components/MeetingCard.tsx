@@ -8,42 +8,24 @@ import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import React from "react";
 
-export const DUPLICATE_GROUP_COLORS: {
+/**
+ * Generates a unique highlight color for a given duplicate count using the
+ * golden angle (≈137.5°). Each count maps to a distinct hue — no palette needed.
+ *   ×2 → hue   0° (red),  ×3 → 138° (green),  ×4 → 275° (violet),
+ *   ×5 → 53°  (amber),   ×6 → 190° (teal),    ×7 → 328° (pink), …
+ */
+export function colorForDuplicateCount(count: number): {
   bg: string;
   bgHover: string;
   border: string;
-}[] = [
-  {
-    bg: "rgba(255, 193, 7, 0.12)",
-    bgHover: "rgba(255, 193, 7, 0.22)",
-    border: "rgba(255, 193, 7, 0.5)",
-  },
-  {
-    bg: "rgba(33, 150, 243, 0.1)",
-    bgHover: "rgba(33, 150, 243, 0.2)",
-    border: "rgba(33, 150, 243, 0.4)",
-  },
-  {
-    bg: "rgba(76, 175, 80, 0.1)",
-    bgHover: "rgba(76, 175, 80, 0.2)",
-    border: "rgba(76, 175, 80, 0.4)",
-  },
-  {
-    bg: "rgba(156, 39, 176, 0.08)",
-    bgHover: "rgba(156, 39, 176, 0.18)",
-    border: "rgba(156, 39, 176, 0.35)",
-  },
-  {
-    bg: "rgba(233, 30, 99, 0.08)",
-    bgHover: "rgba(233, 30, 99, 0.18)",
-    border: "rgba(233, 30, 99, 0.35)",
-  },
-  {
-    bg: "rgba(0, 188, 212, 0.1)",
-    bgHover: "rgba(0, 188, 212, 0.2)",
-    border: "rgba(0, 188, 212, 0.4)",
-  },
-];
+} {
+  const hue = Math.round(((count - 2) * 137.508) % 360);
+  return {
+    bg: `hsla(${hue}, 70%, 50%, 0.12)`,
+    bgHover: `hsla(${hue}, 70%, 50%, 0.22)`,
+    border: `hsla(${hue}, 70%, 50%, 0.50)`,
+  };
+}
 
 export const STATUS_CHIP_COLOR: Record<
   string,
@@ -154,22 +136,17 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
 
 export default function MeetingCard({
   record,
-  duplicateGroupIndex,
   isFirstDuplicate,
   duplicateCount,
 }: {
   record: MeetingRecord;
-  /** ≥0 means this record is in a duplicate group; -1/undefined means not a duplicate. */
-  duplicateGroupIndex?: number;
   isFirstDuplicate?: boolean;
   duplicateCount?: number;
 }) {
   const status = normalizeStatus(record.status);
   const groupColor =
-    duplicateGroupIndex != null && duplicateGroupIndex >= 0
-      ? DUPLICATE_GROUP_COLORS[
-          duplicateGroupIndex % DUPLICATE_GROUP_COLORS.length
-        ]
+    duplicateCount != null && duplicateCount >= 2
+      ? colorForDuplicateCount(duplicateCount)
       : null;
   return (
     <Paper
