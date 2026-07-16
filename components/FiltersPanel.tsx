@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 
 const PANEL_WIDTH = 300;
-const TRANSITION_MS = 150;
+export const TRANSITION_MS = 150;
 
 interface FiltersPanelProps {
   /** Whether the panel is expanded. Controlled by the parent. */
