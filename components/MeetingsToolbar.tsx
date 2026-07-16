@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import FilterButton from "@/components/FilterButton";
@@ -13,29 +14,32 @@ interface MeetingsToolbarProps {
   panelId: string;
 }
 
-export default function MeetingsToolbar({
-  records,
-  filtersOpen,
-  onToggleFilters,
-  panelId,
-}: MeetingsToolbarProps) {
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: { xs: "column", sm: "row" },
-        alignItems: { xs: "stretch", sm: "center" },
-        justifyContent: { sm: "space-between" },
-        gap: 2,
-        mb: 2,
-      }}
-    >
-      <FilterButton
-        open={filtersOpen}
-        onToggle={onToggleFilters}
-        panelId={panelId}
-      />
-      <MeetingStats records={records} />
-    </Box>
-  );
-}
+const MeetingsToolbar = forwardRef<HTMLButtonElement, MeetingsToolbarProps>(
+  function MeetingsToolbar(
+    { records, filtersOpen, onToggleFilters, panelId },
+    ref
+  ) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", sm: "row" },
+          alignItems: { xs: "stretch", sm: "center" },
+          justifyContent: { sm: "space-between" },
+          gap: 2,
+          mb: 2,
+        }}
+      >
+        <FilterButton
+          ref={ref}
+          open={filtersOpen}
+          onToggle={onToggleFilters}
+          panelId={panelId}
+        />
+        <MeetingStats records={records} />
+      </Box>
+    );
+  }
+);
+
+export default MeetingsToolbar;

@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import Button from "@mui/material/Button";
 
 interface FilterButtonProps {
@@ -25,36 +26,37 @@ function FilterIcon() {
 }
 
 /** Toggle button for the filters panel. Rendered in MeetingsToolbar. */
-export default function FilterButton({
-  open,
-  onToggle,
-  panelId,
-}: FilterButtonProps) {
-  return (
-    <Button
-      variant="outlined"
-      size="small"
-      disableRipple
-      onClick={onToggle}
-      startIcon={<FilterIcon />}
-      aria-expanded={open}
-      aria-controls={panelId}
-      sx={{
-        color: open ? "primary.contrastText" : "primary.main",
-        bgcolor: open ? "primary.main" : "transparent",
-        borderColor: "primary.main",
-        boxShadow: open ? 4 : "none",
-        transition: (theme) =>
-          theme.transitions.create(
-            ["background-color", "color", "box-shadow"],
-            { duration: 150 }
-          ),
-        "&:hover": {
-          bgcolor: open ? "primary.dark" : "action.hover",
-        },
-      }}
-    >
-      Filters
-    </Button>
-  );
-}
+const FilterButton = forwardRef<HTMLButtonElement, FilterButtonProps>(
+  function FilterButton({ open, onToggle, panelId }, ref) {
+    return (
+      <Button
+        ref={ref}
+        variant="outlined"
+        size="small"
+        disableRipple
+        onClick={onToggle}
+        startIcon={<FilterIcon />}
+        aria-expanded={open}
+        aria-controls={panelId}
+        sx={{
+          color: open ? "primary.contrastText" : "primary.main",
+          bgcolor: open ? "primary.main" : "transparent",
+          borderColor: "primary.main",
+          boxShadow: open ? 4 : "none",
+          transition: (theme) =>
+            theme.transitions.create(
+              ["background-color", "color", "box-shadow"],
+              { duration: 150 }
+            ),
+          "&:hover": {
+            bgcolor: open ? "primary.dark" : "action.hover",
+          },
+        }}
+      >
+        Filters
+      </Button>
+    );
+  }
+);
+
+export default FilterButton;

@@ -19,7 +19,7 @@ interface FiltersPanelProps {
   /** Heading shown at the top of the panel. */
   title?: string;
   /** Ref to the button that toggles this panel, so focus can return to it on close. */
-  triggerRef?: React.RefObject<HTMLElement>;
+  triggerRef?: React.RefObject<HTMLElement | null>;
   /** Filter sections. Empty for now; future tickets compose them in. */
   children?: React.ReactNode;
 }
