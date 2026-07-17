@@ -344,8 +344,8 @@ export default function MeetingsTable({
     }
   };
 
-  const handleRowClick = (record: MeetingRecord) => {
-    setSelectedMeeting((prev) => (prev === record ? null : record));
+  const handleRowClick = (row: MeetingRecord) => {
+    setSelectedMeeting((prev) => (prev?._idx === row._idx ? null : row));
   };
 
   return (

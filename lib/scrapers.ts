@@ -25,6 +25,10 @@ export interface MeetingRecord {
   links: { href: string; title: string }[];
   source: string;
   status: string;
+  _idx?: number;
+  _isFirst?: boolean;
+  _duplicateCount?: number;
+  _duplicateGroup?: number;
 }
 
 const DATA_DIR = path.join(process.cwd(), "data", "scrapers");
