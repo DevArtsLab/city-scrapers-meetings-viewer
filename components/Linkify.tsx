@@ -35,7 +35,11 @@ export function linkifyText(text: string): ReactNode[] {
         target="_blank"
         rel="noopener noreferrer"
         onClick={stopClickPropagation}
-        sx={{ color: "primary.main" }}
+        sx={{
+          color: "primary.main",
+          wordBreak: "break-all",
+          overflowWrap: "anywhere",
+        }}
       >
         {url}
       </Box>
