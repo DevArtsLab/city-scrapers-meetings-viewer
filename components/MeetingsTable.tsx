@@ -217,9 +217,28 @@ const DATAGRID_COLUMNS: GridColDef[] = [
 
 function EmptyState() {
   return (
-    <Typography variant="body2" color="text.secondary" sx={{ py: 2 }}>
-      No meetings match the current filters.
-    </Typography>
+    <Box
+      sx={{
+        height: "100%",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 1,
+        color: "text.disabled",
+        px: 2,
+      }}
+    >
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ textAlign: "center", maxWidth: 320 }}
+      >
+        No meetings match the current filters. Try adjusting your search or
+        clearing a filter.
+      </Typography>
+    </Box>
   );
 }
 

@@ -1,8 +1,8 @@
 "use client";
 
-import Alert from "@mui/material/Alert";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -15,6 +15,8 @@ interface DateRangeFilterProps {
   onDateToChange: (value: string) => void;
   onClear: () => void;
 }
+
+const DISPLAY_FORMAT = "YYYY/MM/DD";
 
 export default function DateRangeFilter({
   dateFrom,
@@ -37,8 +39,11 @@ export default function DateRangeFilter({
           onChange={(val: Dayjs | null) =>
             onDateFromChange(val ? val.format("YYYY-MM-DD") : "")
           }
-          format="YYYY/MM/DD"
-          slotProps={{ textField: { size: "small", fullWidth: true } }}
+          format={DISPLAY_FORMAT}
+          slotProps={{
+            field: { clearable: true },
+            textField: { size: "small", fullWidth: true },
+          }}
         />
         <DatePicker
           label="End date"
@@ -47,22 +52,32 @@ export default function DateRangeFilter({
           onChange={(val: Dayjs | null) =>
             onDateToChange(val ? val.format("YYYY-MM-DD") : "")
           }
-          format="YYYY/MM/DD"
+          format={DISPLAY_FORMAT}
           slotProps={{
+            field: { clearable: true },
             textField: {
               size: "small",
               fullWidth: true,
               error: endDateIsBeforeStartDate,
+              helperText: endDateIsBeforeStartDate
+                ? "End date must be after start date"
+                : undefined,
             },
           }}
         />
-        {endDateIsBeforeStartDate && (
-          <Alert severity="error" sx={{ py: 0 }}>
-            End date must be after start date
-          </Alert>
-        )}
+        <Typography
+          variant="caption"
+          sx={{
+            color: "text.secondary",
+            display: "block",
+            fontSize: "0.80rem",
+            lineHeight: 1.3,
+          }}
+        >
+          Without an end date, only exact date matches are shown
+        </Typography>
         <Button size="small" onClick={onClear} sx={{ alignSelf: "flex-start" }}>
-          Clear
+          Clear Dates
         </Button>
       </Stack>
     </LocalizationProvider>

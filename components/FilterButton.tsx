@@ -32,12 +32,27 @@ export default function FilterButton({
 }: FilterButtonProps) {
   return (
     <Button
-      variant={open ? "contained" : "outlined"}
+      variant="outlined"
       size="small"
+      disableRipple
       onClick={onToggle}
       startIcon={<FilterIcon />}
       aria-expanded={open}
       aria-controls={panelId}
+      sx={{
+        color: open ? "primary.contrastText" : "primary.main",
+        bgcolor: open ? "primary.main" : "transparent",
+        borderColor: "primary.main",
+        boxShadow: open ? 4 : "none",
+        transition: (theme) =>
+          theme.transitions.create(
+            ["background-color", "color", "box-shadow"],
+            { duration: 150 }
+          ),
+        "&:hover": {
+          bgcolor: open ? "primary.dark" : "action.hover",
+        },
+      }}
     >
       Filters
     </Button>
