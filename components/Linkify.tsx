@@ -2,10 +2,31 @@ import Box from "@mui/material/Box";
 import type { ReactNode, MouseEvent } from "react";
 
 const URL_REGEX = /https?:\/\/[^\s]+/g;
-const TRAILING_PUNCTUATION_REGEX = /[),.;:!?'"]+$/;
+const TRAILING_PUNCTUATION_REGEX = /[.,;:!?'"]+$/;
 
 function stopClickPropagation(event: MouseEvent) {
   event.stopPropagation();
+}
+
+/**
+ * Trims sentence punctuation a URL regex match can accidentally swallow.
+ * Closing parens are only trimmed when unbalanced, so URLs that legitimately
+ * end in one (e.g. Wikipedia disambiguation links) keep it.
+ */
+function trimTrailingPunctuation(url: string): string {
+  const punctuationMatch = url.match(TRAILING_PUNCTUATION_REGEX);
+  if (punctuationMatch) {
+    url = url.slice(0, url.length - punctuationMatch[0].length);
+  }
+
+  while (url.endsWith(")")) {
+    const opens = (url.match(/\(/g) ?? []).length;
+    const closes = (url.match(/\)/g) ?? []).length;
+    if (closes <= opens) break;
+    url = url.slice(0, -1);
+  }
+
+  return url;
 }
 
 /** Splits text on raw URLs and renders each one as a clickable link. */
@@ -19,11 +40,9 @@ export function linkifyText(text: string): ReactNode[] {
     let url = match[0];
     let end = start + url.length;
 
-    const trailingMatch = url.match(TRAILING_PUNCTUATION_REGEX);
-    if (trailingMatch) {
-      url = url.slice(0, url.length - trailingMatch[0].length);
-      end -= trailingMatch[0].length;
-    }
+    const trimmedUrl = trimTrailingPunctuation(url);
+    end -= url.length - trimmedUrl.length;
+    url = trimmedUrl;
 
     if (start > lastIndex) parts.push(text.slice(lastIndex, start));
 
