@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingsToolbar from "@/components/MeetingsToolbar";
@@ -18,12 +18,14 @@ export default function ScraperWorkspace({
   records: MeetingRecord[];
 }) {
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const filterButtonRef = useRef<HTMLButtonElement>(null);
   const filters = useMeetingFilters(records);
   const openFiltersPanel = useCallback(() => setFiltersOpen(true), []);
 
   return (
     <Box>
       <MeetingsToolbar
+        ref={filterButtonRef}
         records={records}
         filtersOpen={filtersOpen}
         onToggleFilters={() => setFiltersOpen((open) => !open)}
@@ -42,6 +44,7 @@ export default function ScraperWorkspace({
             id={FILTERS_PANEL_ID}
             open={filtersOpen}
             onClose={() => setFiltersOpen(false)}
+            triggerRef={filterButtonRef}
           >
             <MeetingFilters filters={filters} open={filtersOpen} />
           </FiltersPanel>
