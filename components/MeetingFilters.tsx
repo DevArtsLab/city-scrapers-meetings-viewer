@@ -7,11 +7,12 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import DateRangeFilter from "@/components/DateRangeFilter";
 import ColumnVisibilityFilter from "@/components/ColumnVisibilityFilter";
+import { TRANSITION_MS } from "@/components/FiltersPanel";
 import {
   SEARCH_FIELD_OPTIONS,
-  SearchField,
   STATUS_OPTIONS,
   type MeetingFiltersState,
+  type SearchField,
 } from "@/hooks/useMeetingFilters";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
@@ -61,10 +62,13 @@ export default function MeetingFilters({
     if (open) {
       // Small delay lets the panel's open transition/layout settle first,
       // so focusing doesn't fight the width/opacity animation.
-      const timer = setTimeout(() => searchInputRef.current?.focus(), 50);
+      const timer = setTimeout(
+        () => searchInputRef.current?.focus(),
+        TRANSITION_MS
+      );
       return () => clearTimeout(timer);
     }
-  }, [open]);
+  }, [open, TRANSITION_MS]);
 
   return (
     <Stack spacing={2.5} sx={{ pt: 0.5 }}>

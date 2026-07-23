@@ -1,5 +1,6 @@
 "use client";
 
+import type { Ref } from "react";
 import Button from "@mui/material/Button";
 
 interface FilterButtonProps {
@@ -8,6 +9,8 @@ interface FilterButtonProps {
   onToggle: () => void;
   /** id of the panel this button controls, for aria-controls. */
   panelId: string;
+  /** Ref to the underlying button element. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 function FilterIcon() {
@@ -29,9 +32,11 @@ export default function FilterButton({
   open,
   onToggle,
   panelId,
+  ref,
 }: FilterButtonProps) {
   return (
     <Button
+      ref={ref}
       variant="outlined"
       size="small"
       disableRipple

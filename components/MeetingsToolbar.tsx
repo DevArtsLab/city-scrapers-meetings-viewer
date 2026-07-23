@@ -1,5 +1,6 @@
 "use client";
 
+import type { Ref } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import FilterButton from "@/components/FilterButton";
@@ -11,6 +12,8 @@ interface MeetingsToolbarProps {
   onToggleFilters: () => void;
   /** id of the panel this button controls, for aria-controls. */
   panelId: string;
+  /** Ref forwarded to the filter toggle button. */
+  ref?: Ref<HTMLButtonElement>;
 }
 
 export default function MeetingsToolbar({
@@ -18,6 +21,7 @@ export default function MeetingsToolbar({
   filtersOpen,
   onToggleFilters,
   panelId,
+  ref,
 }: MeetingsToolbarProps) {
   return (
     <Box
@@ -31,6 +35,7 @@ export default function MeetingsToolbar({
       }}
     >
       <FilterButton
+        ref={ref}
         open={filtersOpen}
         onToggle={onToggleFilters}
         panelId={panelId}

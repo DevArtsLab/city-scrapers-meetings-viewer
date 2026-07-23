@@ -13,6 +13,7 @@ import {
   useSelectedMeeting,
   useSetSelectedMeeting,
 } from "@/contexts/MeetingSelectionContext";
+import { linkifyText } from "./Linkify";
 
 function Section({
   label,
@@ -147,7 +148,7 @@ export default function MeetingDetailPanel() {
 
         <Section label="Description">
           <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-            {record.description || "—"}
+            {record.description ? linkifyText(record.description) : "—"}
           </Typography>
         </Section>
 
