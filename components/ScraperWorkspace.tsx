@@ -51,6 +51,7 @@ export default function ScraperWorkspace({
             <MeetingsLayout
               records={filters.filteredRecords}
               totalCount={records.length}
+              duplicateInfoMap={filters.duplicateInfoMap}
             />
           </Box>
         </Box>

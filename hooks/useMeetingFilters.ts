@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { locationText, normalizeStatus } from "@/components/MeetingCard";
-import { buildDuplicateGroups } from "@/lib/duplicates";
+import { buildDuplicateGroups, type DuplicateInfo } from "@/lib/duplicates";
 
 export const STATUS_OPTIONS = [
   { value: "all", label: "All" },
@@ -36,6 +36,7 @@ export interface MeetingFiltersState {
   setDateTo: (value: string) => void;
   clearDates: () => void;
   filteredRecords: MeetingRecord[];
+  duplicateInfoMap: Map<MeetingRecord, DuplicateInfo>;
 }
 
 // Convert "YYYY-MM-DD" to Date object in local time
@@ -95,10 +96,14 @@ export function useMeetingFilters(
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
-  const duplicateSet = useMemo(() => {
+  const duplicateInfoMap = useMemo(() => {
     const info = buildDuplicateGroups(records);
-    return new Set(records.filter((_, i) => info[i].isDuplicate));
+    return new Map(records.map((r, i) => [r, info[i]]));
   }, [records]);
+  const duplicateSet = useMemo(
+    () => new Set(records.filter((r) => duplicateInfoMap.get(r)!.isDuplicate)),
+    [records, duplicateInfoMap]
+  );
 
   const filteredRecords = useMemo(() => {
     const query = search.trim().toLowerCase();
@@ -165,5 +170,6 @@ export function useMeetingFilters(
       setDateTo("");
     },
     filteredRecords,
+    duplicateInfoMap,
   };
 }
