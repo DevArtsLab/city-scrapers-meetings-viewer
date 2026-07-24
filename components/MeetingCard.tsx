@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import type { MeetingRecord } from "@/lib/scrapers";
 import React from "react";
-import { highlightMatches } from "./Linkify";
+import { highlightMatches } from "./HighlightMatches";
 
 export const STATUS_CHIP_COLOR: Record<
   string,

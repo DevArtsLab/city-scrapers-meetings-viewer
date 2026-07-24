@@ -1,7 +1,8 @@
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import { highlightMatches, linkifyText } from "./Linkify";
+import { highlightMatches } from "./HighlightMatches";
+import { linkifyText } from "./Linkify";
 
 const MAX_LENGTH = 50;
 
