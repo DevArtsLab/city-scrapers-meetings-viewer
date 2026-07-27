@@ -54,6 +54,8 @@ export default function ScraperWorkspace({
             <MeetingsLayout
               records={filters.filteredRecords}
               totalCount={records.length}
+              search={filters.search}
+              searchField={filters.searchField}
             />
           </Box>
         </Box>

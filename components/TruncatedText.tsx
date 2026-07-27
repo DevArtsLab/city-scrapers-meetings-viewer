@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import { highlightMatches } from "./HighlightMatches";
 import { linkifyText } from "./Linkify";
 
 const MAX_LENGTH = 50;
@@ -10,6 +11,8 @@ interface TruncatedTextProps {
   maxLength?: number;
   wrap?: boolean;
   maxLines?: number;
+  /** Search keyword to highlight within the rendered text, if any. */
+  highlight?: string;
 }
 
 export default function TruncatedText({
@@ -17,10 +20,12 @@ export default function TruncatedText({
   maxLength = MAX_LENGTH,
   wrap = false,
   maxLines,
+  highlight,
 }: TruncatedTextProps) {
   if (!text) return <>—</>;
 
   const isTruncated = text.length > maxLength;
+  const renderedText = highlightMatches(linkifyText(text), highlight ?? "");
 
   if (wrap) {
     const box = (
@@ -45,10 +50,10 @@ export default function TruncatedText({
               textDecorationSkipInk: "none",
             }}
           >
-            {linkifyText(text)}
+            {renderedText}
           </span>
         ) : (
-          linkifyText(text)
+          renderedText
         )}
       </Box>
     );
@@ -62,7 +67,7 @@ export default function TruncatedText({
             variant="body2"
             sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
           >
-            {linkifyText(text)}
+            {renderedText}
           </Typography>
         }
         placement="top"
@@ -90,7 +95,7 @@ export default function TruncatedText({
         }),
       }}
     >
-      {linkifyText(text)}
+      {renderedText}
     </Box>
   );
 
@@ -103,7 +108,7 @@ export default function TruncatedText({
           variant="body2"
           sx={{ whiteSpace: "pre-wrap", maxWidth: 320 }}
         >
-          {linkifyText(text)}
+          {renderedText}
         </Typography>
       }
       placement="top"

@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
 import type { MeetingRecord } from "@/lib/scrapers";
 import React from "react";
+import { highlightMatches } from "./HighlightMatches";
 
 export const STATUS_CHIP_COLOR: Record<
   string,
@@ -64,9 +65,11 @@ function CardField({
 function LocationPart({
   value,
   fallback,
+  highlight,
 }: {
   value: string;
   fallback: string;
+  highlight?: string;
 }) {
   return (
     <Box
@@ -78,7 +81,7 @@ function LocationPart({
       }}
     >
       {value ? (
-        value
+        highlightMatches([value], highlight ?? "")
       ) : (
         <Typography
           component="span"
@@ -91,7 +94,14 @@ function LocationPart({
   );
 }
 
-export function LocationDisplay({ record }: { record: MeetingRecord }) {
+export function LocationDisplay({
+  record,
+  highlight,
+}: {
+  record: MeetingRecord;
+  /** Search keyword to highlight within the name/address text, if any. */
+  highlight?: string;
+}) {
   const name = record.location?.name?.trim() ?? "";
   const address = record.location?.address?.trim() ?? "";
 
@@ -109,13 +119,27 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
         overflow: "hidden",
       }}
     >
-      <LocationPart value={name} fallback="No name" />
-      <LocationPart value={address} fallback="No address" />
+      <LocationPart value={name} fallback="No name" highlight={highlight} />
+      <LocationPart
+        value={address}
+        fallback="No address"
+        highlight={highlight}
+      />
     </Box>
   );
 }
 
-export default function MeetingCard({ record }: { record: MeetingRecord }) {
+export default function MeetingCard({
+  record,
+  titleHighlight,
+  locationHighlight,
+}: {
+  record: MeetingRecord;
+  /** Search keyword to highlight within the title, if any. */
+  titleHighlight?: string;
+  /** Search keyword to highlight within the location, if any. */
+  locationHighlight?: string;
+}) {
   const status = normalizeStatus(record.status);
   return (
     <Paper variant="outlined" sx={{ p: 2 }}>
@@ -129,7 +153,7 @@ export default function MeetingCard({ record }: { record: MeetingRecord }) {
         }}
       >
         <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-          {record.title}
+          {highlightMatches([record.title], titleHighlight ?? "")}
         </Typography>
         <StatusChip status={status} />
       </Stack>
@@ -138,7 +162,9 @@ export default function MeetingCard({ record }: { record: MeetingRecord }) {
         <CardField label="End" value={record.end} />
         <CardField
           label="Location"
-          value={<LocationDisplay record={record} />}
+          value={
+            <LocationDisplay record={record} highlight={locationHighlight} />
+          }
         />
         <CardField label="Type" value={record.classification || "—"} />
       </Stack>
