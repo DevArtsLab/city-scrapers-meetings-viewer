@@ -68,9 +68,9 @@ export function colorForDuplicateCount(count: number): {
 } {
   const hue = Math.round(((count - 2) * 137.508) % 360);
   return {
-    bg: `hsla(${hue}, 45%, 50%, 0.07)`,
-    bgHover: `hsla(${hue}, 45%, 50%, 0.13)`,
-    border: `hsla(${hue}, 45%, 50%, 0.30)`,
+    bg: `hsla(${hue}, 55%, 50%, 0.07)`,
+    bgHover: `hsla(${hue}, 55%, 50%, 0.13)`,
+    border: `hsla(${hue}, 55%, 50%, 0.30)`,
   };
 }
 
