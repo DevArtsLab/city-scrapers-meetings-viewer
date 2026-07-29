@@ -17,13 +17,12 @@ const DataGrid = dynamic(
 );
 import type { MeetingRecord } from "@/lib/scrapers";
 import MeetingCard, {
-  colorForDuplicateCount,
   LocationDisplay,
   locationText,
   normalizeStatus,
   StatusChip,
 } from "@/components/MeetingCard";
-import type { DuplicateInfo } from "@/lib/duplicates";
+import { colorForDuplicateCount, type DuplicateInfo } from "@/lib/duplicates";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";

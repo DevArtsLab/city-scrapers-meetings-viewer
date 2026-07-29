@@ -6,27 +6,9 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
+import { colorForDuplicateCount } from "@/lib/duplicates";
 import React from "react";
 import { highlightMatches } from "./HighlightMatches";
-
-/**
- * Generates a unique highlight color for a given duplicate count using the
- * golden angle (≈137.5°). Each count maps to a distinct hue — no palette needed.
- *   ×2 → hue   0° (red),  ×3 → 138° (green),  ×4 → 275° (violet),
- *   ×5 → 53°  (amber),   ×6 → 190° (teal),    ×7 → 328° (pink), …
- */
-export function colorForDuplicateCount(count: number): {
-  bg: string;
-  bgHover: string;
-  border: string;
-} {
-  const hue = Math.round(((count - 2) * 137.508) % 360);
-  return {
-    bg: `hsla(${hue}, 70%, 50%, 0.12)`,
-    bgHover: `hsla(${hue}, 70%, 50%, 0.22)`,
-    border: `hsla(${hue}, 70%, 50%, 0.50)`,
-  };
-}
 
 export const STATUS_CHIP_COLOR: Record<
   string,

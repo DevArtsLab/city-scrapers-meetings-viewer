@@ -55,6 +55,25 @@ export interface DuplicateInfo {
   groupIndex: number;
 }
 
+/**
+ * Generates a unique highlight color for a given duplicate count using the
+ * golden angle (≈137.5°). Each count maps to a distinct hue — no palette needed.
+ *   ×2 → hue   0° (red),  ×3 → 138° (green),  ×4 → 275° (violet),
+ *   ×5 → 53°  (amber),   ×6 → 190° (teal),    ×7 → 328° (pink), …
+ */
+export function colorForDuplicateCount(count: number): {
+  bg: string;
+  bgHover: string;
+  border: string;
+} {
+  const hue = Math.round(((count - 2) * 137.508) % 360);
+  return {
+    bg: `hsla(${hue}, 45%, 50%, 0.07)`,
+    bgHover: `hsla(${hue}, 45%, 50%, 0.13)`,
+    border: `hsla(${hue}, 45%, 50%, 0.30)`,
+  };
+}
+
 export function buildDuplicateGroups(
   records: MeetingRecord[]
 ): DuplicateInfo[] {
