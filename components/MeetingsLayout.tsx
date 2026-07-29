@@ -2,6 +2,7 @@
 
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
+import type { DuplicateInfo } from "@/lib/duplicates";
 import { MeetingSelectionProvider } from "@/contexts/MeetingSelectionContext";
 import MeetingsTable from "@/components/MeetingsTable";
 import MeetingDetailPanel from "@/components/MeetingDetailPanel";
@@ -12,6 +13,7 @@ export default function MeetingsLayout({
   totalCount,
   search,
   searchField,
+  duplicateInfoMap,
 }: {
   records: MeetingRecord[];
   /** Unfiltered record count, for the "Showing X of Y" summary. */
@@ -20,6 +22,8 @@ export default function MeetingsLayout({
   search: string;
   /** Field the search keyword is being matched against. */
   searchField: SearchField;
+  /** Per-record duplicate info computed from the full, unfiltered dataset. */
+  duplicateInfoMap: Map<MeetingRecord, DuplicateInfo>;
 }) {
   return (
     <MeetingSelectionProvider>
@@ -29,6 +33,7 @@ export default function MeetingsLayout({
           totalCount={totalCount}
           search={search}
           searchField={searchField}
+          duplicateInfoMap={duplicateInfoMap}
         />
         <MeetingDetailPanel />
       </Box>

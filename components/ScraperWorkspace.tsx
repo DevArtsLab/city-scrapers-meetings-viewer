@@ -56,6 +56,7 @@ export default function ScraperWorkspace({
               totalCount={records.length}
               search={filters.search}
               searchField={filters.searchField}
+              duplicateInfoMap={filters.duplicateInfoMap}
             />
           </Box>
         </Box>

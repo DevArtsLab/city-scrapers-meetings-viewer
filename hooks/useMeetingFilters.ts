@@ -3,12 +3,14 @@
 import { useMemo, useState } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { locationText, normalizeStatus } from "@/components/MeetingCard";
+import { buildDuplicateGroups, type DuplicateInfo } from "@/lib/duplicates";
 
 export const STATUS_OPTIONS = [
   { value: "all", label: "All" },
   { value: "passed", label: "Passed" },
   { value: "cancelled", label: "Cancelled" },
   { value: "tentative", label: "Tentative" },
+  { value: "duplicates", label: "Duplicates" },
 ];
 
 export const SEARCH_FIELD_OPTIONS = [
@@ -34,6 +36,7 @@ export interface MeetingFiltersState {
   setDateTo: (value: string) => void;
   clearDates: () => void;
   filteredRecords: MeetingRecord[];
+  duplicateInfoMap: Map<MeetingRecord, DuplicateInfo>;
 }
 
 // Convert "YYYY-MM-DD" to Date object in local time
@@ -93,12 +96,22 @@ export function useMeetingFilters(
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
+  const duplicateInfoMap = useMemo(() => {
+    const info = buildDuplicateGroups(records);
+    return new Map(records.map((r, i) => [r, info[i]]));
+  }, [records]);
+  const duplicateSet = useMemo(
+    () => new Set(records.filter((r) => duplicateInfoMap.get(r)!.isDuplicate)),
+    [records, duplicateInfoMap]
+  );
 
   const filteredRecords = useMemo(() => {
     const query = search.trim().toLowerCase();
     let filtered = records;
 
-    if (statusFilter !== "all") {
+    if (statusFilter === "duplicates") {
+      filtered = filtered.filter((r) => duplicateSet.has(r));
+    } else if (statusFilter !== "all") {
       filtered = filtered.filter(
         (r) => normalizeStatus(r.status) === statusFilter
       );
@@ -131,7 +144,15 @@ export function useMeetingFilters(
     }
 
     return filtered;
-  }, [records, search, searchField, statusFilter, dateFrom, dateTo]);
+  }, [
+    records,
+    search,
+    searchField,
+    statusFilter,
+    dateFrom,
+    dateTo,
+    duplicateSet,
+  ]);
 
   return {
     search,
@@ -149,5 +170,6 @@ export function useMeetingFilters(
       setDateTo("");
     },
     filteredRecords,
+    duplicateInfoMap,
   };
 }
