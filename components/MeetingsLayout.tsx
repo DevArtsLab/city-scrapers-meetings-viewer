@@ -6,15 +6,22 @@ import type { DuplicateInfo } from "@/lib/duplicates";
 import { MeetingSelectionProvider } from "@/contexts/MeetingSelectionContext";
 import MeetingsTable from "@/components/MeetingsTable";
 import MeetingDetailPanel from "@/components/MeetingDetailPanel";
+import type { SearchField } from "@/hooks/useMeetingFilters";
 
 export default function MeetingsLayout({
   records,
   totalCount,
+  search,
+  searchField,
   duplicateInfoMap,
 }: {
   records: MeetingRecord[];
   /** Unfiltered record count, for the "Showing X of Y" summary. */
   totalCount: number;
+  /** Current search keyword, to highlight matches in the table. */
+  search: string;
+  /** Field the search keyword is being matched against. */
+  searchField: SearchField;
   /** Per-record duplicate info computed from the full, unfiltered dataset. */
   duplicateInfoMap: Map<MeetingRecord, DuplicateInfo>;
 }) {
@@ -24,6 +31,8 @@ export default function MeetingsLayout({
         <MeetingsTable
           records={records}
           totalCount={totalCount}
+          search={search}
+          searchField={searchField}
           duplicateInfoMap={duplicateInfoMap}
         />
         <MeetingDetailPanel />

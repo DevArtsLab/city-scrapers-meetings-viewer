@@ -28,6 +28,7 @@ import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
+import type { SearchField } from "@/hooks/useMeetingFilters";
 
 export type SortKey =
   | "title"
@@ -59,161 +60,186 @@ export const COLUMNS: { key: SortKey; label: string }[] = [
   { key: "id", label: "ID" },
 ];
 
-const DATAGRID_COLUMNS: GridColDef[] = [
-  {
-    field: "title",
-    headerName: "Title",
-    flex: 2,
-    minWidth: 140,
-    renderCell: ({ row }) => (
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 0.75,
-          width: "100%",
-          minWidth: 0,
-        }}
-      >
-        <TruncatedText text={row.title} wrap maxLines={4} />
-        {row._isFirst && (
-          <Chip
-            label={`×${row._duplicateCount}`}
-            size="small"
-            color="warning"
-            sx={{
-              flexShrink: 0,
-              height: 20,
-              fontSize: "0.7rem",
-              "& .MuiChip-label": { px: 0.75 },
-            }}
+/** Returns the search text to highlight in a column, only when that column's field is the active search field. */
+function getDataGridColumns(
+  highlightFor: (field: SearchField) => string | undefined
+): GridColDef[] {
+  return [
+    {
+      field: "title",
+      headerName: "Title",
+      flex: 2,
+      minWidth: 140,
+      renderCell: ({ row }) => (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 0.75,
+            width: "100%",
+            minWidth: 0,
+          }}
+        >
+          <TruncatedText
+            text={row.title}
+            wrap
+            maxLines={4}
+            highlight={highlightFor("title")}
           />
-        )}
-      </Box>
-    ),
-  },
-  {
-    field: "description",
-    headerName: "Description",
-    flex: 2.5,
-    minWidth: 160,
-    renderCell: ({ row }) => (
-      <TruncatedText text={row.description} wrap maxLines={4} />
-    ),
-  },
-  {
-    field: "classification",
-    headerName: "Classification",
-    flex: 1,
-    minWidth: 115,
-    renderCell: ({ row }) => row.classification || "—",
-  },
-  {
-    field: "start",
-    headerName: "Start",
-    width: 105,
-    renderCell: ({ row }) => row.start || "—",
-  },
-  {
-    field: "end",
-    headerName: "End",
-    width: 105,
-    renderCell: ({ row }) => row.end || "—",
-  },
-  {
-    field: "all_day",
-    headerName: "All Day",
-    width: 80,
-    renderCell: ({ row }) => (row.all_day ? "Yes" : "No"),
-  },
-  {
-    field: "time_notes",
-    headerName: "Time Notes",
-    flex: 1.5,
-    minWidth: 120,
-    renderCell: ({ row }) => (
-      <TruncatedText text={row.time_notes} wrap maxLines={4} />
-    ),
-  },
-  {
-    field: "location",
-    headerName: "Location",
-    width: 200,
-    minWidth: 99,
-    valueGetter: (_value: unknown, row: unknown) =>
-      locationText(row as MeetingRecord),
-    renderCell: ({ row }) => <LocationDisplay record={row as MeetingRecord} />,
-  },
-  {
-    field: "links",
-    headerName: "Links",
-    flex: 1.5,
-    minWidth: 120,
-    sortable: false,
-    renderCell: ({ row }) => {
-      const r = row as MeetingRecord;
-      if (!r.links?.length) return "—";
-      const visible = r.links.slice(0, 3);
-      const extra = r.links.length - 3;
-      return (
-        <Box sx={{ width: "100%", minWidth: 0 }}>
-          {visible.map((link, i) => (
-            <Box
-              key={i}
+          {row._isFirst && (
+            <Chip
+              label={`×${row._duplicateCount}`}
+              size="small"
+              color="warning"
               sx={{
-                mb: i < visible.length - 1 ? 0.75 : 0,
-                width: "100%",
-                minWidth: 0,
+                flexShrink: 0,
+                height: 20,
+                fontSize: "0.7rem",
+                "& .MuiChip-label": { px: 0.75 },
               }}
-            >
-              <LinkWithTooltip
-                href={link.href}
-                label={link.title}
-                maxWidth="100%"
-              />
-            </Box>
-          ))}
-          {extra > 0 && (
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{ mt: 0.5, display: "block" }}
-            >
-              +{extra} more link{extra > 1 ? "s" : ""}
-            </Typography>
+            />
           )}
         </Box>
-      );
-    },
-  },
-  {
-    field: "source",
-    headerName: "Source",
-    flex: 1.5,
-    minWidth: 130,
-    renderCell: ({ row }) =>
-      row.source ? (
-        <LinkWithTooltip href={row.source} label="Source Link" />
-      ) : (
-        "—"
       ),
-  },
-  {
-    field: "status",
-    headerName: "Status",
-    width: 105,
-    valueGetter: (_value: unknown, row: unknown) =>
-      normalizeStatus((row as MeetingRecord).status),
-    renderCell: ({ value }) => <StatusChip status={value} />,
-  },
-  {
-    field: "id",
-    headerName: "ID",
-    flex: 1,
-    minWidth: 120,
-    renderCell: ({ row }) => <TruncatedText text={row.id} />,
-  },
-];
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      flex: 2.5,
+      minWidth: 160,
+      renderCell: ({ row }) => (
+        <TruncatedText
+          text={row.description}
+          wrap
+          maxLines={4}
+          highlight={highlightFor("description")}
+        />
+      ),
+    },
+    {
+      field: "classification",
+      headerName: "Classification",
+      flex: 1,
+      minWidth: 115,
+      renderCell: ({ row }) => row.classification || "—",
+    },
+    {
+      field: "start",
+      headerName: "Start",
+      width: 105,
+      renderCell: ({ row }) => row.start || "—",
+    },
+    {
+      field: "end",
+      headerName: "End",
+      width: 105,
+      renderCell: ({ row }) => row.end || "—",
+    },
+    {
+      field: "all_day",
+      headerName: "All Day",
+      width: 80,
+      renderCell: ({ row }) => (row.all_day ? "Yes" : "No"),
+    },
+    {
+      field: "time_notes",
+      headerName: "Time Notes",
+      flex: 1.5,
+      minWidth: 120,
+      renderCell: ({ row }) => (
+        <TruncatedText
+          text={row.time_notes}
+          wrap
+          maxLines={4}
+          highlight={highlightFor("time_notes")}
+        />
+      ),
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 200,
+      minWidth: 99,
+      valueGetter: (_value: unknown, row: unknown) =>
+        locationText(row as MeetingRecord),
+      renderCell: ({ row }) => (
+        <LocationDisplay
+          record={row as MeetingRecord}
+          highlight={highlightFor("location")}
+        />
+      ),
+    },
+    {
+      field: "links",
+      headerName: "Links",
+      flex: 1.5,
+      minWidth: 120,
+      sortable: false,
+      renderCell: ({ row }) => {
+        const r = row as MeetingRecord;
+        if (!r.links?.length) return "—";
+        const visible = r.links.slice(0, 3);
+        const extra = r.links.length - 3;
+        return (
+          <Box sx={{ width: "100%", minWidth: 0 }}>
+            {visible.map((link, i) => (
+              <Box
+                key={i}
+                sx={{
+                  mb: i < visible.length - 1 ? 0.75 : 0,
+                  width: "100%",
+                  minWidth: 0,
+                }}
+              >
+                <LinkWithTooltip
+                  href={link.href}
+                  label={link.title}
+                  maxWidth="100%"
+                />
+              </Box>
+            ))}
+            {extra > 0 && (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{ mt: 0.5, display: "block" }}
+              >
+                +{extra} more link{extra > 1 ? "s" : ""}
+              </Typography>
+            )}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "source",
+      headerName: "Source",
+      flex: 1.5,
+      minWidth: 130,
+      renderCell: ({ row }) =>
+        row.source ? (
+          <LinkWithTooltip href={row.source} label="Source Link" />
+        ) : (
+          "—"
+        ),
+    },
+    {
+      field: "status",
+      headerName: "Status",
+      width: 105,
+      valueGetter: (_value: unknown, row: unknown) =>
+        normalizeStatus((row as MeetingRecord).status),
+      renderCell: ({ value }) => <StatusChip status={value} />,
+    },
+    {
+      field: "id",
+      headerName: "ID",
+      flex: 1,
+      minWidth: 120,
+      renderCell: ({ row }) => <TruncatedText text={row.id} />,
+    },
+  ];
+}
 
 function EmptyState() {
   return (
@@ -291,12 +317,18 @@ function markFirstInGroup(groupIndices: number[]): boolean[] {
 export default function MeetingsTable({
   records,
   totalCount,
+  search,
+  searchField,
   duplicateInfoMap,
 }: {
   /** Records to display, already filtered upstream. */
   records: MeetingRecord[];
   /** Unfiltered record count, for the "Showing X of Y" summary. */
   totalCount: number;
+  /** Current search keyword, to highlight matches in the active search field's column. */
+  search: string;
+  /** Field the search keyword is being matched against. */
+  searchField: SearchField;
   /** Per-record duplicate info computed from the full, unfiltered dataset. */
   duplicateInfoMap: Map<MeetingRecord, DuplicateInfo>;
 }) {
@@ -355,6 +387,16 @@ export default function MeetingsTable({
     );
   }, [enrichedRows]);
 
+  const trimmedSearch = search.trim();
+  const highlightFor = (field: SearchField) =>
+    trimmedSearch && searchField === field ? trimmedSearch : undefined;
+
+  const dataGridColumns = useMemo(
+    () => getDataGridColumns(highlightFor),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [trimmedSearch, searchField]
+  );
+
   // Sorted records used only for the mobile card view
   const sortedRecords = useMemo(
     () =>
@@ -367,7 +409,12 @@ export default function MeetingsTable({
 
   const sortedDupInfo = useMemo(() => {
     const infos = sortedRecords.map(
-      (r) => duplicateInfoMap.get(r) ?? { isDuplicate: false, count: 1, groupIndex: -1 }
+      (r) =>
+        duplicateInfoMap.get(r) ?? {
+          isDuplicate: false,
+          count: 1,
+          groupIndex: -1,
+        }
     );
     const isFirst = markFirstInGroup(infos.map((info) => info.groupIndex));
     return infos.map((info, i) => ({
@@ -425,7 +472,7 @@ export default function MeetingsTable({
         <DataGrid
           rows={enrichedRows}
           getRowId={(row) => row._idx}
-          columns={DATAGRID_COLUMNS}
+          columns={dataGridColumns}
           columnVisibilityModel={columnVisibilityModel}
           disableColumnMenu
           autoHeight
@@ -484,6 +531,8 @@ export default function MeetingsTable({
             <MeetingCard
               key={index}
               record={record}
+              titleHighlight={highlightFor("title")}
+              locationHighlight={highlightFor("location")}
               isFirstDuplicate={sortedDupInfo[index].isFirst}
               duplicateCount={sortedDupInfo[index].count}
             />

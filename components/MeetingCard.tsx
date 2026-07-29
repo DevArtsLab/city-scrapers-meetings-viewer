@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import React from "react";
+import { highlightMatches } from "./HighlightMatches";
 
 /**
  * Generates a unique highlight color for a given duplicate count using the
@@ -83,9 +84,11 @@ function CardField({
 function LocationPart({
   value,
   fallback,
+  highlight,
 }: {
   value: string;
   fallback: string;
+  highlight?: string;
 }) {
   return (
     <Box
@@ -97,7 +100,7 @@ function LocationPart({
       }}
     >
       {value ? (
-        value
+        highlightMatches([value], highlight ?? "")
       ) : (
         <Typography
           component="span"
@@ -110,7 +113,14 @@ function LocationPart({
   );
 }
 
-export function LocationDisplay({ record }: { record: MeetingRecord }) {
+export function LocationDisplay({
+  record,
+  highlight,
+}: {
+  record: MeetingRecord;
+  /** Search keyword to highlight within the name/address text, if any. */
+  highlight?: string;
+}) {
   const name = record.location?.name?.trim() ?? "";
   const address = record.location?.address?.trim() ?? "";
 
@@ -128,18 +138,28 @@ export function LocationDisplay({ record }: { record: MeetingRecord }) {
         overflow: "hidden",
       }}
     >
-      <LocationPart value={name} fallback="No name" />
-      <LocationPart value={address} fallback="No address" />
+      <LocationPart value={name} fallback="No name" highlight={highlight} />
+      <LocationPart
+        value={address}
+        fallback="No address"
+        highlight={highlight}
+      />
     </Box>
   );
 }
 
 export default function MeetingCard({
   record,
+  titleHighlight,
+  locationHighlight,
   isFirstDuplicate,
   duplicateCount,
 }: {
   record: MeetingRecord;
+  /** Search keyword to highlight within the title, if any. */
+  titleHighlight?: string;
+  /** Search keyword to highlight within the location, if any. */
+  locationHighlight?: string;
   isFirstDuplicate?: boolean;
   duplicateCount?: number;
 }) {
@@ -172,7 +192,7 @@ export default function MeetingCard({
           sx={{ display: "flex", alignItems: "center", gap: 0.75, minWidth: 0 }}
         >
           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-            {record.title}
+            {highlightMatches([record.title], titleHighlight ?? "")}
           </Typography>
           {isFirstDuplicate && duplicateCount && (
             <Chip
@@ -195,7 +215,9 @@ export default function MeetingCard({
         <CardField label="End" value={record.end} />
         <CardField
           label="Location"
-          value={<LocationDisplay record={record} />}
+          value={
+            <LocationDisplay record={record} highlight={locationHighlight} />
+          }
         />
         <CardField label="Type" value={record.classification || "—"} />
       </Stack>
