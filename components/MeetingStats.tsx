@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { normalizeStatus } from "@/components/MeetingCard";
+import { buildDuplicateGroups } from "@/lib/duplicates";
 
 // Numbers carry the status color; labels stay high-contrast text.secondary so
 // meaning never depends on color alone (WCAG 1.4.1).
@@ -12,13 +13,15 @@ type ValueColor =
   | "text.primary"
   | "success.main"
   | "error.main"
-  | "warning.main";
+  | "warning.main"
+  | "secondary.main";
 
 const STAT_ITEMS: { key: string; label: string; color: ValueColor }[] = [
   { key: "total", label: "Total", color: "text.primary" },
   { key: "passed", label: "Passed", color: "success.main" },
   { key: "cancelled", label: "Cancelled", color: "error.main" },
   { key: "tentative", label: "Tentative", color: "warning.main" },
+  { key: "duplicates", label: "Duplicates", color: "secondary.main" },
 ];
 
 function StatItem({
@@ -81,7 +84,10 @@ export default function MeetingStats({
       const s = normalizeStatus(r.status);
       byStatus[s] = (byStatus[s] ?? 0) + 1;
     }
-    return { total: records.length, byStatus };
+    const duplicates = buildDuplicateGroups(records).filter(
+      (d) => d.isDuplicate
+    ).length;
+    return { total: records.length, byStatus, duplicates };
   }, [records]);
 
   return (
@@ -90,7 +96,7 @@ export default function MeetingStats({
       aria-label="Meeting statistics"
       sx={{
         display: "grid",
-        gridTemplateColumns: "repeat(4, 1fr)",
+        gridTemplateColumns: "repeat(5, 1fr)",
         gap: { xs: 0.75, sm: 1 },
         width: { xs: "100%", sm: "auto" },
       }}
@@ -103,7 +109,9 @@ export default function MeetingStats({
           value={
             item.key === "total"
               ? counts.total
-              : (counts.byStatus[item.key] ?? 0)
+              : item.key === "duplicates"
+                ? counts.duplicates
+                : (counts.byStatus[item.key] ?? 0)
           }
         />
       ))}

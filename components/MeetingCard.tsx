@@ -1,11 +1,12 @@
 "use client";
 
 import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Chip from "@mui/material/Chip";
 import type { MeetingRecord } from "@/lib/scrapers";
+import { colorForDuplicateCount } from "@/lib/duplicates";
 import React from "react";
 import { highlightMatches } from "./HighlightMatches";
 
@@ -133,16 +134,33 @@ export default function MeetingCard({
   record,
   titleHighlight,
   locationHighlight,
+  isFirstDuplicate,
+  duplicateCount,
 }: {
   record: MeetingRecord;
   /** Search keyword to highlight within the title, if any. */
   titleHighlight?: string;
   /** Search keyword to highlight within the location, if any. */
   locationHighlight?: string;
+  isFirstDuplicate?: boolean;
+  duplicateCount?: number;
 }) {
   const status = normalizeStatus(record.status);
+  const groupColor =
+    duplicateCount != null && duplicateCount >= 2
+      ? colorForDuplicateCount(duplicateCount)
+      : null;
   return (
-    <Paper variant="outlined" sx={{ p: 2 }}>
+    <Paper
+      variant="outlined"
+      sx={{
+        p: 2,
+        ...(groupColor && {
+          borderColor: groupColor.border,
+          backgroundColor: groupColor.bg,
+        }),
+      }}
+    >
       <Stack
         direction="row"
         spacing={1}
@@ -152,9 +170,26 @@ export default function MeetingCard({
           mb: 1,
         }}
       >
-        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-          {highlightMatches([record.title], titleHighlight ?? "")}
-        </Typography>
+        <Box
+          sx={{ display: "flex", alignItems: "center", gap: 0.75, minWidth: 0 }}
+        >
+          <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+            {highlightMatches([record.title], titleHighlight ?? "")}
+          </Typography>
+          {isFirstDuplicate && duplicateCount && (
+            <Chip
+              label={`×${duplicateCount}`}
+              size="small"
+              color="warning"
+              sx={{
+                flexShrink: 0,
+                height: 20,
+                fontSize: "0.7rem",
+                "& .MuiChip-label": { px: 0.75 },
+              }}
+            />
+          )}
+        </Box>
         <StatusChip status={status} />
       </Stack>
       <Stack spacing={0.5}>
