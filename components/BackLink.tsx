@@ -7,18 +7,24 @@ interface BackLinkProps {
   href: string;
   /** Label shown next to the arrow icon. */
   label: string;
+  /** Button size. */
+  size?: "small" | "medium" | "large";
 }
 
 /** Reusable "← Back to X" navigation link, e.g. for page headers. */
-export default function BackLink({ href, label }: BackLinkProps) {
+export default function BackLink({
+  href,
+  label,
+  size = "small",
+}: BackLinkProps) {
   return (
     <Button
       component={NextLink}
       href={href}
+      startIcon={<ArrowBack aria-hidden />}
       variant="text"
-      startIcon={<ArrowBack />}
-      size="small"
-      sx={{ whiteSpace: "nowrap" }}
+      size={size}
+      sx={{ textTransform: "none", whiteSpace: "nowrap" }}
     >
       {label}
     </Button>
