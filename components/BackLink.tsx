@@ -1,4 +1,4 @@
-import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import NextLink from "@/components/NextLink";
 
@@ -7,26 +7,25 @@ interface BackLinkProps {
   href: string;
   /** Label shown next to the arrow icon. */
   label: string;
-  /** Button size. */
-  size?: "small" | "medium" | "large";
 }
 
 /** Reusable "← Back to X" navigation link, e.g. for page headers. */
-export default function BackLink({
-  href,
-  label,
-  size = "small",
-}: BackLinkProps) {
+export default function BackLink({ href, label }: BackLinkProps) {
   return (
-    <Button
+    <Link
       component={NextLink}
       href={href}
-      startIcon={<ArrowBack aria-hidden />}
-      variant="text"
-      size={size}
-      sx={{ textTransform: "none", whiteSpace: "nowrap" }}
+      underline="none"
+      sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 0.5,
+        whiteSpace: "nowrap",
+        p: 0.3,
+      }}
     >
+      <ArrowBack aria-hidden fontSize="small" />
       {label}
-    </Button>
+    </Link>
   );
 }
