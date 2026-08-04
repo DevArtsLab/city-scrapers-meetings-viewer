@@ -31,13 +31,16 @@ export default function PageHeader({
         mb: 2,
       }}
     >
-      {backHref && <BackLink href={backHref} label={backLabel} />}
+      {backHref && (
+        <Box>
+          <BackLink href={backHref} label={backLabel} />
+        </Box>
+      )}
       <Typography
         variant="h4"
         sx={{
           fontWeight: 600,
           fontSize: { xs: "1.25rem", sm: "1.75rem" },
-          minWidth: 0,
           gridColumn: backHref ? 2 : 1,
           justifySelf: "center",
           textAlign: "center",
