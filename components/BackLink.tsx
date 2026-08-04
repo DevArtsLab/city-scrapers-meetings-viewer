@@ -19,9 +19,10 @@ export default function BackLink({ href, label }: BackLinkProps) {
       sx={{
         display: "inline-flex",
         alignItems: "center",
-        gap: 0.5,
+        gap: 0.7,
         whiteSpace: "nowrap",
-        p: 0.3,
+        padding: "0.2rem 0.5rem 0.3rem 0.3rem",
+        borderRadius: 1,
       }}
     >
       <ArrowBack aria-hidden fontSize="small" />

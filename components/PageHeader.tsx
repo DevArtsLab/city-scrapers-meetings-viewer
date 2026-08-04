@@ -37,13 +37,11 @@ export default function PageHeader({
         </Box>
       )}
       <Typography
-        variant="h4"
         sx={{
           fontWeight: 600,
-          fontSize: { xs: "1.25rem", sm: "1.75rem" },
+          fontSize: { xs: "1.25rem", sm: "1.5rem" },
           gridColumn: backHref ? 2 : 1,
           justifySelf: "center",
-          textAlign: "center",
         }}
       >
         {title}
