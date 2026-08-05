@@ -13,6 +13,7 @@ import MuiLink from "@mui/material/Link";
 import NextLink from "@/components/NextLink";
 import type { SpiderEntry } from "@/lib/scrapers";
 import TruncatedText from "@/components/TruncatedText";
+import DataGridPagination from "@/components/DataGridPagination";
 
 const PLACEHOLDER = "—";
 
@@ -77,6 +78,7 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
         initialState={{
           pagination: { paginationModel: { pageSize: 25 } },
         }}
+        slots={{ pagination: DataGridPagination }}
         aria-label="scrapers table"
         sx={{
           border: "none",
