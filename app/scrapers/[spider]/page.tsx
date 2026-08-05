@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import MuiLink from "@mui/material/Link";
-import NextLink from "@/components/NextLink";
+import NextLink from "@/components/ui/NextLink";
 import ScraperWorkspace from "@/components/ScraperWorkspace";
 import { getScraperOutput, type MeetingRecord } from "@/lib/scrapers";
 
