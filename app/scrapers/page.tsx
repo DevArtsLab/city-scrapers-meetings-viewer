@@ -8,7 +8,7 @@ export default async function ScrapersPage() {
 
   return (
     <PageContainer>
-      <PageHeader title="City Scrapers" />
+      <PageHeader title="City Scrapers" backHref="/" backLabel="Back to Home" />
       <ScrapersTable spiders={spiders} />
     </PageContainer>
   );
