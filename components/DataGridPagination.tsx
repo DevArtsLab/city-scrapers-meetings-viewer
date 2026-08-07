@@ -1,30 +1,28 @@
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Pagination from "@mui/material/Pagination";
-import TablePagination from "@mui/material/TablePagination";
-import type { TablePaginationActionsProps } from "@mui/material/TablePaginationActions";
+import type { TablePaginationProps } from "@mui/material/TablePagination";
 import {
-  gridPaginationModelSelector,
-  gridPaginationRowCountSelector,
+  gridPageCountSelector,
   useGridApiContext,
-  useGridRootProps,
   useGridSelector,
 } from "@mui/x-data-grid";
 
 /** Replaces TablePagination's default prev/next arrows with numbered page buttons. */
 function PageActions({
-  count,
   page,
-  rowsPerPage,
   onPageChange,
-}: TablePaginationActionsProps) {
+  className,
+}: Pick<TablePaginationProps, "page" | "onPageChange" | "className">) {
+  const apiRef = useGridApiContext();
+  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
   // Below this, "1 ... 5 6 7 ... 12" plus first/last jump buttons is too
   // much to fit next to the rows-per-page control without crowding.
   const isNarrow = useMediaQuery("(max-width:600px)");
-  const pageCount = Math.max(1, Math.ceil(count / rowsPerPage));
   if (pageCount <= 1) return null;
 
   return (
     <Pagination
+      className={className}
       color="primary"
       size="small"
       count={pageCount}
@@ -33,39 +31,23 @@ function PageActions({
       showFirstButton={!isNarrow}
       showLastButton={!isNarrow}
       siblingCount={isNarrow ? 0 : 1}
-      boundaryCount={1}
       sx={{ "& .MuiPagination-ul": { justifyContent: "flex-end", rowGap: 0.5 } }}
     />
   );
 }
 
 /**
- * DataGrid footer: one pagination control instead of two. The rows-per-page
- * dropdown, the "X-Y of Z" count, and the page buttons all live in a single
- * row, with the numbered buttons standing in for the default prev/next
- * arrows rather than sitting next to them. Wraps onto its own line on
- * narrow screens instead of overflowing.
+ * Pass to DataGrid's `slotProps` to swap the default footer's prev/next
+ * arrows for numbered page buttons (MUI's documented recipe: reuse the
+ * built-in GridPagination/TablePagination and only override ActionsComponent
+ * rather than reimplementing the footer). Also makes it wrap onto its own
+ * line on narrow screens instead of overflowing.
  */
-export default function DataGridPagination() {
-  const apiRef = useGridApiContext();
-  const rootProps = useGridRootProps();
-  const paginationModel = useGridSelector(apiRef, gridPaginationModelSelector);
-  const rowCount = useGridSelector(apiRef, gridPaginationRowCountSelector);
-
-  return (
-    <TablePagination
-      component="div"
-      count={rowCount}
-      page={paginationModel.page}
-      rowsPerPage={paginationModel.pageSize}
-      rowsPerPageOptions={rootProps.pageSizeOptions}
-      onPageChange={(_, newPage) => apiRef.current.setPage(newPage)}
-      onRowsPerPageChange={(event) =>
-        apiRef.current.setPageSize(Number(event.target.value))
-      }
-      ActionsComponent={PageActions}
-      labelRowsPerPage="Rows per page:"
-      sx={{
+export const dataGridPaginationSlotProps = {
+  basePagination: {
+    material: {
+      ActionsComponent: PageActions,
+      sx: {
         width: "100%",
         "& .MuiTablePagination-toolbar": {
           flexWrap: "wrap",
@@ -85,7 +67,7 @@ export default function DataGridPagination() {
         "& .MuiTablePagination-actions": {
           marginLeft: 0,
         },
-      }}
-    />
-  );
-}
+      },
+    },
+  },
+};

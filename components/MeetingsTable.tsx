@@ -25,7 +25,7 @@ import MeetingCard, {
 import { colorForDuplicateCount, type DuplicateInfo } from "@/lib/duplicates";
 import TruncatedText from "./TruncatedText";
 import LinkWithTooltip from "./LinkWithTooltip";
-import DataGridPagination from "./DataGridPagination";
+import { dataGridPaginationSlotProps } from "./DataGridPagination";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
 import type { SearchField } from "@/hooks/useMeetingFilters";
@@ -488,8 +488,8 @@ export default function MeetingsTable({
           slots={{
             noRowsOverlay: EmptyState,
             noColumnsOverlay: NoColumnsOverlay,
-            pagination: DataGridPagination,
           }}
+          slotProps={dataGridPaginationSlotProps}
           getRowClassName={(params) => {
             const g = params.row._duplicateGroup;
             if (typeof g !== "number" || g < 0) return "";
