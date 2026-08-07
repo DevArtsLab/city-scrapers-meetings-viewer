@@ -84,7 +84,7 @@ export function TablePreview() {
             <Box
               sx={{
                 display: "grid",
-                gridTemplateColumns: "2fr 1.2fr 1.4fr 0.9fr",
+                gridTemplateColumns: "2fr 1.2fr 1.4fr 0.6fr",
                 gap: 2,
                 px: 2,
                 py: 1,
@@ -112,7 +112,7 @@ export function TablePreview() {
                 key={`${row.title}-${index}`}
                 sx={{
                   display: "grid",
-                  gridTemplateColumns: "2fr 1.2fr 1.4fr 0.9fr",
+                  gridTemplateColumns: "2fr 1.2fr 1.4fr 0.6fr",
                   gap: 2,
                   alignItems: "center",
                   px: 2,
@@ -140,19 +140,6 @@ export function TablePreview() {
                   >
                     {row.title}
                   </Typography>
-                  {row.duplicate && (
-                    <Chip
-                      label="×2"
-                      size="small"
-                      color="warning"
-                      sx={{
-                        flexShrink: 0,
-                        height: 20,
-                        fontSize: "0.7rem",
-                        "& .MuiChip-label": { px: 0.75 },
-                      }}
-                    />
-                  )}
                 </Box>
                 <Typography
                   sx={{
