@@ -25,7 +25,8 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Meetings Viewer",
-  description: "Inspect the JSON output of city-meeting scrapers",
+  description:
+    "A web interface for inspecting the JSON output of city-meeting scrapers.",
 };
 
 export default function RootLayout({
