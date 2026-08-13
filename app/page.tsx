@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import NextLink from "@/components/NextLink";
+import NextLink from "@/components/ui/NextLink";
 
 /**
  * Landing page for the Meetings Viewer application.
