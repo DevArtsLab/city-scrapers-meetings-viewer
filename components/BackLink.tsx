@@ -1,6 +1,6 @@
 import Link from "@mui/material/Link";
 import ArrowBack from "@mui/icons-material/ArrowBack";
-import NextLink from "@/components/NextLink";
+import NextLink from "@/components/ui/NextLink";
 
 interface BackLinkProps {
   /** Destination to navigate back to. */

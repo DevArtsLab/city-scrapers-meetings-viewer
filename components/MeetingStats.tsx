@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
-import { normalizeStatus } from "@/components/MeetingCard";
+import { normalizeStatus } from "@/lib/meetings";
 import { buildDuplicateGroups } from "@/lib/duplicates";
 
 // Numbers carry the status color; labels stay high-contrast text.secondary so

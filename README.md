@@ -91,9 +91,33 @@ meetings-viewer/
 │   └── scrapers/
 │       ├── .gitkeep
 │       └── *.json                 # scrapy output, gitignored
-└── lib/
-    └── scrapers.ts                # data-source module
+├── lib/                           # pure logic: no JSX, no React imports
+│   ├── scrapers.ts                # data-source module
+│   ├── meetings.ts                # meeting-specific helpers (status, location text)
+│   └── duplicates.ts              # duplicate-detection logic
+├── hooks/                         # reusable stateful logic (the use* functions)
+├── contexts/                      # React context providers and their access hooks
+└── components/
+    ├── ui/                        # generic, reusable presentational components
+    │                              # used by 2+ parents (StatusChip, LocationDisplay,
+    │                              # HighlightMatches, Linkify, TruncatedText,
+    │                              # LinkWithTooltip, NextLink)
+    └── *.tsx                      # feature/page components (MeetingCard,
+                                    # MeetingsTable, MeetingDetailPanel, filters, etc.)
 ```
+
+Code is organized by what kind of thing it is (pure logic vs. UI vs. constant)
+and how far it reaches (used in one place vs. shared):
+
+- Pure logic with no JSX that operates on data belongs in `lib/` — meeting-specific
+  helpers in `lib/meetings.ts`, otherwise the relevant `lib/` module. A hook or
+  component needing this logic imports it from `lib/`, never from another component.
+- A presentational component used by two or more parents belongs in `components/ui/`.
+- A feature or page component belongs in `components/` directly.
+- A sub-component used by exactly one parent stays un-exported in that parent's file.
+- Constants live at the smallest scope that needs them: local to a file, bound to
+  the component that owns them, or in the shared `lib/`/`components/ui/` module
+  they belong to if genuinely shared across files.
 
 ## Data shapes
 
