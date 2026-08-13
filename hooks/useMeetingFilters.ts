@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
-import { locationText, normalizeStatus } from "@/components/MeetingCard";
+import { locationText, normalizeStatus } from "@/lib/meetings";
 import { buildDuplicateGroups, type DuplicateInfo } from "@/lib/duplicates";
 
 export const STATUS_OPTIONS = [
