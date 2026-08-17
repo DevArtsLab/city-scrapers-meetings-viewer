@@ -5,7 +5,7 @@ import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { StatusChip, normalizeStatus } from "@/components/MeetingCard";
+import { StatusChip } from "@/components/ui/StatusChip";
 
 const stats = [
   { label: "Total", value: 128 },
@@ -157,7 +157,7 @@ export function TablePreview() {
                 >
                   {row.location}
                 </Typography>
-                <StatusChip status={normalizeStatus(row.status)} />
+                <StatusChip status={row.status} />
               </Box>
             ))}
           </Box>
