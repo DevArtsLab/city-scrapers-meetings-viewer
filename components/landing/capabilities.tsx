@@ -80,7 +80,7 @@ export function Capabilities() {
               sm: "1fr 1fr",
               lg: "repeat(3, 1fr)",
             },
-            gap: { xs: 4, md: 6 },
+            gap: { xs: 2, md: 3 },
             maxWidth: 1200,
             mx: "auto",
           }}
@@ -88,7 +88,20 @@ export function Capabilities() {
           {capabilities.map((item) => {
             const Icon = item.icon;
             return (
-              <Box key={item.title}>
+              <Box
+                key={item.title}
+                sx={{
+                  p: 3,
+                  borderRadius: 2,
+                  border: 1,
+                  borderColor: "divider",
+                  transition: "border-color 0.2s, box-shadow 0.2s",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                    boxShadow: 1,
+                  },
+                }}
+              >
                 <Icon sx={{ fontSize: 28, color: "primary.main", mb: 2 }} />
                 <Typography
                   component="h3"

@@ -98,15 +98,34 @@ export function QuickStart() {
               m: 0,
               display: "flex",
               flexDirection: "column",
-              gap: 4,
+              gap: 0,
             }}
           >
             {steps.map((step, index) => (
               <Box
                 component="li"
                 key={step.title}
-                sx={{ display: "flex", gap: 3 }}
+                sx={{
+                  display: "flex",
+                  gap: 3,
+                  position: "relative",
+                  pb: index === steps.length - 1 ? 0 : 4,
+                }}
               >
+                {/* Connector line */}
+                {index < steps.length - 1 && (
+                  <Box
+                    aria-hidden="true"
+                    sx={{
+                      position: "absolute",
+                      left: 16,
+                      top: 36,
+                      bottom: 0,
+                      width: 2,
+                      bgcolor: "divider",
+                    }}
+                  />
+                )}
                 <Box
                   aria-hidden="true"
                   sx={{
@@ -123,6 +142,7 @@ export function QuickStart() {
                     justifyContent: "center",
                     fontSize: "0.875rem",
                     fontWeight: 700,
+                    zIndex: 1,
                   }}
                 >
                   {index + 1}
@@ -159,11 +179,12 @@ export function QuickStart() {
               display: "flex",
               gap: 2,
               alignItems: "flex-start",
-              bgcolor: "warning.main",
-              color: "warning.contrastText",
+              borderColor: "warning.main",
             }}
           >
-            <WarningAmberRounded sx={{ fontSize: 24, mt: "2px" }} />
+            <WarningAmberRounded
+              sx={{ fontSize: 24, mt: "2px", color: "warning.main" }}
+            />
             <Typography sx={{ fontSize: "0.9375rem", lineHeight: 1.6 }}>
               Use the capital{" "}
               <Box

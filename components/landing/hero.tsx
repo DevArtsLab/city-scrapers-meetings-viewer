@@ -1,4 +1,5 @@
 import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
+import CheckCircleRounded from "@mui/icons-material/CheckCircleRounded";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
@@ -15,9 +16,24 @@ export function Hero() {
   return (
     <Box
       component="section"
-      sx={{ pt: { xs: 8, md: 12 }, pb: { xs: 8, md: 10 } }}
+      sx={{
+        pt: { xs: 8, md: 12 },
+        pb: { xs: 8, md: 10 },
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 600,
+          background:
+            "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(25, 118, 210, 0.08), transparent)",
+          pointerEvents: "none",
+        },
+      }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth="lg" sx={{ position: "relative" }}>
         <Box sx={{ maxWidth: 800, mx: "auto", textAlign: "center" }}>
           <Typography
             component="p"
@@ -55,6 +71,7 @@ export function Hero() {
               fontWeight: 700,
               lineHeight: 1.1,
               mb: 3,
+              letterSpacing: "-0.02em",
             }}
           >
             See exactly what your scraper produced.
@@ -132,15 +149,8 @@ export function Hero() {
                   gap: 1,
                 }}
               >
-                <Box
-                  component="span"
-                  aria-hidden="true"
-                  sx={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: "50%",
-                    bgcolor: "text.disabled",
-                  }}
+                <CheckCircleRounded
+                  sx={{ fontSize: 16, color: "primary.main" }}
                 />
                 {fact}
               </Typography>
@@ -148,7 +158,17 @@ export function Hero() {
           </Box>
         </Box>
 
-        <Box sx={{ mt: { xs: 8, md: 10 } }}>
+        <Box
+          sx={{
+            mt: { xs: 8, md: 10 },
+            maxWidth: 1000,
+            mx: "auto",
+            "& > *": {
+              boxShadow: "0 12px 48px rgba(0,0,0,0.1)",
+              borderRadius: 2,
+            },
+          }}
+        >
           <TablePreview />
         </Box>
       </Container>

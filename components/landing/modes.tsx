@@ -101,8 +101,9 @@ export function Modes() {
                   display: "flex",
                   flexDirection: "column",
                   gap: 2,
-                  transition: "box-shadow 0.2s",
+                  transition: "border-color 0.2s, box-shadow 0.2s",
                   "&:hover": {
+                    borderColor: "primary.main",
                     boxShadow: 2,
                   },
                 }}
