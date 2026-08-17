@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
-import PageContainer from "@/components/PageContainer";
-import PageHeader from "@/components/PageHeader";
-import ScraperWorkspace from "@/components/ScraperWorkspace";
+import PageHeader from "@/components/scrapers/PageHeader";
+import ScraperWorkspace from "@/components/scrapers/ScraperWorkspace";
 import { getScraperOutput, type MeetingRecord } from "@/lib/scrapers";
 
 export default async function SpiderPage({
@@ -19,13 +18,13 @@ export default async function SpiderPage({
   }
 
   return (
-    <PageContainer>
+    <>
       <PageHeader
         title={spider}
         backHref="/scrapers"
         backLabel="Back to Scrapers"
       />
       <ScraperWorkspace records={records} />
-    </PageContainer>
+    </>
   );
 }

@@ -3,10 +3,10 @@
 import { useCallback, useRef, useState } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
-import MeetingsToolbar from "@/components/MeetingsToolbar";
-import FiltersPanel from "@/components/FiltersPanel";
-import MeetingFilters from "@/components/MeetingFilters";
-import MeetingsLayout from "@/components/MeetingsLayout";
+import MeetingsToolbar from "@/components/scrapers/MeetingsToolbar";
+import FiltersPanel from "@/components/scrapers/FiltersPanel";
+import MeetingFilters from "@/components/scrapers/MeetingFilters";
+import MeetingsLayout from "@/components/scrapers/MeetingsLayout";
 import { useMeetingFilters } from "@/hooks/useMeetingFilters";
 import { ColumnVisibilityProvider } from "@/contexts/ColumnVisibilityContext";
 

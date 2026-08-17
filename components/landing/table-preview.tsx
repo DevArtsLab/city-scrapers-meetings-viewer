@@ -65,10 +65,6 @@ const rows: Row[] = [
 export function TablePreview() {
   return (
     <Box aria-hidden="true">
-      <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-        Showing {rows.length} of {stats[0].value} meetings
-      </Typography>
-
       <Paper
         variant="outlined"
         sx={{

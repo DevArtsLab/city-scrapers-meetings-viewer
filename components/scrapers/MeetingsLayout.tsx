@@ -4,8 +4,8 @@ import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import type { DuplicateInfo } from "@/lib/duplicates";
 import { MeetingSelectionProvider } from "@/contexts/MeetingSelectionContext";
-import MeetingsTable from "@/components/MeetingsTable";
-import MeetingDetailPanel from "@/components/MeetingDetailPanel";
+import MeetingsTable from "@/components/scrapers/MeetingsTable";
+import MeetingDetailPanel from "@/components/scrapers/MeetingDetailPanel";
 import type { SearchField } from "@/hooks/useMeetingFilters";
 
 export default function MeetingsLayout({

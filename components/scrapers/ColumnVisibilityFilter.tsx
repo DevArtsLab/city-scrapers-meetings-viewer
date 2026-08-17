@@ -6,7 +6,7 @@ import Divider from "@mui/material/Divider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { COLUMNS } from "@/components/MeetingsTable";
+import { COLUMNS } from "@/components/scrapers/MeetingsTable";
 import {
   DEFAULT_COLUMN_VISIBILITY,
   useColumnVisibility,

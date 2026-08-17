@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box'
+import Box from "@mui/material/Box";
 
 /**
  * Inline version of the app icon (app/icon.svg), themed to the MUI palette so
@@ -10,9 +10,15 @@ export function LogoMark({ size = 28 }: { size?: number }) {
       component="svg"
       viewBox="0 0 32 32"
       aria-hidden="true"
-      sx={{ width: size, height: size, display: 'block', flexShrink: 0 }}
+      sx={{ width: size, height: size, display: "block", flexShrink: 0 }}
     >
-      <Box component="rect" width="32" height="32" rx="7" sx={{ fill: 'text.primary' }} />
+      <Box
+        component="rect"
+        width="32"
+        height="32"
+        rx="7"
+        sx={{ fill: "text.primary" }}
+      />
       <Box
         component="rect"
         x="7"
@@ -20,7 +26,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         width="18"
         height="3"
         rx="1.5"
-        sx={{ fill: 'background.default' }}
+        sx={{ fill: "background.default" }}
       />
       <Box
         component="rect"
@@ -29,7 +35,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         width="18"
         height="2.5"
         rx="1.25"
-        sx={{ fill: 'background.default', opacity: 0.5 }}
+        sx={{ fill: "background.default", opacity: 0.5 }}
       />
       <Box
         component="rect"
@@ -38,7 +44,7 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         width="13"
         height="2.5"
         rx="1.25"
-        sx={{ fill: 'background.default', opacity: 0.5 }}
+        sx={{ fill: "background.default", opacity: 0.5 }}
       />
       <Box
         component="rect"
@@ -47,8 +53,8 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         width="8"
         height="2.5"
         rx="1.25"
-        sx={{ fill: 'primary.main' }}
+        sx={{ fill: "primary.main" }}
       />
     </Box>
-  )
+  );
 }

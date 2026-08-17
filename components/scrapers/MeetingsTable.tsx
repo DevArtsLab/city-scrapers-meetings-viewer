@@ -16,7 +16,7 @@ const DataGrid = dynamic(
   { ssr: false }
 );
 import type { MeetingRecord } from "@/lib/scrapers";
-import MeetingCard from "@/components/MeetingCard";
+import MeetingCard from "@/components/scrapers/MeetingCard";
 import { LocationDisplay } from "@/components/ui/LocationDisplay";
 import { locationText, normalizeStatus } from "@/lib/meetings";
 import { StatusChip } from "@/components/ui/StatusChip";

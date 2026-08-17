@@ -3,8 +3,8 @@
 import type { Ref } from "react";
 import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
-import FilterButton from "@/components/FilterButton";
-import MeetingStats from "@/components/MeetingStats";
+import FilterButton from "@/components/scrapers/FilterButton";
+import MeetingStats from "@/components/scrapers/MeetingStats";
 
 interface MeetingsToolbarProps {
   records: MeetingRecord[];

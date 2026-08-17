@@ -13,13 +13,7 @@ import { StatusChip } from "@/components/ui/StatusChip";
 import { LocationDisplay } from "@/components/ui/LocationDisplay";
 import { highlightMatches } from "@/components/ui/HighlightMatches";
 
-function CardField({
-  label,
-  value,
-}: {
-  label: string;
-  value: ReactNode;
-}) {
+function CardField({ label, value }: { label: string; value: ReactNode }) {
   return (
     <Stack direction="row" spacing={1}>
       <Typography

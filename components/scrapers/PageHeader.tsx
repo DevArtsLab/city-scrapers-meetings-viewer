@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import BackLink from "@/components/BackLink";
+import BackLink from "@/components/scrapers/BackLink";
 
 interface PageHeaderProps {
   /** Page title. */

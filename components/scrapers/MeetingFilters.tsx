@@ -5,9 +5,9 @@ import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import DateRangeFilter from "@/components/DateRangeFilter";
-import ColumnVisibilityFilter from "@/components/ColumnVisibilityFilter";
-import { TRANSITION_MS } from "@/components/FiltersPanel";
+import DateRangeFilter from "@/components/scrapers/DateRangeFilter";
+import ColumnVisibilityFilter from "@/components/scrapers/ColumnVisibilityFilter";
+import { TRANSITION_MS } from "@/components/scrapers/FiltersPanel";
 import {
   SEARCH_FIELD_OPTIONS,
   STATUS_OPTIONS,
