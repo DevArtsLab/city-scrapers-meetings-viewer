@@ -5,47 +5,20 @@ import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import type { ReactNode } from "react";
 import type { MeetingRecord } from "@/lib/scrapers";
 import { colorForDuplicateCount } from "@/lib/duplicates";
-import React from "react";
-import { highlightMatches } from "./HighlightMatches";
-
-export const STATUS_CHIP_COLOR: Record<
-  string,
-  "success" | "error" | "warning" | "default"
-> = {
-  passed: "success",
-  cancelled: "error",
-  tentative: "warning",
-};
-
-export function normalizeStatus(status: string | undefined): string {
-  return (status ?? "").toLowerCase();
-}
-
-export function locationText(record: MeetingRecord): string {
-  const name = record.location?.name ?? "";
-  const address = record.location?.address ?? "";
-  return [name, address].filter(Boolean).join(", ");
-}
-
-export function StatusChip({ status }: { status: string }) {
-  return (
-    <Chip
-      label={status || "—"}
-      size="small"
-      color={STATUS_CHIP_COLOR[status] ?? "default"}
-      variant="outlined"
-    />
-  );
-}
+import { normalizeStatus } from "@/lib/meetings";
+import { StatusChip } from "@/components/ui/StatusChip";
+import { LocationDisplay } from "@/components/ui/LocationDisplay";
+import { highlightMatches } from "@/components/ui/HighlightMatches";
 
 function CardField({
   label,
   value,
 }: {
   label: string;
-  value: React.ReactNode;
+  value: ReactNode;
 }) {
   return (
     <Stack direction="row" spacing={1}>
@@ -60,73 +33,6 @@ function CardField({
         {value}
       </Typography>
     </Stack>
-  );
-}
-
-function LocationPart({
-  value,
-  fallback,
-  highlight,
-}: {
-  value: string;
-  fallback: string;
-  highlight?: string;
-}) {
-  return (
-    <Box
-      sx={{
-        display: "-webkit-box",
-        WebkitLineClamp: 2,
-        WebkitBoxOrient: "vertical",
-        overflow: "hidden",
-      }}
-    >
-      {value ? (
-        highlightMatches([value], highlight ?? "")
-      ) : (
-        <Typography
-          component="span"
-          sx={{ color: "error.main", fontSize: "inherit" }}
-        >
-          {fallback}
-        </Typography>
-      )}
-    </Box>
-  );
-}
-
-export function LocationDisplay({
-  record,
-  highlight,
-}: {
-  record: MeetingRecord;
-  /** Search keyword to highlight within the name/address text, if any. */
-  highlight?: string;
-}) {
-  const name = record.location?.name?.trim() ?? "";
-  const address = record.location?.address?.trim() ?? "";
-
-  if (!name && !address) return <>—</>;
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        py: 1,
-        px: 1,
-        wordBreak: "break-word",
-        width: "100%",
-        overflow: "hidden",
-      }}
-    >
-      <LocationPart value={name} fallback="No name" highlight={highlight} />
-      <LocationPart
-        value={address}
-        fallback="No address"
-        highlight={highlight}
-      />
-    </Box>
   );
 }
 

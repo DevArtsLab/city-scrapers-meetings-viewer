@@ -4,16 +4,14 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import {
-  locationText,
-  normalizeStatus,
-  StatusChip,
-} from "@/components/MeetingCard";
+import Close from "@mui/icons-material/Close";
+import { locationText, normalizeStatus } from "@/lib/meetings";
+import { StatusChip } from "@/components/ui/StatusChip";
 import {
   useSelectedMeeting,
   useSetSelectedMeeting,
 } from "@/contexts/MeetingSelectionContext";
-import { linkifyText } from "./Linkify";
+import { linkifyText } from "@/components/ui/Linkify";
 
 function Section({
   label,
@@ -99,15 +97,7 @@ export default function MeetingDetailPanel() {
             aria-label="Close panel"
             sx={{ flexShrink: 0 }}
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
-            </svg>
+            <Close fontSize="small" />
           </IconButton>
         </Box>
         <Divider />

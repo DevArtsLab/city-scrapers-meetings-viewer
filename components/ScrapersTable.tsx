@@ -10,10 +10,10 @@ const DataGrid = dynamic(
   { ssr: false }
 );
 import MuiLink from "@mui/material/Link";
-import NextLink from "@/components/NextLink";
+import NextLink from "@/components/ui/NextLink";
 import type { SpiderEntry } from "@/lib/scrapers";
-import TruncatedText from "@/components/TruncatedText";
 import { dataGridPaginationSlotProps } from "@/components/DataGridPagination";
+import TruncatedText from "@/components/ui/TruncatedText";
 
 const PLACEHOLDER = "—";
 

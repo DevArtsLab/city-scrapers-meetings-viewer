@@ -16,16 +16,14 @@ const DataGrid = dynamic(
   { ssr: false }
 );
 import type { MeetingRecord } from "@/lib/scrapers";
-import MeetingCard, {
-  LocationDisplay,
-  locationText,
-  normalizeStatus,
-  StatusChip,
-} from "@/components/MeetingCard";
+import MeetingCard from "@/components/MeetingCard";
+import { LocationDisplay } from "@/components/ui/LocationDisplay";
+import { locationText, normalizeStatus } from "@/lib/meetings";
+import { StatusChip } from "@/components/ui/StatusChip";
 import { colorForDuplicateCount, type DuplicateInfo } from "@/lib/duplicates";
-import TruncatedText from "./TruncatedText";
-import LinkWithTooltip from "./LinkWithTooltip";
 import { dataGridPaginationSlotProps } from "./DataGridPagination";
+import TruncatedText from "@/components/ui/TruncatedText";
+import LinkWithTooltip from "@/components/ui/LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
 import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
 import type { SearchField } from "@/hooks/useMeetingFilters";
