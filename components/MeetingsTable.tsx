@@ -21,6 +21,7 @@ import { LocationDisplay } from "@/components/ui/LocationDisplay";
 import { locationText, normalizeStatus } from "@/lib/meetings";
 import { StatusChip } from "@/components/ui/StatusChip";
 import { colorForDuplicateCount, type DuplicateInfo } from "@/lib/duplicates";
+import { dataGridPaginationSlotProps } from "./DataGridPagination";
 import TruncatedText from "@/components/ui/TruncatedText";
 import LinkWithTooltip from "@/components/ui/LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
@@ -486,6 +487,7 @@ export default function MeetingsTable({
             noRowsOverlay: EmptyState,
             noColumnsOverlay: NoColumnsOverlay,
           }}
+          slotProps={dataGridPaginationSlotProps}
           getRowClassName={(params) => {
             const g = params.row._duplicateGroup;
             if (typeof g !== "number" || g < 0) return "";
@@ -495,8 +497,8 @@ export default function MeetingsTable({
           aria-label="meetings table"
           sx={{
             border: "none",
-            cursor: "pointer",
             "& .MuiDataGrid-row": {
+              cursor: "pointer",
               minHeight: "52px !important",
               maxHeight: "96px !important",
             },
