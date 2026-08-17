@@ -2,7 +2,7 @@
 
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import type { MeetingRecord } from "@/lib/scrapers";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
 import { highlightMatches } from "./HighlightMatches";
 
 function LocationPart({

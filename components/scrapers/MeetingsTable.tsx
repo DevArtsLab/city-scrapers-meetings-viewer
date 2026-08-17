@@ -15,17 +15,23 @@ const DataGrid = dynamic(
   () => import("@mui/x-data-grid").then((mod) => mod.DataGrid),
   { ssr: false }
 );
-import type { MeetingRecord } from "@/lib/scrapers";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
 import MeetingCard from "@/components/scrapers/MeetingCard";
 import { LocationDisplay } from "@/components/ui/LocationDisplay";
-import { locationText, normalizeStatus } from "@/lib/meetings";
+import {
+  locationText,
+  normalizeStatus,
+} from "@/components/scrapers/lib/meetings";
 import { StatusChip } from "@/components/ui/StatusChip";
-import { colorForDuplicateCount, type DuplicateInfo } from "@/lib/duplicates";
+import {
+  colorForDuplicateCount,
+  type DuplicateInfo,
+} from "@/components/scrapers/lib/duplicates";
 import TruncatedText from "@/components/ui/TruncatedText";
 import LinkWithTooltip from "@/components/ui/LinkWithTooltip";
-import { useSetSelectedMeeting } from "@/contexts/MeetingSelectionContext";
-import { useColumnVisibility } from "@/contexts/ColumnVisibilityContext";
-import type { SearchField } from "@/hooks/useMeetingFilters";
+import { useSetSelectedMeeting } from "@/components/scrapers/contexts/MeetingSelectionContext";
+import { useColumnVisibility } from "@/components/scrapers/contexts/ColumnVisibilityContext";
+import type { SearchField } from "@/components/scrapers/hooks/useMeetingFilters";
 
 export type SortKey =
   | "title"

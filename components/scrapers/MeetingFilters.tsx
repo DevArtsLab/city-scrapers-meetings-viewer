@@ -13,7 +13,7 @@ import {
   STATUS_OPTIONS,
   type MeetingFiltersState,
   type SearchField,
-} from "@/hooks/useMeetingFilters";
+} from "@/components/scrapers/hooks/useMeetingFilters";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { ClearIcon } from "@mui/x-date-pickers/icons";

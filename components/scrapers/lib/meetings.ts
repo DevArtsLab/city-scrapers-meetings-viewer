@@ -1,4 +1,4 @@
-import type { MeetingRecord } from "@/lib/scrapers";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
 
 export function normalizeStatus(status: string | undefined): string {
   return (status ?? "").toLowerCase();

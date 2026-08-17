@@ -5,12 +5,15 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Close from "@mui/icons-material/Close";
-import { locationText, normalizeStatus } from "@/lib/meetings";
+import {
+  locationText,
+  normalizeStatus,
+} from "@/components/scrapers/lib/meetings";
 import { StatusChip } from "@/components/ui/StatusChip";
 import {
   useSelectedMeeting,
   useSetSelectedMeeting,
-} from "@/contexts/MeetingSelectionContext";
+} from "@/components/scrapers/contexts/MeetingSelectionContext";
 import { linkifyText } from "@/components/ui/Linkify";
 
 function Section({

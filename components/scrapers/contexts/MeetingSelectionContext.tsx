@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import type { MeetingRecord } from "@/lib/scrapers";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
 
 type SetSelectedMeetingFn = (
   update:

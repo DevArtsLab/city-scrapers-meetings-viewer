@@ -1,12 +1,12 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import type { MeetingRecord } from "@/lib/scrapers";
-import type { DuplicateInfo } from "@/lib/duplicates";
-import { MeetingSelectionProvider } from "@/contexts/MeetingSelectionContext";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
+import type { DuplicateInfo } from "@/components/scrapers/lib/duplicates";
+import { MeetingSelectionProvider } from "@/components/scrapers/contexts/MeetingSelectionContext";
 import MeetingsTable from "@/components/scrapers/MeetingsTable";
 import MeetingDetailPanel from "@/components/scrapers/MeetingDetailPanel";
-import type { SearchField } from "@/hooks/useMeetingFilters";
+import type { SearchField } from "@/components/scrapers/hooks/useMeetingFilters";
 
 export default function MeetingsLayout({
   records,

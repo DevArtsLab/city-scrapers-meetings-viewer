@@ -3,9 +3,9 @@
 import { useMemo } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import type { MeetingRecord } from "@/lib/scrapers";
-import { normalizeStatus } from "@/lib/meetings";
-import { buildDuplicateGroups } from "@/lib/duplicates";
+import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
+import { normalizeStatus } from "@/components/scrapers/lib/meetings";
+import { buildDuplicateGroups } from "@/components/scrapers/lib/duplicates";
 
 // Numbers carry the status color; labels stay high-contrast text.secondary so
 // meaning never depends on color alone (WCAG 1.4.1).
