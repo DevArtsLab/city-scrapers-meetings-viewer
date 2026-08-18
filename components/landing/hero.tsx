@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { TablePreview } from "./table-preview";
 
 const facts = [
   "No database",
@@ -49,7 +48,6 @@ export function Hero() {
               borderColor: "divider",
               color: "text.secondary",
               fontSize: "0.875rem",
-              fontWeight: 500,
             }}
           >
             <Box
@@ -68,7 +66,7 @@ export function Hero() {
             component="h1"
             sx={{
               fontSize: { xs: "2.5rem", sm: "3rem", md: "3.75rem" },
-              fontWeight: 700,
+              fontWeight: 600,
               lineHeight: 1.1,
               mb: 3,
               letterSpacing: "-0.02em",
@@ -106,7 +104,7 @@ export function Hero() {
               variant="contained"
               size="large"
               endIcon={<ArrowForwardRounded />}
-              sx={{ textTransform: "none", fontWeight: 600, px: 3 }}
+              sx={{ textTransform: "none", fontWeight: 500, px: 3 }}
             >
               Browse scrapers
             </Button>
@@ -116,7 +114,7 @@ export function Hero() {
               size="large"
               sx={{
                 textTransform: "none",
-                fontWeight: 600,
+                fontWeight: 500,
                 px: 3,
               }}
             >
@@ -156,20 +154,6 @@ export function Hero() {
               </Typography>
             ))}
           </Box>
-        </Box>
-
-        <Box
-          sx={{
-            mt: { xs: 8, md: 10 },
-            maxWidth: 1000,
-            mx: "auto",
-            "& > *": {
-              boxShadow: "0 12px 48px rgba(0,0,0,0.1)",
-              borderRadius: 2,
-            },
-          }}
-        >
-          <TablePreview />
         </Box>
       </Container>
     </Box>

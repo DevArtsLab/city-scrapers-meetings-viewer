@@ -32,7 +32,7 @@ export function SiteHeader() {
             <LogoMark size={32} />
             <Typography
               component="span"
-              sx={{ fontWeight: 700, fontSize: "1.125rem" }}
+              sx={{ fontWeight: 600, fontSize: "1.125rem" }}
             >
               Meetings Viewer
             </Typography>
@@ -45,7 +45,6 @@ export function SiteHeader() {
               sx={{
                 display: { xs: "none", sm: "inline-flex" },
                 textTransform: "none",
-                fontWeight: 500,
               }}
             >
               Quick start
@@ -53,7 +52,7 @@ export function SiteHeader() {
             <Button
               href="/scrapers"
               variant="contained"
-              sx={{ textTransform: "none", fontWeight: 600 }}
+              sx={{ textTransform: "none" }}
             >
               Scrapers
             </Button>

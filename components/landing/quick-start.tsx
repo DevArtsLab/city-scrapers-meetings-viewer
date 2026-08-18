@@ -65,7 +65,7 @@ export function QuickStart() {
             component="h2"
             sx={{
               fontSize: { xs: "2rem", md: "2.5rem" },
-              fontWeight: 700,
+              fontWeight: 600,
               mb: 2,
             }}
           >
@@ -150,7 +150,7 @@ export function QuickStart() {
                 <Box sx={{ minWidth: 0, flex: 1 }}>
                   <Typography
                     component="h3"
-                    sx={{ fontWeight: 600, fontSize: "1.125rem", mb: 1 }}
+                    sx={{ fontWeight: 500, fontSize: "1.125rem", mb: 1 }}
                   >
                     {step.title}
                   </Typography>
@@ -211,7 +211,7 @@ export function QuickStart() {
               variant="contained"
               size="large"
               endIcon={<ArrowForwardRounded />}
-              sx={{ textTransform: "none", fontWeight: 600, px: 4 }}
+              sx={{ textTransform: "none", fontWeight: 500, px: 4 }}
             >
               Go to scrapers
             </Button>

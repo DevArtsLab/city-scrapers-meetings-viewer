@@ -52,7 +52,7 @@ export function Capabilities() {
             component="h2"
             sx={{
               fontSize: { xs: "2rem", md: "2.5rem" },
-              fontWeight: 700,
+              fontWeight: 600,
               mb: 2,
             }}
           >
@@ -105,7 +105,7 @@ export function Capabilities() {
                 <Icon sx={{ fontSize: 28, color: "primary.main", mb: 2 }} />
                 <Typography
                   component="h3"
-                  sx={{ fontWeight: 600, fontSize: "1.125rem", mb: 1.5 }}
+                  sx={{ fontWeight: 500, fontSize: "1.125rem", mb: 1.5 }}
                 >
                   {item.title}
                 </Typography>

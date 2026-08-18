@@ -31,7 +31,6 @@ export function SiteFooter() {
               sx={{
                 fontSize: "0.875rem",
                 color: "text.secondary",
-                fontWeight: 500,
               }}
             >
               Meetings Viewer — QA tooling for city-scrapers output
@@ -45,7 +44,6 @@ export function SiteFooter() {
               sx={{
                 fontSize: "0.875rem",
                 color: "text.secondary",
-                fontWeight: 500,
               }}
             >
               Scrapers
@@ -56,7 +54,6 @@ export function SiteFooter() {
               sx={{
                 fontSize: "0.875rem",
                 color: "text.secondary",
-                fontWeight: 500,
               }}
             >
               Quick start

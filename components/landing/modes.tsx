@@ -46,7 +46,7 @@ export function Modes() {
             component="h2"
             sx={{
               fontSize: { xs: "2rem", md: "2.5rem" },
-              fontWeight: 700,
+              fontWeight: 600,
               mb: 2,
             }}
           >
@@ -119,7 +119,7 @@ export function Modes() {
                   <Icon sx={{ fontSize: 24, color: "primary.main" }} />
                   <Typography
                     component="h3"
-                    sx={{ fontWeight: 600, fontSize: "1.25rem" }}
+                    sx={{ fontWeight: 500, fontSize: "1.25rem" }}
                   >
                     {mode.name}
                   </Typography>
@@ -138,7 +138,7 @@ export function Modes() {
                     textTransform: "uppercase",
                     letterSpacing: "0.1em",
                     color: "text.secondary",
-                    fontWeight: 600,
+                    fontWeight: 500,
                   }}
                 >
                   {mode.when}
@@ -164,7 +164,6 @@ export function Modes() {
                     sx={{
                       fontSize: "0.75rem",
                       color: "text.disabled",
-                      fontWeight: 500,
                     }}
                   >
                     Source
