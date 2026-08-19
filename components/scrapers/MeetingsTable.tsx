@@ -27,6 +27,7 @@ import {
   colorForDuplicateCount,
   type DuplicateInfo,
 } from "@/components/scrapers/lib/duplicates";
+import { dataGridPaginationSlotProps } from "@/components/scrapers/DataGridPagination";
 import TruncatedText from "@/components/ui/TruncatedText";
 import LinkWithTooltip from "@/components/ui/LinkWithTooltip";
 import { useSetSelectedMeeting } from "@/components/scrapers/contexts/MeetingSelectionContext";
@@ -492,6 +493,7 @@ export default function MeetingsTable({
             noRowsOverlay: EmptyState,
             noColumnsOverlay: NoColumnsOverlay,
           }}
+          slotProps={dataGridPaginationSlotProps}
           getRowClassName={(params) => {
             const g = params.row._duplicateGroup;
             if (typeof g !== "number" || g < 0) return "";
@@ -501,8 +503,8 @@ export default function MeetingsTable({
           aria-label="meetings table"
           sx={{
             border: "none",
-            cursor: "pointer",
             "& .MuiDataGrid-row": {
+              cursor: "pointer",
               minHeight: "52px !important",
               maxHeight: "96px !important",
             },

@@ -12,6 +12,7 @@ const DataGrid = dynamic(
 import MuiLink from "@mui/material/Link";
 import NextLink from "@/components/ui/NextLink";
 import type { SpiderEntry } from "@/components/scrapers/lib/scrapers";
+import { dataGridPaginationSlotProps } from "@/components/scrapers/DataGridPagination";
 import TruncatedText from "@/components/ui/TruncatedText";
 
 const PLACEHOLDER = "—";
@@ -77,6 +78,7 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
         initialState={{
           pagination: { paginationModel: { pageSize: 25 } },
         }}
+        slotProps={dataGridPaginationSlotProps}
         aria-label="scrapers table"
         sx={{
           border: "none",
