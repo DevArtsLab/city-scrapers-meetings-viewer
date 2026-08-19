@@ -4,7 +4,11 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
 
-export function SiteFooter() {
+export function SiteFooter({
+  showLandingLinks = false,
+}: {
+  showLandingLinks?: boolean;
+}) {
   return (
     <Box
       component="footer"
@@ -48,16 +52,18 @@ export function SiteFooter() {
             >
               Scrapers
             </Link>
-            <Link
-              href="#quick-start"
-              underline="hover"
-              sx={{
-                fontSize: "0.875rem",
-                color: "text.secondary",
-              }}
-            >
-              Quick start
-            </Link>
+            {showLandingLinks && (
+              <Link
+                href="#quick-start"
+                underline="hover"
+                sx={{
+                  fontSize: "0.875rem",
+                  color: "text.secondary",
+                }}
+              >
+                Quick start
+              </Link>
+            )}
           </Box>
         </Box>
       </Container>

@@ -4,7 +4,11 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
 
-export function SiteHeader() {
+export function SiteHeader({
+  showLandingLinks = false,
+}: {
+  showLandingLinks?: boolean;
+}) {
   return (
     <Box
       component="header"
@@ -39,16 +43,18 @@ export function SiteHeader() {
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Button
-              href="#quick-start"
-              color="inherit"
-              sx={{
-                display: { xs: "none", sm: "inline-flex" },
-                textTransform: "none",
-              }}
-            >
-              Quick start
-            </Button>
+            {showLandingLinks && (
+              <Button
+                href="#quick-start"
+                color="inherit"
+                sx={{
+                  display: { xs: "none", sm: "inline-flex" },
+                  textTransform: "none",
+                }}
+              >
+                Quick start
+              </Button>
+            )}
             <Button
               href="/scrapers"
               variant="contained"
