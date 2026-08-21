@@ -453,7 +453,7 @@ export default function MeetingsTable({
       {/* Mobile-only sort control; the DataGrid handles sorting on desktop. */}
       <Box
         sx={{
-          display: { xs: "flex", md: "none" },
+          display: { xs: "flex", sm: "none" },
           alignItems: "center",
           gap: 1,
           mb: 2,
@@ -554,7 +554,7 @@ export default function MeetingsTable({
       {/* Mobile: card layout */}
       <Stack
         spacing={1.5}
-        sx={{ display: { xs: "flex", md: "none" } }}
+        sx={{ display: { xs: "flex", sm: "none" } }}
         aria-label="meetings list"
       >
         {sortedRecords.length === 0 ? (
