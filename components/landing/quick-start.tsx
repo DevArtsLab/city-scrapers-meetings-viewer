@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 const steps = [
   {
@@ -59,7 +60,7 @@ export function QuickStart() {
         scrollMarginTop: "80px",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={CONTENT_MAX_WIDTH}>
         <Box sx={{ textAlign: "center", mb: 8 }}>
           <Typography
             component="h2"

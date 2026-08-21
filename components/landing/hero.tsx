@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 const facts = [
   "No database",
@@ -32,7 +33,7 @@ export function Hero() {
         },
       }}
     >
-      <Container maxWidth="lg" sx={{ position: "relative" }}>
+      <Container maxWidth={CONTENT_MAX_WIDTH} sx={{ position: "relative" }}>
         <Box sx={{ maxWidth: 800, mx: "auto", textAlign: "center" }}>
           <Typography
             component="p"

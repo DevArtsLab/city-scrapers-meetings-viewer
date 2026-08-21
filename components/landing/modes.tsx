@@ -6,6 +6,7 @@ import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 import type { SvgIconComponent } from "@mui/icons-material";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 type Mode = {
   icon: SvgIconComponent;
@@ -40,7 +41,7 @@ export function Modes() {
       component="section"
       sx={{ py: { xs: 10, md: 14 }, bgcolor: "background.default" }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={CONTENT_MAX_WIDTH}>
         <Box sx={{ textAlign: "center", mb: 6 }}>
           <Typography
             component="h2"

@@ -3,6 +3,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 export function SiteFooter({
   showLandingLinks = false,
@@ -19,7 +20,7 @@ export function SiteFooter({
         bgcolor: "background.paper",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={CONTENT_MAX_WIDTH}>
         <Box
           sx={{
             display: "flex",

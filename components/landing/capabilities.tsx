@@ -8,6 +8,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import type { SvgIconComponent } from "@mui/icons-material";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 const capabilities: { icon: SvgIconComponent; title: string; body: string }[] =
   [
@@ -46,7 +47,7 @@ const capabilities: { icon: SvgIconComponent; title: string; body: string }[] =
 export function Capabilities() {
   return (
     <Box component="section" sx={{ py: { xs: 10, md: 14 } }}>
-      <Container maxWidth="lg">
+      <Container maxWidth={CONTENT_MAX_WIDTH}>
         <Box sx={{ textAlign: "center", mb: 8 }}>
           <Typography
             component="h2"

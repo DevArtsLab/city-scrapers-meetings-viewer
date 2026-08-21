@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
+import { CONTENT_MAX_WIDTH } from "@/lib/layout";
 
 export function SiteHeader({
   showLandingLinks = false,
@@ -23,7 +24,7 @@ export function SiteHeader({
         backdropFilter: "blur(8px)",
       }}
     >
-      <Container maxWidth="lg">
+      <Container maxWidth={CONTENT_MAX_WIDTH}>
         <Box
           sx={{
             display: "flex",
