@@ -16,25 +16,16 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         height: size,
         display: "block",
         flexShrink: 0,
-        "--mv-plate": "#10151A",
+        "--mv-plate": "#333333",
         "--mv-row": "#F4F2ED",
         "--mv-accent": "#1F4FD8",
         "@media (prefers-color-scheme: dark)": {
-          "--mv-plate": "#F4F2ED",
+          "--mv-plate": "#f4f2eddd",
           "--mv-row": "#10151A",
-          "--mv-accent": "#5B87FF",
+          "--mv-accent": "#96abe6",
         },
       }}
     >
-      {/* <Box
-        component="rect"
-        x="0"
-        y="0"
-        width="72"
-        height="72"
-        rx="16"
-        sx={{ fill: "var(--mv-plate)" }}
-      /> */}
       <Box
         component="rect"
         x="2"
@@ -42,7 +33,12 @@ export function LogoMark({ size = 28 }: { size?: number }) {
         width="68"
         height="68"
         rx="14"
-        sx={{ fill: "none", stroke: "var(--mv-plate)", strokeWidth: 1.5, opacity: 0.2 }}
+        sx={{
+          fill: "none",
+          stroke: "var(--mv-plate)",
+          strokeWidth: 1.5,
+          opacity: 0.2,
+        }}
       />
       <Box
         component="rect"

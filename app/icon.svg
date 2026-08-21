@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" width="72" height="72">
+  <style>
+    .mv { --plate: #10151A; --accent: #1F4FD8; }
+    @media (prefers-color-scheme: dark) {
+      .mv { --plate: #F4F2ED; --accent: #5B87FF; }
+    }
+  </style>
+  <rect x="2" y="2" width="68" height="68" rx="14" fill="none" stroke="var(--plate)" stroke-width="1.5" opacity="0.2" class="mv"/>
+  <rect x="16" y="22" width="40" height="6" rx="3" fill="var(--plate)" class="mv"/>
+  <rect x="16" y="33" width="26" height="6" rx="3" fill="var(--plate)" opacity="0.55" class="mv"/>
+  <rect x="16" y="44" width="34" height="6" rx="3" fill="var(--accent)" class="mv"/>
+</svg>
