@@ -66,7 +66,10 @@ export default function FiltersPanel({
       }}
       sx={{
         flexShrink: 0,
-        width: { xs: "100%", sm: open ? PANEL_WIDTH : 0 },
+        // `auto` (stretched by the column layout) rather than `100%` on xs:
+        // an explicit percentage animates down to 0 when crossing into the
+        // row layout, briefly starving the content column of all its width.
+        width: { xs: "auto", sm: open ? PANEL_WIDTH : 0 },
         mr: { sm: open ? 2 : 0 },
         mb: { xs: open ? 2 : 0, sm: 0 },
         maxHeight: { xs: open ? 2000 : 0, sm: "none" },
