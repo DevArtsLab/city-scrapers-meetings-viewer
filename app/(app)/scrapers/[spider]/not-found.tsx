@@ -9,15 +9,15 @@ export default function SpiderNotFound() {
         Spider not found
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 4 }}>
-        No JSON output was found for this spider. Make sure the file exists in
-        the data directory and the filename matches the spider name.
+        No JSON output was found for this spider. Check that the scraper has
+        been run and its output file exists in the data directory.
       </Typography>
       <Button
         href="/scrapers"
         variant="outlined"
         sx={{ textTransform: "none" }}
       >
-        Back to scrapers
+        Browse available scrapers
       </Button>
     </Box>
   );
