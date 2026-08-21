@@ -8,6 +8,11 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import dynamic from "next/dynamic";
 import type { GridColDef } from "@mui/x-data-grid";
 
@@ -340,6 +345,8 @@ export default function MeetingsTable({
   const [sortKey, setSortKey] = useState<SortKey>("start");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
 
   const perRecordInfo = useMemo(() => {
     const infos = records.map(
@@ -444,82 +451,105 @@ export default function MeetingsTable({
   return (
     <Box sx={{ flex: 1, minWidth: 0 }}>
       {/* Mobile-only sort control; the DataGrid handles sorting on desktop. */}
-      <TextField
-        label="Sort by"
-        size="small"
-        select
-        value={sortKey}
-        onChange={(e) => handleSort(e.target.value as SortKey)}
+      <Box
         sx={{
-          minWidth: 160,
-          width: "100%",
-          mb: 2,
           display: { xs: "flex", md: "none" },
+          alignItems: "center",
+          gap: 1,
+          mb: 2,
         }}
       >
-        {COLUMNS.map((column) => (
-          <MenuItem key={column.key} value={column.key}>
-            {column.label}
-          </MenuItem>
-        ))}
-      </TextField>
+        <TextField
+          label="Sort by"
+          size="small"
+          select
+          value={sortKey}
+          onChange={(e) => {
+            const key = e.target.value as SortKey;
+            if (key !== sortKey) handleSort(key);
+          }}
+          sx={{ flex: 1 }}
+        >
+          {COLUMNS.map((column) => (
+            <MenuItem key={column.key} value={column.key}>
+              {column.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Tooltip
+          title={`Sort ${sortDirection === "asc" ? "descending" : "ascending"}`}
+        >
+          <IconButton
+            size="small"
+            onClick={() =>
+              setSortDirection((d) => (d === "asc" ? "desc" : "asc"))
+            }
+            aria-label={`Sort ${sortDirection === "asc" ? "descending" : "ascending"}`}
+          >
+            <ArrowUpwardIcon
+              sx={{
+                transform: sortDirection === "desc" ? "rotate(180deg)" : "none",
+              }}
+            />
+          </IconButton>
+        </Tooltip>
+      </Box>
 
       <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
         Showing {records.length} of {totalCount} meetings
       </Typography>
 
       {/* Desktop / tablet: DataGrid with resizable columns */}
-      <Paper
-        variant="outlined"
-        sx={{ display: { xs: "none", md: "block" }, width: "100%" }}
-      >
-        <DataGrid
-          rows={enrichedRows}
-          getRowId={(row) => row._idx}
-          columns={dataGridColumns}
-          columnVisibilityModel={columnVisibilityModel}
-          disableColumnMenu
-          autoHeight
-          getRowHeight={() => "auto"}
-          density="compact"
-          pageSizeOptions={[10, 25, 50]}
-          initialState={{
-            pagination: { paginationModel: { pageSize: 25 } },
-            sorting: {
-              sortModel: [{ field: "start", sort: "asc" }],
-            },
-          }}
-          slots={{
-            noRowsOverlay: EmptyState,
-            noColumnsOverlay: NoColumnsOverlay,
-          }}
-          slotProps={dataGridPaginationSlotProps}
-          getRowClassName={(params) => {
-            const g = params.row._duplicateGroup;
-            if (typeof g !== "number" || g < 0) return "";
-            return `duplicate-count-${params.row._duplicateCount}`;
-          }}
-          onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
-          aria-label="meetings table"
-          sx={{
-            border: "none",
-            "& .MuiDataGrid-row": {
-              cursor: "pointer",
-              minHeight: "52px !important",
-              maxHeight: "96px !important",
-            },
-            ...duplicateColorStyles,
-            "& .MuiDataGrid-cell": {
-              display: "flex",
-              alignItems: "center",
-              paddingTop: "14px !important",
-              paddingBottom: "14px !important",
-              paddingLeft: "16px",
-              paddingRight: "16px",
-            },
-          }}
-        />
-      </Paper>
+      {isDesktop && (
+        <Paper variant="outlined" sx={{ width: "100%", overflow: "hidden" }}>
+          <DataGrid
+            rows={enrichedRows}
+            getRowId={(row) => row._idx}
+            columns={dataGridColumns}
+            columnVisibilityModel={columnVisibilityModel}
+            disableColumnMenu
+            autoHeight
+            getRowHeight={() => "auto"}
+            density="compact"
+            pageSizeOptions={[10, 25, 50]}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 25 } },
+              sorting: {
+                sortModel: [{ field: "start", sort: "asc" }],
+              },
+            }}
+            slots={{
+              noRowsOverlay: EmptyState,
+              noColumnsOverlay: NoColumnsOverlay,
+            }}
+            slotProps={dataGridPaginationSlotProps}
+            getRowClassName={(params) => {
+              const g = params.row._duplicateGroup;
+              if (typeof g !== "number" || g < 0) return "";
+              return `duplicate-count-${params.row._duplicateCount}`;
+            }}
+            onRowClick={(params) => handleRowClick(params.row as MeetingRecord)}
+            aria-label="meetings table"
+            sx={{
+              border: "none",
+              "& .MuiDataGrid-row": {
+                cursor: "pointer",
+                minHeight: "52px !important",
+                maxHeight: "96px !important",
+              },
+              ...duplicateColorStyles,
+              "& .MuiDataGrid-cell": {
+                display: "flex",
+                alignItems: "center",
+                paddingTop: "14px !important",
+                paddingBottom: "14px !important",
+                paddingLeft: "16px",
+                paddingRight: "16px",
+              },
+            }}
+          />
+        </Paper>
+      )}
 
       {/* Mobile: card layout */}
       <Stack
@@ -528,9 +558,7 @@ export default function MeetingsTable({
         aria-label="meetings list"
       >
         {sortedRecords.length === 0 ? (
-          <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
-            <EmptyState />
-          </Paper>
+          <EmptyState />
         ) : (
           sortedRecords.map((record, index) => (
             <MeetingCard
