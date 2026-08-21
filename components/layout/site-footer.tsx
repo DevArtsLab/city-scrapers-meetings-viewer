@@ -29,7 +29,16 @@ export function SiteFooter({
             gap: 3,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Link
+            href="/"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <LogoMark size={24} />
             <Typography
               sx={{
@@ -39,7 +48,7 @@ export function SiteFooter({
             >
               Meetings Viewer — QA tooling for city-scrapers output
             </Typography>
-          </Box>
+          </Link>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
             <Link

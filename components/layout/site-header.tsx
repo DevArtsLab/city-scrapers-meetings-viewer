@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
 
@@ -32,7 +33,16 @@ export function SiteHeader({
             height: 72,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Link
+            href="/"
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 1.5,
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <LogoMark size={32} />
             <Typography
               component="span"
@@ -40,7 +50,7 @@ export function SiteHeader({
             >
               Meetings Viewer
             </Typography>
-          </Box>
+          </Link>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {showLandingLinks && (
