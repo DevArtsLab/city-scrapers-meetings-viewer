@@ -2,6 +2,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+/**
+ * Root not-found fallback. Catches all unmatched routes (e.g. /a, /foo).
+ * Rendered outside the AppShell, so it is viewport-centered with no
+ * header or footer.
+ */
 export default function NotFound() {
   return (
     <Box

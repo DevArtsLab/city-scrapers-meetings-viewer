@@ -4,6 +4,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+/**
+ * Route group error boundary for (app). Catches unhandled errors from any
+ * server or client component under /scrapers and renders a fallback UI with
+ * the error message, digest ID, and a retry button.
+ */
 export default function Error({
   error,
   reset,

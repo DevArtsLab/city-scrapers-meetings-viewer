@@ -2,6 +2,10 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+/**
+ * Not-found fallback for /scrapers/[spider]. Rendered when a spider name
+ * doesn't match any JSON output file in the data directory.
+ */
 export default function SpiderNotFound() {
   return (
     <Box sx={{ textAlign: "center", py: { xs: 6, sm: 10 } }}>
