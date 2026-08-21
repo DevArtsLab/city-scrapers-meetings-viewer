@@ -346,7 +346,7 @@ export default function MeetingsTable({
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const setSelectedMeeting = useSetSelectedMeeting();
   const theme = useTheme();
-  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+  const isDesktop = useMediaQuery(theme.breakpoints.up("sm"));
 
   const perRecordInfo = useMemo(() => {
     const infos = records.map(
