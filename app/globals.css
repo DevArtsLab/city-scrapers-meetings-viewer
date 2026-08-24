@@ -1,1 +1,7 @@
+/* Layer order must be declared before the Tailwind import so that MUI's
+   Emotion output (@layer mui) always ranks below Tailwind utilities and
+   components, regardless of injection timing. This makes the enableCssLayer
+   option in layout.tsx effective and prevents third-party stylesheets from
+   overriding app-level styles. */
+@layer theme, base, mui, components, utilities;
 @import "tailwindcss";
