@@ -29,8 +29,12 @@ export default async function SpiderPage({
   let records: MeetingRecord[];
   try {
     records = await getScraperOutput(spider);
-  } catch {
-    notFound();
+  } catch (error) {
+    // Only missing files are 404s; other errors (corrupt JSON, permissions, etc.) fall through to the error boundary.
+    if (error instanceof Error && "code" in error && error.code === "ENOENT") {
+      notFound();
+    }
+    throw error;
   }
 
   return (
