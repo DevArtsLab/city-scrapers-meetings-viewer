@@ -10,7 +10,7 @@ import { COLUMNS } from "@/components/scrapers/MeetingsTable";
 import {
   DEFAULT_COLUMN_VISIBILITY,
   useColumnVisibility,
-} from "@/components/scrapers/contexts/ColumnVisibilityContext";
+} from "@/contexts/ColumnVisibilityContext";
 
 export default function ColumnVisibilityFilter() {
   const { columnVisibilityModel, toggleColumn, applyVisibilityModel } =

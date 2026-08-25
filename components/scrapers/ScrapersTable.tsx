@@ -11,7 +11,7 @@ const DataGrid = dynamic(
 );
 import MuiLink from "@mui/material/Link";
 import NextLink from "@/components/ui/NextLink";
-import type { SpiderEntry } from "@/components/scrapers/lib/scrapers";
+import type { SpiderEntry } from "@/lib/scrapers";
 import { dataGridPaginationSlotProps } from "@/components/scrapers/DataGridPagination";
 import TruncatedText from "@/components/ui/TruncatedText";
 

@@ -2,7 +2,7 @@
 
 import type { Ref } from "react";
 import Box from "@mui/material/Box";
-import type { MeetingRecord } from "@/components/scrapers/lib/scrapers";
+import type { MeetingRecord } from "@/lib/scrapers";
 import FilterButton from "@/components/scrapers/FilterButton";
 import MeetingStats from "@/components/scrapers/MeetingStats";
 

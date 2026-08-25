@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/scrapers/PageHeader";
 import ScrapersTable from "@/components/scrapers/ScrapersTable";
-import { listScrapers } from "@/components/scrapers/lib/scrapers";
+import { listScrapers } from "@/lib/scrapers";
 
 export const metadata: Metadata = {
   title: "Scrapers — Meetings Viewer",
@@ -14,7 +14,7 @@ export default async function ScrapersPage() {
 
   return (
     <>
-      <PageHeader title="City Scrapers" backHref="/" backLabel="Back to Home" />
+      <PageHeader title="Scrapers" backHref="/" backLabel="Back to Home" />
       <ScrapersTable spiders={spiders} />
     </>
   );

@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import PageHeader from "@/components/scrapers/PageHeader";
 import ScraperWorkspace from "@/components/scrapers/ScraperWorkspace";
-import {
-  getScraperOutput,
-  type MeetingRecord,
-} from "@/components/scrapers/lib/scrapers";
+import { getScraperOutput, type MeetingRecord } from "@/lib/scrapers";
 
 export async function generateMetadata({
   params,
