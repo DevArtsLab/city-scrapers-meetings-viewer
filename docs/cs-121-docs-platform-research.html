@@ -1,0 +1,3171 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+  CS-121 — Documentation platform: research and recommendation.
+  Self-contained: open this file directly in a browser, no build step.
+-->
+    <title>City Scrapers Docs Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:ital,wght@0,300..700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+
+    <style>
+      :root {
+        --paper: #f6f7f5;
+        --surface: #ffffff;
+        --surface-2: #ecefec;
+        --ink: #16201e;
+        --ink-2: #46544f;
+        --ink-3: #6f7c77;
+        --rule: #d6dcd8;
+        --rule-soft: #e5eae7;
+        --accent: #0f6e68;
+        --accent-2: #0b534e;
+        --accent-soft: #e0efec;
+        --oxblood: #8c3a2e;
+        --oxblood-soft: #f6e7e4;
+        --amber: #8e6209;
+        --amber-soft: #f6edda;
+        --shadow:
+          0 1px 2px rgba(22, 32, 30, 0.06),
+          0 8px 24px -16px rgba(22, 32, 30, 0.28);
+      }
+      :root:not([data-theme="light"]) {
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --paper: #0f1512;
+          --surface: #161e1a;
+          --surface-2: #1d2723;
+          --ink: #e7ede9;
+          --ink-2: #aab7b1;
+          --ink-3: #7e8b85;
+          --rule: #2a3531;
+          --rule-soft: #212b27;
+          --accent: #5cc2b4;
+          --accent-2: #86d6c9;
+          --accent-soft: #13302c;
+          --oxblood: #e29385;
+          --oxblood-soft: #33201c;
+          --amber: #d9ab55;
+          --amber-soft: #2e2617;
+          --shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+        }
+      }
+      :root[data-theme="dark"] {
+        --paper: #0f1512;
+        --surface: #161e1a;
+        --surface-2: #1d2723;
+        --ink: #e7ede9;
+        --ink-2: #aab7b1;
+        --ink-3: #7e8b85;
+        --rule: #2a3531;
+        --rule-soft: #212b27;
+        --accent: #5cc2b4;
+        --accent-2: #86d6c9;
+        --accent-soft: #13302c;
+        --oxblood: #e29385;
+        --oxblood-soft: #33201c;
+        --amber: #d9ab55;
+        --amber-soft: #2e2617;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family:
+          "Public Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+        font-size: 16.5px;
+        line-height: 1.65;
+        font-weight: 380;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ---------- shell ---------- */
+      .shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 24px 96px;
+        gap: 0;
+      }
+      @media (min-width: 1080px) {
+        .shell {
+          grid-template-columns: 208px minmax(0, 1fr);
+          gap: 56px;
+          padding: 0 32px 120px;
+        }
+      }
+
+      main {
+        min-width: 0;
+      }
+      .col {
+        max-width: 68ch;
+      }
+      .bleed {
+        max-width: 100%;
+      }
+
+      /* ---------- rail ---------- */
+      .rail {
+        display: none;
+      }
+      @media (min-width: 1080px) {
+        .rail {
+          display: block;
+          position: sticky;
+          top: 0;
+          align-self: start;
+          max-height: 100vh;
+          overflow-y: auto;
+          padding: 96px 0 48px;
+          font-family: "IBM Plex Mono", ui-monospace, monospace;
+          font-size: 12px;
+          line-height: 1.5;
+        }
+      }
+      .rail p {
+        margin: 0 0 14px;
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+      }
+      .rail ol {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 9px;
+        counter-reset: r;
+      }
+      .rail a {
+        color: var(--ink-2);
+        text-decoration: none;
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 4px;
+        border-left: 2px solid transparent;
+        padding-left: 10px;
+        margin-left: -12px;
+      }
+      .rail a:hover {
+        color: var(--accent);
+        border-left-color: var(--accent);
+      }
+      .rail a span {
+        color: var(--ink-3);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ---------- masthead ---------- */
+      header.docket {
+        padding: 72px 0 0;
+      }
+      .docket-card {
+        border: 1px solid var(--rule);
+        border-top: 3px solid var(--accent);
+        background: var(--surface);
+        box-shadow: var(--shadow);
+        padding: 26px 28px 24px;
+        max-width: 1000px;
+      }
+      .docket-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 28px;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--rule-soft);
+        margin-bottom: 20px;
+      }
+      .docket-meta b {
+        color: var(--ink-2);
+        font-weight: 500;
+      }
+      h1 {
+        font-family: "Fraunces", Georgia, serif;
+        font-variation-settings:
+          "SOFT" 0,
+          "WONK" 0,
+          "opsz" 96;
+        font-weight: 600;
+        font-size: clamp(2.1rem, 5.2vw, 3.1rem);
+        line-height: 1.06;
+        letter-spacing: -0.022em;
+        margin: 0 0 14px;
+        text-wrap: balance;
+      }
+      .standfirst {
+        font-size: 1.09rem;
+        color: var(--ink-2);
+        max-width: 60ch;
+        margin: 0;
+        line-height: 1.6;
+      }
+
+      /* ---------- verdict block ---------- */
+      .verdict {
+        margin: 34px 0 0;
+        max-width: 1000px;
+        border: 1px solid var(--rule);
+        background: var(--surface);
+        padding: 0;
+        box-shadow: var(--shadow);
+      }
+      .verdict-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 16px 24px;
+        border-bottom: 1px solid var(--rule-soft);
+        background: var(--accent-soft);
+      }
+      .verdict-head h2 {
+        margin: 0;
+        border: 0;
+        padding: 0;
+        font-size: 0.95rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 600;
+        color: var(--accent-2);
+      }
+      .stamp {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        color: var(--accent-2);
+        border: 2px solid var(--accent);
+        border-radius: 3px;
+        padding: 5px 10px;
+        transform: rotate(-3.5deg);
+        opacity: 0.85;
+        white-space: nowrap;
+      }
+      .verdict-body {
+        padding: 22px 24px 8px;
+      }
+
+      /* ---------- typography ---------- */
+      h2 {
+        font-family: "Fraunces", Georgia, serif;
+        font-variation-settings:
+          "SOFT" 0,
+          "WONK" 0,
+          "opsz" 48;
+        font-weight: 600;
+        font-size: 1.72rem;
+        line-height: 1.15;
+        letter-spacing: -0.015em;
+        margin: 0 0 18px;
+        padding-top: 18px;
+        border-top: 1px solid var(--rule);
+        text-wrap: balance;
+      }
+      h2 .num {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        color: var(--accent);
+        margin-bottom: 8px;
+        font-variation-settings: normal;
+      }
+      h3 {
+        font-family: "Public Sans", sans-serif;
+        font-size: 1.02rem;
+        font-weight: 650;
+        letter-spacing: -0.005em;
+        margin: 30px 0 8px;
+        color: var(--ink);
+      }
+      h4 {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        margin: 26px 0 10px;
+      }
+      section {
+        margin-top: 52px;
+        scroll-margin-top: 24px;
+      }
+      p {
+        margin: 0 0 15px;
+      }
+      a {
+        color: var(--accent-2);
+        text-decoration-color: color-mix(
+          in srgb,
+          var(--accent) 40%,
+          transparent
+        );
+        text-underline-offset: 2px;
+      }
+      a:hover {
+        text-decoration-color: var(--accent);
+      }
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 2px;
+      }
+      strong {
+        font-weight: 650;
+      }
+      ul,
+      ol {
+        margin: 0 0 16px;
+        padding-left: 1.15em;
+      }
+      li {
+        margin-bottom: 7px;
+      }
+      li::marker {
+        color: var(--ink-3);
+      }
+      kbd {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.8em;
+        background: var(--surface-2);
+        border: 1px solid var(--rule);
+        border-bottom-width: 2px;
+        border-radius: 4px;
+        padding: 0.1em 0.4em;
+        color: var(--ink-2);
+      }
+      code {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 0.855em;
+        background: var(--surface-2);
+        border: 1px solid var(--rule-soft);
+        border-radius: 3px;
+        padding: 0.1em 0.34em;
+        color: var(--ink);
+      }
+      pre {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 12.6px;
+        line-height: 1.68;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-left: 2px solid var(--accent);
+        padding: 15px 18px;
+        overflow-x: auto;
+        margin: 0 0 18px;
+        color: var(--ink-2);
+      }
+      pre code {
+        background: none;
+        border: 0;
+        padding: 0;
+        font-size: inherit;
+        color: inherit;
+      }
+      pre .c {
+        color: var(--ink-3);
+        font-style: italic;
+      }
+      pre .k {
+        color: var(--accent-2);
+        font-weight: 500;
+      }
+      pre .add {
+        color: var(--accent-2);
+      }
+      pre .del {
+        color: var(--oxblood);
+      }
+
+      /* ---------- tables ---------- */
+      .scroll {
+        overflow-x: auto;
+        margin: 0 0 20px;
+        border: 1px solid var(--rule);
+        background: var(--surface);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14px;
+        min-width: 520px;
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--rule-soft);
+        vertical-align: top;
+      }
+      thead th {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        font-weight: 600;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: var(--ink-3);
+        background: var(--surface-2);
+        border-bottom: 1px solid var(--rule);
+        white-space: nowrap;
+      }
+      tbody tr:last-child td {
+        border-bottom: 0;
+      }
+      tbody tr:hover {
+        background: color-mix(in srgb, var(--accent-soft) 45%, transparent);
+      }
+      td code {
+        font-size: 12px;
+      }
+      .num-cell {
+        font-variant-numeric: tabular-nums;
+        white-space: nowrap;
+      }
+
+      /* ---------- pills ---------- */
+      .pill {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        padding: 2px 7px;
+        border-radius: 3px;
+        white-space: nowrap;
+        border: 1px solid transparent;
+      }
+      .pill.yes {
+        background: var(--accent-soft);
+        color: var(--accent-2);
+        border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+      }
+      .pill.no {
+        background: var(--oxblood-soft);
+        color: var(--oxblood);
+        border-color: color-mix(in srgb, var(--oxblood) 30%, transparent);
+      }
+      .pill.mid {
+        background: var(--amber-soft);
+        color: var(--amber);
+        border-color: color-mix(in srgb, var(--amber) 30%, transparent);
+      }
+      .pill.flat {
+        background: var(--surface-2);
+        color: var(--ink-3);
+        border-color: var(--rule);
+      }
+
+      /* ---------- callouts ---------- */
+      .note {
+        border: 1px solid var(--rule);
+        border-left: 3px solid var(--ink-3);
+        background: var(--surface);
+        padding: 15px 18px 4px;
+        margin: 0 0 20px;
+        font-size: 15px;
+      }
+      .note.warn {
+        border-left-color: var(--amber);
+        background: color-mix(in srgb, var(--amber-soft) 55%, var(--surface));
+      }
+      .note.stop {
+        border-left-color: var(--oxblood);
+        background: color-mix(in srgb, var(--oxblood-soft) 55%, var(--surface));
+      }
+      .note.tip {
+        border-left-color: var(--accent);
+        background: color-mix(in srgb, var(--accent-soft) 55%, var(--surface));
+      }
+      .note .lab {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+        color: var(--ink-3);
+      }
+      .note.warn .lab {
+        color: var(--amber);
+      }
+      .note.stop .lab {
+        color: var(--oxblood);
+      }
+      .note.tip .lab {
+        color: var(--accent-2);
+      }
+
+      /* ---------- cards ---------- */
+      .cards {
+        display: grid;
+        gap: 14px;
+        margin: 0 0 22px;
+      }
+      @media (min-width: 720px) {
+        .cards.two {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      .card {
+        border: 1px solid var(--rule);
+        background: var(--surface);
+        padding: 18px 20px 6px;
+      }
+      .card h3 {
+        margin-top: 0;
+      }
+      .card .lab {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.13em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      /* ---------- tree ---------- */
+      .tree {
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        border-left-width: 1px;
+        border-left-color: var(--rule);
+        font-size: 12.4px;
+        line-height: 1.85;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        padding: 18px 20px;
+        overflow-x: auto;
+        margin: 0 0 20px;
+        white-space: pre;
+        color: var(--ink-2);
+      }
+      .tree b {
+        color: var(--ink);
+        font-weight: 600;
+      }
+      .tree i {
+        color: var(--ink-3);
+        font-style: normal;
+      }
+      .tree u {
+        color: var(--accent-2);
+        text-decoration: none;
+      }
+
+      /* ---------- figure ---------- */
+      figure {
+        margin: 0 0 24px;
+      }
+      figure svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        max-width: 100%;
+        color: var(--ink-2);
+      }
+      figcaption {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-top: 10px;
+        padding-top: 9px;
+        border-top: 1px solid var(--rule-soft);
+        max-width: 62ch;
+      }
+      .figbox {
+        border: 1px solid var(--rule);
+        background: var(--surface);
+        padding: 22px 20px 16px;
+        overflow-x: auto;
+      }
+
+      /* ---------- phases ---------- */
+      .phase {
+        display: grid;
+        grid-template-columns: 74px minmax(0, 1fr);
+        gap: 20px;
+        padding: 18px 0;
+        border-bottom: 1px solid var(--rule-soft);
+        align-items: start;
+      }
+      .phase:last-child {
+        border-bottom: 0;
+      }
+      .phase .tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        padding-top: 3px;
+      }
+      .phase .tag em {
+        display: block;
+        font-style: normal;
+        color: var(--ink-3);
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        margin-top: 3px;
+      }
+      .phase h3 {
+        margin: 0 0 6px;
+      }
+      .phase p {
+        margin: 0 0 8px;
+        font-size: 15px;
+        color: var(--ink-2);
+      }
+      .phase ul {
+        font-size: 14.5px;
+        color: var(--ink-2);
+        margin-bottom: 0;
+      }
+
+      footer {
+        margin-top: 64px;
+        padding-top: 22px;
+        border-top: 1px solid var(--rule);
+        font-size: 13px;
+        color: var(--ink-3);
+      }
+      footer h4 {
+        margin-top: 0;
+      }
+      footer a {
+        color: var(--ink-2);
+      }
+      .srcs {
+        columns: 2;
+        column-gap: 32px;
+        font-size: 12.5px;
+        line-height: 1.7;
+      }
+      @media (max-width: 640px) {
+        .srcs {
+          columns: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+    <style>
+      img,
+      svg {
+        max-width: 100%;
+      }
+      table {
+        border-collapse: collapse;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="rail" aria-label="Section index">
+        <p>Contents</p>
+        <ol>
+          <li>
+            <a href="#s1"><span>01</span> The problem</a>
+          </li>
+          <li>
+            <a href="#s2"><span>02</span> Framework</a>
+          </li>
+          <li>
+            <a href="#s3"><span>03</span> Fitting the app</a>
+          </li>
+          <li>
+            <a href="#s4"><span>04</span> Architecture</a>
+          </li>
+          <li>
+            <a href="#s5"><span>05</span> The UX layer</a>
+          </li>
+          <li>
+            <a href="#s6"><span>06</span> Editing w/o git</a>
+          </li>
+          <li>
+            <a href="#s7"><span>07</span> Staying true</a>
+          </li>
+          <li>
+            <a href="#s8"><span>08</span> Look &amp; feel</a>
+          </li>
+          <li>
+            <a href="#s9"><span>09</span> Roadmap</a>
+          </li>
+          <li>
+            <a href="#s10"><span>10</span> Open decisions</a>
+          </li>
+        </ol>
+      </nav>
+
+      <main>
+        <header class="docket">
+          <div class="docket-card">
+            <div class="docket-meta">
+              <span><b>CS-121</b> &nbsp;Documentation page</span>
+              <span>Repo &nbsp;<b>city-scrapers-meetings-viewer</b></span>
+              <span>Drafted &nbsp;<b>Aug 2026</b></span>
+              <span>Status &nbsp;<b>For review</b></span>
+            </div>
+            <h1>A docs platform that can&rsquo;t quietly go stale</h1>
+            <p class="standfirst">
+              Research and a recommended build for a single documentation site
+              covering both halves of City Scrapers &mdash; the Meetings Viewer,
+              and the scraper building &amp; QA guide &mdash; that your team
+              edits continuously and CI keeps honest. Everything below is free
+              and open source.
+            </p>
+          </div>
+
+          <div class="verdict">
+            <div class="verdict-head">
+              <h2>Recommendation</h2>
+              <span class="stamp">Build it inside the app</span>
+            </div>
+            <div class="verdict-body">
+              <p>
+                <strong
+                  >Mount Fumadocs 16 at <code>/docs</code> inside the existing
+                  Next.js app</strong
+                >, with MDX content in <code>content/docs/</code>, Keystatic at
+                <code>/keystatic</code> for teammates who won&rsquo;t touch a
+                terminal, and a CI layer that lints prose, checks links, and
+                flags docs whose underlying code has moved. One repo, one
+                deploy, one design system, a preview URL on every docs PR.
+              </p>
+              <p>
+                The deciding fact:
+                <strong
+                  >Fumadocs is the only current option that can live inside a
+                  Next.js 16 App Router app.</strong
+                >
+                Docusaurus, Starlight, and VitePress are standalone site
+                generators &mdash; adopting one means a second deployment and a
+                second visual identity. Nextra could mount at a subpath in
+                principle, but it is
+                <a href="https://github.com/shuding/nextra/issues/5003"
+                  >broken on Next.js 16.2.5+</a
+                >
+                with an open, unanswered issue and no release since December
+                2025.
+              </p>
+              <div class="scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Layer</th>
+                      <th>Pick</th>
+                      <th>Why this one</th>
+                      <th>Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Docs framework</td>
+                      <td><code>fumadocs-ui</code> 16.15 (MIT)</td>
+                      <td>
+                        Mounts as a route group in your app. Ships sidebar, TOC,
+                        search, callouts, code blocks, <code>llms.txt</code>.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Content</td>
+                      <td>MDX in <code>content/docs/</code></td>
+                      <td>Reviewed like code. Vercel preview per PR.</td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Search</td>
+                      <td>ZBSearch (Fumadocs default)</td>
+                      <td>
+                        One route handler, no external service, no API key.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Visual editing</td>
+                      <td>Keystatic (MIT), GitHub mode</td>
+                      <td>
+                        Real MDX WYSIWYG, mounted at <code>/keystatic</code> in
+                        the same app.
+                      </td>
+                      <td>Free<sup>&#8224;</sup></td>
+                    </tr>
+                    <tr>
+                      <td>Diagrams</td>
+                      <td>Mermaid via a client component</td>
+                      <td>
+                        Data-flow and PR-lifecycle diagrams live in the MDX.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Prose QA</td>
+                      <td>Vale + cspell in CI</td>
+                      <td>
+                        Google style guide plus a City Scrapers vocabulary.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Links</td>
+                      <td>lychee &mdash; offline on PR, full crawl nightly</td>
+                      <td>
+                        A dead <code>.gov</code> site shouldn&rsquo;t block
+                        someone&rsquo;s PR.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Drift</td>
+                      <td>Fiberplane Drift, piloted</td>
+                      <td>
+                        Only free tool that fingerprints both TypeScript and
+                        Python.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Quality gate</td>
+                      <td><code>@axe-core/playwright</code> + Lighthouse CI</td>
+                      <td>
+                        Accessibility as a hard gate; performance as a warning.
+                      </td>
+                      <td>Free</td>
+                    </tr>
+                    <tr>
+                      <td>Hosting</td>
+                      <td>Your existing Vercel project</td>
+                      <td>No new infrastructure at all.</td>
+                      <td>Free</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p style="font-size: 13.5px; color: var(--ink-3)">
+                <sup>&#8224;</sup> Free as long as every editor has a GitHub
+                account with write access to the repo. Dropping that requirement
+                costs Keystatic Cloud &mdash; free for 3 users, then $10/month.
+                See <a href="#s6">&sect;6</a>.
+              </p>
+            </div>
+          </div>
+        </header>
+
+        <!-- ===================== 1 ===================== -->
+        <section id="s1" class="col">
+          <h2><span class="num">01</span> What this actually has to solve</h2>
+
+          <p>
+            CS-121 asks for one documentation page covering two things that look
+            related but aren&rsquo;t: how to
+            <em>use and develop the Meetings Viewer</em>, and how to
+            <em>build and QA a scraper</em>. Those have different readers,
+            different lifespans, and different failure modes. Worth being
+            explicit about them before picking tools.
+          </p>
+
+          <div class="cards two">
+            <div class="card">
+              <span class="lab">Reader A &mdash; the apprentice</span>
+              <h3>&ldquo;I&rsquo;ve been assigned a city. Now what?&rdquo;</h3>
+              <p>
+                Needs a path, not a reference: analyse the source, pick a spider
+                pattern, write the parse method, get output into the viewer,
+                check it against the rubric, open a PR. Reads sequentially,
+                once, under pressure. Most of what they need is currently in a
+                Google Doc they have to alt-tab away from their editor to read.
+              </p>
+            </div>
+            <div class="card">
+              <span class="lab">Reader B &mdash; the reviewer</span>
+              <h3>&ldquo;Is this scraper actually correct?&rdquo;</h3>
+              <p>
+                Needs a rubric they can apply field by field against real
+                output, fast, without re-deriving it from memory. This is the
+                same job the Meetings Viewer exists to speed up &mdash; which
+                means the docs and the app are solving one problem, and should
+                live together.
+              </p>
+            </div>
+          </div>
+
+          <h3>The three failure modes to design against</h3>
+          <ul>
+            <li>
+              <strong>Drift.</strong> The rubric says <code>end</code> defaults
+              to <code>start + 2 hours</code>. If that changes upstream and
+              nobody edits the doc, the doc becomes actively harmful &mdash;
+              worse than no doc, because people trust it. Every mechanism in
+              <a href="#s7">&sect;7</a> exists for this.
+            </li>
+            <li>
+              <strong>Contribution friction.</strong> Documentation that only
+              one person can update becomes that person&rsquo;s backlog. If a
+              mentor spots an error in the QA rubric, fixing it should take two
+              minutes and no local setup.
+            </li>
+            <li>
+              <strong>Two sources of truth.</strong> Today the schema table
+              exists in a Google Doc, in <code>README.md</code>, and implicitly
+              in the app&rsquo;s TypeScript types. Three copies, guaranteed to
+              diverge. The plan is one canonical source per fact, with the rest
+              generated.
+            </li>
+          </ul>
+
+          <div class="note tip">
+            <span class="lab">Why not just keep the Google Docs</span>
+            <p>
+              They&rsquo;re genuinely fine for drafting, and the two you have
+              are well written. What they can&rsquo;t do: be reviewed alongside
+              the code change that made them wrong, be linked from an error
+              message, be searched with <kbd>&#8984;K</kbd> next to the thing
+              being described, render a live component, or be checked by CI.
+              Keep Google Docs for drafting; make the site the published
+              artifact.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== 2 ===================== -->
+        <section id="s2" class="col">
+          <h2>
+            <span class="num">02</span> Framework: what&rsquo;s actually
+            available
+          </h2>
+
+          <p>
+            Six serious candidates, all evaluated against one constraint that
+            turns out to settle it:
+            <em
+              >can this run inside the Next.js 16 App Router app you already
+              have?</em
+            >
+          </p>
+
+          <div class="scroll bleed">
+            <table>
+              <thead>
+                <tr>
+                  <th>Option</th>
+                  <th>License</th>
+                  <th>Mounts at <code>/docs</code>?</th>
+                  <th>What you get</th>
+                  <th>Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>Fumadocs 16</strong><br /><span
+                      style="color: var(--ink-3); font-size: 12.5px"
+                      >fumadocs-ui 16.15.1</span
+                    >
+                  </td>
+                  <td>MIT</td>
+                  <td><span class="pill yes">Yes</span></td>
+                  <td>
+                    Sidebar, TOC, ZBSearch, callouts, tabs, steps, OpenAPI,
+                    <code>llms.txt</code>, copy-as-markdown, AI search
+                    component. Peer-pins <code>next: 16.x</code>.
+                  </td>
+                  <td><span class="pill yes">Pick this</span></td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Nextra 4</strong><br /><span
+                      style="color: var(--ink-3); font-size: 12.5px"
+                      >4.6.1, Dec 2025</span
+                    >
+                  </td>
+                  <td>MIT</td>
+                  <td><span class="pill mid">In theory</span></td>
+                  <td>
+                    <code>contentDirBasePath: '/docs'</code> exists. But an open
+                    issue reports it broken on Next 16.2.5+, and it ships a
+                    precompiled Tailwind bundle with a full unscoped Preflight
+                    that would fight your MUI styles.
+                  </td>
+                  <td><span class="pill no">Blocked</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Docusaurus 3</strong></td>
+                  <td>MIT</td>
+                  <td><span class="pill no">No</span></td>
+                  <td>
+                    Best-in-class versioning and i18n, huge plugin ecosystem.
+                    But it is its own build, its own router, its own design
+                    language.
+                  </td>
+                  <td><span class="pill flat">Second site</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Astro Starlight</strong></td>
+                  <td>MIT</td>
+                  <td><span class="pill no">No</span></td>
+                  <td>
+                    Excellent defaults, very fast, can embed React islands.
+                    Requires running Astro&rsquo;s build alongside Next&rsquo;s.
+                  </td>
+                  <td><span class="pill flat">Second site</span></td>
+                </tr>
+                <tr>
+                  <td><strong>VitePress</strong></td>
+                  <td>MIT</td>
+                  <td><span class="pill no">No</span></td>
+                  <td>
+                    Vue + Vite. Different bundler <em>and</em> different UI
+                    framework &mdash; doubly incompatible.
+                  </td>
+                  <td><span class="pill no">No</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Mintlify</strong></td>
+                  <td>Hosted</td>
+                  <td><span class="pill no">No</span></td>
+                  <td>
+                    The nicest out-of-the-box product here, and its Autopilot
+                    feature genuinely does open PRs to fix stale docs. It is
+                    closed-source hosting, and adopting it means your docs live
+                    on their platform.
+                  </td>
+                  <td><span class="pill no">Not free</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="note warn">
+            <span class="lab">The one real cost of Fumadocs</span>
+            <p>
+              <code>fumadocs-ui@16.15.1</code> and
+              <code>fumadocs-core@16.15.1</code> both declare
+              <code>"next": "16.x.x"</code> &mdash; a single-major range. It is
+              not quite a wall: every Fumadocs peer is marked optional in
+              <code>peerDependenciesMeta</code>, so npm warns rather than
+              refuses, and an <code>overrides</code> entry would force it. But a
+              strict resolver or CI running <code>--strict-peer-deps</code> will
+              fail, so treat it as a real coupling: pin both versions, upgrade
+              them as one unit, and note it in <code>AGENTS.md</code>. Fumadocs
+              releases near-daily, so the lag should be short.
+            </p>
+          </div>
+
+          <h3>If you&rsquo;d rather not couple docs to the app at all</h3>
+          <p>
+            The honest alternative is
+            <strong
+              >Starlight deployed separately, proxied in via
+              <code>next.config</code> rewrites</strong
+            >
+            at <code>/docs/:path*</code>. You get complete isolation &mdash; no
+            CSS conflict, no version coupling, docs can&rsquo;t break the app
+            build. You lose the shared header, the shared theme, a shared
+            search, and the ability to render live app components in a doc page.
+            Given that <a href="#s5">&sect;5</a> is largely built on that last
+            capability, the coupling is worth paying for. But if the
+            team&rsquo;s priority is that the viewer never breaks because of a
+            docs dependency, this is the defensible second choice.
+          </p>
+        </section>
+
+        <!-- ===================== 3 ===================== -->
+        <section id="s3">
+          <div class="col">
+            <h2>
+              <span class="num">03</span> Fitting it into the app you already
+              have
+            </h2>
+            <p>
+              The app is already set up for this. The CSS layer order is
+              declared, MUI runs on CSS variables with a data-attribute colour
+              scheme, and shared logic sits in a top-level <code>lib/</code>.
+              Routes are split into <code>(app)</code> and
+              <code>(landing)</code> route groups; adding <code>(docs)</code> is
+              the same move a third time.
+            </p>
+          </div>
+
+          <div class="col">
+            <div class="note tip">
+              <span class="lab">Why the CSS cascade is already safe</span>
+              <p>
+                <code>globals.css</code> declares the layer order explicitly,
+                which is what makes Fumadocs safe to add:
+              </p>
+              <pre><code>@layer theme, base, mui, components, utilities;
+@import "tailwindcss";
+<span class="add">@import "fumadocs-ui/css/neutral.css";</span>
+<span class="add">@import "fumadocs-ui/css/preset.css";</span></code></pre>
+              <p>
+                Fumadocs&rsquo; preset emits exactly two global rules, both in
+                <code>@layer base</code> &mdash; a universal
+                <code>border-color</code>, and
+                <code
+                  >body { background-color: var(--color-fd-background) }</code
+                >. With <code>mui</code> ranked after <code>base</code>,
+                <code>&lt;CssBaseline /&gt;</code> wins on
+                <code>body</code> app-wide, while Fumadocs still colours its own
+                containers inside <code>/docs</code>. Had the order been left
+                undeclared, <code>mui</code>&rsquo;s rank would depend on when
+                Emotion injected its style tag, and the app background could
+                repaint to the docs theme.
+              </p>
+              <p>
+                One consequence worth knowing: <code>components</code> and
+                <code>utilities</code> outrank <code>mui</code>. Inside
+                <code>/docs</code> that is what you want &mdash; Fumadocs&rsquo;
+                prose styles should beat MUI defaults there. Outside
+                <code>/docs</code> none of those classes apply, so nothing
+                changes.
+              </p>
+            </div>
+
+            <div class="note tip">
+              <span class="lab">And why the palette is already shareable</span>
+              <p>
+                <code>app/theme.ts</code> runs
+                <code
+                  >createTheme({ cssVariables: { colorSchemeSelector: "data" },
+                  colorSchemes: { light: true, dark: true } })</code
+                >, with
+                <code>&lt;InitColorSchemeScript attribute="data" /&gt;</code> in
+                the root layout to prevent a flash of unstyled content.
+              </p>
+              <p>
+                That matters more for CS-121 than it does for the app: MUI emits
+                real <code>--mui-palette-*</code> custom properties, which is
+                the precondition for theming Fumadocs from your palette instead
+                of maintaining a second one. <a href="#s8">&sect;8</a> builds on
+                it.
+              </p>
+            </div>
+
+            <div class="note warn">
+              <span class="lab"
+                >Do not import <code>fumadocs-ui/style.css</code></span
+              >
+              <p>
+                That prebuilt file is a fully compiled Tailwind bundle including
+                a complete Preflight and unprefixed <code>:root</code> theme
+                tokens. It exists for apps with no Tailwind of their own and
+                will clobber yours. Always use the <code>neutral.css</code> +
+                <code>preset.css</code> source path shown above.
+              </p>
+            </div>
+          </div>
+
+          <div class="col">
+            <h3>What lands in the repo</h3>
+          </div>
+
+          <!-- prettier-ignore -->
+          <pre class="tree bleed">├── app
+│   ├── (app)/ ............................ <i>unchanged</i>
+│   ├── (landing)/ ........................ <i>unchanged</i>
+│   ├── <b>(docs)</b>
+│   │   ├── <b>layout.tsx</b> ...................... <i>RootProvider + DocsLayout + your SiteHeader</i>
+│   │   └── <b>docs/[[...slug]]/page.tsx</b> ....... <i>renders one MDX page</i>
+│   ├── <b>api/search/route.ts</b> ................ <i>ZBSearch, one line</i>
+│   ├── <b>llms.txt/route.ts</b> .................. <i>index for AI assistants</i>
+│   ├── <b>llms-full.txt/route.ts</b> ............. <i>whole corpus, one file</i>
+│   ├── <b>keystatic/[[...params]]/page.tsx</b> ... <i>the visual editor</i>
+│   ├── globals.css ....................... <u>+2 imports</u>
+│   ├── theme.ts .......................... <i>unchanged &mdash; supplies the palette vars</i>
+│   └── layout.tsx ........................ <i>unchanged</i>
+├── <b>content/docs</b>
+│   ├── meta.json ......................... <i>sidebar order</i>
+│   ├── index.mdx
+│   ├── viewer/ ........................... <i>from: Meetings Viewer Tech Spec</i>
+│   ├── scrapers/ ......................... <i>from: Development Guidelines &sect;1&ndash;2</i>
+│   ├── qa/ ............................... <i>from: Development Guidelines &sect;2.5</i>
+│   └── contributing/ ..................... <i>from: Development Guidelines &sect;3</i>
+├── components
+│   ├── <b>docs/</b> ............................. <i>MDX components (&sect;5)</i>
+│   └── ui/, scrapers/, layout/ ........... <i>unchanged &mdash; and importable from MDX</i>
+├── lib
+│   ├── meetings.ts, duplicates.ts ........ <i>unchanged &mdash; reused by the QA tool (&sect;5)</i>
+│   ├── scrapers.ts, layout.ts ............ <i>unchanged</i>
+│   └── <b>source.ts</b> ......................... <i>defineDocs + loader({ baseUrl: '/docs' })</i>
+├── <b>keystatic.config.ts</b>
+└── <b>proxy.ts</b> ............................... <i>markdown content negotiation</i></pre>
+
+          <div class="col">
+            <div class="note">
+              <span class="lab">Note</span>
+              <p>
+                Next.js allows exactly one root <code>proxy.ts</code> (the
+                renamed <code>middleware.ts</code>). You have none today, so
+                Fumadocs&rsquo; content-negotiation file is free to add &mdash;
+                but if you later add auth middleware, the two must be merged
+                rather than coexisting. Worth a comment in the file.
+              </p>
+            </div>
+
+            <div class="note">
+              <span class="lab">Node.js version &mdash; no conflict</span>
+              <p>
+                The repo declares
+                <code>engines: { "node": "&gt;=20.9.0" }</code>, which is
+                <a
+                  href="https://nextjs.org/docs/app/guides/upgrading/version-16"
+                  >Next.js 16&rsquo;s own minimum</a
+                >. Fumadocs adds no constraint: neither
+                <code>fumadocs-ui@16.15.1</code> nor
+                <code>fumadocs-core@16.15.1</code> declares an
+                <code>engines</code> field, and the manual-installation page
+                lists only Next.js 16 and Tailwind CSS 4 as prerequisites. Some
+                write-ups claim Fumadocs needs Node 22 &mdash; that figure comes
+                from the <code>create-fumadocs-app</code> scaffold, not the
+                libraries. Confirm during the P0 spike anyway, since npm
+                won&rsquo;t warn either way when no <code>engines</code> field
+                exists.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== 4 ===================== -->
+        <section id="s4">
+          <div class="col">
+            <h2><span class="num">04</span> How content reaches a page</h2>
+            <p>
+              Three different kinds of author write into the same folder, and
+              one build pipeline serves all of them. That&rsquo;s the whole
+              architecture &mdash; and it&rsquo;s why the visual editor and the
+              generators don&rsquo;t need any special support from the
+              framework.
+            </p>
+          </div>
+
+          <figure class="bleed">
+            <div class="figbox">
+              <svg
+                viewBox="0 0 860 400"
+                role="img"
+                aria-label="Three authoring paths — developer MDX commits, Keystatic visual edits, and CI generators — all write into content/docs, which fumadocs-mdx compiles into the page tree served by the (docs) route group inside the existing Next.js app, alongside the unchanged (app) and (landing) route groups."
+              >
+                <defs>
+                  <marker
+                    id="ar"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+                  </marker>
+                  <marker
+                    id="ara"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#0F6E68" />
+                  </marker>
+                </defs>
+
+                <!-- column headers -->
+                <text
+                  x="12"
+                  y="20"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  letter-spacing="1.6"
+                  fill="currentColor"
+                  opacity=".55"
+                >
+                  AUTHORS
+                </text>
+                <text
+                  x="322"
+                  y="20"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  letter-spacing="1.6"
+                  fill="currentColor"
+                  opacity=".55"
+                >
+                  SOURCE OF TRUTH
+                </text>
+                <text
+                  x="640"
+                  y="20"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  letter-spacing="1.6"
+                  fill="currentColor"
+                  opacity=".55"
+                >
+                  ONE NEXT.JS APP
+                </text>
+
+                <!-- authors -->
+                <rect
+                  x="12"
+                  y="42"
+                  width="200"
+                  height="52"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="26"
+                  y="66"
+                  font-family="Public Sans, sans-serif"
+                  font-size="13"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Developer
+                </text>
+                <text
+                  x="26"
+                  y="83"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  edits .mdx, opens PR
+                </text>
+
+                <rect
+                  x="12"
+                  y="118"
+                  width="200"
+                  height="52"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="26"
+                  y="142"
+                  font-family="Public Sans, sans-serif"
+                  font-size="13"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Mentor / PM
+                </text>
+                <text
+                  x="26"
+                  y="159"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  Keystatic at /keystatic
+                </text>
+
+                <rect
+                  x="12"
+                  y="194"
+                  width="200"
+                  height="52"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="26"
+                  y="218"
+                  font-family="Public Sans, sans-serif"
+                  font-size="13"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  CI generators
+                </text>
+                <text
+                  x="26"
+                  y="235"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  types &rarr; schema tables
+                </text>
+
+                <!-- arrows into content -->
+                <line
+                  x1="216"
+                  y1="68"
+                  x2="316"
+                  y2="130"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar)"
+                />
+                <line
+                  x1="216"
+                  y1="144"
+                  x2="316"
+                  y2="144"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar)"
+                />
+                <line
+                  x1="216"
+                  y1="220"
+                  x2="316"
+                  y2="158"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar)"
+                />
+                <text
+                  x="238"
+                  y="112"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  commits
+                </text>
+                <text
+                  x="238"
+                  y="192"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  regenerates
+                </text>
+
+                <!-- content store -->
+                <rect
+                  x="320"
+                  y="112"
+                  width="188"
+                  height="64"
+                  fill="none"
+                  stroke="#0F6E68"
+                  stroke-width="2"
+                />
+                <text
+                  x="336"
+                  y="138"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="12.5"
+                  font-weight="600"
+                  fill="#0F6E68"
+                >
+                  content/docs/
+                </text>
+                <text
+                  x="336"
+                  y="157"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  *.mdx + meta.json
+                </text>
+
+                <!-- CI checks hanging below -->
+                <line
+                  x1="414"
+                  y1="180"
+                  x2="414"
+                  y2="228"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  stroke-dasharray="3 3"
+                  marker-end="url(#ar)"
+                />
+                <rect
+                  x="320"
+                  y="230"
+                  width="188"
+                  height="46"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-dasharray="3 3"
+                />
+                <text
+                  x="336"
+                  y="250"
+                  font-family="Public Sans, sans-serif"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  CI gates
+                </text>
+                <text
+                  x="336"
+                  y="266"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  vale &middot; lychee &middot; axe &middot; drift
+                </text>
+                <text
+                  x="424"
+                  y="207"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  blocks merge
+                </text>
+
+                <!-- compile arrow -->
+                <line
+                  x1="512"
+                  y1="144"
+                  x2="608"
+                  y2="144"
+                  stroke="#0F6E68"
+                  stroke-width="1.6"
+                  marker-end="url(#ara)"
+                />
+                <text
+                  x="516"
+                  y="136"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="#0F6E68"
+                >
+                  fumadocs-mdx
+                </text>
+
+                <!-- the app -->
+                <rect
+                  x="612"
+                  y="42"
+                  width="236"
+                  height="234"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="628"
+                  y="66"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="11"
+                  letter-spacing="1"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  app/layout.tsx
+                </text>
+                <line
+                  x1="628"
+                  y1="76"
+                  x2="832"
+                  y2="76"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  opacity=".3"
+                />
+
+                <rect
+                  x="628"
+                  y="90"
+                  width="204"
+                  height="42"
+                  fill="none"
+                  stroke="#0F6E68"
+                  stroke-width="2"
+                />
+                <text
+                  x="642"
+                  y="107"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="12"
+                  font-weight="600"
+                  fill="#0F6E68"
+                >
+                  (docs)
+                </text>
+                <text
+                  x="642"
+                  y="123"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  /docs/* &middot; new
+                </text>
+
+                <rect
+                  x="628"
+                  y="144"
+                  width="204"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="642"
+                  y="161"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  (app)
+                </text>
+                <text
+                  x="642"
+                  y="177"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  /scrapers/* &middot; unchanged
+                </text>
+
+                <rect
+                  x="628"
+                  y="198"
+                  width="204"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="642"
+                  y="215"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  (landing)
+                </text>
+                <text
+                  x="642"
+                  y="231"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".62"
+                >
+                  / &middot; unchanged
+                </text>
+
+                <text
+                  x="628"
+                  y="262"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".55"
+                >
+                  one build &middot; one deploy &middot; one theme
+                </text>
+
+                <!-- the live-component edge: the point of the whole thing -->
+                <line
+                  x1="716"
+                  y1="276"
+                  x2="716"
+                  y2="316"
+                  stroke="#0F6E68"
+                  stroke-width="1.4"
+                />
+                <line
+                  x1="716"
+                  y1="316"
+                  x2="530"
+                  y2="316"
+                  stroke="#0F6E68"
+                  stroke-width="1.4"
+                />
+                <line
+                  x1="530"
+                  y1="316"
+                  x2="530"
+                  y2="164"
+                  stroke="#0F6E68"
+                  stroke-width="1.4"
+                />
+                <line
+                  x1="530"
+                  y1="164"
+                  x2="512"
+                  y2="164"
+                  stroke="#0F6E68"
+                  stroke-width="1.4"
+                  marker-end="url(#ara)"
+                />
+                <text
+                  x="424"
+                  y="336"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="#0F6E68"
+                  text-anchor="middle"
+                >
+                  an .mdx page can import components/ui/StatusChip
+                </text>
+                <text
+                  x="424"
+                  y="352"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".62"
+                  text-anchor="middle"
+                >
+                  and render the real one &mdash; so that page cannot drift
+                </text>
+
+                <!-- separator -->
+                <line
+                  x1="12"
+                  y1="374"
+                  x2="848"
+                  y2="374"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  opacity=".18"
+                />
+                <text
+                  x="12"
+                  y="392"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".5"
+                >
+                  solid = build-time &nbsp;&nbsp; dashed = CI-time
+                </text>
+              </svg>
+            </div>
+            <figcaption>
+              Three authoring paths converge on one folder. Because the docs
+              routes are inside the app, an MDX page can import the app&rsquo;s
+              own components &mdash; the edge that no separately-deployed docs
+              site can draw.
+            </figcaption>
+          </figure>
+        </section>
+
+        <!-- ===================== 5 ===================== -->
+        <section id="s5" class="col">
+          <h2>
+            <span class="num">05</span> The UX layer &mdash; what makes this
+            better than a wiki
+          </h2>
+          <p>
+            Everything so far is plumbing. This is the part that decides whether
+            people use it. The through-line:
+            <strong>the docs should do work, not just describe it.</strong> Ten
+            concrete things, roughly in order of value per unit of effort.
+          </p>
+
+          <h3>1. Paste your scraper output, get a rubric report</h3>
+          <p>
+            The highest-value page on the site. A drop zone on the QA page:
+            paste or drop a <code>scrapy crawl -O</code> JSON file and get a
+            per-field verdict against the rubric in &sect;2.5 of the development
+            guide &mdash; timezone-aware datetimes, titles containing a date,
+            empty <code>location</code> with no <code>time_notes</code>, links
+            out of priority order, <code>status</code> inconsistent with
+            <code>start</code>, duplicate IDs. Runs entirely client-side;
+            nothing is uploaded.
+          </p>
+          <p>
+            This is the same job the Meetings Viewer already exists to do, so
+            most of the logic is a lift from <code>lib/meetings.ts</code> and
+            <code>lib/duplicates.ts</code> &mdash; both top-level and cleanly
+            importable from a docs route.
+          </p>
+
+          <h3>2. Docs that render the real components</h3>
+          <p>
+            Because <code>/docs</code> lives in the app, an MDX page can do
+            this:
+          </p>
+          <pre><code><span class="k">import</span> { StatusChip } <span class="k">from</span> <span style="color:var(--accent-2)">'@/components/ui/StatusChip'</span>
+
+<span class="c">&lt;!-- this legend is the component, not a screenshot of it --&gt;</span>
+&lt;StatusChip status="cancelled" /&gt; &mdash; the source explicitly says so.</code></pre>
+          <p>
+            Status legends, location formatting, link ordering, the duplicate
+            badge: all documented by rendering the real thing. Those pages are
+            structurally incapable of drifting. Do this everywhere it applies
+            before reaching for any drift-detection tooling.
+          </p>
+
+          <h3>3. An interactive rubric explorer</h3>
+          <p>
+            The twelve-field schema table is the single most-consulted artifact
+            in the whole project, and a wide table is a poor container for it.
+            Make it a component: choose a field, get expected behaviour, edge
+            cases, a good/bad example pair, and the spider code that produces
+            it. Deep-linkable &mdash; <code>/docs/qa/schema#links</code> &mdash;
+            so a reviewer can drop the exact anchor into a PR comment instead of
+            retyping the rule.
+          </p>
+
+          <h3>4. Command blocks that know your spider</h3>
+          <p>
+            One input at the top of the &ldquo;running a spider&rdquo; page
+            &mdash; spider name, path to the viewer &mdash; and every snippet on
+            the page fills itself in, with a copy button. This kills the two
+            most common apprentice errors in one move: lowercase
+            <code>-o</code> instead of <code>-O</code> (which silently appends
+            and duplicates records), and writing to the wrong
+            <code>data/scrapers/</code> path.
+          </p>
+
+          <h3>5. A QA checklist that exports to the PR</h3>
+          <p>
+            The pre-submit checklist as real checkboxes, state kept in
+            <code>localStorage</code>, with a <em>Copy as PR comment</em> button
+            that emits a markdown checklist. Docs feed the review workflow
+            rather than sitting beside it. Pair with your existing
+            <code>.github/PULL_REQUEST_TEMPLATE.md</code>.
+          </p>
+
+          <h3>6. Two front doors, not one</h3>
+          <p>
+            The <code>/docs</code> index should be two paths, not a wall of
+            links: <em>&ldquo;I&rsquo;m building a scraper&rdquo;</em> and
+            <em>&ldquo;I&rsquo;m reviewing one.&rdquo;</em> The two readers in
+            &sect;1 need almost disjoint pages; making them choose in the first
+            three seconds is worth more than any amount of sidebar organisation.
+          </p>
+
+          <h3>7. Diagrams in the content, not in a Figma nobody opens</h3>
+          <p>
+            Mermaid, registered as an MDX component. The obvious first three:
+            local vs production data flow; the PR data lifecycle across
+            <code>run-and-save.yml</code> and <code>cleanup-data.yml</code>; and
+            the decision tree for singular spider vs spider factory. Fumadocs
+            ships no Mermaid wrapper, so this is a small client component using
+            <code>mermaid</code> with the theme wired to the current colour
+            scheme &mdash; roughly 30 lines.
+          </p>
+
+          <h3>8. Callouts that match the guide you already wrote</h3>
+          <p>
+            The development guide already uses
+            <span class="pill flat">TIP</span>
+            <span class="pill flat">NOTE</span>
+            <span class="pill flat">CAUTION</span>. Fumadocs&rsquo;
+            <code>&lt;Callout&gt;</code> maps onto those one-to-one, so the
+            migration is close to mechanical and the voice carries over intact.
+          </p>
+
+          <h3>9. Copy as markdown, and an <code>llms.txt</code></h3>
+          <p>
+            Fumadocs generates <code>/llms.txt</code>,
+            <code>/llms-full.txt</code>, per-page <code>.md</code> routes, and a
+            copy-as-markdown button out of the box. For a cohort of apprentices
+            working across time zones, being able to paste an exact doc page
+            into an AI assistant at 11pm is a genuine support channel, not a
+            novelty. The
+            <a href="https://llmstxt.org/"
+              >llms.txt spec reached v2 in August 2026</a
+            >
+            and Chrome&rsquo;s Lighthouse now audits for it.
+          </p>
+
+          <h3>10. Search that&rsquo;s actually reachable</h3>
+          <p>
+            <kbd>&#8984;K</kbd> from anywhere, including from inside the viewer
+            itself. Fumadocs&rsquo; default engine runs in your own Next.js
+            process &mdash; no external service, no key, no quota.
+          </p>
+
+          <div class="note tip">
+            <span class="lab">Sequencing</span>
+            <p>
+              Items 2, 7 and 8 come nearly free with the framework and should
+              land in the first migration. Items 1, 3, 4 and 5 are real feature
+              work &mdash; roughly one sprint together &mdash; and are what turn
+              this from &ldquo;we moved the Google Doc&rdquo; into something the
+              team would miss if it disappeared. Don&rsquo;t start them until
+              the content migration has shipped.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== 6 ===================== -->
+        <section id="s6" class="col">
+          <h2><span class="num">06</span> Editing without touching git</h2>
+          <p>
+            You said mentors and PMs need a visual editor. That constraint
+            eliminates most of the field, because the intersection of
+            <em>free</em>, <em>MDX with custom components</em>,
+            <em>git-backed</em>, and <em>Next.js App Router</em> is small.
+          </p>
+
+          <div class="scroll bleed">
+            <table>
+              <thead>
+                <tr>
+                  <th>Tool</th>
+                  <th>License</th>
+                  <th>MDX + components</th>
+                  <th>Lives in your app</th>
+                  <th>Editors need GitHub write?</th>
+                  <th>Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Keystatic</strong></td>
+                  <td>MIT</td>
+                  <td><span class="pill yes">Yes</span> true WYSIWYG</td>
+                  <td>
+                    <span class="pill yes">Yes</span> <code>/keystatic</code>
+                  </td>
+                  <td>Yes &mdash; unless you pay for Cloud</td>
+                  <td><span class="pill yes">Pick this</span></td>
+                </tr>
+                <tr>
+                  <td><strong>TinaCMS</strong></td>
+                  <td>Apache-2.0</td>
+                  <td><span class="pill yes">Yes</span></td>
+                  <td>
+                    <span class="pill mid"
+                      >Static SPA in <code>public/admin</code></span
+                    >
+                  </td>
+                  <td>No (via Tina Cloud)</td>
+                  <td>
+                    <span class="pill mid">Only if &gt;3 non-git editors</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Sveltia CMS</strong></td>
+                  <td>MIT</td>
+                  <td><span class="pill no">Markdown only</span></td>
+                  <td><span class="pill no">No</span></td>
+                  <td>Yes</td>
+                  <td><span class="pill no">Wrong format</span></td>
+                </tr>
+                <tr>
+                  <td><strong>Decap CMS</strong></td>
+                  <td>MIT</td>
+                  <td>
+                    <span class="pill no">Markdown widget deprecated</span>
+                  </td>
+                  <td><span class="pill no">No</span></td>
+                  <td>Yes &mdash; Git Gateway is deprecated</td>
+                  <td><span class="pill no">Avoid</span></td>
+                </tr>
+                <tr>
+                  <td><strong>github.dev + PR</strong></td>
+                  <td>&mdash;</td>
+                  <td>
+                    <span class="pill mid"
+                      >Raw MDX, JSX won&rsquo;t preview</span
+                    >
+                  </td>
+                  <td>n/a</td>
+                  <td>Yes</td>
+                  <td><span class="pill mid">The free 80%</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>The decision nobody can make for you</h3>
+          <p>
+            Keystatic&rsquo;s self-hosted GitHub mode is fully free and mounts
+            inside your app &mdash; but
+            <strong
+              >every editor needs a GitHub account with write access to the
+              repo</strong
+            >. Keystatic Cloud exists precisely to remove that requirement: free
+            for 3 users, then $10/month per team plus $5 per extra seat.
+          </p>
+          <p>
+            For an apprenticeship programme this may be a non-issue &mdash;
+            mentors and apprentices already have GitHub accounts, and giving
+            mentors write access to a public docs repo is normal. Confirm that
+            before assuming a paid tier is needed. If more than three genuinely
+            non-technical people need to edit, TinaCMS Cloud is the alternative,
+            but note its free tier is 2 users, which is effectively unusable,
+            and self-hosting Tina means running a database.
+          </p>
+
+          <div class="note">
+            <span class="lab">Verify before committing</span>
+            <p>
+              <code>@keystatic/next@5.0.5</code> declares
+              <code>next: "&gt;=14"</code> and
+              <code>react: "^18.2.0 || ^19.0.0"</code>, so your Next 16 / React
+              19.2 stack satisfies the peer range. But the install docs still
+              say &ldquo;assumes an existing Next.js 14 project,&rdquo; and the
+              Next adapter sat unreleased from Feb 2025 to Aug 2026. Spike it on
+              a branch for half a day before it goes in a ticket. Also:
+              <code>meta.json</code> sidebar ordering has no natural Keystatic
+              representation and will probably stay a developer task.
+            </p>
+          </div>
+
+          <p>
+            Two constraints of Keystatic&rsquo;s MDX field are worth knowing up
+            front, and both happen to suit Fumadocs: no
+            <code>import</code> statements inside MDX files, and no raw HTML
+            tags. Fumadocs injects its components globally through
+            <code>getMDXComponents()</code> rather than per-file imports, so
+            pages authored through Keystatic can still use
+            <code>&lt;Callout&gt;</code>, <code>&lt;Tabs&gt;</code> and
+            <code>&lt;Steps&gt;</code>. The pages that <em>do</em> import live
+            app components (&sect;5 item 2) become developer-owned &mdash; a
+            reasonable split.
+          </p>
+        </section>
+
+        <!-- ===================== 7 ===================== -->
+        <section id="s7">
+          <div class="col">
+            <h2><span class="num">07</span> Keeping it true</h2>
+            <p>
+              Continuous updating is the requirement that actually distinguishes
+              this from &ldquo;a nicer Google Doc.&rdquo; Four independent
+              mechanisms, weakest guarantee to strongest.
+            </p>
+          </div>
+
+          <figure class="col">
+            <div class="figbox">
+              <svg
+                viewBox="0 0 620 260"
+                role="img"
+                aria-label="Four mechanisms that keep a documentation page true: rendering live components makes drift structurally impossible; generated pages are regenerated and diffed in CI; drift anchors fingerprint referenced code and fail when it changes; and a last-reviewed date with a TTL raises a warning when a page goes unread past its shelf life."
+              >
+                <defs>
+                  <marker
+                    id="ar2"
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="7"
+                    markerHeight="7"
+                    orient="auto-start-reverse"
+                  >
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
+                  </marker>
+                </defs>
+                <!-- the doc page -->
+                <rect
+                  x="228"
+                  y="104"
+                  width="164"
+                  height="52"
+                  fill="none"
+                  stroke="#0F6E68"
+                  stroke-width="2"
+                />
+                <text
+                  x="310"
+                  y="128"
+                  font-family="Public Sans, sans-serif"
+                  font-size="13.5"
+                  font-weight="600"
+                  fill="#0F6E68"
+                  text-anchor="middle"
+                >
+                  a docs page
+                </text>
+                <text
+                  x="310"
+                  y="145"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10"
+                  fill="currentColor"
+                  opacity=".6"
+                  text-anchor="middle"
+                >
+                  is it still true?
+                </text>
+
+                <!-- 4 sources -->
+                <rect
+                  x="14"
+                  y="14"
+                  width="180"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="28"
+                  y="32"
+                  font-family="Public Sans, sans-serif"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Live component
+                </text>
+                <text
+                  x="28"
+                  y="47"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  StatusChip, imported
+                </text>
+
+                <rect
+                  x="14"
+                  y="76"
+                  width="180"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="28"
+                  y="94"
+                  font-family="Public Sans, sans-serif"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Generated page
+                </text>
+                <text
+                  x="28"
+                  y="109"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  types &rarr; schema table
+                </text>
+
+                <rect
+                  x="14"
+                  y="142"
+                  width="180"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="28"
+                  y="160"
+                  font-family="Public Sans, sans-serif"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Drift anchor
+                </text>
+                <text
+                  x="28"
+                  y="175"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  spiders/base.py@sha
+                </text>
+
+                <rect
+                  x="14"
+                  y="204"
+                  width="180"
+                  height="42"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                />
+                <text
+                  x="28"
+                  y="222"
+                  font-family="Public Sans, sans-serif"
+                  font-size="12"
+                  font-weight="600"
+                  fill="currentColor"
+                >
+                  Review date
+                </text>
+                <text
+                  x="28"
+                  y="237"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  last_reviewed + ttl_days
+                </text>
+
+                <line
+                  x1="198"
+                  y1="35"
+                  x2="224"
+                  y2="112"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="198"
+                  y1="97"
+                  x2="224"
+                  y2="123"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="198"
+                  y1="163"
+                  x2="224"
+                  y2="137"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="198"
+                  y1="225"
+                  x2="224"
+                  y2="148"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+
+                <!-- outcomes -->
+                <line
+                  x1="396"
+                  y1="115"
+                  x2="428"
+                  y2="35"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="396"
+                  y1="124"
+                  x2="428"
+                  y2="97"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="396"
+                  y1="137"
+                  x2="428"
+                  y2="163"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+                <line
+                  x1="396"
+                  y1="146"
+                  x2="428"
+                  y2="225"
+                  stroke="currentColor"
+                  stroke-width="1.1"
+                  marker-end="url(#ar2)"
+                />
+
+                <text
+                  x="436"
+                  y="30"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="#0F6E68"
+                >
+                  cannot drift
+                </text>
+                <text
+                  x="436"
+                  y="45"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  no check needed
+                </text>
+
+                <text
+                  x="436"
+                  y="92"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="#0F6E68"
+                >
+                  CI diff fails
+                </text>
+                <text
+                  x="436"
+                  y="107"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  regenerate, expect no change
+                </text>
+
+                <text
+                  x="436"
+                  y="158"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="#0F6E68"
+                >
+                  CI check fails
+                </text>
+                <text
+                  x="436"
+                  y="173"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  AST fingerprint moved
+                </text>
+
+                <text
+                  x="436"
+                  y="220"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="10.5"
+                  fill="currentColor"
+                  opacity=".8"
+                >
+                  weekly warning
+                </text>
+                <text
+                  x="436"
+                  y="235"
+                  font-family="IBM Plex Mono, monospace"
+                  font-size="9.5"
+                  fill="currentColor"
+                  opacity=".6"
+                >
+                  rollup issue, never blocks
+                </text>
+              </svg>
+            </div>
+            <figcaption>
+              Strength decreases downward. Prefer the top two &mdash; they make
+              staleness impossible rather than detectable. The bottom two catch
+              what the top two can&rsquo;t reach.
+            </figcaption>
+          </figure>
+
+          <div class="col">
+            <h3>The CI pipeline</h3>
+            <p>
+              Adoption order matters more than tool choice here. The single most
+              common way a docs pipeline dies is being red on day one, so every
+              gate below is sequenced to start green.
+            </p>
+          </div>
+
+          <div class="scroll bleed">
+            <table>
+              <thead>
+                <tr>
+                  <th>Step</th>
+                  <th>Tool</th>
+                  <th>Runs</th>
+                  <th>On failure</th>
+                  <th>Effort</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1. Review routing</td>
+                  <td><code>CODEOWNERS</code> path globs</td>
+                  <td>Every PR</td>
+                  <td>Requests a docs reviewer</td>
+                  <td class="num-cell">1 file</td>
+                </tr>
+                <tr>
+                  <td>2. Spelling</td>
+                  <td>
+                    <code>cspell-action@v8</code>,
+                    <code>incremental_files_only</code>
+                  </td>
+                  <td>Every PR</td>
+                  <td>Inline annotation</td>
+                  <td class="num-cell">1 hour</td>
+                </tr>
+                <tr>
+                  <td>3. Markdown lint</td>
+                  <td>
+                    <code>markdownlint-cli2</code> on <code>.md</code>;
+                    remark-lint on <code>.mdx</code>
+                  </td>
+                  <td>Every PR</td>
+                  <td>Annotation</td>
+                  <td class="num-cell">2 hours</td>
+                </tr>
+                <tr>
+                  <td>4. Internal links</td>
+                  <td><code>lychee --offline --include-fragments</code></td>
+                  <td>Every PR</td>
+                  <td>Blocks merge</td>
+                  <td class="num-cell">1 hour</td>
+                </tr>
+                <tr>
+                  <td>5. External links</td>
+                  <td><code>lychee-action@v2</code>, cached</td>
+                  <td>Nightly</td>
+                  <td>Opens one rollup issue</td>
+                  <td class="num-cell">1 hour</td>
+                </tr>
+                <tr>
+                  <td>6. Prose style</td>
+                  <td>
+                    <code>vale-cli/vale-action@v3</code> + Google + MDX packages
+                  </td>
+                  <td>Every PR</td>
+                  <td>Inline review comments on the diff only</td>
+                  <td class="num-cell">½ day</td>
+                </tr>
+                <tr>
+                  <td>7. Accessibility</td>
+                  <td><code>@axe-core/playwright</code></td>
+                  <td>Every PR</td>
+                  <td>Blocks merge &mdash; zero violations</td>
+                  <td class="num-cell">½ day</td>
+                </tr>
+                <tr>
+                  <td>8. Perf / SEO</td>
+                  <td>
+                    <code>lighthouse-ci-action@v12</code>, <code>runs: 3</code>
+                  </td>
+                  <td>Every PR</td>
+                  <td>Warning only</td>
+                  <td class="num-cell">2 hours</td>
+                </tr>
+                <tr>
+                  <td>9. Generated pages</td>
+                  <td>Custom script + <code>git diff --exit-code</code></td>
+                  <td>Every PR</td>
+                  <td>Blocks merge</td>
+                  <td class="num-cell">1 day</td>
+                </tr>
+                <tr>
+                  <td>10. Freshness</td>
+                  <td>
+                    <code>last_reviewed</code> +
+                    <code>ttl_days</code> frontmatter
+                  </td>
+                  <td>Weekly</td>
+                  <td>Rollup issue, assigned by owner</td>
+                  <td class="num-cell">½ day</td>
+                </tr>
+                <tr>
+                  <td>11. Code drift</td>
+                  <td>Fiberplane Drift anchors</td>
+                  <td>Every PR</td>
+                  <td>Fails on anchored pages only</td>
+                  <td class="num-cell">Pilot</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col">
+            <div class="note warn">
+              <span class="lab">Vale moved orgs</span>
+              <p>
+                Nearly every tutorial you&rsquo;ll find says
+                <code>errata-ai/vale-action@v2</code>. Vale is now
+                <code>vale-cli/*</code> &mdash; use
+                <code>vale-cli/vale-action@v3</code>, and add
+                <code>Packages = MDX, Google</code> pinned to release URLs so an
+                upstream rule change can&rsquo;t break an unrelated PR. Put your
+                project jargon (<code>Scrapy</code>,
+                <code>LegistarSpider</code>, <code>Legistar</code>, spider
+                prefixes like <code>sandie</code>) in
+                <code>styles/config/vocabularies/CityScrapers/accept.txt</code>
+                &mdash; entries are case-sensitive regexes, not literals.
+              </p>
+            </div>
+
+            <h3>Generated, not written</h3>
+            <p>Three pages should never be hand-edited:</p>
+            <ul>
+              <li>
+                <strong>The meeting record schema table</strong> &mdash;
+                generated from the app&rsquo;s TypeScript types. It currently
+                exists in three places (Google Doc, README, code); pick the code
+                as canonical and generate the rest.
+              </li>
+              <li>
+                <strong>The command reference</strong> &mdash; generated by
+                introspecting the Scrapy command classes rather than
+                transcribed. Scrapy&rsquo;s CLI is argparse-based, so
+                <code>sphinx-click</code> and
+                <code>mkdocs-click</code> don&rsquo;t apply; a short script that
+                walks the command classes does.
+              </li>
+              <li>
+                <strong>The spider registry</strong> &mdash; generated from the
+                manifest, once production mode exists.
+              </li>
+            </ul>
+            <p>
+              The rule that makes generation worth doing: a generated file must
+              be either gitignored and built at deploy, or committed
+              <em>with</em> a CI check that regenerating produces no diff. A
+              committed generated file with no such check is worse than no
+              generation at all, because it looks authoritative.
+            </p>
+
+            <h3>Freshness, done so it isn&rsquo;t gamed</h3>
+            <pre><code><span class="c">---</span>
+title: Writing a Legistar spider
+last_reviewed: <span class="k">2026-06-01</span>
+ttl_days: <span class="k">180</span>
+owners: [<span style="color:var(--accent-2)">'@ctd/scrapers'</span>]
+<span class="c">---</span></code></pre>
+            <p>
+              Warn at 1&times; TTL, fail at 2&times;, never on the PR itself
+              &mdash; a weekly job opens one rollup issue assigned via
+              <code>owners</code>. Failing a PR on a date is how these systems
+              get disabled: people bump the date without reading the page, and
+              you have built a metric that lies. Vercel&rsquo;s own docs serve
+              exactly this kind of frontmatter and are a good schema to copy.
+            </p>
+          </div>
+        </section>
+
+        <!-- ===================== 8 ===================== -->
+        <section id="s8" class="col">
+          <h2><span class="num">08</span> Making it look like one product</h2>
+          <p>
+            The real aesthetic risk of mounting Fumadocs inside an MUI app is a
+            visible seam &mdash; docs that look like a different website reached
+            through your header. It&rsquo;s avoidable, and cheaply.
+          </p>
+
+          <p>
+            Fumadocs&rsquo; entire theme is a set of
+            <code>--color-fd-*</code> custom properties, all namespaced, none of
+            which collide with your tokens. So you don&rsquo;t theme Fumadocs by
+            overriding its components &mdash; you map its variables onto your
+            MUI palette once, in <code>globals.css</code>:
+          </p>
+
+          <pre><code><span class="c">/* one place, ~20 lines, and it handles BOTH themes automatically */</span>
+:root {
+  <span class="k">--color-fd-primary</span>:    var(--mui-palette-primary-main);
+  <span class="k">--color-fd-background</span>: var(--mui-palette-background-default);
+  <span class="k">--color-fd-foreground</span>: var(--mui-palette-text-primary);
+  <span class="k">--color-fd-muted</span>:      var(--mui-palette-action-hover);
+  <span class="k">--color-fd-border</span>:     var(--mui-palette-divider);
+}</code></pre>
+
+          <p>
+            The reason there is no second block for dark mode: MUI&rsquo;s
+            <code>--mui-palette-*</code> values are themselves redefined under
+            its dark selector, so a single mapping at <code>:root</code> follows
+            the app&rsquo;s colour scheme for free. Fumadocs&rsquo; own
+            <code>.dark</code> block becomes dead weight you can ignore. The
+            docs then inherit your Roboto type stack, surfaces and borders,
+            while keeping Fumadocs&rsquo; layout, sidebar behaviour and search
+            UI &mdash; the parts you&rsquo;d otherwise spend a sprint
+            rebuilding.
+          </p>
+
+          <div class="note warn">
+            <span class="lab">The selector mismatch to know about</span>
+            <p>
+              Your app and Fumadocs mark dark mode differently, and neither is
+              wrong:
+            </p>
+            <div class="scroll" style="margin-top: 12px">
+              <table>
+                <thead>
+                  <tr>
+                    <th>System</th>
+                    <th>Dark-mode marker on <code>&lt;html&gt;</code></th>
+                    <th>Set by</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Your app (MUI 9.3.1)</td>
+                    <td><code>data-dark</code></td>
+                    <td><code>InitColorSchemeScript attribute="data"</code></td>
+                  </tr>
+                  <tr>
+                    <td>Fumadocs UI</td>
+                    <td><code>class="dark"</code></td>
+                    <td>
+                      <code>next-themes</code>, inside <code>RootProvider</code>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-top: 14px">
+              The shorthand is easy to get wrong: in <code>@mui/system</code>,
+              <code>colorSchemeSelector: 'data'</code> expands to the rule
+              <code>[data-%s]</code>, so dark mode is the bare attribute
+              <code>data-dark</code> &mdash; <em>not</em>
+              <code>data-mui-color-scheme="dark"</code>, which MUI uses only
+              when you pass a full attribute name. The variable mapping above
+              makes the mismatch a non-issue, because you never rely on
+              Fumadocs&rsquo; <code>.dark</code> block at all.
+            </p>
+          </div>
+
+          <h3>Practical UI decisions</h3>
+          <ul>
+            <li>
+              <strong
+                >Keep your <code>SiteHeader</code> and
+                <code>SiteFooter</code>.</strong
+              >
+              Fumadocs&rsquo; <code>DocsLayout</code> nests inside them. Add a
+              <em>Docs</em> item to the existing nav so the site reads as one
+              product with three areas, not two products sharing a domain.
+            </li>
+            <li>
+              <strong>MUI owns colour mode.</strong> It already has the working
+              scheme system and the FOUC-preventing init script, so there is
+              nothing for <code>next-themes</code> to add. Pass
+              <code>theme={{ enabled: false }}</code> to Fumadocs&rsquo;
+              <code>RootProvider</code> to switch it off entirely, and drive
+              everything from MUI&rsquo;s <code>useColorScheme()</code>. Running
+              both is how you get a flash of the wrong theme on every docs page
+              load.
+            </li>
+            <li>
+              <strong>Turn off the <kbd>D</kbd> hotkey</strong> with
+              <code>theme={{ hotKey: false }}</code>. Fumadocs binds it to the
+              dark-mode toggle by default. It is ignored while you type in an
+              editable element, but your data grid has non-input interactive
+              surfaces where it would still fire.
+            </li>
+            <li>
+              <strong
+                >Reuse <code>StatusChip</code>&rsquo;s colours as the
+                docs&rsquo; semantic palette.</strong
+              >
+              Passed / tentative / cancelled already have a visual language in
+              the app; callouts and rubric verdicts should speak it.
+            </li>
+            <li>
+              <strong>Target WCAG 2.1 AA, gated.</strong> Zero axe violations as
+              a hard CI gate; Lighthouse accessibility at 100. A static docs
+              site has no excuse, and unlike performance it isn&rsquo;t flaky.
+            </li>
+            <li>
+              <strong>Content width around 68&ndash;72 characters.</strong>
+              Fumadocs defaults wider than is comfortable for the long prose
+              sections migrating out of the development guide.
+            </li>
+          </ul>
+        </section>
+
+        <!-- ===================== 9 ===================== -->
+        <section id="s9">
+          <div class="col">
+            <h2><span class="num">09</span> Roadmap</h2>
+            <p>
+              Sized for an apprenticeship team. Each phase is independently
+              shippable and independently useful &mdash; if you stop after phase
+              2, you still have something better than what exists today.
+            </p>
+          </div>
+
+          <div class="col">
+            <div class="phase">
+              <div class="tag">P0<em>½ day</em></div>
+              <div>
+                <h3>Spike and decide</h3>
+                <p>
+                  Prove the things this plan rests on before writing a ticket
+                  for anything else.
+                </p>
+                <ul>
+                  <li>
+                    Branch, install Fumadocs, append the two
+                    <code>fumadocs-ui</code> CSS imports, render one page at
+                    <code>/docs</code>.
+                  </li>
+                  <li>
+                    Confirm MUI and Fumadocs coexist: <code>/scrapers</code> and
+                    <code>/</code> visually unchanged.
+                  </li>
+                  <li>
+                    Map five <code>--color-fd-*</code> variables to
+                    <code>--mui-palette-*</code> and toggle dark mode &mdash;
+                    the docs page should follow without touching
+                    <code>.dark</code>.
+                  </li>
+                  <li>
+                    Confirm the install runs on Node 20.9 (neither Fumadocs
+                    package declares <code>engines</code>, so nothing will warn
+                    you).
+                  </li>
+                  <li>Confirm Keystatic 5.0.5 runs on Next 16.</li>
+                  <li>
+                    <strong>Exit criteria:</strong> screenshots of
+                    <code>/docs</code> and an unchanged <code>/scrapers</code>,
+                    in both colour schemes.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="phase">
+              <div class="tag">P1<em>1 sprint</em></div>
+              <div>
+                <h3>Shell and migration</h3>
+                <p>
+                  Get the existing writing out of Google Docs and onto the site,
+                  verbatim. No rewriting yet &mdash; migration and editing are
+                  separate jobs.
+                </p>
+                <ul>
+                  <li>
+                    <code>(docs)</code> route group, <code>lib/source.ts</code>,
+                    search route, <code>meta.json</code> nav.
+                  </li>
+                  <li>
+                    Migrate the Development Guide (&sect;1&ndash;3) and the
+                    Meetings Viewer spec into <code>content/docs/</code>.
+                  </li>
+                  <li>
+                    Callouts, code blocks, Mermaid component, the
+                    two-front-doors index.
+                  </li>
+                  <li>
+                    Theme mapping from &sect;8. Docs link in the site header.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="phase">
+              <div class="tag">P2<em>1 sprint</em></div>
+              <div>
+                <h3>The interactive layer</h3>
+                <p>
+                  The part that makes it worth having built. Highest value
+                  first.
+                </p>
+                <ul>
+                  <li>
+                    Rubric report tool &mdash; paste scraper JSON, get
+                    field-by-field verdicts (&sect;5.1).
+                  </li>
+                  <li>
+                    Interactive rubric explorer with deep links (&sect;5.3).
+                  </li>
+                  <li>
+                    Templated command blocks (&sect;5.4) and the exportable QA
+                    checklist (&sect;5.5).
+                  </li>
+                  <li>
+                    Replace static examples with live component renders wherever
+                    possible (&sect;5.2).
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="phase">
+              <div class="tag">P3<em>3&ndash;4 days</em></div>
+              <div>
+                <h3>Open it up for editing</h3>
+                <ul>
+                  <li>
+                    Keystatic at <code>/keystatic</code>, schema mirroring the
+                    fumadocs-mdx frontmatter.
+                  </li>
+                  <li>
+                    A &ldquo;how to edit these docs&rdquo; page &mdash; both the
+                    git path and the Keystatic path.
+                  </li>
+                  <li>
+                    <code>CODEOWNERS</code> for <code>content/docs/</code>; docs
+                    section in the PR template.
+                  </li>
+                  <li>Decide and document who gets repo write access.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="phase">
+              <div class="tag">P4<em>3&ndash;4 days</em></div>
+              <div>
+                <h3>Automation</h3>
+                <ul>
+                  <li>
+                    CI steps 1&ndash;8 from &sect;7, in that order, one PR each.
+                  </li>
+                  <li>
+                    <code>llms.txt</code>, <code>llms-full.txt</code>,
+                    <code>.md</code> routes, copy-as-markdown button.
+                  </li>
+                  <li>
+                    Vale vocabulary seeded from the project&rsquo;s jargon.
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="phase">
+              <div class="tag">P5<em>ongoing</em></div>
+              <div>
+                <h3>Generated content and drift</h3>
+                <ul>
+                  <li>
+                    Schema table generated from types; regenerate-and-diff CI
+                    check.
+                  </li>
+                  <li>Scrapy command reference generated by introspection.</li>
+                  <li>
+                    <code>last_reviewed</code> /
+                    <code>ttl_days</code> frontmatter with a weekly rollup
+                    issue.
+                  </li>
+                  <li>
+                    Fiberplane Drift piloted on the ten highest-traffic pages
+                    &mdash; treat as an experiment at v0.10.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== 10 ===================== -->
+        <section id="s10" class="col">
+          <h2><span class="num">10</span> Open decisions and risks</h2>
+
+          <h3>Decide before P1</h3>
+          <ol>
+            <li>
+              <strong>Where do the scraper docs live?</strong> This is the
+              biggest unresolved question in the plan. The scraper building and
+              QA docs describe code in <code>city-scrapers-*</code> repos, but
+              would be published from <code>meetings-viewer</code>. That&rsquo;s
+              workable &mdash; and it&rsquo;s the right call for a single
+              readable site &mdash; but it means drift anchors (&sect;7) point
+              at code in other repos, requiring those repos checked out in CI.
+              The alternative, docs living beside the code they describe, gives
+              you N scattered doc sets and no unified search.
+              <em
+                >Recommendation: keep one site here, accept cross-repo anchors,
+                and start drift detection only on the viewer&rsquo;s own
+                docs.</em
+              >
+            </li>
+            <li>
+              <strong>Who gets write access?</strong> Determines whether
+              Keystatic is free or $10/month. Ask the mentors before assuming.
+            </li>
+            <li>
+              <strong
+                >Does <code>/docs</code> ship on the current production
+                branch?</strong
+              >
+              The production branch is
+              <code>CS-116-landing-page-migration</code>; confirm the branching
+              plan so P1 doesn&rsquo;t collide with it.
+            </li>
+          </ol>
+
+          <h3>Risks worth naming</h3>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Risk</th>
+                  <th>Likelihood</th>
+                  <th>Mitigation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Fumadocs&rsquo; exact <code>next: 16.x</code> pin blocks a
+                    future Next upgrade
+                  </td>
+                  <td>High &mdash; eventually certain</td>
+                  <td>
+                    Pin both, upgrade as one unit, note it in
+                    <code>AGENTS.md</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CSS conflict between Fumadocs, Tailwind and MUI</td>
+                  <td>Low</td>
+                  <td>
+                    Layer order is already declared; confirm in the P0 spike
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Two colour-mode systems fighting (<code>data-dark</code> vs
+                    <code>.dark</code>)
+                  </td>
+                  <td>Medium</td>
+                  <td>
+                    MUI owns the mode;
+                    <code>theme={{ enabled: false }}</code> on Fumadocs&rsquo;
+                    provider (&sect;8)
+                  </td>
+                </tr>
+                <tr>
+                  <td>Docs ship, then nobody updates them</td>
+                  <td>Medium &mdash; the usual outcome</td>
+                  <td>
+                    &sect;7&rsquo;s four mechanisms; CODEOWNERS is the cheapest
+                    and lands first
+                  </td>
+                </tr>
+                <tr>
+                  <td>Keystatic incompatible with Next 16 in practice</td>
+                  <td>Low</td>
+                  <td>P0 spike; fallback is github.dev plus a PR template</td>
+                </tr>
+                <tr>
+                  <td>
+                    Interactive tooling (&sect;5) becomes its own maintenance
+                    burden
+                  </td>
+                  <td>Medium</td>
+                  <td>
+                    Build it on <code>lib/meetings.ts</code> so it shares the
+                    app&rsquo;s logic instead of duplicating it
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fiberplane Drift is v0.10 with ~100 stars</td>
+                  <td>&mdash;</td>
+                  <td>Pilot only; the plan doesn&rsquo;t depend on it</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="note tip">
+            <span class="lab">If you only do one thing this week</span>
+            <p>
+              Run the P0 spike, and inside it prioritise the variable-mapping
+              step. It is the one piece of this plan nobody has tried, and it
+              decides whether <code>/docs</code> reads as part of the product or
+              as a bolted-on subdomain.
+            </p>
+          </div>
+        </section>
+
+        <footer class="col">
+          <h4>Sources</h4>
+          <div class="srcs">
+            <a href="https://www.fumadocs.dev/blog/v16">Fumadocs v16 release</a
+            ><br />
+            <a href="https://www.fumadocs.dev/docs/manual-installation/next"
+              >Fumadocs manual installation, Next.js</a
+            ><br />
+            <a href="https://www.fumadocs.dev/docs/ui/theme">Fumadocs theming</a
+            ><br />
+            <a href="https://www.fumadocs.dev/docs/search">Fumadocs search</a
+            ><br />
+            <a href="https://www.fumadocs.dev/docs/integrations/llms"
+              >Fumadocs LLM integration</a
+            ><br />
+            <a href="https://www.fumadocs.dev/docs/markdown/mermaid"
+              >Fumadocs Mermaid</a
+            ><br />
+            <a href="https://github.com/fuma-nama/fumadocs"
+              >fuma-nama/fumadocs</a
+            ><br />
+            <a
+              href="https://mui.com/material-ui/integrations/tailwindcss/tailwindcss-v4/"
+              >MUI &times; Tailwind v4 integration</a
+            ><br />
+            <a href="https://mui.com/material-ui/customization/css-layers/"
+              >MUI CSS layers</a
+            ><br />
+            <a href="https://tailwindcss.com/docs/preflight"
+              >Tailwind Preflight</a
+            ><br />
+            <a href="https://github.com/shuding/nextra/issues/5003"
+              >Nextra issue #5003 (Next 16.2.5+)</a
+            ><br />
+            <a
+              href="https://nextra.site/docs/file-conventions/content-directory"
+              >Nextra content directory</a
+            ><br />
+            <a href="https://docusaurus.io/docs/deployment"
+              >Docusaurus deployment</a
+            ><br />
+            <a href="https://starlight.astro.build/">Astro Starlight</a><br />
+            <a
+              href="https://nextjs.org/docs/app/api-reference/config/next-config-js/rewrites"
+              >Next.js rewrites</a
+            ><br />
+            <a href="https://keystatic.com/docs/github-mode"
+              >Keystatic GitHub mode</a
+            ><br />
+            <a href="https://keystatic.com/docs/installation-next-js"
+              >Keystatic on Next.js</a
+            ><br />
+            <a href="https://keystatic.com/docs/cloud"
+              >Keystatic Cloud pricing</a
+            ><br />
+            <a href="https://tina.io/pricing">TinaCMS pricing</a><br />
+            <a href="https://tina.io/docs/self-hosted/overview"
+              >TinaCMS self-hosting</a
+            ><br />
+            <a href="https://decapcms.org/docs/choosing-a-backend/"
+              >Decap CMS backends</a
+            ><br />
+            <a
+              href="https://docs.netlify.com/manage/security/secure-access-to-sites/git-gateway/"
+              >Netlify Git Gateway deprecation</a
+            ><br />
+            <a href="https://github.com/sveltia/sveltia-cms">Sveltia CMS</a
+            ><br />
+            <a
+              href="https://docs.github.com/en/codespaces/the-githubdev-web-based-editor"
+              >github.dev web editor</a
+            ><br />
+            <a href="https://github.com/vale-cli/vale-action"
+              >vale-cli/vale-action</a
+            ><br />
+            <a href="https://docs.vale.sh/keys/vocabularies.md"
+              >Vale vocabularies</a
+            ><br />
+            <a href="https://vale.sh/explorer">Vale package explorer</a><br />
+            <a href="https://github.com/streetsidesoftware/cspell-action"
+              >cspell-action</a
+            ><br />
+            <a href="https://github.com/DavidAnson/markdownlint-cli2-action"
+              >markdownlint-cli2-action</a
+            ><br />
+            <a href="https://github.com/lycheeverse/lychee">lychee</a><br />
+            <a href="https://github.com/JustinBeckwith/linkinator">linkinator</a
+            ><br />
+            <a href="https://github.com/fiberplane/drift">Fiberplane Drift</a
+            ><br />
+            <a href="https://fiberplane.com/blog/drift-documentation-linter/"
+              >Fiberplane: a linter for documentation rot</a
+            ><br />
+            <a
+              href="https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners"
+              >GitHub CODEOWNERS</a
+            ><br />
+            <a href="https://dosu.dev/blog/score-documentation-freshness-in-ci"
+              >Scoring documentation freshness in CI</a
+            ><br />
+            <a href="https://llmstxt.org/">llms.txt specification (v2)</a><br />
+            <a href="https://llmstxt.org/changes.html">llms.txt v2 changes</a
+            ><br />
+            <a href="https://github.com/dequelabs/axe-core-npm">axe-core</a
+            ><br />
+            <a href="https://github.com/treosh/lighthouse-ci-action"
+              >Lighthouse CI action</a
+            ><br />
+            <a href="https://github.com/pa11y/pa11y-ci">pa11y-ci</a><br />
+            <a href="https://vercel.com/docs/deployments/environments"
+              >Vercel preview deployments</a
+            ><br />
+            <a href="https://playwright.dev/docs/test-snapshots"
+              >Playwright visual comparisons</a
+            ><br />
+            <a href="https://github.com/typedoc2md/typedoc-plugin-markdown"
+              >typedoc-plugin-markdown</a
+            ><br />
+            <a href="https://www.mintlify.com/blog/autopilot"
+              >Mintlify Autopilot</a
+            >
+          </div>
+          <p style="margin-top: 22px">
+            Version and license figures were checked against the npm registry
+            and project repositories on 24 August 2026. Two claims are inference
+            rather than documentation and are flagged in place: that
+            Fumadocs&rsquo; <code>RootProvider</code> works correctly outside
+            the root layout, and the MUI/Fumadocs layer-ordering recipe, which
+            no Fumadocs document covers. Both are resolved by the P0 spike.
+          </p>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
