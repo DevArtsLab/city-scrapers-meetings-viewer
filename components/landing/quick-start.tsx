@@ -81,7 +81,7 @@ export function QuickStart() {
               mx: "auto",
             }}
           >
-            Requires Node.js 18.18+ and npm. Nothing else to configure.
+            Requires Node.js 20.9+ and npm. Nothing else to configure.
           </Typography>
         </Box>
 
