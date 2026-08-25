@@ -180,11 +180,11 @@ export function QuickStart() {
               display: "flex",
               gap: 2,
               alignItems: "flex-start",
-              borderColor: "warning.main",
+              borderColor: "divider",
             }}
           >
             <WarningAmberRounded
-              sx={{ fontSize: 24, mt: "2px", color: "warning.main" }}
+              sx={{ fontSize: 24, mt: "2px", color: "text.disabled" }}
             />
             <Typography sx={{ fontSize: "0.9375rem", lineHeight: 1.6 }}>
               Use the capital{" "}
