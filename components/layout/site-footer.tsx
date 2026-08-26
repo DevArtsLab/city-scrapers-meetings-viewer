@@ -16,7 +16,7 @@ export function SiteFooter({
       sx={{
         borderTop: 1,
         borderColor: "divider",
-        py: 6,
+        py: 3,
         bgcolor: "background.paper",
       }}
     >

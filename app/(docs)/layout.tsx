@@ -11,7 +11,10 @@ export default function DocsLayoutRoot({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div
+      className="flex min-h-dvh flex-col"
+      style={{ "--fd-banner-height": "72px" } as React.CSSProperties}
+    >
       <DarkModeSync />
       <SiteHeader />
       <RootProvider theme={{ enabled: false, hotKey: false }}>

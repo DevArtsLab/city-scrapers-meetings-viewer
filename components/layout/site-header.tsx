@@ -17,7 +17,7 @@ export function SiteHeader({
       sx={{
         position: "sticky",
         top: 0,
-        zIndex: 10,
+        zIndex: 40,
         borderBottom: 1,
         borderColor: "divider",
         bgcolor: "background.paper",
