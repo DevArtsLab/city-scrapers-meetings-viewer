@@ -43,6 +43,18 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <InitColorSchemeScript attribute="data" />
+        {/* Sync Fumadocs .dark class with MUI color scheme before hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+              try{
+                var s=document.documentElement.getAttribute('data-mui-color-scheme');
+                var dark = s==='dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                if(dark){document.documentElement.classList.add('dark')}
+              }catch(e){}
+            })()`,
+          }}
+        />
         {/* enableCssLayer keeps MUI's generated styles inside @layer mui so Tailwind utilities win. */}
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>

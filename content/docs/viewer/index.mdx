@@ -23,11 +23,17 @@ that your output is correct, field by field.
 Meeting records use three status values. These are rendered with the real
 component used in the app:
 
-<StatusChip status="passed" /> - the meeting happened or was confirmed.
+<div>
+  <StatusChip status="passed" /> - the meeting happened or was confirmed.
+</div>
 
-<StatusChip status="cancelled" /> - the meeting was cancelled.
+<div>
+  <StatusChip status="cancelled" /> - the meeting was cancelled.
+</div>
 
-<StatusChip status="tentative" /> - the meeting is planned but not confirmed.
+<div>
+  <StatusChip status="tentative" /> - the meeting is planned but not confirmed.
+</div>
 
 <Callout type="info">
   The status legend above is rendered with the actual `StatusChip` component

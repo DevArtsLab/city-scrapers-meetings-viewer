@@ -3,6 +3,7 @@ import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import { source } from "@/lib/source";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { DarkModeSync } from "@/components/docs/dark-mode-sync";
 
 export default function DocsLayoutRoot({
   children,
@@ -11,6 +12,7 @@ export default function DocsLayoutRoot({
 }) {
   return (
     <div className="flex min-h-dvh flex-col">
+      <DarkModeSync />
       <SiteHeader />
       <RootProvider theme={{ enabled: false, hotKey: false }}>
         <DocsLayout
@@ -19,6 +21,7 @@ export default function DocsLayoutRoot({
           sidebar={{
             enabled: true,
           }}
+          themeSwitch={{ enabled: false }}
         >
           {children}
         </DocsLayout>
