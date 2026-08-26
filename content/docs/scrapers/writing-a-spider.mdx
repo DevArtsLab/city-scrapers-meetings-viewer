@@ -1,0 +1,103 @@
+---
+title: Writing a spider
+description: How to write a Scrapy spider that produces valid meeting records for the Meetings Viewer.
+---
+
+# Writing a spider
+
+## Spider structure
+
+Every spider extends `CityScrapersSpider` (or `LegistarSpider` for Legistar
+sites) and implements a `parse` method that yields meeting records.
+
+```python
+from city_scrapers_core.spiders import CityScrapersSpider
+from city_scrapers_core.items import Meeting
+
+
+class SandieCityCouncilSpider(CityScrapersSpider):
+    name = "sandie_city_council"
+    agency = "San Diego City Council"
+    timezone = "America/Los_Angeles"
+
+    def parse(self, response):
+        for item in response.css(".meeting-item"):
+            meeting = Meeting(
+                agency=self.agency,
+                title=self._parse_title(item),
+                description=self._parse_description(item),
+                classification=self._parse_classification(item),
+                start=self._parse_start(item),
+                end=self._parse_end(item),
+                all_day=self._parse_all_day(item),
+                time_notes=self._parse_time_notes(item),
+                location=self._parse_location(item),
+                links=self._parse_links(item),
+                source=response.url,
+                id=self._parse_id(item),
+                status=self._parse_status(item),
+            )
+            yield meeting
+```
+
+## Field-by-field guide
+
+### title
+
+The meeting title. Should be the official name of the meeting, not a date or
+generic label like "Regular Meeting". Include the body name, e.g.
+"City Council Regular Meeting".
+
+### start and end
+
+ISO 8601 datetime strings, timezone-aware. Use the spider's `timezone` property
+and the `city_scrapers_core.utils.timezone` helpers:
+
+```python
+from city_scrapers_core.utils import timezone
+
+start = timezone.localize_time(datetime(2026, 1, 15, 10, 0))
+```
+
+If `end` is not available, default to `start + 2 hours`.
+
+<Callout type="warn">
+  The `end` defaults to `start + 2 hours` in the base spider. If this default
+  changes upstream, this doc should be updated. See the [drift
+  detection](/docs/qa/rubric) section for how CI catches this.
+</Callout>
+
+### status
+
+One of `passed`, `cancelled`, or `tentative`. Use `passed` for meetings that
+have occurred or are confirmed, `cancelled` for meetings that were cancelled,
+and `tentative` for meetings that are planned but not yet confirmed.
+
+### location
+
+An object with `name` and `address` fields. If the location is unknown, set
+both to empty strings and explain in `time_notes`.
+
+### links
+
+An array of `{ href, title }` objects, in priority order:
+
+1. Agenda
+2. Video / livestream
+3. Minutes
+4. Other supporting documents
+
+### id
+
+A unique identifier for the meeting. Conventionally a slug derived from the
+agency, date, and title. Must be unique within a single spider's output.
+
+## Running your spider
+
+```bash
+# From the city-scrapers repo
+scrapy crawl sandie_city_council -O data/scrapers/sandie_city_council.json
+```
+
+Then load the output in the [Meetings Viewer](/docs/viewer) and check it against
+the [QA rubric](/docs/qa/rubric).

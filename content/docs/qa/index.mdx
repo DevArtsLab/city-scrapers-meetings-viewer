@@ -1,0 +1,46 @@
+---
+title: QA & Review
+description: The review workflow for checking scraper output against the rubric before merging.
+---
+
+# QA & Review
+
+Reviewing a scraper PR comes down to one question: **is the output correct?**
+The QA workflow exists to answer that quickly and consistently.
+
+## The review process
+
+1. **Pull the PR** and run the spider locally:
+   ```bash
+   scrapy crawl <spider-name> -O data/scrapers/<spider-name>.json
+   ```
+2. **Open the viewer** at
+   `http://localhost:3000/scrapers/<spider-name>`
+   and scan the output.
+3. **Apply the rubric** - check each field against the
+   [QA rubric](/docs/qa/rubric). The rubric is designed to be applied field by
+   field, in order.
+4. **Check the schema** - make sure every required field is present and matches
+   the [Schema reference](/docs/qa/schema).
+5. **Leave review comments** referencing specific rubric rules, e.g.
+   "field `links` is out of priority order - see
+   [/docs/qa/schema#links](/docs/qa/schema#links)".
+
+<Callout type="tip">
+  The fastest way to review is to have the viewer open in one tab and the rubric
+  in another. The viewer shows you the data; the rubric tells you what to check.
+</Callout>
+
+## What to block on
+
+- Missing required fields (`id`, `title`, `start`, `status`, `source`).
+- Datetimes that are not timezone-aware.
+- Duplicate records (same start time + similar title).
+- Status inconsistent with `start` time (e.g. `passed` for a future meeting).
+- Links out of priority order.
+
+## What to comment on (not block)
+
+- Title formatting (should include the body name).
+- Description quality (should be useful, not just a copy of the title).
+- `time_notes` when location is empty (should explain why).

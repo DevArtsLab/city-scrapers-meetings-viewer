@@ -1,0 +1,80 @@
+---
+title: Contributing
+description: How to contribute to City Scrapers - both the code and the docs.
+---
+
+# Contributing
+
+## Editing the docs
+
+These docs live in `content/docs/` in the Meetings Viewer repo. They're written
+in MDX, which is Markdown with support for React components.
+
+### The git path (for developers)
+
+1. Edit the `.mdx` files in `content/docs/`.
+2. Run `npm run dev` and check your changes at
+   [http://localhost:3000/docs](http://localhost:3000/docs).
+3. Open a PR. Vercel will generate a preview URL.
+
+### The visual editor path (coming soon)
+
+A Keystatic visual editor will be available at `/keystatic` for mentors and PMs
+who prefer not to use the terminal. It will provide a WYSIWYG MDX editor that
+commits directly to the repo via GitHub.
+
+<Callout type="info">
+  Until the visual editor is set up, use [github.dev](https://github.dev) -
+  press `.` on any GitHub page to open a full browser-based editor. Fork the
+  repo, edit the MDX, and open a PR.
+</Callout>
+
+## Editing the code
+
+The Meetings Viewer is a Next.js 16 app using MUI 9 and Tailwind CSS 4.
+
+### Project structure
+
+```
+app/
+  (app)/       - scraper viewer routes
+  (landing)/   - landing page
+  (docs)/      - documentation routes (Fumadocs)
+  layout.tsx   - root layout with MUI theme
+  theme.ts     - MUI theme definition
+  globals.css  - CSS layers + Fumadocs theme mapping
+components/
+  layout/      - site header, footer, shell
+  scrapers/    - scraper workspace components
+  ui/          - shared UI components (StatusChip, etc.)
+  docs/        - MDX component mapping
+lib/
+  source.ts    - Fumadocs content source
+  scrapers.ts  - scraper data loading
+  meetings.ts  - meeting record utilities
+  duplicates.ts - duplicate detection logic
+content/docs/  - MDX documentation content
+```
+
+### Running locally
+
+```bash
+npm install
+npm run dev
+```
+
+The dev server starts at [http://localhost:3000](http://localhost:3000).
+
+### Opening a PR
+
+1. Create a branch from the current production branch.
+2. Make your changes.
+3. Run `npm run lint` and `npm run build` to verify.
+4. Open a PR with a clear description of what changed and why.
+
+<Callout type="warn">
+  If you're changing documentation that describes code behaviour (e.g. the
+  schema fields, the `end` default, the duplicate detection algorithm), make
+  sure the docs match the code. CI will eventually catch drift, but it's faster
+  to get it right in the PR.
+</Callout>

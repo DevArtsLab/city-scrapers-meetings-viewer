@@ -1,0 +1,113 @@
+---
+title: Schema Reference
+description: The twelve fields every meeting record must have, with types, examples, and edge cases.
+---
+
+# Schema reference
+
+Every meeting record is a JSON object with these fields. The TypeScript types
+live in `lib/scrapers.ts` in the Meetings Viewer repo - this page is generated
+from them.
+
+## Fields
+
+### id
+
+- **Type**: `string`
+- **Required**: yes
+- **Description**: A unique identifier for the meeting within this spider's
+  output. Conventionally a slug derived from the agency, date, and title.
+
+### title
+
+- **Type**: `string`
+- **Required**: yes
+- **Description**: The official name of the meeting. Should include the body
+  name, not just a generic label like "Regular Meeting".
+
+### description
+
+- **Type**: `string`
+- **Required**: yes (can be empty string)
+- **Description**: A brief description of the meeting. Should be useful context,
+  not just a copy of the title.
+
+### classification
+
+- **Type**: `string`
+- **Required**: yes
+- **Description**: The meeting type, e.g. "City Council", "Committee",
+  "Board", "Commission".
+
+### start
+
+- **Type**: `string` (ISO 8601 datetime)
+- **Required**: yes
+- **Description**: The meeting start time, timezone-aware. Use the spider's
+  `timezone` property and the `city_scrapers_core.utils.timezone` helpers.
+
+### end
+
+- **Type**: `string` (ISO 8601 datetime)
+- **Required**: yes
+- **Description**: The meeting end time, timezone-aware. Defaults to
+  `start + 2 hours` if not specified.
+
+<Callout type="warn">
+  The `end` default of `start + 2 hours` is defined in the base spider class. If
+  this changes, this page should be updated. This is a prime candidate for drift
+  detection.
+</Callout>
+
+### all_day
+
+- **Type**: `boolean`
+- **Required**: yes
+- **Description**: Whether the meeting is an all-day event. If `true`, `start`
+  should be midnight in the local timezone and `end` should be midnight the
+  next day.
+
+### time_notes
+
+- **Type**: `string`
+- **Required**: yes (can be empty string)
+- **Description**: Notes about the meeting time, e.g. "Doors open at 6:30 PM" or
+  "Time to be determined". If `location` is empty, explain why here.
+
+### location
+
+- **Type**: `{ name: string, address: string }`
+- **Required**: yes
+- **Description**: The meeting location. If unknown, set both fields to empty
+  strings and explain in `time_notes`.
+
+### links
+
+- **Type**: `{ href: string, title: string }[]`
+- **Required**: yes (can be empty array)
+- **Description**: Links related to the meeting, in priority order:
+  1. Agenda
+  2. Video / livestream
+  3. Minutes
+  4. Other supporting documents
+
+### source
+
+- **Type**: `string`
+- **Required**: yes
+- **Description**: The URL of the page where the meeting information was found.
+
+### status
+
+- **Type**: `string`
+- **Required**: yes
+- **Description**: One of `passed`, `cancelled`, or `tentative`. Use `passed`
+  for meetings that have occurred or are confirmed, `cancelled` for meetings
+  that were cancelled, and `tentative` for meetings that are planned but not
+  yet confirmed.
+
+<Callout type="info">
+  The status values above are rendered with the real `StatusChip` component on
+  the [Meetings Viewer](/docs/viewer) page. If the component or its colours
+  change, that page updates automatically.
+</Callout>

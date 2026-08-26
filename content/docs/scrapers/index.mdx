@@ -1,0 +1,64 @@
+---
+title: Building Scrapers
+description: The development workflow for writing city-meeting scrapers, from source analysis to PR.
+---
+
+# Building scrapers
+
+City Scrapers uses [Scrapy](https://scrapy.org/) to extract public meeting
+information from government websites. Each spider produces a JSON array of
+meeting records that the Meetings Viewer can display.
+
+## The workflow
+
+1. **Analyse the source** - visit the city's meeting page, understand the
+   structure, and identify where meeting data lives (HTML tables, calendars,
+   PDFs, Legistar systems).
+2. **Pick a spider pattern** - Legistar sites use `LegistarSpider`; most others
+   use a custom spider extending `CityScrapersSpider`.
+3. **Write the parse method** - extract meeting records from the response,
+   following the [schema](/docs/qa/schema).
+4. **Run and save output** - `scrapy crawl <name> -O data/scrapers/<name>.json`.
+5. **Check in the viewer** - load the output at
+   [http://localhost:3000/scrapers](http://localhost:3000/scrapers) and inspect
+   it.
+6. **Apply the rubric** - check each field against the
+   [QA rubric](/docs/qa/rubric).
+7. **Open a PR** - commit the spider and its JSON output.
+
+<Callout type="info">
+  Steps 4-6 are the tight loop. You'll run them many times while developing a
+  spider. The viewer exists to make step 5 fast.
+</Callout>
+
+## Spider patterns
+
+### LegistarSpider
+
+Many US cities use [Legistar](https://www.legistar.com/) for their legislative
+management. If your city uses Legistar, extend `LegistarSpider` - most of the
+work is done for you.
+
+### Custom spider
+
+For non-Legistar sites, extend `CityScrapersSpider` and write a custom parse
+method. The spider name should follow the convention `<city>_<purpose>`, e.g.
+`sandie_city_council`.
+
+## Common pitfalls
+
+- **Lowercase `-o`**: silently appends to an existing file, duplicating records.
+  Always use uppercase `-O`.
+- **Missing timezone**: datetimes must be timezone-aware. Use
+  `city_scrapers_core.utils.timezone` helpers.
+- **Empty location without `time_notes`**: if you can't find a location, explain
+  why in `time_notes`.
+- **Links out of order**: links should be in priority order - agenda first, then
+  video, then other supporting documents.
+
+## Next steps
+
+- [Writing a spider](/docs/scrapers/writing-a-spider) - the detailed guide with
+  code examples.
+- [Schema reference](/docs/qa/schema) - every field, its type, and expected
+  behaviour.

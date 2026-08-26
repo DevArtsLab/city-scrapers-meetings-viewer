@@ -66,6 +66,9 @@ export function SiteHeader({
                 Quick start
               </Button>
             )}
+            <Button href="/docs" color="inherit" sx={{ textTransform: "none" }}>
+              Docs
+            </Button>
             <Button
               href="/scrapers"
               variant="contained"

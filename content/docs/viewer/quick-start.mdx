@@ -1,0 +1,56 @@
+---
+title: Quick Start
+description: Load your scraper output into the Meetings Viewer and start reviewing in under a minute.
+---
+
+# Quick start
+
+## 1. Run your spider
+
+From the city-scrapers repo, run your spider with output redirected to the
+viewer's data directory:
+
+```bash
+scrapy crawl <spider-name> -O data/scrapers/<spider-name>.json
+```
+
+<Callout type="warn">
+  Use uppercase `-O`, not lowercase `-o`. The lowercase flag appends to an
+  existing file, which silently duplicates records. The uppercase flag
+  overwrites, which is what you want.
+</Callout>
+
+## 2. Open the viewer
+
+Start the Next.js dev server and navigate to the scrapers page:
+
+```bash
+npm run dev
+```
+
+Then open [http://localhost:3000/scrapers](http://localhost:3000/scrapers) in
+your browser. You'll see a list of all spiders with JSON output in
+`data/scrapers/`.
+
+## 3. Inspect the output
+
+Click your spider's name to see its output as a filterable table. Key things to
+check:
+
+- **Duplicates** are highlighted with a colored badge. Records with the same
+  start time and a similar title are grouped.
+- **Status** is shown as a chip. Make sure `cancelled` and `tentative` meetings
+  are marked correctly.
+- **Location** should not be empty unless `time_notes` explains why.
+- **Links** should be in priority order (agenda first, then video, then other).
+
+## 4. Compare against the rubric
+
+Open the [QA rubric](/docs/qa/rubric) in a second tab and check each field
+against the criteria. The rubric is designed to be applied field by field
+against real output.
+
+## 5. Open a PR
+
+Once your output passes the rubric, commit the JSON file and open a PR. Use the
+QA checklist (coming soon) to generate a PR comment with your review notes.

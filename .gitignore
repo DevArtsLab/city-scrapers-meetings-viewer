@@ -40,5 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# fumadocs generated source
+/.source/
+
 # Local mode data directory
 /data

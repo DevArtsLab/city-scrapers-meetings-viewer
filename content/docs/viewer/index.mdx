@@ -1,0 +1,50 @@
+---
+title: Meetings Viewer
+description: Inspect scraper JSON output as a browsable, filterable table. Built to cut QA time during scraper development.
+---
+
+import { StatusChip } from "@/components/ui/StatusChip";
+
+# Meetings Viewer
+
+The Meetings Viewer turns raw Scrapy JSON into a browsable, filterable table.
+It exists to speed up the most repetitive part of scraper development: checking
+that your output is correct, field by field.
+
+## What it does
+
+- Loads JSON files from `data/scrapers/` in the repo.
+- Renders each meeting record as a row in a data grid.
+- Highlights duplicates, missing fields, and status inconsistencies.
+- Lets you filter by classification, status, date range, and free-text search.
+
+## Status values
+
+Meeting records use three status values. These are rendered with the real
+component used in the app:
+
+<StatusChip status="passed" /> - the meeting happened or was confirmed.
+
+<StatusChip status="cancelled" /> - the meeting was cancelled.
+
+<StatusChip status="tentative" /> - the meeting is planned but not confirmed.
+
+<Callout type="info">
+  The status legend above is rendered with the actual `StatusChip` component
+  from the app, not a screenshot. If the component changes, this page updates
+  automatically. This is the "live component" pattern described in the docs
+  platform research.
+</Callout>
+
+## Where the data comes from
+
+The viewer reads from `data/scrapers/<spider-name>.json`. Each file is the
+output of a `scrapy crawl <spider> -O data/scrapers/<spider-name>.json` run.
+The file format is a JSON array of meeting records matching the schema in
+[Schema reference](/docs/qa/schema).
+
+## Next steps
+
+- [Quick start](/docs/viewer/quick-start) - load your scraper output and start
+  reviewing.
+- [QA rubric](/docs/qa/rubric) - the field-by-field checks to apply.

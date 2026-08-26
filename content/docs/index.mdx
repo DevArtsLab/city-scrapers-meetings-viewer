@@ -1,0 +1,36 @@
+---
+title: Documentation
+description: Two paths into the City Scrapers docs, depending on what you need to do today.
+---
+
+# Two ways in
+
+City Scrapers has two kinds of readers. Pick the one that matches your job today.
+
+## I'm building a scraper
+
+You've been assigned a city and need to write a spider that produces valid
+meeting records. Start here:
+
+- [Building Scrapers](/docs/scrapers) - the development workflow, from source
+  analysis to PR.
+- [Writing a spider](/docs/scrapers/writing-a-spider) - the spider patterns,
+  parse methods, and common pitfalls.
+- [Schema reference](/docs/qa/schema) - the twelve fields every record must
+  have, with examples.
+
+## I'm reviewing one
+
+Someone opened a PR with scraper output and you need to check it. Start here:
+
+- [QA & Review](/docs/qa) - the review workflow and the rubric.
+- [QA rubric](/docs/qa/rubric) - field-by-field checks to apply against real
+  output.
+- [Meetings Viewer](/docs/viewer) - load the scraper's JSON and inspect it as a
+  browsable table.
+
+<Callout type="warn">
+  Both paths end at the same place: a PR with correct scraper output. The docs
+  and the Meetings Viewer exist to make that faster. If something here is wrong,
+  fix it - these docs live in the same repo as the app.
+</Callout>

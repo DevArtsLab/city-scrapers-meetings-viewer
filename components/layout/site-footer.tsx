@@ -53,6 +53,16 @@ export function SiteFooter({
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
             <Link
+              href="/docs"
+              underline="hover"
+              sx={{
+                fontSize: "0.875rem",
+                color: "text.secondary",
+              }}
+            >
+              Docs
+            </Link>
+            <Link
               href="/scrapers"
               underline="hover"
               sx={{

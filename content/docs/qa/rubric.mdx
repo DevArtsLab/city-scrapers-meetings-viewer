@@ -1,0 +1,79 @@
+---
+title: QA Rubric
+description: Field-by-field checks to apply against scraper output during review.
+---
+
+# QA rubric
+
+Apply these checks field by field against the scraper's JSON output. Each check
+has a pass/fail criteria and a link to the relevant schema section.
+
+## id
+
+- **Check**: Unique within the spider's output.
+- **Pass**: No two records share the same `id`.
+- **Fail**: Duplicate IDs found. The viewer highlights duplicates with a colored
+  badge.
+
+## title
+
+- **Check**: Contains the body name, not just a date or generic label.
+- **Pass**: "City Council Regular Meeting" or similar.
+- **Fail**: "Regular Meeting" or "January 15, 2026".
+
+## start
+
+- **Check**: Timezone-aware ISO 8601 datetime.
+- **Pass**: `"2026-01-15T10:00:00-08:00"`.
+- **Fail**: `"2026-01-15T10:00:00"` (no timezone).
+
+## end
+
+- **Check**: Timezone-aware, and after `start`.
+- **Pass**: `"2026-01-15T12:00:00-08:00"` (2 hours after start).
+- **Fail**: Before `start`, or missing timezone.
+
+<Callout type="warn">
+  If `end` is not explicitly set, it defaults to `start + 2 hours`. This is
+  usually correct but check it against the source - some meetings have different
+  durations.
+</Callout>
+
+## status
+
+- **Check**: Consistent with `start` time.
+- **Pass**: `passed` for past meetings, `tentative` for future meetings,
+  `cancelled` for meetings that were cancelled.
+- **Fail**: `passed` for a future meeting, or `tentative` for a past meeting.
+
+## location
+
+- **Check**: Not empty unless `time_notes` explains why.
+- **Pass**: `{ "name": "City Hall", "address": "202 C St, San Diego, CA" }`.
+- **Fail**: Empty `name` and `address` with empty `time_notes`.
+
+## links
+
+- **Check**: In priority order (agenda, video, minutes, other).
+- **Pass**: Agenda link first, then video, then minutes.
+- **Fail**: Video link before agenda, or minutes before agenda.
+
+## all_day
+
+- **Check**: Correct for the meeting type.
+- **Pass**: `true` for all-day events with midnight start/end times.
+- **Fail**: `true` for a meeting with a specific start time.
+
+## duplicates
+
+- **Check**: No records with the same start time and similar title.
+- **Pass**: All records are distinct.
+- **Fail**: Two records with the same start and titles like "City Council
+  Meeting" and "City Council Regular Meeting" (the viewer's duplicate detection
+  uses significant-word overlap, not exact match).
+
+<Callout type="tip">
+  The viewer's duplicate detection is in `lib/duplicates.ts`. It groups records
+  by start time and then checks significant-word overlap in titles. Generic
+  words like "the", "meeting", "regular" are ignored.
+</Callout>

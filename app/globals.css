@@ -5,3 +5,16 @@
    overriding app-level styles. */
 @layer theme, base, mui, components, utilities;
 @import "tailwindcss";
+@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/preset.css";
+
+/* Map Fumadocs theme variables onto MUI palette variables.
+   A single mapping at :root handles both light and dark because
+   MUI redefines --mui-palette-* under its dark selector automatically. */
+:root {
+  --color-fd-primary: var(--mui-palette-primary-main);
+  --color-fd-background: var(--mui-palette-background-default);
+  --color-fd-foreground: var(--mui-palette-text-primary);
+  --color-fd-muted: var(--mui-palette-action-hover);
+  --color-fd-border: var(--mui-palette-divider);
+}
