@@ -1958,6 +1958,22 @@
             <em>git-backed</em>, and <em>Next.js App Router</em> is small.
           </p>
 
+          <p>
+            One boundary to set first, because it is easy to misread:
+            <strong
+              >reading <code>/docs</code> is anonymous and stays that
+              way.</strong
+            >
+            Authentication applies only to the write path, and it is unavoidable
+            there &mdash; content lives in a git repo, so every change is a
+            commit and every commit needs an author. There is no anonymous-write
+            option worth building: it would mean either a bot token committing
+            on behalf of unauthenticated visitors (an open write endpoint into
+            the repo) or a database, which breaks the viewer&rsquo;s no-database
+            invariant. Attributable commits in reviewable PRs are what make
+            CODEOWNERS and everything in <a href="#s7">&sect;7</a> work at all.
+          </p>
+
           <div class="scroll bleed">
             <table>
               <thead>
@@ -2022,12 +2038,48 @@
                     >
                   </td>
                   <td>n/a</td>
-                  <td>Yes</td>
+                  <td>Direct commits only</td>
                   <td><span class="pill mid">The free 80%</span></td>
                 </tr>
               </tbody>
             </table>
           </div>
+
+          <h3>What the free path actually involves</h3>
+          <p>
+            Less than people expect. Keystatic&rsquo;s GitHub mode is a one-time
+            setup, not a service you run:
+          </p>
+          <ul>
+            <li>
+              Create a GitHub App through Keystatic&rsquo;s own guided flow and
+              grant it access to the repo.
+            </li>
+            <li>
+              Put <code>KEYSTATIC_GITHUB_CLIENT_ID</code> and
+              <code>KEYSTATIC_GITHUB_CLIENT_SECRET</code> in the Vercel
+              project&rsquo;s environment variables.
+            </li>
+            <li>
+              Editors visit <code>/keystatic</code> and sign in with GitHub.
+            </li>
+          </ul>
+          <p>
+            There is no user database, no session store, and no permission logic
+            for us to write or secure.
+            <strong>GitHub enforces access, not our code</strong> &mdash; the
+            admin UI unlocks for accounts with <code>write</code> on the repo
+            and does nothing for anyone else. The only secret we hold is the
+            App&rsquo;s client secret.
+          </p>
+          <p>
+            Note that <code>/keystatic</code> is a public route in the app. That
+            is not a hole &mdash; an unauthorised visitor gets a sign-in screen
+            and GitHub rejects the write regardless &mdash; but if we would
+            rather the editor exist only in preview deploys, Keystatic publishes
+            a recipe for it (&ldquo;Next.js: Disable Admin UI Routes in
+            Production&rdquo;).
+          </p>
 
           <h3>The decision nobody can make for you</h3>
           <p>
@@ -2062,7 +2114,41 @@
               <code>meta.json</code> sidebar ordering has no natural Keystatic
               representation and will probably stay a developer task.
             </p>
+            <p>
+              Two things the Keystatic docs do not answer, both of which change
+              the governance story and should be settled in the same spike:
+            </p>
+            <ul>
+              <li>
+                <strong
+                  >Does an edit commit straight to the branch, or open a pull
+                  request?</strong
+                >
+                There is no branching or pull-request page in Keystatic&rsquo;s
+                documentation. Whether a mentor&rsquo;s edit lands directly or
+                goes through review is not a detail &mdash; find out by trying
+                it.
+              </li>
+              <li>
+                <strong>How does Keystatic Cloud attribute commits?</strong>
+                Undocumented. If history shows a generic Keystatic identity
+                rather than the individual editor, that undercuts
+                CODEOWNERS-based review routing and is an argument against the
+                paid path independent of cost.
+              </li>
+            </ul>
           </div>
+
+          <p>
+            The zero-setup fallback, if the access question stalls, is
+            <strong>github.dev</strong>: a contributor forks the repo, edits MDX
+            in a full browser editor, and opens a PR. That needs only a free
+            GitHub account and <em>no repo permission at all</em> &mdash; write
+            access is required only for committing directly. What you give up is
+            the WYSIWYG and schema validation; what you keep is the review loop,
+            and a Vercel preview per PR covers the &ldquo;can I see it
+            rendered&rdquo; problem better than any CMS preview pane.
+          </p>
 
           <p>
             Two constraints of Keystatic&rsquo;s MDX field are worth knowing up
