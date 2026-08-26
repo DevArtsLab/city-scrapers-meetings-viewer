@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Capabilities } from "@/components/landing/capabilities";
 import { Hero } from "@/components/landing/hero";
 import { Modes } from "@/components/landing/modes";
-import { QuickStart } from "@/components/landing/quick-start";
 
 export const metadata: Metadata = {
   title: "Meetings Viewer — QA tooling for city-scrapers",
@@ -22,7 +21,6 @@ export default function Home() {
       <Hero />
       <Modes />
       <Capabilities />
-      <QuickStart />
     </>
   );
 }

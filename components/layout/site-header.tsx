@@ -56,7 +56,7 @@ export function SiteHeader({
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {showLandingLinks && (
               <Button
-                href="#quick-start"
+                href="/docs/viewer/quick-start"
                 color="inherit"
                 sx={{
                   display: { xs: "none", sm: "inline-flex" },

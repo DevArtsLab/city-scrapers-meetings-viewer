@@ -110,7 +110,7 @@ export function Hero() {
               Browse scrapers
             </Button>
             <Button
-              href="#quick-start"
+              href="/docs/viewer/quick-start"
               variant="outlined"
               size="large"
               sx={{
@@ -119,7 +119,7 @@ export function Hero() {
                 px: 3,
               }}
             >
-              Load your first run
+              Quick start
             </Button>
           </Box>
 

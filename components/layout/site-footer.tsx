@@ -74,7 +74,7 @@ export function SiteFooter({
             </Link>
             {showLandingLinks && (
               <Link
-                href="#quick-start"
+                href="/docs/viewer/quick-start"
                 underline="hover"
                 sx={{
                   fontSize: "0.875rem",

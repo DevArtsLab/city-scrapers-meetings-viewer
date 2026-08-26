@@ -14,6 +14,7 @@ export const STATUS_CHIP_COLOR: Record<
 export function StatusChip({ status }: { status: string }) {
   return (
     <Chip
+      component="span"
       label={status || "—"}
       size="small"
       color={STATUS_CHIP_COLOR[status] ?? "default"}
