@@ -400,11 +400,16 @@
           </p>
           <p>
             <strong>Keep the git path as the only path</strong> through at
-            least P4. If a specific non-engineer editor is later named who
-            genuinely can't use <a href="https://github.dev">github.dev</a>
-            (already documented in <code>contributing/index.mdx</code> as the
-            stopgap), revisit Keystatic then — as a scoped answer to a real
-            person, not a default.
+            least P4 — for CTD-authored content. That reasoning is scoped to
+            CTD apprentices specifically; it doesn't extend to PDW or CB
+            (§3), who aren't in the apprenticeship and have no stated reason
+            to want GitHub access to this repo. If a specific non-engineer
+            editor is later named who genuinely can't use
+            <a href="https://github.dev">github.dev</a> (already documented
+            in <code>contributing/index.mdx</code> as the stopgap) — which,
+            per §3, PDW or CB may already qualify as for the pages that
+            describe their own process — revisit Keystatic then, scoped to
+            those specific pages, not as a platform-wide default.
           </p>
 
           <h3>1.2 Replace the tool roster with one build check</h3>
@@ -605,88 +610,163 @@
             in-context links, never competing with the homepage's choice.
           </p>
 
-          <h3>The pipeline diagram has to say what the Meetings Viewer <em>isn't</em></h3>
+          <h3>The pipeline diagram missed a mode — corrected</h3>
           <p>
-            The clearest gap the new guide exposes: nothing on the current
-            site explains that this app is a local, dev-time QA tool reading
-            a spider's local <code>-O</code> output — not a stage in the
-            production path that actually serves Documenters.org. Without
-            that line, a new contributor could reasonably assume this app
-            <em>is</em> part of the pipeline in §4.1. The diagram below is the
-            fix — production and local-QA are drawn as two separate paths
-            from the same source, joined only at "a person reads the JSON."
+            This diagram's first draft said the Meetings Viewer "never
+            touches production" and left it there. That's wrong in a way
+            that matters: this repo's own <code>README.md</code> describes a
+            second, <strong>planned</strong> "Production Mode" — the viewer
+            fetching PR-scoped scraper output from a dedicated
+            <code>meetings-viewer-data</code> repo, populated by GitHub
+            Actions attached to each city-scrapers repo, created when a PR
+            opens and removed when it closes. Same UI, same components —
+            only <code>lib/scrapers.ts</code>'s data source changes. That
+            mode doesn't touch Documenters.org's Azure/ETL/Postgres pipeline
+            either, but it's explicitly meant to be used
+            <em>during PR review</em> — which means by PDW and CB, not just
+            by a CTD apprentice at their own keyboard. The corrected diagram
+            below draws three paths, not two, and the caption says which
+            ones exist today.
           </p>
           <div class="diagram">
-            <svg viewBox="0 0 1080 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow diagram: scraper output splits into a production path through Azure, ETL, and Postgres to Documenters.org, and a separate local QA path through the Meetings Viewer.">
+            <svg viewBox="0 0 1080 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow diagram: scraper output splits into three paths — a production data pipeline through Azure, ETL, and Postgres to Documenters.org; a planned PR-review path through a shared meetings-viewer-data repo into the Meetings Viewer's production mode; and a local dev path straight into the Meetings Viewer's local mode.">
               <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
                   <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
                 </marker>
               </defs>
               <style>
                 .box { fill: var(--surface, #fff); stroke: var(--rule, #d6dcd8); stroke-width: 1.5; rx: 10; }
                 .box-prod { stroke: var(--accent, #0f6e68); }
+                .box-pr { stroke: var(--amber, #8e6209); stroke-dasharray: 5 4; }
                 .box-local { stroke: var(--blue, #2b5a8c); stroke-dasharray: 5 4; }
+                .box-viewer { stroke: var(--ink, #16201e); stroke-width: 2; }
                 .lbl { font: 600 13px "Public Sans", sans-serif; fill: var(--ink, #16201e); }
                 .sub { font: 400 11px "Public Sans", sans-serif; fill: var(--ink-3, #6f7c77); }
-                .edge-prod { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; marker-end: url(#arrow); color: var(--accent, #0f6e68); }
-                .edge-local { stroke: var(--blue, #2b5a8c); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); color: var(--blue, #2b5a8c); }
+                .edge-prod { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; marker-end: url(#arrow2); color: var(--accent, #0f6e68); }
+                .edge-pr { stroke: var(--amber, #8e6209); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow2); color: var(--amber, #8e6209); }
+                .edge-local { stroke: var(--blue, #2b5a8c); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow2); color: var(--blue, #2b5a8c); }
                 .tag { font: 700 10px "IBM Plex Mono", monospace; letter-spacing: 0.04em; }
               </style>
 
-              <rect x="20" y="120" width="140" height="60" class="box" />
-              <text x="90" y="145" text-anchor="middle" class="lbl">Scraper repo</text>
-              <text x="90" y="162" text-anchor="middle" class="sub">scrapy crawl</text>
+              <rect x="20" y="150" width="150" height="60" class="box" />
+              <text x="95" y="175" text-anchor="middle" class="lbl">Scraper repo</text>
+              <text x="95" y="192" text-anchor="middle" class="sub">this, or a sibling</text>
 
-              <!-- production path -->
-              <path class="edge-prod" d="M160,138 C210,120 230,80 280,60" />
-              <text x="215" y="90" class="tag" fill="var(--accent,#0f6e68)">DAILY CRON</text>
-              <rect x="280" y="30" width="150" height="60" class="box box-prod" />
-              <text x="355" y="55" text-anchor="middle" class="lbl">Azure Blob</text>
-              <text x="355" y="72" text-anchor="middle" class="sub">storage</text>
+              <!-- production data pipeline -->
+              <path class="edge-prod" d="M170,158 C220,120 240,70 290,50" />
+              <text x="225" y="80" class="tag" fill="var(--accent,#0f6e68)">DAILY CRON</text>
+              <rect x="290" y="20" width="140" height="60" class="box box-prod" />
+              <text x="360" y="45" text-anchor="middle" class="lbl">Azure Blob</text>
+              <text x="360" y="62" text-anchor="middle" class="sub">storage</text>
 
-              <path class="edge-prod" d="M430,60 L520,60" />
-              <rect x="520" y="30" width="110" height="60" class="box box-prod" />
-              <text x="575" y="55" text-anchor="middle" class="lbl">ETL</text>
-              <text x="575" y="72" text-anchor="middle" class="sub">transform</text>
+              <path class="edge-prod" d="M430,50 L510,50" />
+              <rect x="510" y="20" width="110" height="60" class="box box-prod" />
+              <text x="565" y="45" text-anchor="middle" class="lbl">ETL</text>
+              <text x="565" y="62" text-anchor="middle" class="sub">transform</text>
 
-              <path class="edge-prod" d="M630,60 L720,60" />
-              <rect x="720" y="30" width="130" height="60" class="box box-prod" />
-              <text x="785" y="55" text-anchor="middle" class="lbl">Postgres</text>
-              <text x="785" y="72" text-anchor="middle" class="sub">central DB</text>
+              <path class="edge-prod" d="M620,50 L710,50" />
+              <rect x="710" y="20" width="130" height="60" class="box box-prod" />
+              <text x="775" y="45" text-anchor="middle" class="lbl">Postgres</text>
+              <text x="775" y="62" text-anchor="middle" class="sub">central DB</text>
 
-              <path class="edge-prod" d="M850,60 L940,60" />
-              <rect x="940" y="20" width="130" height="80" class="box box-prod" />
-              <text x="1005" y="45" text-anchor="middle" class="lbl">Documenters.org</text>
-              <text x="1005" y="62" text-anchor="middle" class="sub">public site,</text>
-              <text x="1005" y="76" text-anchor="middle" class="sub">manager UI, emails</text>
+              <path class="edge-prod" d="M840,50 L925,50" />
+              <rect x="925" y="10" width="135" height="80" class="box box-prod" />
+              <text x="992" y="35" text-anchor="middle" class="lbl">Documenters.org</text>
+              <text x="992" y="52" text-anchor="middle" class="sub">public site,</text>
+              <text x="992" y="66" text-anchor="middle" class="sub">manager UI, emails</text>
 
-              <!-- local QA path -->
-              <path class="edge-local" d="M160,162 C210,185 230,220 280,235" />
-              <text x="205" y="215" class="tag" fill="var(--blue,#2b5a8c)">scrapy crawl -O</text>
-              <rect x="280" y="205" width="180" height="60" class="box box-local" />
-              <text x="370" y="230" text-anchor="middle" class="lbl">data/scrapers/*.json</text>
-              <text x="370" y="247" text-anchor="middle" class="sub">local file, this repo</text>
+              <!-- PR review mode: planned -->
+              <path class="edge-pr" d="M170,172 C220,168 250,163 290,158" />
+              <text x="200" y="150" class="tag" fill="var(--amber,#8e6209)">PR OPENED</text>
+              <rect x="290" y="128" width="200" height="60" class="box box-pr" />
+              <text x="390" y="153" text-anchor="middle" class="lbl">meetings-viewer-data</text>
+              <text x="390" y="170" text-anchor="middle" class="sub">public repo, PR-scoped — planned</text>
 
-              <path class="edge-local" d="M460,235 L560,235" />
-              <rect x="560" y="205" width="180" height="60" class="box box-local" />
-              <text x="650" y="230" text-anchor="middle" class="lbl">Meetings Viewer</text>
-              <text x="650" y="247" text-anchor="middle" class="sub">local QA only — not in the path above</text>
+              <path class="edge-pr" d="M490,158 C560,168 620,178 680,195" />
+
+              <!-- local dev mode -->
+              <path class="edge-local" d="M170,196 C220,230 250,260 290,278" />
+              <text x="205" y="255" class="tag" fill="var(--blue,#2b5a8c)">scrapy crawl -O</text>
+              <rect x="290" y="248" width="200" height="60" class="box box-local" />
+              <text x="390" y="273" text-anchor="middle" class="lbl">data/scrapers/*.json</text>
+              <text x="390" y="290" text-anchor="middle" class="sub">local file, this repo only</text>
+
+              <path class="edge-local" d="M490,278 C560,260 620,235 680,215" />
+
+              <!-- viewer, one app, two modes -->
+              <rect x="680" y="150" width="220" height="90" class="box box-viewer" />
+              <text x="790" y="180" text-anchor="middle" class="lbl">Meetings Viewer</text>
+              <text x="790" y="198" text-anchor="middle" class="sub">production mode (planned) —</text>
+              <text x="790" y="212" text-anchor="middle" class="sub">used by CTD, PDW, CB during review</text>
+              <text x="790" y="228" text-anchor="middle" class="sub">local mode (built) — one contributor</text>
 
               <!-- legend -->
-              <line x1="20" y1="285" x2="55" y2="285" class="edge-prod" />
-              <text x="62" y="289" class="sub">production, automatic</text>
-              <line x1="230" y1="285" x2="265" y2="285" class="edge-local" />
-              <text x="272" y="289" class="sub">local, manual, this repo</text>
+              <line x1="20" y1="330" x2="55" y2="330" class="edge-prod" />
+              <text x="62" y="334" class="sub">production data pipeline, automatic</text>
+              <line x1="330" y1="330" x2="365" y2="330" class="edge-pr" />
+              <text x="372" y="334" class="sub">PR-review mode, planned</text>
+              <line x1="620" y1="330" x2="655" y2="330" class="edge-local" />
+              <text x="662" y="334" class="sub">local dev mode, built</text>
             </svg>
             <p class="diagram-caption">
-              The Meetings Viewer never touches Azure, the ETL job, or
-              Postgres — it reads whatever JSON is sitting in
-              <code>data/scrapers/</code> on your machine. This is the single
-              most important thing <code>/docs/pipeline</code> has to make
-              obvious.
+              Neither path into the Meetings Viewer touches Azure, the ETL
+              job, or Postgres — that part of the original claim holds. What
+              didn't hold: "local-only." The viewer has a second, planned
+              mode meant for PDW and CB to use directly during PR review. It
+              isn't built yet (README: "Implementation details are tracked
+              in the technical specification and are not part of the
+              current build") — <code>/docs/pipeline</code> needs to say
+              that plainly, and the roadmap (§7) needs a line item for it.
             </p>
           </div>
+
+          <h3>Does this actually reach PDW, CB, and everyone past this repo?</h3>
+          <p>
+            The content scope does, now — the Development Guidelines
+            integration means <code>/docs</code> describes CTD, PDW, and CB's
+            roles in the review pipeline (§3.9) and the production
+            infrastructure none of them individually owns. That's necessary
+            but not sufficient. Four things stand between "the content
+            covers them" and "they actually land here and can trust what
+            they read":
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Gap</th><th>Evidence</th><th>What it costs if unfixed</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Branding</strong></td>
+                  <td><code>SiteHeader</code> shows "Meetings Viewer" as the site identity; <code>package.json</code>'s name is <code>meetings-viewer</code>. Nothing signals "City Scrapers program" to a visitor who isn't already oriented.</td>
+                  <td>A PDW reviewer or a new CB hire who lands on <code>/docs</code> reasonably assumes it's one tool's manual, not the program's shared reference — and bounces before finding the review-process page written for them.</td>
+                </tr>
+                <tr>
+                  <td><strong>Discoverability</strong></td>
+                  <td>Nothing in this repo's own <code>README.md</code>, and — so far as this playbook can verify from inside this repo — nothing in <code>city-scrapers-core</code> or elsewhere, links here. No PDW/CB/Documenters.org mention exists anywhere in the current <code>content/docs/</code>.</td>
+                  <td>Correct, well-designed content that no one outside this repo's contributors ever finds. This is the single biggest risk to the "people beyond this repo will benefit" goal — bigger than any content gap.</td>
+                </tr>
+                <tr>
+                  <td><strong>Editing authority</strong></td>
+                  <td>§1.1 keeps editing git-only, reasoned from CTD apprentices already learning git. PDW and CB are not part of that apprenticeship and have no stated reason to have GitHub write access to <em>this</em> repo.</td>
+                  <td>The review-process and pipeline pages describe PDW/CB's own workflow, but PDW/CB have no path to correct them when their process changes — the exact drift this platform exists to prevent, just moved up a level to organizational process instead of code.</td>
+                </tr>
+                <tr>
+                  <td><strong>Front-door framing</strong></td>
+                  <td><code>/docs</code>'s two doors ("I'm building a scraper" / "I'm reviewing one") are written loosely enough to fit a PDW or CB reviewer, but nothing on the homepage says so — a CB reviewer has no signal this site is for them at all, let alone which door.</td>
+                  <td>The IA work in this section is wasted on readers who never realize it applies to them.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            None of these are content-authoring work — they're closer to
+            product decisions about who this site is for and who's allowed
+            to speak for it. §8 turns the two that need a team decision
+            (editing authority, and whether to rebrand) into explicit open
+            items rather than letting them stay implicit.
+          </p>
         </section>
 
         <!-- ============ 04 ============ -->
@@ -1076,7 +1156,8 @@
               <h3 style="margin-top:0">Governance, minus the CMS</h3>
               <ul>
                 <li><code>CODEOWNERS</code> for <code>content/docs/</code>; a docs section in <code>.github/PULL_REQUEST_TEMPLATE.md</code> — cheap, do regardless of the Keystatic decision.</li>
-                <li>Keystatic: explicitly deferred (§1.1). Don't build it in this phase.</li>
+                <li>Keystatic: explicitly deferred for CTD content (§1.1). Don't build it in this phase.</li>
+                <li>Resolve §8's editing-authority decision for the PDW/CB-owned pages before publishing <code>/qa/review-process</code> and <code>/pipeline</code> — get sign-off from someone on those teams, at minimum, even if the editing mechanism stays git-only for now.</li>
               </ul>
             </div>
           </div>
@@ -1086,6 +1167,23 @@
             <div>
               <h3 style="margin-top:0">Automation</h3>
               <p>Ship <code>docs-build.yml</code> and <code>docs-generate-check.yml</code> from §5. Nothing else, yet.</p>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P5.5<em>not this playbook</em></div>
+            <div>
+              <h3 style="margin-top:0">Production Mode — flagged, not scoped here</h3>
+              <p>
+                The viewer's planned "Production Mode" (§3) — fetching
+                PR-scoped output from <code>meetings-viewer-data</code> for
+                PDW/CB to use during review — is app functionality, not docs
+                platform work, and belongs in its own plan. It's listed here
+                only so it doesn't stay invisible: it's the concrete reason
+                PDW and CB are real users of this repo's output, not just
+                readers of docs about it, and §8's branding/discoverability
+                decisions should be made with it in mind.
+              </p>
             </div>
           </div>
 
@@ -1157,6 +1255,31 @@
               this app. Decide explicitly before P7 drifts into building it;
               don't let it happen by accident because "the API's right
               there."
+            </li>
+            <li>
+              <strong>Who can correct PDW/CB-described content, and how
+              (§3)?</strong> The git-only decision in §1.1 is reasoned from
+              CTD apprentices learning git as part of the program — it
+              doesn't extend to PDW or CB. Options range from "someone on
+              those teams reviews and signs off on the relevant pages
+              in-PR without needing write access themselves" to a scoped
+              Keystatic instance limited to <code>/qa/review-process</code>
+              and <code>/pipeline</code>. Pick one before those pages ship,
+              not after they've already drifted once.
+            </li>
+            <li>
+              <strong>Rebrand, or add a program-level frame (§3)?</strong>
+              The site currently presents as "Meetings Viewer" end to end —
+              accurate for a CTD apprentice, misleading for anyone landing
+              on <code>/docs</code> looking for the City Scrapers program as
+              a whole. This doesn't have to mean a new name: a header
+              breadcrumb ("City Scrapers — Meetings Viewer"), a distinct
+              <code>/docs</code> masthead, or a one-line "what is this site"
+              banner on first visit could all resolve it far more cheaply
+              than a rename. Whatever's picked, it needs a decision, not a
+              default — and it should account for §7's planned Production
+              Mode, which is the concrete reason non-CTD readers will
+              eventually use this repo's output directly, not just its docs.
             </li>
           </ul>
         </section>
