@@ -300,8 +300,9 @@
         <a href="#s4"><span>04</span>UX / UI system</a>
         <a href="#s5"><span>05</span>Automation, lean</a>
         <a href="#s6"><span>06</span>Fleet &amp; performance</a>
-        <a href="#s7"><span>07</span>Roadmap</a>
-        <a href="#s8"><span>08</span>Open decisions</a>
+        <a href="#s7"><span>07</span>Agents, memory &amp; skills</a>
+        <a href="#s8"><span>08</span>Roadmap</a>
+        <a href="#s9"><span>09</span>Open decisions</a>
       </nav>
 
       <main>
@@ -596,6 +597,10 @@
     index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— add a one-line pointer: scraper contribution lives under /docs/scrapers/contributing</span>
   <span class="k">/analytics</span>  (Fleet &amp; performance)  <span class="new-tag">NEW SECTION, §6</span>
     index.mdx                      <span class="k">— for senior developers, not the two doors — fleet health + docs performance (§6, P7)</span>
+  <span class="k">/agents</span>  (Agents, memory &amp; skills)  <span class="new-tag">NEW SECTION, §7</span>
+    index.mdx, how-to-add-a-section.mdx   <span class="k">— vocabulary, decision method, the four-step process (§7)</span>
+    meetings-viewer.mdx            <span class="k">— ships now, honest and thin (§7)</span>
+    scrapers.mdx, devops.mdx       <span class="k">— stubs, owned by those teams (§7)</span>
           </div>
 
           <h3>Why a third top-level section instead of folding it into the two doors</h3>
@@ -717,7 +722,7 @@
               isn't built yet (README: "Implementation details are tracked
               in the technical specification and are not part of the
               current build") — <code>/docs/pipeline</code> needs to say
-              that plainly, and the roadmap (§7) needs a line item for it.
+              that plainly, and the roadmap (§8) needs a line item for it.
             </p>
           </div>
 
@@ -763,7 +768,7 @@
           <p>
             None of these are content-authoring work — they're closer to
             product decisions about who this site is for and who's allowed
-            to speak for it. §8 turns the two that need a team decision
+            to speak for it. §9 turns the two that need a team decision
             (editing authority, and whether to rebrand) into explicit open
             items rather than letting them stay implicit.
           </p>
@@ -994,7 +999,7 @@
             </li>
             <li>
               <strong>The real Airtable-backed version is a separate, bigger
-              decision</strong> — see §8. The Airtable PAT is a
+              decision</strong> — see §9. The Airtable PAT is a
               write-scoped org secret (per the guide's §4.3); it can never
               reach client-side code in this Next.js app. A live version
               needs a server-only Route Handler and its own security review,
@@ -1006,7 +1011,7 @@
           <p>
             §1.2 deferred axe-core + Lighthouse CI for having no place to
             show results. This tab is that place — the condition is now met,
-            so it's back on the roadmap (§7, P7), scoped tightly: Lighthouse
+            so it's back on the roadmap (§8, P7), scoped tightly: Lighthouse
             CI writes one JSON artifact per build; this page renders it. No
             new runtime dependency, no telemetry service, nothing that
             phones out from a user's browser.
@@ -1094,7 +1099,142 @@
 
         <!-- ============ 07 ============ -->
         <section id="s7" class="col">
-          <h2><span class="num">07</span>Roadmap</h2>
+          <h2><span class="num">07</span>Agents, memory &amp; skills</h2>
+          <p>
+            A new category, deliberately started thin: a shared place for
+            how teams use AI coding agents effectively — not just CTD, but
+            the frontend team on this repo, whoever owns the scraper repos,
+            whoever owns the CI/CD automation in §3's <code>/pipeline</code>,
+            and any team that comes after. The goal is the same one behind
+            everything else in this playbook: less duplicated tribal
+            knowledge, less onboarding by osmosis. The difference here is
+            that almost none of the content exists yet — so this section is
+            a method for growing it team by team, not a finished IA to fill
+            in.
+          </p>
+
+          <div class="note info">
+            <span class="lab">Where this repo actually stands today</span>
+            <p>
+              One file: <code>AGENTS.md</code>, one rule (a warning that this
+              app's pinned Next.js version has breaking changes versus a
+              model's training data). No <code>.claude/skills/</code>, no
+              <code>.claude/agents/</code>, no hooks. That's the honest
+              starting point — nothing below invents practices this repo
+              doesn't have yet.
+            </p>
+          </div>
+
+          <h3>The vocabulary — four mechanisms, one job each</h3>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Mechanism</th><th>Lives at</th><th>For</th><th>In this repo, today</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Memory</strong></td>
+                  <td><code>AGENTS.md</code> / <code>CLAUDE.md</code>, repo root</td>
+                  <td>Standing context every agent session in this repo loads automatically — the guardrails you'd otherwise repeat in every prompt</td>
+                  <td>One rule (above)</td>
+                </tr>
+                <tr>
+                  <td><strong>Skill</strong></td>
+                  <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
+                  <td>A packaged, reusable procedure — a checklist or workflow invoked by name mid-session, not repeated from memory each time</td>
+                  <td>None yet</td>
+                </tr>
+                <tr>
+                  <td><strong>Subagent</strong></td>
+                  <td><code>.claude/agents/&lt;name&gt;.md</code></td>
+                  <td>A specialized persona with its own tool access, for a recurring task worth a dedicated role — a reviewer, a researcher</td>
+                  <td>None yet</td>
+                </tr>
+                <tr>
+                  <td><strong>Hook</strong></td>
+                  <td><code>.claude/settings.json</code></td>
+                  <td>An automated action on a session event — run a formatter after every edit, block a risky command</td>
+                  <td>None yet</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            The decision method is short: something every session must
+            always know → memory. A procedure you'd explain the same way
+            every time → a skill. A distinct role worth its own context and
+            tool scope → a subagent. Something that should happen
+            automatically, unasked → a hook. Most teams starting out will
+            only ever need the first two.
+          </p>
+
+          <h3>The method: how a team adds its own section</h3>
+          <ol>
+            <li>
+              <strong>Write down one real thing, not a speculative one.</strong>
+              The smallest actual convention your team already applies with
+              an agent — not an aspirational list of everything a
+              well-run team's agent setup could someday include. This
+              playbook's own rule against building for hypothetical readers
+              (§1) applies here too.
+            </li>
+            <li>
+              <strong>The real file lives in your team's own repo, not here.</strong>
+              An agent session working in <code>city-scrapers-core</code>
+              only ever reads that repo's <code>AGENTS.md</code> and
+              <code>.claude/</code> directory — nothing hosted only in
+              <code>city-scrapers-meetings-viewer</code>'s docs is ever
+              loaded by a session working elsewhere. Put the actual
+              memory/skill/agent/hook file where it will actually be read.
+            </li>
+            <li>
+              <strong>This site links to it and summarizes intent in two or
+              three sentences — never a copy.</strong> Same reasoning as
+              §1.3: a duplicate goes stale the moment the source changes and
+              nobody notices. A link can't drift out of sync with itself.
+            </li>
+            <li>
+              <strong>List it on <code>/docs/agents</code>'s team table</strong>
+              and open a PR the same way your team reviews anything else.
+            </li>
+          </ol>
+
+          <div class="note tip">
+            <span class="lab">Lighter governance than §3's PDW/CB content</span>
+            <p>
+              §9 raises a real open question about who can correct content
+              describing PDW/CB's own process, because they don't have git
+              access to this repo. That problem doesn't apply here: every
+              team this section is for — scrapers, this app's own
+              frontend team, whoever owns CI/CD — already has git access to
+              their own repo. The only discipline this category needs is
+              link-not-duplicate, above; it doesn't need a new governance
+              decision in §9.
+            </p>
+          </div>
+
+          <h3>What ships now vs. what's a stub</h3>
+          <div class="tree">
+<span class="k">/docs/agents</span>
+  index.mdx                        <span class="k">— the vocabulary, the decision method, the team table</span>
+  how-to-add-a-section.mdx         <span class="k">— the four-step method above, as a copy-pasteable checklist</span>
+  meetings-viewer.mdx              <span class="k">— ships now: this repo's one real rule, honestly, plus what to add next</span>
+  scrapers.mdx                     <span class="k">— stub: "owned by the city-scrapers-core team — not written yet"</span>
+  devops.mdx                       <span class="k">— stub: "owned by whoever maintains the CI/CD in /pipeline — not written yet"</span>
+  <span class="k">+ one page per team, added as each team runs the method above</span>
+          </div>
+          <p>
+            <code>meetings-viewer.mdx</code>'s "what to add next" isn't a
+            guess — this playbook already wrote the candidate content in
+            §4.3's standing rules (repo-scope callouts, commands
+            copy-pasteable as written, dark-mode parity before merge). That's
+            a real skill's worth of material sitting right there, unpackaged.
+          </p>
+        </section>
+
+        <!-- ============ 08 ============ -->
+        <section id="s8" class="col">
+          <h2><span class="num">08</span>Roadmap</h2>
           <p>
             Same phase numbering as the original research where the work
             carries over, so progress against it stays legible. Content
@@ -1157,7 +1297,7 @@
               <ul>
                 <li><code>CODEOWNERS</code> for <code>content/docs/</code>; a docs section in <code>.github/PULL_REQUEST_TEMPLATE.md</code> — cheap, do regardless of the Keystatic decision.</li>
                 <li>Keystatic: explicitly deferred for CTD content (§1.1). Don't build it in this phase.</li>
-                <li>Resolve §8's editing-authority decision for the PDW/CB-owned pages before publishing <code>/qa/review-process</code> and <code>/pipeline</code> — get sign-off from someone on those teams, at minimum, even if the editing mechanism stays git-only for now.</li>
+                <li>Resolve §9's editing-authority decision for the PDW/CB-owned pages before publishing <code>/qa/review-process</code> and <code>/pipeline</code> — get sign-off from someone on those teams, at minimum, even if the editing mechanism stays git-only for now.</li>
               </ul>
             </div>
           </div>
@@ -1181,7 +1321,7 @@
                 platform work, and belongs in its own plan. It's listed here
                 only so it doesn't stay invisible: it's the concrete reason
                 PDW and CB are real users of this repo's output, not just
-                readers of docs about it, and §8's branding/discoverability
+                readers of docs about it, and §9's branding/discoverability
                 decisions should be made with it in mind.
               </p>
             </div>
@@ -1203,15 +1343,28 @@
                 <li>Finish <code>SpiderEntry</code> locally: mtime-derived <code>last_run</code>, schema-self-check <code>last_run_status</code> (§6).</li>
                 <li>Stand up <code>/docs/analytics</code>: KPI tiles, the extended fleet table, the Lighthouse trend panel (§6) — status colors pulled from the MUI theme, not re-picked.</li>
                 <li>Axe-core + Lighthouse CI, finally justified (§1.2/P6) — write one JSON artifact per build for the trend panel to read.</li>
-                <li>Gate on §8's local-vs-Airtable decision before scoping anything past the local version.</li>
+                <li>Gate on §9's local-vs-Airtable decision before scoping anything past the local version.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P8<em>ongoing</em></div>
+            <div>
+              <h3 style="margin-top:0">Agents, memory &amp; skills</h3>
+              <ul>
+                <li>Ship <code>/docs/agents</code>'s index and <code>how-to-add-a-section.mdx</code> — the method, not team content (§7).</li>
+                <li>Write <code>meetings-viewer.mdx</code> for real: package §4.3's standing rules into this repo's first actual <code>.claude/skills/</code> entry, then document it (§7).</li>
+                <li>Publish <code>scrapers.mdx</code> and <code>devops.mdx</code> as stubs with the method linked — don't wait on those teams to have content before the page exists to invite it.</li>
+                <li>No fixed end date: a team's page lands whenever that team runs the four-step method, not on this playbook's schedule.</li>
               </ul>
             </div>
           </div>
         </section>
 
-        <!-- ============ 08 ============ -->
-        <section id="s8" class="col">
-          <h2><span class="num">08</span>Open decisions for the team</h2>
+        <!-- ============ 09 ============ -->
+        <section id="s9" class="col">
+          <h2><span class="num">09</span>Open decisions for the team</h2>
           <div class="note tip">
             <span class="lab">Closed</span>
             <p>
@@ -1277,7 +1430,7 @@
               <code>/docs</code> masthead, or a one-line "what is this site"
               banner on first visit could all resolve it far more cheaply
               than a rename. Whatever's picked, it needs a decision, not a
-              default — and it should account for §7's planned Production
+              default — and it should account for §8's planned Production
               Mode, which is the concrete reason non-CTD readers will
               eventually use this repo's output directly, not just its docs.
             </li>
