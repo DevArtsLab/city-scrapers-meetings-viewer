@@ -279,6 +279,15 @@
       .tag { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 13px; color: var(--accent-2); background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 6px 8px; text-align: center; height: fit-content; }
       .tag em { display: block; font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
 
+      /* KPI mockup */
+      .kpi-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0 22px; }
+      .kpi-tile { flex: 1 1 150px; background: var(--surface); border: 1px solid var(--rule); border-top: 3px solid var(--tile-color, var(--accent)); border-radius: 10px; padding: 16px 18px; }
+      .kpi-num { font-family: "Fraunces", serif; font-size: 2rem; font-weight: 600; color: var(--ink); line-height: 1; }
+      .kpi-lab { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
+      .kpi-tile.good { --tile-color: var(--accent); }
+      .kpi-tile.warn { --tile-color: var(--amber); }
+      .kpi-tile.bad { --tile-color: var(--oxblood); }
+
       footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-3); }
     </style>
   </head>
@@ -290,8 +299,9 @@
         <a href="#s3"><span>03</span>Information architecture</a>
         <a href="#s4"><span>04</span>UX / UI system</a>
         <a href="#s5"><span>05</span>Automation, lean</a>
-        <a href="#s6"><span>06</span>Roadmap</a>
-        <a href="#s7"><span>07</span>Open decisions</a>
+        <a href="#s6"><span>06</span>Fleet &amp; performance</a>
+        <a href="#s7"><span>07</span>Roadmap</a>
+        <a href="#s8"><span>08</span>Open decisions</a>
       </nav>
 
       <main>
@@ -358,6 +368,23 @@
         <!-- ============ 01 ============ -->
         <section id="s1" class="col">
           <h2><span class="num">01</span>What changes, and why</h2>
+
+          <div class="note warn">
+            <span class="lab">Three items dropped on the first pass — added back here</span>
+            <p>
+              A second check against the original research's §5 turned up
+              three items this playbook's first draft silently lost instead
+              of deliberately cutting. Deliberate cuts (Keystatic, the heavy
+              CI roster, Fiberplane Drift, blanket Mermaid) are explained
+              below. These three weren't cuts, they were oversights — fixed
+              now, not re-argued:
+            </p>
+            <ul>
+              <li><strong>§5.1's paste-JSON rubric-report tool</strong> — the original research called this "the highest-value page on the site." Restored as <code>&lt;RubricReport&gt;</code> in §4.2, P3.</li>
+              <li><strong>Per-page <code>.md</code> routes and a copy-as-markdown button</strong> (§5.9) — Fumadocs ships both for free alongside the already-built <code>llms.txt</code>/<code>llms-full.txt</code> routes. Restored in §4.2 and P1.</li>
+              <li><strong>Site-wide ⌘K search</strong> "reachable from anywhere, including from inside the viewer" (§5.10) — <code>SiteHeader</code> currently has no search trigger at all, so search is confined to <code>/docs</code>. Restored in §4.2 and P2.</li>
+            </ul>
+          </div>
 
           <h3>1.1 Skip Keystatic — the git path <em>is</em> the point</h3>
           <p>
@@ -448,6 +475,20 @@
               <code>string</code> and every component renders it as-is,
               unparsed. The live docs' claim of a timezone-aware ISO 8601
               string doesn't match the data the app actually ships with.
+            </p>
+          </div>
+          <div class="note tip">
+            <span class="lab">Resolved, not just observed</span>
+            <p>
+              Confirmed with the team: this is by design, not a bug to fix.
+              <strong>The viewer is meant to show exactly what the spider
+              produced</strong> — no client-side parsing, no normalization,
+              no reformatting. Document that as a stated principle on
+              <code>qa/schema.mdx</code> itself (§3), not just fix the
+              tz-naive wording — it's the answer to why the field renders as
+              a raw string at all, and it forecloses a future "helpfully"
+              reformat-on-read PR that would make the viewer stop matching
+              its own source of truth.
             </p>
           </div>
           <div class="scroll">
@@ -548,6 +589,8 @@
     airtable-sync.mdx              <span class="k">— two-workflow trust boundary, secrets, known limitation (§4.3)</span>
   <span class="k">/contributing</span>  (unchanged, this repo only)
     index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— add a one-line pointer: scraper contribution lives under /docs/scrapers/contributing</span>
+  <span class="k">/analytics</span>  (Fleet &amp; performance)  <span class="new-tag">NEW SECTION, §6</span>
+    index.mdx                      <span class="k">— for senior developers, not the two doors — fleet health + docs performance (§6, P7)</span>
           </div>
 
           <h3>Why a third top-level section instead of folding it into the two doors</h3>
@@ -700,6 +743,21 @@
                   <td>Kept from the original research's §5.4, now more valuable — the guide adds <code>genspider</code>, <code>validate</code>, <code>flake8</code>/<code>black</code>/<code>isort</code>, and several <code>pytest</code> invocations on top of the one <code>crawl -O</code> command it originally covered.</td>
                 </tr>
                 <tr>
+                  <td><code>&lt;RubricReport&gt;</code></td>
+                  <td>Nothing — new (restored from §5.1 of the original research)</td>
+                  <td>Drop or paste a spider's JSON output on <code>/qa</code>, get a per-field verdict against the corrected rubric (§2) — timezone-naive check, link order, status logic, duplicate IDs. Runs client-side; mostly a lift from the already-existing <code>lib/duplicates.ts</code> and the app's own status/format helpers, so it stays true to "the viewer shows exactly what the spider produced" (§2) rather than reimplementing QA logic a second way.</td>
+                </tr>
+                <tr>
+                  <td>Fumadocs per-page <code>.md</code> route + copy-as-markdown button</td>
+                  <td>Nothing — new (restored from §5.9)</td>
+                  <td>Ships free alongside the <code>llms.txt</code>/<code>llms-full.txt</code> routes already built. No reason the <code>llms-full.txt</code> fix in P1 ships without these two.</td>
+                </tr>
+                <tr>
+                  <td>Header <code>&lt;SearchTrigger&gt;</code></td>
+                  <td>Nothing — <code>SiteHeader</code> has no search entry point today</td>
+                  <td>Restores §5.10 — ⌘K reachable from <code>/scrapers</code> and the landing page, not just <code>/docs</code>. Fumadocs' search client can be mounted outside <code>DocsLayout</code>; it already indexes via the existing search route.</td>
+                </tr>
+                <tr>
                   <td>Fumadocs <code>&lt;Tabs&gt;</code> (ships free, unused so far)</td>
                   <td>Parallel prose lists</td>
                   <td>The Airtable sync docs already describe "core repo" vs. "consumer repo" file lists side by side — that's a tab pair, not two headings.</td>
@@ -810,7 +868,153 @@
 
         <!-- ============ 06 ============ -->
         <section id="s6" class="col">
-          <h2><span class="num">06</span>Roadmap</h2>
+          <h2><span class="num">06</span>Fleet &amp; performance, for senior developers</h2>
+          <p>
+            Everything so far serves two readers: someone building a spider,
+            someone reviewing one. Neither view answers a question a team
+            lead actually has — <em>across every spider this cohort has
+            shipped, what's healthy, what's stale, and is the docs platform
+            itself fast?</em> That's a third audience, and it's a different
+            job: fleet-wide visibility, not single-spider QA.
+          </p>
+          <div class="note info">
+            <span class="lab">This isn't invented — it's half-built already</span>
+            <p>
+              <code>components/scrapers/ScrapersTable.tsx</code> already
+              defines <code>Status</code> and <code>Last Run</code> columns
+              (fields <code>last_run_status</code> and <code>last_run</code>)
+              on the spider list. <code>lib/scrapers.ts</code>'s
+              <code>SpiderEntry</code> type declares both fields. But
+              <code>listScrapers()</code> only ever returns
+              <code>{"{"} slug {"}"}</code> — <code>agency</code>,
+              <code>last_run</code>, and <code>last_run_status</code> are
+              never populated, so every row renders the
+              <code>—</code> placeholder permanently. The table was built for
+              fleet visibility and never finished.
+            </p>
+          </div>
+
+          <h3>Keep it local, the same way the rest of the app already is</h3>
+          <p>
+            §3's diagram established that this app is a local, dev-time tool
+            — it never talks to Azure, the ETL job, or Postgres. Fleet data
+            should hold that same line rather than reaching for the real
+            Airtable spider registry from client code:
+          </p>
+          <ul>
+            <li>
+              <strong>Local signal, computed from what's already on disk.</strong>
+              File mtime on each <code>data/scrapers/&lt;slug&gt;.json</code>
+              stands in for <code>last_run</code>; a schema self-check —
+              reusing <code>&lt;RubricReport&gt;</code>'s validation from §4.2
+              — stands in for <code>last_run_status</code>
+              (<code>healthy</code> / <code>stale</code> /
+              <code>schema-errors</code>). This finishes
+              <code>SpiderEntry</code> honestly with zero new integrations.
+            </li>
+            <li>
+              <strong>The real Airtable-backed version is a separate, bigger
+              decision</strong> — see §8. The Airtable PAT is a
+              write-scoped org secret (per the guide's §4.3); it can never
+              reach client-side code in this Next.js app. A live version
+              needs a server-only Route Handler and its own security review,
+              not a quick client fetch.
+            </li>
+          </ul>
+
+          <h3>The other half: is the docs platform itself fast?</h3>
+          <p>
+            §1.2 deferred axe-core + Lighthouse CI for having no place to
+            show results. This tab is that place — the condition is now met,
+            so it's back on the roadmap (§7, P7), scoped tightly: Lighthouse
+            CI writes one JSON artifact per build; this page renders it. No
+            new runtime dependency, no telemetry service, nothing that
+            phones out from a user's browser.
+          </p>
+
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Panel</th><th>Data source</th><th>Chart form</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Fleet health KPIs</td>
+                  <td>Local <code>SpiderEntry</code> completion, above</td>
+                  <td>Stat tiles, status-colored — a count is the whole story, no chart needed</td>
+                </tr>
+                <tr>
+                  <td>Fleet table</td>
+                  <td>Same source</td>
+                  <td>Extends the existing <code>ScrapersTable</code> DataGrid — the "table view" a KPI row always needs, for free</td>
+                </tr>
+                <tr>
+                  <td>Docs performance trend</td>
+                  <td>Lighthouse CI JSON, one point per build</td>
+                  <td>Single-hue sparkline, one axis, last value direct-labeled — never score and milliseconds on one dual-axis chart</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            Mocked below with this document's own tokens — the real build
+            must pull <code>success</code>/<code>warning</code>/<code>error</code>
+            straight from the MUI theme (the same three values
+            <code>StatusChip</code> already uses, per
+            <code>components/ui/StatusChip.tsx</code>), not hand-picked hex.
+            Consistency with the rest of the app means reusing that mapping
+            exactly, not approximating it.
+          </p>
+          <div class="diagram">
+            <div class="kpi-row">
+              <div class="kpi-tile good">
+                <div class="kpi-num">41</div>
+                <div class="kpi-lab">Healthy — ran &amp; validated within 24h</div>
+              </div>
+              <div class="kpi-tile warn">
+                <div class="kpi-num">6</div>
+                <div class="kpi-lab">Stale — no run in 24h+</div>
+              </div>
+              <div class="kpi-tile bad">
+                <div class="kpi-num">2</div>
+                <div class="kpi-lab">Schema errors on last run</div>
+              </div>
+              <div class="kpi-tile">
+                <div class="kpi-num">94</div>
+                <div class="kpi-lab">Docs Lighthouse performance, last build</div>
+              </div>
+            </div>
+            <svg viewBox="0 0 560 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sparkline of docs Lighthouse performance score over the last eight builds, trending from 86 to 94.">
+              <style>
+                .spark-line { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+                .spark-end { fill: var(--accent, #0f6e68); }
+                .spark-axis { stroke: var(--rule, #d6dcd8); stroke-width: 1; }
+                .spark-lbl { font: 600 12px "IBM Plex Mono", monospace; fill: var(--ink-2, #46544f); }
+                .spark-cap { font: 400 11px "Public Sans", sans-serif; fill: var(--ink-3, #6f7c77); }
+              </style>
+              <line x1="10" y1="70" x2="550" y2="70" class="spark-axis" />
+              <path class="spark-line" d="M10,52 L80,58 L150,44 L220,50 L290,34 L360,30 L430,22 L500,16" />
+              <circle cx="500" cy="16" r="3.5" class="spark-end" />
+              <text x="512" y="20" class="spark-lbl">94</text>
+              <text x="10" y="86" class="spark-cap">last 8 builds — Lighthouse performance score, /docs</text>
+            </svg>
+          </div>
+
+          <h3>Where this lives</h3>
+          <p>
+            A new nav entry, <code>/docs/analytics</code>, in its own
+            sidebar group — not folded into the two-doors home, and not
+            hidden: a short callout at the top states plainly who it's for
+            ("team leads and senior developers tracking fleet health — not
+            needed for day-to-day scraper QA") so apprentices aren't left
+            wondering why a page full of counts doesn't apply to them.
+          </p>
+        </section>
+
+        <!-- ============ 07 ============ -->
+        <section id="s7" class="col">
+          <h2><span class="num">07</span>Roadmap</h2>
           <p>
             Same phase numbering as the original research where the work
             carries over, so progress against it stays legible. Content
@@ -833,7 +1037,7 @@
               <p>Mostly shipped already (route group, <code>lib/source.ts</code>, search route, nav, Callouts, the two-doors index). Remaining before new content lands:</p>
               <ul>
                 <li>Theme variable mapping (§4.1) — 5 lines, do this first.</li>
-                <li>Make <code>llms-full.txt</code> actually full — it currently emits title + description per page, not page bodies.</li>
+                <li>Make <code>llms-full.txt</code> actually full — it currently emits title + description per page, not page bodies — and add per-page <code>.md</code> routes and a copy-as-markdown button alongside it (§4.2).</li>
                 <li>Build <code>&lt;RepoScope&gt;</code> (§4.2) — needed by nearly every page in P2.</li>
               </ul>
             </div>
@@ -847,6 +1051,7 @@
                 <li>Apply every fix in §2's table — five files, no new pages yet.</li>
                 <li>Write the new <code>/scrapers</code> pages: source-analysis, spider-patterns, bot-detection, testing, contributing (§3).</li>
                 <li>Write <code>/qa/review-process</code> and stand up the new <code>/pipeline</code> section (§3), including the data-flow diagram in §3.</li>
+                <li>Mount <code>&lt;SearchTrigger&gt;</code> in <code>SiteHeader</code> (§4.2) — small, independent of the content work above.</li>
               </ol>
             </div>
           </div>
@@ -857,6 +1062,7 @@
               <h3 style="margin-top:0">Interactive layer</h3>
               <ul>
                 <li><code>&lt;SchemaTable&gt;</code>, generated (§1.3, §4.2, §5).</li>
+                <li><code>&lt;RubricReport&gt;</code> on <code>/qa</code> (§4.2) — the highest-value single feature on this list.</li>
                 <li><code>&lt;PRLifecycle&gt;</code> stepper on <code>/qa/review-process</code> (§4.2).</li>
                 <li><code>&lt;CommandBlock&gt;</code> on the spider-running and contributing pages (§4.2).</li>
                 <li>Exportable QA checklist (kept from the original research's §5.5) — real value now that the rubric itself is correct.</li>
@@ -887,25 +1093,34 @@
             <div class="tag">P6<em>ongoing</em></div>
             <div>
               <h3 style="margin-top:0">Revisit the deferred list</h3>
-              <p>Vale/cspell, lychee, axe-core + Lighthouse CI, Fiberplane Drift, Keystatic — each gets picked back up only when its specific problem is observed, not scheduled.</p>
+              <p>Vale/cspell, lychee, axe-core + Lighthouse CI, Fiberplane Drift, Keystatic — each gets picked back up only when its specific problem is observed, not scheduled. Lighthouse CI's condition is met by P7 below — revisit it there specifically.</p>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P7<em>1 sprint</em></div>
+            <div>
+              <h3 style="margin-top:0">Fleet &amp; performance, for senior developers</h3>
+              <ul>
+                <li>Finish <code>SpiderEntry</code> locally: mtime-derived <code>last_run</code>, schema-self-check <code>last_run_status</code> (§6).</li>
+                <li>Stand up <code>/docs/analytics</code>: KPI tiles, the extended fleet table, the Lighthouse trend panel (§6) — status colors pulled from the MUI theme, not re-picked.</li>
+                <li>Axe-core + Lighthouse CI, finally justified (§1.2/P6) — write one JSON artifact per build for the trend panel to read.</li>
+                <li>Gate on §8's local-vs-Airtable decision before scoping anything past the local version.</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        <!-- ============ 07 ============ -->
-        <section id="s7" class="col">
-          <h2><span class="num">07</span>Open decisions for the team</h2>
-          <div class="note warn">
-            <span class="lab">Worth a real ticket, outside this platform</span>
+        <!-- ============ 08 ============ -->
+        <section id="s8" class="col">
+          <h2><span class="num">08</span>Open decisions for the team</h2>
+          <div class="note tip">
+            <span class="lab">Closed</span>
             <p>
-              §2's fixture check found <code>data/scrapers/*.json</code> uses
-              timezone-naive, non-ISO datetime strings
-              (<code>"2024-06-17 13:00:00"</code>), and nothing in this app
-              parses or normalizes them. That's a legitimate open question
-              for the Meetings Viewer itself, separate from documenting it
-              correctly: should the app's ingestion layer normalize these on
-              read, or is rendering the raw string always correct because the
-              viewer is meant to show exactly what the spider produced?
+              <strong>Raw-string rendering, no normalization, ever.</strong>
+              The viewer shows exactly what the spider produced — confirmed
+              with the team (§2). Not an open question anymore; a stated
+              principle to write into <code>qa/schema.mdx</code>.
             </p>
           </div>
           <ul>
@@ -930,6 +1145,18 @@
               §1.1, don't keep this as a recurring "should we" question —
               treat it as decided until a specific non-engineer editor needs
               it.
+            </li>
+            <li>
+              <strong>Local fleet signal vs. a live Airtable-backed one
+              (§6).</strong> The local version (file mtime + schema
+              self-check) ships in P7 with zero new integrations. A version
+              backed by the real spider registry is materially bigger scope
+              — a server-only Route Handler, a read-scoped Airtable token
+              held as a Vercel environment variable, and its own security
+              review before any senior developer sees real fleet data in
+              this app. Decide explicitly before P7 drifts into building it;
+              don't let it happen by accident because "the API's right
+              there."
             </li>
           </ul>
         </section>
