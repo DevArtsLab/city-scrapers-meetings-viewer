@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--
+  CS-121 — Documentation platform: implementation playbook (v2).
+  Companion to cs-121-docs-platform-research.html. Self-contained: open
+  this file directly in a browser, no build step.
+-->
+    <title>City Scrapers Docs Platform — Implementation Playbook</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Public+Sans:ital,wght@0,300..700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    />
+
+    <style>
+      :root {
+        --paper: #f6f7f5;
+        --surface: #ffffff;
+        --surface-2: #ecefec;
+        --ink: #16201e;
+        --ink-2: #46544f;
+        --ink-3: #6f7c77;
+        --rule: #d6dcd8;
+        --rule-soft: #e5eae7;
+        --accent: #0f6e68;
+        --accent-2: #0b534e;
+        --accent-soft: #e0efec;
+        --oxblood: #8c3a2e;
+        --oxblood-soft: #f6e7e4;
+        --amber: #8e6209;
+        --amber-soft: #f6edda;
+        --blue: #2b5a8c;
+        --blue-soft: #e5eef6;
+        --shadow:
+          0 1px 2px rgba(22, 32, 30, 0.06),
+          0 8px 24px -16px rgba(22, 32, 30, 0.28);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --paper: #0f1512;
+          --surface: #161e1a;
+          --surface-2: #1d2723;
+          --ink: #e7ede9;
+          --ink-2: #aab7b1;
+          --ink-3: #7e8b85;
+          --rule: #2a3531;
+          --rule-soft: #212b27;
+          --accent: #5cc2b4;
+          --accent-2: #86d6c9;
+          --accent-soft: #13302c;
+          --oxblood: #e29385;
+          --oxblood-soft: #33201c;
+          --amber: #d9ab55;
+          --amber-soft: #2e2617;
+          --blue: #8fb6de;
+          --blue-soft: #172736;
+          --shadow:
+            0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+        }
+      }
+      :root[data-theme="dark"] {
+        --paper: #0f1512;
+        --surface: #161e1a;
+        --surface-2: #1d2723;
+        --ink: #e7ede9;
+        --ink-2: #aab7b1;
+        --ink-3: #7e8b85;
+        --rule: #2a3531;
+        --rule-soft: #212b27;
+        --accent: #5cc2b4;
+        --accent-2: #86d6c9;
+        --accent-soft: #13302c;
+        --oxblood: #e29385;
+        --oxblood-soft: #33201c;
+        --amber: #d9ab55;
+        --amber-soft: #2e2617;
+        --blue: #8fb6de;
+        --blue-soft: #172736;
+        --shadow:
+          0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px -16px rgba(0, 0, 0, 0.7);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 16.5px;
+        line-height: 1.65;
+        font-weight: 380;
+        -webkit-font-smoothing: antialiased;
+      }
+      code, pre, kbd {
+        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      }
+      code {
+        background: var(--surface-2);
+        border-radius: 4px;
+        padding: 0.1em 0.4em;
+        font-size: 0.88em;
+      }
+      pre {
+        background: #10201d;
+        color: #d9ede8;
+        border-radius: 10px;
+        padding: 16px 18px;
+        overflow-x: auto;
+        font-size: 14px;
+        line-height: 1.6;
+        box-shadow: var(--shadow);
+      }
+      pre code {
+        background: none;
+        padding: 0;
+        color: inherit;
+      }
+      a { color: var(--accent-2); }
+      :root[data-theme="dark"] a, @media (prefers-color-scheme: dark) { }
+
+      .shell {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 24px 96px;
+        gap: 0;
+      }
+      @media (min-width: 1080px) {
+        .shell {
+          grid-template-columns: 216px minmax(0, 1fr);
+          gap: 56px;
+          padding: 0 32px 120px;
+        }
+      }
+      nav.toc {
+        display: none;
+      }
+      @media (min-width: 1080px) {
+        nav.toc {
+          display: block;
+          position: sticky;
+          top: 32px;
+          align-self: start;
+          padding-top: 40px;
+        }
+      }
+      nav.toc a {
+        display: block;
+        padding: 6px 0;
+        font-size: 13.5px;
+        color: var(--ink-2);
+        text-decoration: none;
+        border-left: 2px solid transparent;
+        padding-left: 12px;
+        margin-left: -13px;
+      }
+      nav.toc a:hover { color: var(--accent-2); border-left-color: var(--rule); }
+      nav.toc span { color: var(--ink-3); font-variant-numeric: tabular-nums; margin-right: 8px; }
+
+      main { padding-top: 40px; min-width: 0; }
+      .col { max-width: 780px; }
+
+      h1, h2, h3, h4 {
+        font-family: "Fraunces", Georgia, serif;
+        color: var(--ink);
+        font-weight: 560;
+        letter-spacing: -0.01em;
+      }
+      h1 { font-size: 2.15rem; line-height: 1.15; margin: 0 0 10px; }
+      h2 { font-size: 1.55rem; margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; }
+      h2 .num { font-size: 0.95rem; color: var(--accent); font-weight: 600; font-family: "IBM Plex Mono", monospace; }
+      h3 { font-size: 1.15rem; margin: 30px 0 10px; }
+      h4 { font-size: 1rem; margin: 22px 0 8px; color: var(--ink-2); }
+      p { margin: 0 0 14px; color: var(--ink-2); }
+      p strong, li strong { color: var(--ink); }
+      ul, ol { padding-left: 22px; margin: 0 0 14px; color: var(--ink-2); }
+      li { margin-bottom: 6px; }
+
+      section { padding: 56px 0; border-bottom: 1px solid var(--rule-soft); }
+      section:first-of-type { padding-top: 0; }
+      section:last-of-type { border-bottom: none; }
+
+      .docket-card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 14px;
+        padding: 28px 30px;
+        margin: 40px 0 24px;
+        box-shadow: var(--shadow);
+      }
+      .docket-meta {
+        display: flex; flex-wrap: wrap; gap: 18px;
+        font-size: 12.5px; color: var(--ink-3); text-transform: uppercase;
+        letter-spacing: 0.04em; margin-bottom: 16px;
+      }
+      .docket-meta b { color: var(--ink-2); font-weight: 600; }
+      .standfirst { font-size: 1.05rem; color: var(--ink-2); margin: 12px 0 0; }
+
+      .verdict {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        border-radius: 14px;
+        padding: 26px 30px;
+        margin-bottom: 8px;
+      }
+      .verdict-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+      .verdict-head h2 { margin: 0; }
+      .stamp {
+        font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
+        color: var(--accent-2); background: var(--surface); border: 1px solid var(--accent);
+        padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+      }
+
+      .scroll { overflow-x: auto; margin: 16px 0 20px; border-radius: 10px; border: 1px solid var(--rule); }
+      table { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--surface); }
+      th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
+      th { background: var(--surface-2); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-2); }
+      tr:last-child td { border-bottom: none; }
+      td code, th code { white-space: nowrap; }
+
+      .note {
+        border-radius: 10px; padding: 16px 18px; margin: 18px 0;
+        border: 1px solid var(--rule);
+        background: var(--surface);
+      }
+      .note .lab { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+      .note p:last-child { margin-bottom: 0; }
+      .note.tip { background: var(--accent-soft); border-color: var(--accent); }
+      .note.tip .lab { color: var(--accent-2); }
+      .note.warn { background: var(--amber-soft); border-color: var(--amber); }
+      .note.warn .lab { color: var(--amber); }
+      .note.danger { background: var(--oxblood-soft); border-color: var(--oxblood); }
+      .note.danger .lab { color: var(--oxblood); }
+      .note.info { background: var(--blue-soft); border-color: var(--blue); }
+      .note.info .lab { color: var(--blue); }
+
+      .pill { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; }
+      .pill.keep { background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent); }
+      .pill.cut { background: var(--oxblood-soft); color: var(--oxblood); border: 1px solid var(--oxblood); }
+      .pill.change { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
+      .pill.new { background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue); }
+      .pill.done { background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent); }
+
+      /* diagram */
+      .diagram { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; overflow-x: auto; }
+      .diagram svg { display: block; min-width: 640px; }
+      .diagram-caption { font-size: 13px; color: var(--ink-3); margin-top: 10px; }
+
+      /* stepper */
+      .stepper { display: flex; flex-wrap: nowrap; gap: 0; margin: 18px 0 24px; overflow-x: auto; padding-bottom: 4px; }
+      .step { flex: 0 0 190px; position: relative; padding: 0 16px 0 0; }
+      .step:not(:last-child)::after {
+        content: ""; position: absolute; top: 15px; left: calc(100% - 8px); width: calc(100% - 2px);
+        height: 2px; background: var(--rule); z-index: 0;
+      }
+      .step-badge {
+        width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: white;
+        display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace;
+        font-weight: 700; font-size: 13px; position: relative; z-index: 1; margin-bottom: 10px;
+      }
+      .step h4 { margin: 0 0 4px; font-size: 0.94rem; color: var(--ink); }
+      .step p { font-size: 13.5px; margin: 0; }
+
+      /* IA tree */
+      .tree { font-family: "IBM Plex Mono", monospace; font-size: 13.5px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; overflow-x: auto; line-height: 1.9; white-space: pre; }
+      .tree .k { color: var(--ink-3); }
+      .tree .new-tag { color: var(--blue); font-weight: 600; }
+      .tree .fix-tag { color: var(--amber); font-weight: 600; }
+
+      .phase { display: grid; grid-template-columns: 90px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px dashed var(--rule); }
+      .phase:last-child { border-bottom: none; }
+      .tag { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 13px; color: var(--accent-2); background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 6px 8px; text-align: center; height: fit-content; }
+      .tag em { display: block; font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+
+      footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-3); }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <nav class="toc">
+        <a href="#s1"><span>01</span>What changes</a>
+        <a href="#s2"><span>02</span>Fix the record</a>
+        <a href="#s3"><span>03</span>Information architecture</a>
+        <a href="#s4"><span>04</span>UX / UI system</a>
+        <a href="#s5"><span>05</span>Automation, lean</a>
+        <a href="#s6"><span>06</span>Roadmap</a>
+        <a href="#s7"><span>07</span>Open decisions</a>
+      </nav>
+
+      <main>
+        <div class="docket-card">
+          <div class="docket-meta">
+            <span><b>CS-121</b>&nbsp;Documentation platform</span>
+            <span>Supersedes&nbsp;<b>cs-121-docs-platform-research.html</b></span>
+            <span>Drafted&nbsp;<b>Aug 2026</b></span>
+            <span>Status&nbsp;<b>Implementation playbook</b></span>
+          </div>
+          <h1>Building the rest of it</h1>
+          <p class="standfirst">
+            The original research got the platform decision right — Fumadocs
+            inside the app is built and working. This playbook is what comes
+            next: it keeps what's earned its place, cuts what the shipped app
+            doesn't need yet, folds in the team's new
+            <em>City Scrapers Development Guidelines v1.1</em>, and treats the
+            reading experience — not the tooling checklist — as the actual
+            deliverable.
+          </p>
+        </div>
+
+        <div class="verdict">
+          <div class="verdict-head">
+            <h2>Where this playbook disagrees with the original research</h2>
+          </div>
+          <p>
+            Four calls change, all in the direction of less new infrastructure
+            and more use of what the app already has. Everything else in the
+            original research — Fumadocs, MDX content, the built-in search
+            route, <code>llms.txt</code> — stands and is already built.
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Area</th><th>Original call</th><th>This playbook</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Visual editing</td>
+                  <td>Keystatic at <code>/keystatic</code>, P3</td>
+                  <td>Stay git-only. See §1.1.</td>
+                </tr>
+                <tr>
+                  <td>Prose / link / a11y / perf CI</td>
+                  <td>Vale + cspell, lychee, axe-core + Lighthouse CI</td>
+                  <td>One in-repo build + link-check workflow. See §1.2.</td>
+                </tr>
+                <tr>
+                  <td>Drift detection</td>
+                  <td>Fiberplane Drift, piloted</td>
+                  <td>Generate the one page that actually drifts. See §1.3.</td>
+                </tr>
+                <tr>
+                  <td>Diagrams</td>
+                  <td>Mermaid everywhere, three diagrams</td>
+                  <td>MUI Stepper for linear process, SVG for the two real graphs. See §1.4.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ============ 01 ============ -->
+        <section id="s1" class="col">
+          <h2><span class="num">01</span>What changes, and why</h2>
+
+          <h3>1.1 Skip Keystatic — the git path <em>is</em> the point</h3>
+          <p>
+            The original research treated GitHub-account editing as a
+            limitation to work around. The new Development Guidelines say
+            otherwise: apprentices are already required to fork, branch,
+            open a draft PR, and carry it through a three-stage human review
+            (§3.8–3.9 of the guide, and §3 of this playbook). Git literacy
+            isn't incidental to the program — it's a large part of what it
+            teaches. Standing up a second CMS surface with its own auth and
+            content model to spare editors that exact workflow works against
+            the thing the org is optimizing for.
+          </p>
+          <p>
+            <strong>Keep the git path as the only path</strong> through at
+            least P4. If a specific non-engineer editor is later named who
+            genuinely can't use <a href="https://github.dev">github.dev</a>
+            (already documented in <code>contributing/index.mdx</code> as the
+            stopgap), revisit Keystatic then — as a scoped answer to a real
+            person, not a default.
+          </p>
+
+          <h3>1.2 Replace the tool roster with one build check</h3>
+          <p>
+            The failures this audit actually found were: a page linking to a
+            section that doesn't exist, and a page claiming to be
+            auto-generated when it's hand-typed. Vale, cspell, lychee, and
+            Lighthouse CI solve problems this site doesn't have yet — prose
+            style drift across many authors, external link rot, performance
+            regressions on a content site that's currently five pages.
+            Adopting five external tools to catch two internal-link bugs is
+            the wrong trade for a five-page site maintained by a small team.
+          </p>
+          <p>
+            Ship <code>next build</code> plus a ~40-line internal link
+            checker in CI instead (§5). Revisit the heavier roster once the
+            site is large enough, or has enough outside contributors, that
+            those specific failure modes start showing up for real.
+          </p>
+
+          <h3>1.3 Generate the one page that drifts, don't buy a drift detector</h3>
+          <p>
+            <code>qa/schema.mdx</code> already claims "this page is generated
+            from [the TypeScript types] in <code>lib/scrapers.ts</code>." It
+            isn't — it's hand-written, and per §2 below it's currently wrong
+            in four places. Fiberplane Drift would eventually flag that this
+            page and the code disagree; a generation script prevents them
+            from ever being able to disagree, for the one page in the entire
+            site where that risk is real. Build the generator (§5), keep the
+            claim honest, and don't adopt fingerprinting tooling for a
+            problem a small script already closes.
+          </p>
+
+          <h3>1.4 Match the diagram to the shape of the content</h3>
+          <p>
+            Not everything in the new guidelines is a graph. The five-stage
+            PR review process (§3.9 of the guide) is a straight line — Draft
+            → CTD review → Ready for review → Staging + CB QA → Sign-off.
+            That's exactly what MUI's <code>Stepper</code> renders, and it's
+            already a dependency — zero new packages, and it inherits the
+            app's own visual system instead of Fumadocs importing a second
+            one via Mermaid's theming. Reserve Mermaid (or hand-authored SVG,
+            used below) for content that's actually a graph: the data-flow
+            diagram in §3, and the two-workflow trust boundary behind the
+            Airtable sync automation.
+          </p>
+        </section>
+
+        <!-- ============ 02 ============ -->
+        <section id="s2" class="col">
+          <h2><span class="num">02</span>Fix the record before adding anything</h2>
+          <p>
+            The Development Guidelines v1.1 is the authoritative source for
+            the Meeting schema — it's the document CTD reviewers actually QA
+            against. Cross-checking it against what's live on
+            <code>/docs</code> today turned up four factual errors, one dead
+            cross-reference, and confirmed the fabricated "generated" claim
+            from §1.3. All four schema errors were verified against a real
+            fixture, not just the guide's prose:
+          </p>
+          <div class="note danger">
+            <span class="lab">Verified against data/scrapers/test_spider1.json</span>
+            <p>
+              <code>"start": "2024-06-17 13:00:00"</code> — no <code>T</code>,
+              no offset, no <code>Z</code>. The app's own
+              <code>MeetingRecord</code> type (<code>lib/scrapers.ts</code>)
+              types <code>start</code>/<code>end</code> as a bare
+              <code>string</code> and every component renders it as-is,
+              unparsed. The live docs' claim of a timezone-aware ISO 8601
+              string doesn't match the data the app actually ships with.
+            </p>
+          </div>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>File</th><th>Currently says</th><th>Guideline says (§ ref)</th><th>Fix</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code></td>
+                  <td>Timezone-aware ISO 8601, e.g. <code>-08:00</code> offset required</td>
+                  <td>Timezone-<em>naive</em> <code>datetime</code>; tzinfo always stripped; spider's <code>timezone</code> attribute carries the zone (§2.5)</td>
+                  <td>Rewrite both fields' descriptions; drop the offset example</td>
+                </tr>
+                <tr>
+                  <td><code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code>, <code>scrapers/index.mdx</code>, <code>scrapers/writing-a-spider.mdx</code></td>
+                  <td>Priority order: agenda, video, minutes, other</td>
+                  <td>Agenda PDF &gt; Minutes PDF &gt; Video/Recording &gt; Other; PDF preferred over HTML for the same document (§2.5)</td>
+                  <td>Reorder in all four places; add the PDF-preference rule</td>
+                </tr>
+                <tr>
+                  <td><code>qa/schema.mdx</code></td>
+                  <td>Free-text examples ("City Council", "Committee") with no enum or fallback</td>
+                  <td>Fixed constant set (<code>BOARD</code>, <code>COMMITTEE</code>, <code>COMMISSION</code>, …), derived from title keywords, <code>NOT_CLASSIFIED</code> fallback (§2.5)</td>
+                  <td>Add the enum, the derivation rule, and the fallback value</td>
+                </tr>
+                <tr>
+                  <td><code>qa/rubric.mdx</code></td>
+                  <td>Informal pass/fail framing, no stated decision rule</td>
+                  <td>Exact procedure: <code>passed</code> if <code>start</code> &lt; now, <code>tentative</code> if after, <code>cancelled</code> only on explicit source confirmation — a missing meeting is never sufficient evidence of cancellation (§2.5)</td>
+                  <td>State the rule and the "missing ≠ cancelled" gotcha explicitly — it's one of the guide's highest-value QA notes</td>
+                </tr>
+                <tr>
+                  <td><code>scrapers/writing-a-spider.mdx</code></td>
+                  <td>Links to a "drift detection" section in <code>/docs/qa/rubric</code> that doesn't exist</td>
+                  <td>—</td>
+                  <td>Remove the link until §1.3's generator ships a real section to point to</td>
+                </tr>
+                <tr>
+                  <td><code>qa/schema.mdx</code></td>
+                  <td>"This page is generated from [the types]"</td>
+                  <td>—</td>
+                  <td>Either make it true (§1.3, §5) or stop claiming it</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            None of this is generated-content work. It's five files, read
+            once against the guide, corrected in place. Do it before writing
+            a single new page — new content built on the wrong schema
+            description just multiplies the error.
+          </p>
+        </section>
+
+        <!-- ============ 03 ============ -->
+        <section id="s3" class="col">
+          <h2><span class="num">03</span>Information architecture, expanded</h2>
+          <p>
+            The Development Guidelines cover a lot the site doesn't have a
+            home for yet: source analysis method, spider architecture
+            patterns, bot-detection, testing, the full contribution and PR
+            review workflow, and the CI/CD pipeline that runs scrapers in
+            production. Some of that belongs under the existing two doors
+            (§5.6 of the original research); some of it — the review process,
+            the production pipeline — is neither "building" nor "reviewing"
+            content, it's orientation content both audiences eventually need
+            and a third kind of reader (a PM, a new CTD lead) may come to
+            <code>/docs</code> looking for directly.
+          </p>
+          <p>
+            One structural risk the guide introduces: it describes a
+            <em>different repo family</em> — <code>city-scrapers-core</code>
+            and per-city consumer repos like
+            <code>city-scrapers-colgo</code> — from the one this app's own
+            <code>/docs/contributing</code> page describes (this Next.js
+            repo). Blending them without saying so is exactly the kind of
+            confusion this platform exists to prevent. Every new page that
+            describes the scraper repos gets a repo-scope callout (§4).
+          </p>
+          <div class="tree">
+<span class="k">/docs</span>
+  index.mdx                        <span class="k">— two doors, unchanged</span>
+  <span class="k">/scrapers</span>  (Building Scrapers)
+    index.mdx                      <span class="k">— workflow overview, reordered to source-first</span>
+    source-analysis.mdx            <span class="new-tag">NEW</span> <span class="k">— DevTools-first analysis, primary/secondary URL, singular-vs-factory (§1)</span>
+    spider-patterns.mdx            <span class="new-tag">NEW</span> <span class="k">— CityScrapersSpider vs LegistarSpider, singular vs factory + mixins (§2.1–2.2)</span>
+    writing-a-spider.mdx           <span class="fix-tag">FIX</span> <span class="k">— schema corrections (§2); + CSS/API/hybrid extraction (§2.3)</span>
+    bot-detection.mdx              <span class="new-tag">NEW</span> <span class="k">— scrapy-playwright, when and how (§2.4)</span>
+    testing.mdx                    <span class="new-tag">NEW</span> <span class="k">— pytest patterns, two-phase tests, freeze_time (§2.6)</span>
+    contributing.mdx               <span class="new-tag">NEW</span> <span class="k">— fork/pipenv/genspider/validate/lint, command reference (§3.1–3.8)</span>
+  <span class="k">/qa</span>  (QA &amp; Review)
+    index.mdx, schema.mdx, rubric.mdx   <span class="fix-tag">FIX</span> <span class="k">— corrections from §2</span>
+    review-process.mdx             <span class="new-tag">NEW</span> <span class="k">— the 5-stage pipeline, rendered as a Stepper (§3.9)</span>
+  <span class="k">/pipeline</span>  (How it all fits together)  <span class="new-tag">NEW SECTION</span>
+    index.mdx                      <span class="k">— system architecture + data-flow diagram (§4.1)</span>
+    scheduled-runs.mdx             <span class="k">— cron.yml / archive.yml (§4.2)</span>
+    airtable-sync.mdx              <span class="k">— two-workflow trust boundary, secrets, known limitation (§4.3)</span>
+  <span class="k">/contributing</span>  (unchanged, this repo only)
+    index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— add a one-line pointer: scraper contribution lives under /docs/scrapers/contributing</span>
+          </div>
+
+          <h3>Why a third top-level section instead of folding it into the two doors</h3>
+          <p>
+            §5.6 of the original research is still right that the homepage
+            should force a two-way choice in the first three seconds — adding
+            a third homepage option would blunt that. <code>/pipeline</code>
+            isn't a third front door; it's reference material both existing
+            doors occasionally link into (a QA reviewer wondering why staging
+            behaves differently than production; a builder whose spider slug
+            never shows up in Airtable), reached from the header nav and from
+            in-context links, never competing with the homepage's choice.
+          </p>
+
+          <h3>The pipeline diagram has to say what the Meetings Viewer <em>isn't</em></h3>
+          <p>
+            The clearest gap the new guide exposes: nothing on the current
+            site explains that this app is a local, dev-time QA tool reading
+            a spider's local <code>-O</code> output — not a stage in the
+            production path that actually serves Documenters.org. Without
+            that line, a new contributor could reasonably assume this app
+            <em>is</em> part of the pipeline in §4.1. The diagram below is the
+            fix — production and local-QA are drawn as two separate paths
+            from the same source, joined only at "a person reads the JSON."
+          </p>
+          <div class="diagram">
+            <svg viewBox="0 0 1080 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow diagram: scraper output splits into a production path through Azure, ETL, and Postgres to Documenters.org, and a separate local QA path through the Meetings Viewer.">
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+                </marker>
+              </defs>
+              <style>
+                .box { fill: var(--surface, #fff); stroke: var(--rule, #d6dcd8); stroke-width: 1.5; rx: 10; }
+                .box-prod { stroke: var(--accent, #0f6e68); }
+                .box-local { stroke: var(--blue, #2b5a8c); stroke-dasharray: 5 4; }
+                .lbl { font: 600 13px "Public Sans", sans-serif; fill: var(--ink, #16201e); }
+                .sub { font: 400 11px "Public Sans", sans-serif; fill: var(--ink-3, #6f7c77); }
+                .edge-prod { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; marker-end: url(#arrow); color: var(--accent, #0f6e68); }
+                .edge-local { stroke: var(--blue, #2b5a8c); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow); color: var(--blue, #2b5a8c); }
+                .tag { font: 700 10px "IBM Plex Mono", monospace; letter-spacing: 0.04em; }
+              </style>
+
+              <rect x="20" y="120" width="140" height="60" class="box" />
+              <text x="90" y="145" text-anchor="middle" class="lbl">Scraper repo</text>
+              <text x="90" y="162" text-anchor="middle" class="sub">scrapy crawl</text>
+
+              <!-- production path -->
+              <path class="edge-prod" d="M160,138 C210,120 230,80 280,60" />
+              <text x="215" y="90" class="tag" fill="var(--accent,#0f6e68)">DAILY CRON</text>
+              <rect x="280" y="30" width="150" height="60" class="box box-prod" />
+              <text x="355" y="55" text-anchor="middle" class="lbl">Azure Blob</text>
+              <text x="355" y="72" text-anchor="middle" class="sub">storage</text>
+
+              <path class="edge-prod" d="M430,60 L520,60" />
+              <rect x="520" y="30" width="110" height="60" class="box box-prod" />
+              <text x="575" y="55" text-anchor="middle" class="lbl">ETL</text>
+              <text x="575" y="72" text-anchor="middle" class="sub">transform</text>
+
+              <path class="edge-prod" d="M630,60 L720,60" />
+              <rect x="720" y="30" width="130" height="60" class="box box-prod" />
+              <text x="785" y="55" text-anchor="middle" class="lbl">Postgres</text>
+              <text x="785" y="72" text-anchor="middle" class="sub">central DB</text>
+
+              <path class="edge-prod" d="M850,60 L940,60" />
+              <rect x="940" y="20" width="130" height="80" class="box box-prod" />
+              <text x="1005" y="45" text-anchor="middle" class="lbl">Documenters.org</text>
+              <text x="1005" y="62" text-anchor="middle" class="sub">public site,</text>
+              <text x="1005" y="76" text-anchor="middle" class="sub">manager UI, emails</text>
+
+              <!-- local QA path -->
+              <path class="edge-local" d="M160,162 C210,185 230,220 280,235" />
+              <text x="205" y="215" class="tag" fill="var(--blue,#2b5a8c)">scrapy crawl -O</text>
+              <rect x="280" y="205" width="180" height="60" class="box box-local" />
+              <text x="370" y="230" text-anchor="middle" class="lbl">data/scrapers/*.json</text>
+              <text x="370" y="247" text-anchor="middle" class="sub">local file, this repo</text>
+
+              <path class="edge-local" d="M460,235 L560,235" />
+              <rect x="560" y="205" width="180" height="60" class="box box-local" />
+              <text x="650" y="230" text-anchor="middle" class="lbl">Meetings Viewer</text>
+              <text x="650" y="247" text-anchor="middle" class="sub">local QA only — not in the path above</text>
+
+              <!-- legend -->
+              <line x1="20" y1="285" x2="55" y2="285" class="edge-prod" />
+              <text x="62" y="289" class="sub">production, automatic</text>
+              <line x1="230" y1="285" x2="265" y2="285" class="edge-local" />
+              <text x="272" y="289" class="sub">local, manual, this repo</text>
+            </svg>
+            <p class="diagram-caption">
+              The Meetings Viewer never touches Azure, the ETL job, or
+              Postgres — it reads whatever JSON is sitting in
+              <code>data/scrapers/</code> on your machine. This is the single
+              most important thing <code>/docs/pipeline</code> has to make
+              obvious.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 04 ============ -->
+        <section id="s4" class="col">
+          <h2><span class="num">04</span>UX / UI system for the content</h2>
+          <p>
+            This is the part the original research under-weighted and this
+            playbook doesn't: the platform choice and the CI checklist are
+            both in service of pages people actually want to read. Two things
+            need to happen before the new content lands — one fix, one small
+            component set — plus a few standing rules for every page after.
+          </p>
+
+          <h3>4.1 Ship the theme mapping that was always the plan</h3>
+          <p>
+            <code>globals.css</code> currently only imports Fumadocs' stock
+            <code>neutral.css</code> preset — none of the
+            <code>--color-fd-*</code> → <code>--mui-palette-*</code> mapping
+            from the original research's §8 was ever added. Dark mode
+            switching works (<code>DarkModeSync</code> correctly drives
+            Fumadocs' <code>.dark</code> class off MUI's color scheme), but
+            <code>/docs</code> is still rendering in Fumadocs' generic gray,
+            not the app's own palette. This is a five-variable, one-time fix
+            with no new dependency — do it before any of the new pages ship,
+            so every page that follows is on-brand from day one instead of
+            needing a re-skin later.
+          </p>
+
+          <h3>4.2 A small, purpose-built component set</h3>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr><th>Component</th><th>Replaces</th><th>Why it earns its place</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>&lt;RepoScope&gt;</code></td>
+                  <td>Nothing — new</td>
+                  <td>One-line callout stamping a page "city-scrapers-meetings-viewer" or "city-scrapers (core + consumer repos)". Directly answers §3's cross-repo confusion risk. Cheapest, highest-leverage component on this list.</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;SchemaTable&gt;</code></td>
+                  <td>The hand-written table in <code>qa/schema.mdx</code></td>
+                  <td>Generated from a single source (§5), so the "generated" claim in §1.3 becomes true instead of aspirational. Deep-linkable per field, kept from the original research's §5.3.</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;PRLifecycle&gt;</code> (MUI <code>Stepper</code>)</td>
+                  <td>Prose walkthrough of the 5-stage review</td>
+                  <td>Native to the app's own design system already — no new dependency, no second visual language the way a Mermaid diagram would introduce. See §1.4.</td>
+                </tr>
+                <tr>
+                  <td><code>&lt;CommandBlock&gt;</code></td>
+                  <td>Static code fences repeating a spider name</td>
+                  <td>Kept from the original research's §5.4, now more valuable — the guide adds <code>genspider</code>, <code>validate</code>, <code>flake8</code>/<code>black</code>/<code>isort</code>, and several <code>pytest</code> invocations on top of the one <code>crawl -O</code> command it originally covered.</td>
+                </tr>
+                <tr>
+                  <td>Fumadocs <code>&lt;Tabs&gt;</code> (ships free, unused so far)</td>
+                  <td>Parallel prose lists</td>
+                  <td>The Airtable sync docs already describe "core repo" vs. "consumer repo" file lists side by side — that's a tab pair, not two headings.</td>
+                </tr>
+                <tr>
+                  <td>Fumadocs <code>&lt;Accordion&gt;</code> (ships free, unused so far)</td>
+                  <td>Inline "known limitation" callouts</td>
+                  <td>Keeps edge cases (the Airtable duplicate-record limitation, secrets setup) out of the main reading path without deleting them.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            What that stepper should look like on <code>/qa/review-process</code> —
+            five stages, each naming who's involved and what "done" looks
+            like, replacing the guide's prose walkthrough of §3.9:
+          </p>
+          <div class="stepper">
+            <div class="step">
+              <div class="step-badge">1</div>
+              <h4>Draft</h4>
+              <p>Contributor opens the PR as a draft once the spider is ready for a first pass.</p>
+            </div>
+            <div class="step">
+              <div class="step-badge">2</div>
+              <h4>CTD review</h4>
+              <p>Team lead QAs output against §2.5 and reviews code — logic, style, edge cases, tests.</p>
+            </div>
+            <div class="step">
+              <div class="step-badge">3</div>
+              <h4>Ready for review</h4>
+              <p>Feedback addressed; PDW reviewers added; Airtable backlog moved to staging-ready.</p>
+            </div>
+            <div class="step">
+              <div class="step-badge">4</div>
+              <h4>Staging + CB QA</h4>
+              <p>PDW merges to staging; City Bureau QAs the live output; PR stays open for fixes.</p>
+            </div>
+            <div class="step">
+              <div class="step-badge">5</div>
+              <h4>Sign-off</h4>
+              <p>CB signs off in Airtable; PR merges to main; the scraper goes live.</p>
+            </div>
+          </div>
+
+          <h3>4.3 Standing rules for every page from here on</h3>
+          <ul>
+            <li><strong>One repo-scope callout</strong> on any page describing the scraper repos, placed above the fold — never assume the reader knows which codebase a command runs against.</li>
+            <li><strong>Commands are copy-pasteable as written.</strong> The guide is precise about flags that matter (<code>-O</code> not <code>-o</code>, <code>pipenv run</code> prefixes) — docs must never round that off for brevity, since the flag itself is the QA lesson.</li>
+            <li><strong>Good/bad example pairs</strong> (already used well for title formatting) become a recurring pattern, not a one-off — it's the exact shape a reviewer scans for.</li>
+            <li><strong>Dark mode + MUI parity checked before merge</strong> on every new docs page — keep this as a standing PR habit, not a one-time P0 spike item.</li>
+          </ul>
+        </section>
+
+        <!-- ============ 05 ============ -->
+        <section id="s5" class="col">
+          <h2><span class="num">05</span>Automation, the lean version</h2>
+          <p>
+            Right now there is no CI for the docs at all — no
+            <code>.github/workflows</code> in this repo. Two small workflows
+            close the actual gaps found in this audit; everything heavier
+            from the original research's tool table is deliberately deferred
+            (§1.2).
+          </p>
+          <div class="phase">
+            <div class="tag">CI-1</div>
+            <div>
+              <h3 style="margin-top:0">docs-build.yml</h3>
+              <p>
+                On any PR touching <code>content/docs/**</code> or
+                <code>components/docs/**</code>: run <code>next build</code>
+                (catches broken MDX and bad imports) and a ~40-line link
+                checker that walks <code>source.getPages()</code> and
+                confirms every <code>/docs/...</code> link and
+                <code>#anchor</code> in the content resolves against real
+                pages and headings. This is the check that would have caught
+                the dead <code>#drift-detection</code> link in §2 before it
+                shipped.
+              </p>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="tag">CI-2</div>
+            <div>
+              <h3 style="margin-top:0">docs-generate-check.yml</h3>
+              <p>
+                Once <code>&lt;SchemaTable&gt;</code>'s generator (§4.2)
+                exists: run it and fail the build if <code>git diff</code> is
+                non-empty. This is the original research's P5
+                "regenerate-and-diff" idea, scoped to the one page that
+                actually needs it instead of a platform-wide drift product.
+              </p>
+            </div>
+          </div>
+          <div class="note info">
+            <span class="lab">Explicitly deferred, not rejected</span>
+            <p>
+              Vale + cspell, a lychee link-rot crawl, axe-core + Lighthouse
+              CI, and Fiberplane Drift all remain reasonable additions —
+              later. Revisit each once its specific failure mode actually
+              shows up (prose drift across many authors, external
+              <code>.gov</code> link rot, a11y regressions, code-vs-docs
+              drift outside the one generated page), not on a fixed schedule.
+            </p>
+          </div>
+        </section>
+
+        <!-- ============ 06 ============ -->
+        <section id="s6" class="col">
+          <h2><span class="num">06</span>Roadmap</h2>
+          <p>
+            Same phase numbering as the original research where the work
+            carries over, so progress against it stays legible. Content
+            correctness now comes before interactivity — shipping the wrong
+            QA rule is worse than shipping no rubric explorer at all.
+          </p>
+
+          <div class="phase">
+            <div class="tag">P0<em>done</em></div>
+            <div>
+              <h3 style="margin-top:0">Spike and decide</h3>
+              <p><span class="pill done">SHIPPED</span> Fumadocs mounted at <code>/docs</code>, coexists with MUI, dark mode bridged via <code>DarkModeSync</code>.</p>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P1<em>close-out</em></div>
+            <div>
+              <h3 style="margin-top:0">Finish the shell</h3>
+              <p>Mostly shipped already (route group, <code>lib/source.ts</code>, search route, nav, Callouts, the two-doors index). Remaining before new content lands:</p>
+              <ul>
+                <li>Theme variable mapping (§4.1) — 5 lines, do this first.</li>
+                <li>Make <code>llms-full.txt</code> actually full — it currently emits title + description per page, not page bodies.</li>
+                <li>Build <code>&lt;RepoScope&gt;</code> (§4.2) — needed by nearly every page in P2.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P2<em>1 sprint</em></div>
+            <div>
+              <h3 style="margin-top:0">Correctness, then the new sections</h3>
+              <ol>
+                <li>Apply every fix in §2's table — five files, no new pages yet.</li>
+                <li>Write the new <code>/scrapers</code> pages: source-analysis, spider-patterns, bot-detection, testing, contributing (§3).</li>
+                <li>Write <code>/qa/review-process</code> and stand up the new <code>/pipeline</code> section (§3), including the data-flow diagram in §3.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P3<em>1 sprint</em></div>
+            <div>
+              <h3 style="margin-top:0">Interactive layer</h3>
+              <ul>
+                <li><code>&lt;SchemaTable&gt;</code>, generated (§1.3, §4.2, §5).</li>
+                <li><code>&lt;PRLifecycle&gt;</code> stepper on <code>/qa/review-process</code> (§4.2).</li>
+                <li><code>&lt;CommandBlock&gt;</code> on the spider-running and contributing pages (§4.2).</li>
+                <li>Exportable QA checklist (kept from the original research's §5.5) — real value now that the rubric itself is correct.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P4<em>3–4 days</em></div>
+            <div>
+              <h3 style="margin-top:0">Governance, minus the CMS</h3>
+              <ul>
+                <li><code>CODEOWNERS</code> for <code>content/docs/</code>; a docs section in <code>.github/PULL_REQUEST_TEMPLATE.md</code> — cheap, do regardless of the Keystatic decision.</li>
+                <li>Keystatic: explicitly deferred (§1.1). Don't build it in this phase.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P5<em>3–4 days</em></div>
+            <div>
+              <h3 style="margin-top:0">Automation</h3>
+              <p>Ship <code>docs-build.yml</code> and <code>docs-generate-check.yml</code> from §5. Nothing else, yet.</p>
+            </div>
+          </div>
+
+          <div class="phase">
+            <div class="tag">P6<em>ongoing</em></div>
+            <div>
+              <h3 style="margin-top:0">Revisit the deferred list</h3>
+              <p>Vale/cspell, lychee, axe-core + Lighthouse CI, Fiberplane Drift, Keystatic — each gets picked back up only when its specific problem is observed, not scheduled.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============ 07 ============ -->
+        <section id="s7" class="col">
+          <h2><span class="num">07</span>Open decisions for the team</h2>
+          <div class="note warn">
+            <span class="lab">Worth a real ticket, outside this platform</span>
+            <p>
+              §2's fixture check found <code>data/scrapers/*.json</code> uses
+              timezone-naive, non-ISO datetime strings
+              (<code>"2024-06-17 13:00:00"</code>), and nothing in this app
+              parses or normalizes them. That's a legitimate open question
+              for the Meetings Viewer itself, separate from documenting it
+              correctly: should the app's ingestion layer normalize these on
+              read, or is rendering the raw string always correct because the
+              viewer is meant to show exactly what the spider produced?
+            </p>
+          </div>
+          <ul>
+            <li>
+              <strong>Who owns <code>/pipeline</code> content?</strong> It
+              describes CTD/PDW/CB process and production infrastructure —
+              confirm it's fine to keep in an OSS-visible docs site before
+              writing it, rather than after.
+            </li>
+            <li>
+              <strong>Source-of-truth risk for the CI/CD pages.</strong> The
+              Airtable sync and cron-workflow content describes
+              <code>city-scrapers-core</code>'s actual automation. If that
+              repo's workflows change, this copy goes stale silently — the
+              exact failure mode this whole platform exists to prevent.
+              Consider a <code>last_reviewed</code> callout on those three
+              pages specifically, even before the general freshness-tracking
+              idea from the original research's P5 exists anywhere else.
+            </li>
+            <li>
+              <strong>Keystatic: closed unless someone is named.</strong> Per
+              §1.1, don't keep this as a recurring "should we" question —
+              treat it as decided until a specific non-engineer editor needs
+              it.
+            </li>
+          </ul>
+        </section>
+
+        <footer>
+          Companion to <code>cs-121-docs-platform-research.html</code> in this
+          same directory. Where the two disagree, this file — grounded in
+          what's actually shipped and in the Development Guidelines v1.1 —
+          is the current plan.
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>
