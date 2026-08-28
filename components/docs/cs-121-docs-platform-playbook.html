@@ -91,14 +91,23 @@
         margin: 0;
         background: var(--paper);
         color: var(--ink);
-        font-family: "Public Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-family:
+          "Public Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
         font-size: 16.5px;
         line-height: 1.65;
         font-weight: 380;
         -webkit-font-smoothing: antialiased;
       }
-      code, pre, kbd {
-        font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+      code,
+      pre,
+      kbd {
+        font-family:
+          "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
       }
       code {
         background: var(--surface-2);
@@ -121,8 +130,12 @@
         padding: 0;
         color: inherit;
       }
-      a { color: var(--accent-2); }
-      :root[data-theme="dark"] a, @media (prefers-color-scheme: dark) { }
+      a {
+        color: var(--accent-2);
+      }
+      :root[data-theme="dark"] a,
+      @media (prefers-color-scheme: dark) {
+      }
 
       .shell {
         display: grid;
@@ -161,31 +174,88 @@
         padding-left: 12px;
         margin-left: -13px;
       }
-      nav.toc a:hover { color: var(--accent-2); border-left-color: var(--rule); }
-      nav.toc span { color: var(--ink-3); font-variant-numeric: tabular-nums; margin-right: 8px; }
+      nav.toc a:hover {
+        color: var(--accent-2);
+        border-left-color: var(--rule);
+      }
+      nav.toc span {
+        color: var(--ink-3);
+        font-variant-numeric: tabular-nums;
+        margin-right: 8px;
+      }
 
-      main { padding-top: 40px; min-width: 0; }
-      .col { max-width: 780px; }
+      main {
+        padding-top: 40px;
+        min-width: 0;
+      }
+      .col {
+        max-width: 780px;
+      }
 
-      h1, h2, h3, h4 {
+      h1,
+      h2,
+      h3,
+      h4 {
         font-family: "Fraunces", Georgia, serif;
         color: var(--ink);
         font-weight: 560;
         letter-spacing: -0.01em;
       }
-      h1 { font-size: 2.15rem; line-height: 1.15; margin: 0 0 10px; }
-      h2 { font-size: 1.55rem; margin: 0 0 14px; display: flex; align-items: baseline; gap: 12px; }
-      h2 .num { font-size: 0.95rem; color: var(--accent); font-weight: 600; font-family: "IBM Plex Mono", monospace; }
-      h3 { font-size: 1.15rem; margin: 30px 0 10px; }
-      h4 { font-size: 1rem; margin: 22px 0 8px; color: var(--ink-2); }
-      p { margin: 0 0 14px; color: var(--ink-2); }
-      p strong, li strong { color: var(--ink); }
-      ul, ol { padding-left: 22px; margin: 0 0 14px; color: var(--ink-2); }
-      li { margin-bottom: 6px; }
+      h1 {
+        font-size: 2.15rem;
+        line-height: 1.15;
+        margin: 0 0 10px;
+      }
+      h2 {
+        font-size: 1.55rem;
+        margin: 0 0 14px;
+        display: flex;
+        align-items: baseline;
+        gap: 12px;
+      }
+      h2 .num {
+        font-size: 0.95rem;
+        color: var(--accent);
+        font-weight: 600;
+        font-family: "IBM Plex Mono", monospace;
+      }
+      h3 {
+        font-size: 1.15rem;
+        margin: 30px 0 10px;
+      }
+      h4 {
+        font-size: 1rem;
+        margin: 22px 0 8px;
+        color: var(--ink-2);
+      }
+      p {
+        margin: 0 0 14px;
+        color: var(--ink-2);
+      }
+      p strong,
+      li strong {
+        color: var(--ink);
+      }
+      ul,
+      ol {
+        padding-left: 22px;
+        margin: 0 0 14px;
+        color: var(--ink-2);
+      }
+      li {
+        margin-bottom: 6px;
+      }
 
-      section { padding: 56px 0; border-bottom: 1px solid var(--rule-soft); }
-      section:first-of-type { padding-top: 0; }
-      section:last-of-type { border-bottom: none; }
+      section {
+        padding: 56px 0;
+        border-bottom: 1px solid var(--rule-soft);
+      }
+      section:first-of-type {
+        padding-top: 0;
+      }
+      section:last-of-type {
+        border-bottom: none;
+      }
 
       .docket-card {
         background: var(--surface);
@@ -196,12 +266,24 @@
         box-shadow: var(--shadow);
       }
       .docket-meta {
-        display: flex; flex-wrap: wrap; gap: 18px;
-        font-size: 12.5px; color: var(--ink-3); text-transform: uppercase;
-        letter-spacing: 0.04em; margin-bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 18px;
+        font-size: 12.5px;
+        color: var(--ink-3);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 16px;
       }
-      .docket-meta b { color: var(--ink-2); font-weight: 600; }
-      .standfirst { font-size: 1.05rem; color: var(--ink-2); margin: 12px 0 0; }
+      .docket-meta b {
+        color: var(--ink-2);
+        font-weight: 600;
+      }
+      .standfirst {
+        font-size: 1.05rem;
+        color: var(--ink-2);
+        margin: 12px 0 0;
+      }
 
       .verdict {
         background: var(--accent-soft);
@@ -210,85 +292,313 @@
         padding: 26px 30px;
         margin-bottom: 8px;
       }
-      .verdict-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-      .verdict-head h2 { margin: 0; }
+      .verdict-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .verdict-head h2 {
+        margin: 0;
+      }
       .stamp {
-        font-family: "IBM Plex Mono", monospace; font-size: 12px; font-weight: 600;
-        color: var(--accent-2); background: var(--surface); border: 1px solid var(--accent);
-        padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent-2);
+        background: var(--surface);
+        border: 1px solid var(--accent);
+        padding: 5px 10px;
+        border-radius: 999px;
+        white-space: nowrap;
       }
 
-      .scroll { overflow-x: auto; margin: 16px 0 20px; border-radius: 10px; border: 1px solid var(--rule); }
-      table { border-collapse: collapse; width: 100%; font-size: 14.5px; background: var(--surface); }
-      th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--rule-soft); vertical-align: top; }
-      th { background: var(--surface-2); font-size: 12.5px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--ink-2); }
-      tr:last-child td { border-bottom: none; }
-      td code, th code { white-space: nowrap; }
+      .scroll {
+        overflow-x: auto;
+        margin: 16px 0 20px;
+        border-radius: 10px;
+        border: 1px solid var(--rule);
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 14.5px;
+        background: var(--surface);
+      }
+      th,
+      td {
+        text-align: left;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--rule-soft);
+        vertical-align: top;
+      }
+      th {
+        background: var(--surface-2);
+        font-size: 12.5px;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--ink-2);
+      }
+      tr:last-child td {
+        border-bottom: none;
+      }
+      td code,
+      th code {
+        white-space: nowrap;
+      }
 
       .note {
-        border-radius: 10px; padding: 16px 18px; margin: 18px 0;
+        border-radius: 10px;
+        padding: 16px 18px;
+        margin: 18px 0;
         border: 1px solid var(--rule);
         background: var(--surface);
       }
-      .note .lab { font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; display: block; margin-bottom: 6px; }
-      .note p:last-child { margin-bottom: 0; }
-      .note.tip { background: var(--accent-soft); border-color: var(--accent); }
-      .note.tip .lab { color: var(--accent-2); }
-      .note.warn { background: var(--amber-soft); border-color: var(--amber); }
-      .note.warn .lab { color: var(--amber); }
-      .note.danger { background: var(--oxblood-soft); border-color: var(--oxblood); }
-      .note.danger .lab { color: var(--oxblood); }
-      .note.info { background: var(--blue-soft); border-color: var(--blue); }
-      .note.info .lab { color: var(--blue); }
+      .note .lab {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        display: block;
+        margin-bottom: 6px;
+      }
+      .note p:last-child {
+        margin-bottom: 0;
+      }
+      .note.tip {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+      }
+      .note.tip .lab {
+        color: var(--accent-2);
+      }
+      .note.warn {
+        background: var(--amber-soft);
+        border-color: var(--amber);
+      }
+      .note.warn .lab {
+        color: var(--amber);
+      }
+      .note.danger {
+        background: var(--oxblood-soft);
+        border-color: var(--oxblood);
+      }
+      .note.danger .lab {
+        color: var(--oxblood);
+      }
+      .note.info {
+        background: var(--blue-soft);
+        border-color: var(--blue);
+      }
+      .note.info .lab {
+        color: var(--blue);
+      }
 
-      .pill { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 999px; }
-      .pill.keep { background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent); }
-      .pill.cut { background: var(--oxblood-soft); color: var(--oxblood); border: 1px solid var(--oxblood); }
-      .pill.change { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber); }
-      .pill.new { background: var(--blue-soft); color: var(--blue); border: 1px solid var(--blue); }
-      .pill.done { background: var(--accent-soft); color: var(--accent-2); border: 1px solid var(--accent); }
+      .pill {
+        display: inline-block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .pill.keep {
+        background: var(--accent-soft);
+        color: var(--accent-2);
+        border: 1px solid var(--accent);
+      }
+      .pill.cut {
+        background: var(--oxblood-soft);
+        color: var(--oxblood);
+        border: 1px solid var(--oxblood);
+      }
+      .pill.change {
+        background: var(--amber-soft);
+        color: var(--amber);
+        border: 1px solid var(--amber);
+      }
+      .pill.new {
+        background: var(--blue-soft);
+        color: var(--blue);
+        border: 1px solid var(--blue);
+      }
+      .pill.done {
+        background: var(--accent-soft);
+        color: var(--accent-2);
+        border: 1px solid var(--accent);
+      }
 
       /* diagram */
-      .diagram { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px; margin: 18px 0; overflow-x: auto; }
-      .diagram svg { display: block; min-width: 640px; }
-      .diagram-caption { font-size: 13px; color: var(--ink-3); margin-top: 10px; }
+      .diagram {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 12px;
+        padding: 18px;
+        margin: 18px 0;
+        overflow-x: auto;
+      }
+      .diagram svg {
+        display: block;
+        min-width: 640px;
+      }
+      .diagram-caption {
+        font-size: 13px;
+        color: var(--ink-3);
+        margin-top: 10px;
+      }
 
       /* stepper */
-      .stepper { display: flex; flex-wrap: nowrap; gap: 0; margin: 18px 0 24px; overflow-x: auto; padding-bottom: 4px; }
-      .step { flex: 0 0 190px; position: relative; padding: 0 16px 0 0; }
+      .stepper {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 0;
+        margin: 18px 0 24px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .step {
+        flex: 0 0 190px;
+        position: relative;
+        padding: 0 16px 0 0;
+      }
       .step:not(:last-child)::after {
-        content: ""; position: absolute; top: 15px; left: calc(100% - 8px); width: calc(100% - 2px);
-        height: 2px; background: var(--rule); z-index: 0;
+        content: "";
+        position: absolute;
+        top: 15px;
+        left: calc(100% - 8px);
+        width: calc(100% - 2px);
+        height: 2px;
+        background: var(--rule);
+        z-index: 0;
       }
       .step-badge {
-        width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: white;
-        display: flex; align-items: center; justify-content: center; font-family: "IBM Plex Mono", monospace;
-        font-weight: 700; font-size: 13px; position: relative; z-index: 1; margin-bottom: 10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 700;
+        font-size: 13px;
+        position: relative;
+        z-index: 1;
+        margin-bottom: 10px;
       }
-      .step h4 { margin: 0 0 4px; font-size: 0.94rem; color: var(--ink); }
-      .step p { font-size: 13.5px; margin: 0; }
+      .step h4 {
+        margin: 0 0 4px;
+        font-size: 0.94rem;
+        color: var(--ink);
+      }
+      .step p {
+        font-size: 13.5px;
+        margin: 0;
+      }
 
       /* IA tree */
-      .tree { font-family: "IBM Plex Mono", monospace; font-size: 13.5px; background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 16px 20px; overflow-x: auto; line-height: 1.9; white-space: pre; }
-      .tree .k { color: var(--ink-3); }
-      .tree .new-tag { color: var(--blue); font-weight: 600; }
-      .tree .fix-tag { color: var(--amber); font-weight: 600; }
+      .tree {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13.5px;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 10px;
+        padding: 16px 20px;
+        overflow-x: auto;
+        line-height: 1.9;
+        white-space: pre;
+      }
+      .tree .k {
+        color: var(--ink-3);
+      }
+      .tree .new-tag {
+        color: var(--blue);
+        font-weight: 600;
+      }
+      .tree .fix-tag {
+        color: var(--amber);
+        font-weight: 600;
+      }
 
-      .phase { display: grid; grid-template-columns: 90px 1fr; gap: 18px; padding: 18px 0; border-bottom: 1px dashed var(--rule); }
-      .phase:last-child { border-bottom: none; }
-      .tag { font-family: "IBM Plex Mono", monospace; font-weight: 700; font-size: 13px; color: var(--accent-2); background: var(--accent-soft); border: 1px solid var(--accent); border-radius: 8px; padding: 6px 8px; text-align: center; height: fit-content; }
-      .tag em { display: block; font-style: normal; font-weight: 400; font-size: 10.5px; color: var(--ink-3); margin-top: 2px; }
+      .phase {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        gap: 18px;
+        padding: 18px 0;
+        border-bottom: 1px dashed var(--rule);
+      }
+      .phase:last-child {
+        border-bottom: none;
+      }
+      .tag {
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 700;
+        font-size: 13px;
+        color: var(--accent-2);
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+        border-radius: 8px;
+        padding: 6px 8px;
+        text-align: center;
+        height: fit-content;
+      }
+      .tag em {
+        display: block;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10.5px;
+        color: var(--ink-3);
+        margin-top: 2px;
+      }
 
       /* KPI mockup */
-      .kpi-row { display: flex; flex-wrap: wrap; gap: 14px; margin: 18px 0 22px; }
-      .kpi-tile { flex: 1 1 150px; background: var(--surface); border: 1px solid var(--rule); border-top: 3px solid var(--tile-color, var(--accent)); border-radius: 10px; padding: 16px 18px; }
-      .kpi-num { font-family: "Fraunces", serif; font-size: 2rem; font-weight: 600; color: var(--ink); line-height: 1; }
-      .kpi-lab { font-size: 12.5px; color: var(--ink-3); margin-top: 6px; }
-      .kpi-tile.good { --tile-color: var(--accent); }
-      .kpi-tile.warn { --tile-color: var(--amber); }
-      .kpi-tile.bad { --tile-color: var(--oxblood); }
+      .kpi-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin: 18px 0 22px;
+      }
+      .kpi-tile {
+        flex: 1 1 150px;
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-top: 3px solid var(--tile-color, var(--accent));
+        border-radius: 10px;
+        padding: 16px 18px;
+      }
+      .kpi-num {
+        font-family: "Fraunces", serif;
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--ink);
+        line-height: 1;
+      }
+      .kpi-lab {
+        font-size: 12.5px;
+        color: var(--ink-3);
+        margin-top: 6px;
+      }
+      .kpi-tile.good {
+        --tile-color: var(--accent);
+      }
+      .kpi-tile.warn {
+        --tile-color: var(--amber);
+      }
+      .kpi-tile.bad {
+        --tile-color: var(--oxblood);
+      }
 
-      footer { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-3); }
+      footer {
+        margin-top: 40px;
+        padding-top: 24px;
+        border-top: 1px solid var(--rule);
+        font-size: 13px;
+        color: var(--ink-3);
+      }
     </style>
   </head>
   <body>
@@ -309,7 +619,9 @@
         <div class="docket-card">
           <div class="docket-meta">
             <span><b>CS-121</b>&nbsp;Documentation platform</span>
-            <span>Supersedes&nbsp;<b>cs-121-docs-platform-research.html</b></span>
+            <span
+              >Supersedes&nbsp;<b>cs-121-docs-platform-research.html</b></span
+            >
             <span>Drafted&nbsp;<b>Aug 2026</b></span>
             <span>Status&nbsp;<b>Implementation playbook</b></span>
           </div>
@@ -322,6 +634,21 @@
             <em>City Scrapers Development Guidelines v1.1</em>, and treats the
             reading experience — not the tooling checklist — as the actual
             deliverable.
+          </p>
+        </div>
+
+        <div class="note info">
+          <span class="lab">Glossary</span>
+          <p>
+            <strong>CTD</strong> = Code the Dream, the organization that builds
+            and maintains the scrapers, the Meetings Viewer repo and its
+            documentation platform. <strong>PDW</strong> = Public Data Works,
+            the partner engineering/design studio that operates Documenters.org
+            and its data pipeline. <strong>CB</strong> = City Bureau, the
+            partner org that runs the Documenters civic-journalism program and
+            does editorial/data QA on scraper output. These three abbreviations
+            recur throughout this playbook without re-expansion after this
+            point.
           </p>
         </div>
 
@@ -338,13 +665,20 @@
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Area</th><th>Original call</th><th>This playbook</th></tr>
+                <tr>
+                  <th>Area</th>
+                  <th>Original call</th>
+                  <th>This playbook</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Visual editing</td>
                   <td>Keystatic at <code>/keystatic</code>, P3</td>
-                  <td>Skip it — git and Docs sync instead, allowlisted and conflict-guarded. See §1.1.</td>
+                  <td>
+                    Skip it — git and Docs sync instead, allowlisted and
+                    conflict-guarded. See §1.1.
+                  </td>
                 </tr>
                 <tr>
                   <td>Prose / link / a11y / perf CI</td>
@@ -359,7 +693,10 @@
                 <tr>
                   <td>Diagrams</td>
                   <td>Mermaid everywhere, three diagrams</td>
-                  <td>MUI Stepper for linear process, SVG for the two real graphs. See §1.4.</td>
+                  <td>
+                    MUI Stepper for linear process, SVG for the two real graphs.
+                    See §1.4.
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -371,70 +708,100 @@
           <h2><span class="num">01</span>What changes, and why</h2>
 
           <div class="note warn">
-            <span class="lab">Three items dropped on the first pass — added back here</span>
+            <span class="lab"
+              >Three items dropped on the first pass — added back here</span
+            >
             <p>
-              A second check against the original research's §5 turned up
-              three items this playbook's first draft silently lost instead
-              of deliberately cutting. Deliberate cuts (Keystatic, the heavy
-              CI roster, Fiberplane Drift, blanket Mermaid) are explained
-              below. These three weren't cuts, they were oversights — fixed
-              now, not re-argued:
+              A second check against the original research's §5 turned up three
+              items this playbook's first draft silently lost instead of
+              deliberately cutting. Deliberate cuts (Keystatic, the heavy CI
+              roster, Fiberplane Drift, blanket Mermaid) are explained below.
+              These three weren't cuts, they were oversights — fixed now, not
+              re-argued:
             </p>
             <ul>
-              <li><strong>§5.1's paste-JSON rubric-report tool</strong> — the original research called this "the highest-value page on the site." Restored as <code>&lt;RubricReport&gt;</code> in §4.2, P3.</li>
-              <li><strong>Per-page <code>.md</code> routes and a copy-as-markdown button</strong> (§5.9) — Fumadocs ships both for free alongside the already-built <code>llms.txt</code>/<code>llms-full.txt</code> routes. Restored in §4.2 and P1.</li>
-              <li><strong>Site-wide ⌘K search</strong> "reachable from anywhere, including from inside the viewer" (§5.10) — <code>SiteHeader</code> currently has no search trigger at all, so search is confined to <code>/docs</code>. Restored in §4.2 and P2.</li>
+              <li>
+                <strong>§5.1's paste-JSON rubric-report tool</strong> — the
+                original research called this "the highest-value page on the
+                site." Restored as <code>&lt;RubricReport&gt;</code> in §4.2,
+                P3.
+              </li>
+              <li>
+                <strong
+                  >Per-page <code>.md</code> routes and a copy-as-markdown
+                  button</strong
+                >
+                (§5.9) — Fumadocs ships both for free alongside the
+                already-built <code>llms.txt</code>/<code>llms-full.txt</code>
+                routes. Restored in §4.2 and P1.
+              </li>
+              <li>
+                <strong>Site-wide ⌘K search</strong> "reachable from anywhere,
+                including from inside the viewer" (§5.10) —
+                <code>SiteHeader</code> currently has no search trigger at all,
+                so search is confined to <code>/docs</code>. Restored in §4.2
+                and P2.
+              </li>
             </ul>
           </div>
 
-          <h3>1.1 Skip Keystatic — git and Docs are both already first-class</h3>
+          <h3>
+            1.1 Skip Keystatic — git and Docs are both already first-class
+          </h3>
           <p>
-            The original research treated GitHub-account editing as a
-            limitation to work around. The Development Guidelines confirm
-            apprentices are already required to fork, branch, open a draft
-            PR, and carry it through a three-stage human review (§3.8–3.9 of
-            the guide, and §3 of this playbook) — git literacy isn't
-            incidental to the program, it's a large part of what it teaches.
-            But the team writing <em>this</em> repo's own docs — the PM/
-            architect, the scraper developers, and the viewer developers —
-            already has both git access to this repo <em>and</em> edit
-            access to the source Google Docs those docs are drafted in. A
-            WYSIWYG CMS would be solving an access problem nobody on that
-            team actually has. Keystatic stays skipped, permanently, not
-            just deferred (§9 still tracks it separately for PDW/CB, who
-            genuinely lack both).
+            The original research treated GitHub-account editing as a limitation
+            to work around. The Development Guidelines confirm apprentices are
+            already required to fork, branch, open a draft PR, and carry it
+            through a three-stage human review (§3.8–3.9 of the guide, and §3 of
+            this playbook) — git literacy isn't incidental to the program, it's
+            a large part of what it teaches. But the team writing
+            <em>this</em> repo's own docs — the PM/ architect, the scraper
+            developers, and the viewer developers — already has both git access
+            to this repo <em>and</em> edit access to the source Google Docs
+            those docs are drafted in. A WYSIWYG CMS would be solving an access
+            problem nobody on that team actually has. Keystatic stays skipped,
+            permanently, not just deferred (§9 still tracks it separately for
+            PDW/CB, who genuinely lack both).
           </p>
           <p>
-            What replaces it isn't "git-only" either — it's git and Docs as
-            two first-class, converging paths, resolved below.
+            What replaces it isn't "git-only" either — it's git and Docs as two
+            first-class, converging paths, resolved below.
           </p>
 
-          <h4>The sync is an explicit allowlist, never "watch the whole doc"</h4>
+          <h4>
+            The sync is an explicit allowlist, never "watch the whole doc"
+          </h4>
           <p>
             The Docs sync maps specific document sections to specific target
-            files — never "watch this whole doc, regenerate that whole
-            folder." Two source documents, two different treatments:
+            files — never "watch this whole doc, regenerate that whole folder."
+            Two source documents, two different treatments:
           </p>
           <ul>
             <li>
-              <strong>Development Guidelines → <code>/docs/scrapers</code>,
-              one-time seed only.</strong> This doc was never configured as
-              an ongoing sync source. It seeded the P2 migration once, and
-              from that point those pages are permanently git-owned — not
-              because the doc might change, but because of the hard rule
-              below. An unrelated edit anywhere else in that document must
-              never be able to trigger a regeneration that deletes a live
-              component.
+              <strong
+                >Development Guidelines → <code>/docs/scrapers</code>, one-time
+                seed only.</strong
+              >
+              This doc was never configured as an ongoing sync source. It seeded
+              the P2 migration once, and from that point those pages are
+              permanently git-owned — not because the doc might change, but
+              because of the hard rule below. An unrelated edit anywhere else in
+              that document must never be able to trigger a regeneration that
+              deletes a live component.
             </li>
             <li>
-              <strong>Meetings Viewer Technical Spec → <code>/docs/viewer/architecture.mdx</code>,
-              ongoing source.</strong> Unlike the Development Guidelines,
-              this one maps to exactly one page, so it can stay wired as a
-              live sync — right up until that page imports a component
-              (§4.2's <code>&lt;SchemaTable&gt;</code> is a candidate, per
-              §3, since the spec's own §4.1 data shapes overlap with
-              <code>qa/schema.mdx</code>). The same hard rule applies the
-              moment it does.
+              <strong
+                >Meetings Viewer Technical Spec →
+                <code>/docs/viewer/architecture.mdx</code>, ongoing
+                source.</strong
+              >
+              Unlike the Development Guidelines, this one maps to exactly one
+              page, so it can stay wired as a live sync — right up until that
+              page imports a component (§4.2's
+              <code>&lt;SchemaTable&gt;</code> is a candidate, per §3, since the
+              spec's own §4.1 data shapes overlap with
+              <code>qa/schema.mdx</code>). The same hard rule applies the moment
+              it does.
             </li>
           </ul>
 
@@ -443,213 +810,274 @@
             <code>CODEOWNERS</code> assigns a <em>reviewing</em> pool per
             directory — it doesn't gate authorship. There's no single named
             "owner" to route around: anyone on the team may author a change
-            through either path. The one hard, non-negotiable rule is
-            technical, not political:
+            through either path. The one hard, non-negotiable rule is technical,
+            not political:
           </p>
           <div class="note danger">
-            <span class="lab">Any page importing a live app component is permanently git-owned</span>
+            <span class="lab"
+              >Any page importing a live app component is permanently
+              git-owned</span
+            >
             <p>
-              A Docs-sync run regenerates the whole target file from the
-              document and has no way to represent a component import — it
-              would silently delete it. Three components already planned
-              trigger this rule (§4.2): <code>&lt;SchemaTable&gt;</code> on
-              <code>qa/schema.mdx</code>, <code>&lt;CommandBlock&gt;</code>
-              across the scraper docs, and <code>&lt;RubricReport&gt;</code>
-              on <code>/qa</code>. Once a page imports one of these, it never
-              goes back to being a sync target — permanently, not until the
-              next content review.
+              A Docs sync run regenerates the whole target file from the
+              document and has no way to represent a component import — it would
+              silently delete it. Three components already planned trigger this
+              rule (§4.2): <code>&lt;SchemaTable&gt;</code> on
+              <code>qa/schema.mdx</code>,
+              <code>&lt;CommandBlock&gt;</code> across the scraper docs, and
+              <code>&lt;RubricReport&gt;</code> on <code>/qa</code>. Once a page
+              imports one of these, it never goes back to being a sync target —
+              permanently, not until the next content review.
             </p>
           </div>
           <p>
             On any page that isn't component-locked, either path is open to
-            anyone: edit the relevant Doc section and let the sync open the
-            PR, or branch directly in git and open one yourself. Neither is
-            gated behind the other. For a quick discovery worth documenting
+            anyone: edit the relevant Doc section and let the sync open the PR,
+            or branch directly in git and open one yourself. Neither is gated
+            behind the other. For a quick discovery worth documenting
             immediately — a new code pattern, a fix worth writing down before
             it's forgotten — <strong>go git-direct</strong>: fewer steps and
-            lower latency than drafting in a Doc and waiting on the sync's
-            next run and its conversion step. The Doc path is for prose
-            someone would rather draft outside Markdown, not the default for
-            speed.
+            lower latency than drafting in a Doc and waiting on the sync's next
+            run and its conversion step. The Doc path is for prose someone would
+            rather draft outside Markdown, not the default for speed.
           </p>
 
           <h4>A bidirectional conflict guard, not a silent overwrite</h4>
           <p>
             Before either mechanism writes a page, it checks whether the
-            <em>other</em> path has moved since the last recorded sync
-            point — a frontmatter marker carrying either the last-synced Doc
-            revision ID or the last git-direct commit hash. If both moved,
-            it fails open into a flagged PR for a human to reconcile, never
-            a silent overwrite in either direction. This is the same
-            discipline as §5's link checker: catch the collision in CI,
-            don't let it ship as a surprise.
+            <em>other</em> path has moved since the last recorded sync point — a
+            frontmatter marker carrying either the last-synced Doc revision ID
+            or the last git-direct commit hash. If both moved, it fails open
+            into a flagged PR for a human to reconcile, never a silent overwrite
+            in either direction. This is the same discipline as §5's link
+            checker: catch the collision in CI, don't let it ship as a surprise.
           </p>
 
           <h4>The citation stamp: date and source, never an author</h4>
           <p>
             Every page shows the reader "as of <em>[date]</em>, per
-            <em>[source doc + version]</em>" — never who opened the PR or
-            wrote the edit. The date is never hand-typed:
+            <em>[source doc + version]</em>" — never who opened the PR or wrote
+            the edit. The date is never hand-typed:
           </p>
           <ul>
-            <li>Doc-synced pages pull it from the Google Drive API's <code>modifiedTime</code>/revision metadata at fetch time.</li>
+            <li>
+              Docs-synced pages pull it from the Google Drive API's
+              <code>modifiedTime</code>/revision metadata at fetch time.
+            </li>
             <li>Git-owned pages use the last commit date on that file.</li>
           </ul>
           <div class="note warn">
             <span class="lab">Verified, not assumed</span>
             <p>
-              The Development Guidelines <code>.docx</code> — a manual
-              Google Docs export — contains no <code>docProps/core.xml</code>
-              at all: not a blank author field, no metadata stream to hold
-              one. <code>unzip -l</code> on the file confirms it. A manually
-              exported <code>.docx</code> simply cannot be the source of a
-              reliable date; the Drive API and git history are the only two
-              sources this stamp is allowed to read from.
+              The Development Guidelines <code>.docx</code> — a manual Google
+              Docs export — contains no <code>docProps/core.xml</code> at all:
+              not a blank author field, no metadata stream to hold one.
+              <code>unzip -l</code> on the file confirms it. A manually exported
+              <code>.docx</code> simply cannot be the source of a reliable date;
+              the Drive API and git history are the only two sources this stamp
+              is allowed to read from.
             </p>
           </div>
           <p>
             Nobody should ever be asked to hand-type a version line into a
-            living internal doc just to keep this working — the moment a
-            date is manually typed, it starts lying the first time someone
-            forgets to update it, which is exactly the failure mode this
-            whole playbook exists to design out.
+            living internal doc just to keep this working — the moment a date is
+            manually typed, it starts lying the first time someone forgets to
+            update it, which is exactly the failure mode this whole playbook
+            exists to design out.
           </p>
 
           <div class="note info">
             <span class="lab">Scope boundary</span>
             <p>
-              None of this changes anything for the Python scraper
-              developers working in <code>city-scrapers-core</code> and
-              consumer repos — they remain readers of
-              <code>/docs/scrapers</code> and <code>/docs/qa</code>, in
-              codebases this build has no visibility into. The payoff is
-              internal: less duplicated maintenance and faster publishing
-              for whoever on the CTD team is updating this repo's own docs.
+              None of this changes anything for the Python scraper developers
+              working in <code>city-scrapers-core</code> and consumer repos —
+              they remain readers of <code>/docs/scrapers</code> and
+              <code>/docs/qa</code>, in codebases this build has no visibility
+              into. The payoff is internal: less duplicated maintenance and
+              faster publishing for whoever on the CTD team is updating this
+              repo's own docs.
             </p>
           </div>
 
           <h3>1.2 Replace the tool roster with one build check</h3>
           <p>
             The failures this audit actually found were: a page linking to a
-            section that doesn't exist, and a page claiming to be
-            auto-generated when it's hand-typed. Vale, cspell, lychee, and
-            Lighthouse CI solve problems this site doesn't have yet — prose
-            style drift across many authors, external link rot, performance
-            regressions on a content site that's currently five pages.
-            Adopting five external tools to catch two internal-link bugs is
-            the wrong trade for a five-page site maintained by a small team.
+            section that doesn't exist, and a page claiming to be auto-generated
+            when it's hand-typed. Vale, cspell, lychee, and Lighthouse CI solve
+            problems this site doesn't have yet — prose style drift across many
+            authors, external link rot, performance regressions on a content
+            site that's currently five pages. Adopting five external tools to
+            catch two internal-link bugs is the wrong trade for a five-page site
+            maintained by a small team.
           </p>
           <p>
-            Ship <code>next build</code> plus a ~40-line internal link
-            checker in CI instead (§5). Revisit the heavier roster once the
-            site is large enough, or has enough outside contributors, that
-            those specific failure modes start showing up for real.
+            Ship <code>next build</code> plus a ~40-line internal link checker
+            in CI instead (§5). Revisit the heavier roster once the site is
+            large enough, or has enough outside contributors, that those
+            specific failure modes start showing up for real.
           </p>
 
-          <h3>1.3 Generate the one page that drifts, don't buy a drift detector</h3>
+          <h3>
+            1.3 Generate the one page that drifts, don't buy a drift detector
+          </h3>
           <p>
             <code>qa/schema.mdx</code> already claims "this page is generated
             from [the TypeScript types] in <code>lib/scrapers.ts</code>." It
-            isn't — it's hand-written, and per §2 below it's currently wrong
-            in four places. Fiberplane Drift would eventually flag that this
-            page and the code disagree; a generation script prevents them
-            from ever being able to disagree, for the one page in the entire
-            site where that risk is real. Build the generator (§5), keep the
-            claim honest, and don't adopt fingerprinting tooling for a
-            problem a small script already closes.
+            isn't — it's hand-written, and per §2 below it's currently wrong in
+            four places. Fiberplane Drift would eventually flag that this page
+            and the code disagree; a generation script prevents them from ever
+            being able to disagree, for the one page in the entire site where
+            that risk is real. Build the generator (§5), keep the claim honest,
+            and don't adopt fingerprinting tooling for a problem a small script
+            already closes.
           </p>
 
           <h3>1.4 Match the diagram to the shape of the content</h3>
           <p>
-            Not everything in the new guidelines is a graph. The five-stage
-            PR review process (§3.9 of the guide) is a straight line — Draft
-            → CTD review → Ready for review → Staging + CB QA → Sign-off.
-            That's exactly what MUI's <code>Stepper</code> renders, and it's
-            already a dependency — zero new packages, and it inherits the
-            app's own visual system instead of Fumadocs importing a second
-            one via Mermaid's theming. Reserve Mermaid (or hand-authored SVG,
-            used below) for content that's actually a graph: the data-flow
-            diagram in §3, and the two-workflow trust boundary behind the
-            Airtable sync automation.
+            Not everything in the new guidelines is a graph. The five-stage PR
+            review process (§3.9 of the guide) is a straight line — Draft → CTD
+            review → Ready for review → Staging + CB QA → Sign-off. That's
+            exactly what MUI's <code>Stepper</code> renders, and it's already a
+            dependency — zero new packages, and it inherits the app's own visual
+            system instead of Fumadocs importing a second one via Mermaid's
+            theming. Reserve Mermaid (or hand-authored SVG, used below) for
+            content that's actually a graph: the data-flow diagram in §3, and
+            the two-workflow trust boundary behind the Airtable sync automation.
           </p>
         </section>
 
         <!-- ============ 02 ============ -->
         <section id="s2" class="col">
-          <h2><span class="num">02</span>Fix the record before adding anything</h2>
+          <h2>
+            <span class="num">02</span>Fix the record before adding anything
+          </h2>
           <p>
             The Development Guidelines v1.1 is the authoritative source for
-            QA-facing schema guidance — it's the document CTD reviewers
-            actually check output against. The Meetings Viewer Technical
-            Specification is the authoritative source for the app's own data
-            contract — the same schema, described from the engineering side.
-            Cross-checking both against what's live on <code>/docs</code>
-            today turned up five factual errors, one dead cross-reference,
-            and confirmed the fabricated "generated" claim from §1.3. Every
-            schema error was verified against a real fixture, not just
-            either document's prose:
+            QA-facing schema guidance — it's the document CTD reviewers actually
+            check output against. The Meetings Viewer Technical Specification is
+            the authoritative source for the app's own data contract — the same
+            schema, described from the engineering side. Cross-checking both
+            against what's live on <code>/docs</code>
+            today turned up five factual errors, one dead cross-reference, and
+            confirmed the fabricated "generated" claim from §1.3. Every schema
+            error was verified against a real fixture, not just either
+            document's prose:
           </p>
           <div class="note danger">
-            <span class="lab">Verified against data/scrapers/test_spider1.json</span>
+            <span class="lab"
+              >Verified against data/scrapers/test_spider1.json</span
+            >
             <p>
               <code>"start": "2024-06-17 13:00:00"</code> — no <code>T</code>,
               no offset, no <code>Z</code>. The app's own
               <code>MeetingRecord</code> type (<code>lib/scrapers.ts</code>)
               types <code>start</code>/<code>end</code> as a bare
               <code>string</code> and every component renders it as-is,
-              unparsed. The live docs' claim of a timezone-aware ISO 8601
-              string doesn't match the data the app actually ships with.
+              unparsed. The live docs' claim of a timezone-aware ISO 8601 string
+              doesn't match the data the app actually ships with.
             </p>
           </div>
           <div class="note tip">
             <span class="lab">Resolved, not just observed</span>
             <p>
               Confirmed with the team: this is by design, not a bug to fix.
-              <strong>The viewer is meant to show exactly what the spider
-              produced</strong> — no client-side parsing, no normalization,
-              no reformatting. Document that as a stated principle on
-              <code>qa/schema.mdx</code> itself (§3), not just fix the
-              tz-naive wording — it's the answer to why the field renders as
-              a raw string at all, and it forecloses a future "helpfully"
-              reformat-on-read PR that would make the viewer stop matching
-              its own source of truth.
+              <strong
+                >The viewer is meant to show exactly what the spider
+                produced</strong
+              >
+              — no client-side parsing, no normalization, no reformatting.
+              Document that as a stated principle on
+              <code>qa/schema.mdx</code> itself (§3), not just fix the tz-naive
+              wording — it's the answer to why the field renders as a raw string
+              at all, and it forecloses a future "helpfully" reformat-on-read PR
+              that would make the viewer stop matching its own source of truth.
             </p>
           </div>
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>File</th><th>Currently says</th><th>Guideline says (§ ref)</th><th>Fix</th></tr>
+                <tr>
+                  <th>File</th>
+                  <th>Currently says</th>
+                  <th>Guideline says (§ ref)</th>
+                  <th>Fix</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td><code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code></td>
-                  <td>Timezone-aware ISO 8601, e.g. <code>-08:00</code> offset required</td>
-                  <td>Timezone-<em>naive</em> <code>datetime</code>; tzinfo always stripped; spider's <code>timezone</code> attribute carries the zone (§2.5)</td>
-                  <td>Rewrite both fields' descriptions; drop the offset example</td>
+                  <td>
+                    <code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code>
+                  </td>
+                  <td>
+                    Timezone-aware ISO 8601, e.g. <code>-08:00</code> offset
+                    required
+                  </td>
+                  <td>
+                    Timezone-<em>naive</em> <code>datetime</code>; tzinfo always
+                    stripped; spider's <code>timezone</code> attribute carries
+                    the zone (§2.5)
+                  </td>
+                  <td>
+                    Rewrite both fields' descriptions; drop the offset example
+                  </td>
                 </tr>
                 <tr>
-                  <td><code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code>, <code>scrapers/index.mdx</code>, <code>scrapers/writing-a-spider.mdx</code></td>
+                  <td>
+                    <code>qa/schema.mdx</code>, <code>qa/rubric.mdx</code>,
+                    <code>scrapers/index.mdx</code>,
+                    <code>scrapers/writing-a-spider.mdx</code>
+                  </td>
                   <td>Priority order: agenda, video, minutes, other</td>
-                  <td>Agenda PDF &gt; Minutes PDF &gt; Video/Recording &gt; Other; PDF preferred over HTML for the same document (§2.5)</td>
-                  <td>Reorder in all four places; add the PDF-preference rule</td>
+                  <td>
+                    Agenda PDF &gt; Minutes PDF &gt; Video/Recording &gt; Other;
+                    PDF preferred over HTML for the same document (§2.5)
+                  </td>
+                  <td>
+                    Reorder in all four places; add the PDF-preference rule
+                  </td>
                 </tr>
                 <tr>
                   <td><code>qa/schema.mdx</code></td>
-                  <td>Free-text examples ("City Council", "Committee") with no enum or fallback</td>
-                  <td>Fixed constant set (<code>BOARD</code>, <code>COMMITTEE</code>, <code>COMMISSION</code>, …), derived from title keywords, <code>NOT_CLASSIFIED</code> fallback (§2.5)</td>
-                  <td>Add the enum, the derivation rule, and the fallback value</td>
+                  <td>
+                    Free-text examples ("City Council", "Committee") with no
+                    enum or fallback
+                  </td>
+                  <td>
+                    Fixed constant set (<code>BOARD</code>,
+                    <code>COMMITTEE</code>, <code>COMMISSION</code>, …), derived
+                    from title keywords, <code>NOT_CLASSIFIED</code> fallback
+                    (§2.5)
+                  </td>
+                  <td>
+                    Add the enum, the derivation rule, and the fallback value
+                  </td>
                 </tr>
                 <tr>
                   <td><code>qa/rubric.mdx</code></td>
                   <td>Informal pass/fail framing, no stated decision rule</td>
-                  <td>Exact procedure: <code>passed</code> if <code>start</code> &lt; now, <code>tentative</code> if after, <code>cancelled</code> only on explicit source confirmation — a missing meeting is never sufficient evidence of cancellation (§2.5)</td>
-                  <td>State the rule and the "missing ≠ cancelled" gotcha explicitly — it's one of the guide's highest-value QA notes</td>
+                  <td>
+                    Exact procedure: <code>passed</code> if
+                    <code>start</code> &lt; now, <code>tentative</code> if
+                    after, <code>cancelled</code> only on explicit source
+                    confirmation — a missing meeting is never sufficient
+                    evidence of cancellation (§2.5)
+                  </td>
+                  <td>
+                    State the rule and the "missing ≠ cancelled" gotcha
+                    explicitly — it's one of the guide's highest-value QA notes
+                  </td>
                 </tr>
                 <tr>
                   <td><code>scrapers/writing-a-spider.mdx</code></td>
-                  <td>Links to a "drift detection" section in <code>/docs/qa/rubric</code> that doesn't exist</td>
+                  <td>
+                    Links to a "drift detection" section in
+                    <code>/docs/qa/rubric</code> that doesn't exist
+                  </td>
                   <td>—</td>
-                  <td>Remove the link until §1.3's generator ships a real section to point to</td>
+                  <td>
+                    Remove the link until §1.3's generator ships a real section
+                    to point to
+                  </td>
                 </tr>
                 <tr>
                   <td><code>qa/schema.mdx</code></td>
@@ -659,19 +1087,31 @@
                 </tr>
                 <tr>
                   <td><code>qa/schema.mdx</code></td>
-                  <td><code>id</code> described loosely as "conventionally a slug derived from the agency, date, and title"</td>
-                  <td>Exact format <code>{"{spider}/{timestamp}/{...}"}</code>, per the Meetings Viewer spec §4.1</td>
-                  <td>State the precise format — verified against <code>data/scrapers/test_spider1.json</code>'s real <code>id</code>: <code>"example_spider_city_council/202406171300/x/board"</code>, an exact match</td>
+                  <td>
+                    <code>id</code> described loosely as "conventionally a slug
+                    derived from the agency, date, and title"
+                  </td>
+                  <td>
+                    Exact format <code>{"{spider}/{timestamp}/{...}"}</code>,
+                    per the Meetings Viewer spec §4.1
+                  </td>
+                  <td>
+                    State the precise format — verified against
+                    <code>data/scrapers/test_spider1.json</code>'s real
+                    <code>id</code>:
+                    <code
+                      >"example_spider_city_council/202406171300/x/board"</code
+                    >, an exact match
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p>
-            None of this is generated-content work. It's six fixes across
-            five files, read once against the two source documents,
-            corrected in place. Do it before writing a single new page —
-            new content built on the wrong schema description just
-            multiplies the error.
+            None of this is generated-content work. It's six fixes across five
+            files, read once against the two source documents, corrected in
+            place. Do it before writing a single new page — new content built on
+            the wrong schema description just multiplies the error.
           </p>
         </section>
 
@@ -679,15 +1119,15 @@
         <section id="s3" class="col">
           <h2><span class="num">03</span>Information architecture, expanded</h2>
           <p>
-            The Development Guidelines cover a lot the site doesn't have a
-            home for yet: source analysis method, spider architecture
-            patterns, bot-detection, testing, the full contribution and PR
-            review workflow, and the CI/CD pipeline that runs scrapers in
-            production. Some of that belongs under the existing two doors
-            (§5.6 of the original research); some of it — the review process,
-            the production pipeline — is neither "building" nor "reviewing"
-            content, it's orientation content both audiences eventually need
-            and a third kind of reader (a PM, a new CTD lead) may come to
+            The Development Guidelines cover a lot the site doesn't have a home
+            for yet: source analysis method, spider architecture patterns,
+            bot-detection, testing, the full contribution and PR review
+            workflow, and the CI/CD pipeline that runs scrapers in production.
+            Some of that belongs under the existing two doors (§5.6 of the
+            original research); some of it — the review process, the production
+            pipeline — is neither "building" nor "reviewing" content, it's
+            orientation content both audiences eventually need and a third kind
+            of reader (a PM, a new CTD lead) may come to
             <code>/docs</code> looking for directly.
           </p>
           <p>
@@ -695,47 +1135,105 @@
             <em>different repo family</em> — <code>city-scrapers-core</code>
             and per-city consumer repos like
             <code>city-scrapers-colgo</code> — from the one this app's own
-            <code>/docs/contributing</code> page describes (this Next.js
-            repo). Blending them without saying so is exactly the kind of
-            confusion this platform exists to prevent. Every new page that
-            describes the scraper repos gets a repo-scope callout (§4).
+            <code>/docs/contributing</code> page describes (this Next.js repo).
+            Blending them without saying so is exactly the kind of confusion
+            this platform exists to prevent. Every new page that describes the
+            scraper repos gets a repo-scope callout (§4).
           </p>
           <div class="tree">
-<span class="k">/docs</span>
-  index.mdx                        <span class="k">— two doors, unchanged</span>
-  <span class="k">/scrapers</span>  (Building Scrapers)
-    index.mdx                      <span class="k">— workflow overview, reordered to source-first</span>
-    source-analysis.mdx            <span class="new-tag">NEW</span> <span class="k">— DevTools-first analysis, primary/secondary URL, singular-vs-factory (§1)</span>
-    spider-patterns.mdx            <span class="new-tag">NEW</span> <span class="k">— CityScrapersSpider vs LegistarSpider, singular vs factory + mixins (§2.1–2.2)</span>
-    writing-a-spider.mdx           <span class="fix-tag">FIX</span> <span class="k">— schema corrections (§2); + CSS/API/hybrid extraction (§2.3)</span>
-    bot-detection.mdx              <span class="new-tag">NEW</span> <span class="k">— scrapy-playwright, when and how (§2.4)</span>
-    testing.mdx                    <span class="new-tag">NEW</span> <span class="k">— pytest patterns, two-phase tests, freeze_time (§2.6)</span>
-    contributing.mdx               <span class="new-tag">NEW</span> <span class="k">— fork/pipenv/genspider/validate/lint, command reference (§3.1–3.8)</span>
-  <span class="k">/qa</span>  (QA &amp; Review)
-    index.mdx, schema.mdx, rubric.mdx   <span class="fix-tag">FIX</span> <span class="k">— corrections from §2</span>
-    review-process.mdx             <span class="new-tag">NEW</span> <span class="k">— the 5-stage pipeline, rendered as a Stepper (§3.9)</span>
-  <span class="k">/viewer</span>  (Meetings Viewer — existing, unchanged pages + one new)
-    index.mdx, quick-start.mdx     <span class="k">— unchanged</span>
-    architecture.mdx               <span class="new-tag">NEW</span> <span class="k">— the real ongoing Docs-sync target for the Viewer spec: modes, data shapes, invariants, table-library rationale (§3)</span>
-  <span class="k">/pipeline</span>  (How the scraper-repo CI/CD fits together)  <span class="new-tag">NEW SECTION</span>
-    index.mdx                      <span class="k">— system architecture + data-flow diagram (§4.1) — Documenters.org's pipeline only, not the Viewer's</span>
-    scheduled-runs.mdx             <span class="k">— cron.yml / archive.yml (§4.2)</span>
-    airtable-sync.mdx              <span class="k">— two-workflow trust boundary, secrets, known limitation (§4.3)</span>
-  <span class="k">/contributing</span>  (unchanged, this repo only)
-    index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— pointer to /docs/scrapers/contributing, PLUS the §1.1 model: git-owned vs Doc-synced pages and why, how to edit each, what a conflict flag means, the date+source-not-author rule</span>
-  <span class="k">/analytics</span>  (Fleet &amp; performance)  <span class="new-tag">NEW SECTION, §6</span>
-    index.mdx                      <span class="k">— for senior developers, not the two doors — fleet health + docs performance (§6, P7)</span>
-  <span class="k">/agents</span>  (Agents, memory &amp; skills)  <span class="new-tag">NEW SECTION, §7</span>
-    index.mdx, how-to-add-a-section.mdx   <span class="k">— vocabulary, decision method, the four-step process (§7)</span>
-    meetings-viewer.mdx            <span class="k">— ships now, honest and thin (§7)</span>
-    scrapers.mdx, devops.mdx       <span class="k">— stubs, owned by those teams (§7)</span>
+            <span class="k">/docs</span>
+            index.mdx <span class="k">— two doors, unchanged</span>
+            <span class="k">/scrapers</span> (Building Scrapers) index.mdx
+            <span class="k"
+              >— workflow overview, reordered to source-first</span
+            >
+            source-analysis.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— DevTools-first analysis, primary/secondary URL,
+              singular-vs-factory (§1)</span
+            >
+            spider-patterns.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— CityScrapersSpider vs LegistarSpider, singular vs factory +
+              mixins (§2.1–2.2)</span
+            >
+            writing-a-spider.mdx <span class="fix-tag">FIX</span>
+            <span class="k"
+              >— schema corrections (§2); + CSS/API/hybrid extraction
+              (§2.3)</span
+            >
+            bot-detection.mdx <span class="new-tag">NEW</span>
+            <span class="k">— scrapy-playwright, when and how (§2.4)</span>
+            testing.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— pytest patterns, two-phase tests, freeze_time (§2.6)</span
+            >
+            contributing.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— fork/pipenv/genspider/validate/lint, command reference
+              (§3.1–3.8)</span
+            >
+            <span class="k">/qa</span> (QA &amp; Review) index.mdx, schema.mdx,
+            rubric.mdx <span class="fix-tag">FIX</span>
+            <span class="k">— corrections from §2</span> review-process.mdx
+            <span class="new-tag">NEW</span>
+            <span class="k"
+              >— the 5-stage pipeline, rendered as a Stepper (§3.9)</span
+            >
+            <span class="k">/viewer</span> (Meetings Viewer — existing,
+            unchanged pages + one new) index.mdx, quick-start.mdx
+            <span class="k">— unchanged</span> architecture.mdx
+            <span class="new-tag">NEW</span>
+            <span class="k"
+              >— the real ongoing Docs-synced target for the Viewer spec: modes,
+              data shapes, invariants, table-library rationale (§3)</span
+            >
+            <span class="k">/pipeline</span> (How the scraper-repo CI/CD fits
+            together) <span class="new-tag">NEW SECTION</span> index.mdx
+            <span class="k"
+              >— system architecture + data-flow diagram (§4.1) —
+              Documenters.org's pipeline only, not the Viewer's</span
+            >
+            scheduled-runs.mdx
+            <span class="k">— cron.yml / archive.yml (§4.2)</span>
+            airtable-sync.mdx
+            <span class="k"
+              >— two-workflow trust boundary, secrets, known limitation
+              (§4.3)</span
+            >
+            <span class="k">/contributing</span> (unchanged, this repo only)
+            index.mdx <span class="fix-tag">FIX</span>
+            <span class="k"
+              >— pointer to /docs/scrapers/contributing, PLUS the §1.1 model:
+              git-owned vs Docs-synced pages and why, how to edit each, what a
+              conflict flag means, the date+source-not-author rule</span
+            >
+            <span class="k">/analytics</span> (Fleet &amp; performance)
+            <span class="new-tag">NEW SECTION, §6</span> index.mdx
+            <span class="k"
+              >— for senior developers, not the two doors — fleet health + docs
+              performance (§6, P7)</span
+            >
+            <span class="k">/agents</span> (Agents, memory &amp; skills)
+            <span class="new-tag">NEW SECTION, §7</span> index.mdx,
+            how-to-add-a-section.mdx
+            <span class="k"
+              >— vocabulary, decision method, the four-step process (§7)</span
+            >
+            meetings-viewer.mdx
+            <span class="k">— ships now, honest and thin (§7)</span>
+            scrapers.mdx, devops.mdx
+            <span class="k">— stubs, owned by those teams (§7)</span>
           </div>
 
-          <h3>Why a third top-level section instead of folding it into the two doors</h3>
+          <h3>
+            Why a third top-level section instead of folding it into the two
+            doors
+          </h3>
           <p>
             §5.6 of the original research is still right that the homepage
-            should force a two-way choice in the first three seconds — adding
-            a third homepage option would blunt that. <code>/pipeline</code>
+            should force a two-way choice in the first three seconds — adding a
+            third homepage option would blunt that. <code>/pipeline</code>
             isn't a third front door; it's reference material both existing
             doors occasionally link into (a QA reviewer wondering why staging
             behaves differently than production; a builder whose spider slug
@@ -743,136 +1241,289 @@
             in-context links, never competing with the homepage's choice.
           </p>
 
-          <h3>The pipeline diagram missed a mode — corrected, then confirmed</h3>
+          <h3>
+            The pipeline diagram missed a mode — corrected, then confirmed
+          </h3>
           <p>
-            This diagram's first draft said the Meetings Viewer "never
-            touches production" and left it there. That was wrong in a way
-            that matters, and the now-provided Meetings Viewer Technical
-            Specification confirms it precisely (§6, its own "Production
-            mode (not yet fully planned)"): a second, planned mode fetches
-            PR-scoped scraper output from a dedicated public
+            This diagram's first draft said the Meetings Viewer "never touches
+            production" and left it there. That was wrong in a way that matters,
+            and the now-provided Meetings Viewer Technical Specification
+            confirms it precisely (§6, its own "Production mode (not yet fully
+            planned)"): a second, planned mode fetches PR-scoped scraper output
+            from a dedicated public
             <code>meetings-viewer-data</code> repo, laid out as
             <code>prs/{scraper_repo}/{pr_number}/manifest.json</code>
-            plus a <code>scrapers/</code> subfolder — populated by two
-            workflows living in each scraper repo: <code>run-and-save.yml</code>
+            plus a <code>scrapers/</code> subfolder — populated by two workflows
+            living in each scraper repo: <code>run-and-save.yml</code>
             (runs on PR open/update, commits output) and
-            <code>cleanup-data.yml</code> (runs on PR close, deletes that
-            PR's directory regardless of merge state). The viewer reads it
-            via plain <code>raw.githubusercontent.com</code> URLs under a
-            <code>/pr/{repo}/{pr_number}/scrapers</code> route —
-            no backend, no database, no auth on the read side (§7's
-            architectural invariants are explicit about this). Same UI, same
-            components, same routes as local mode — only
-            <code>lib/scrapers.ts</code>'s implementation changes (§5.2).
-            That mode doesn't touch Documenters.org's Azure/ETL/Postgres
-            pipeline either, but it's explicitly meant to be used
-            <em>during PR review</em> — which means by PDW and CB, not just
+            <code>cleanup-data.yml</code> (runs on PR close, deletes that PR's
+            directory regardless of merge state). The viewer reads it via plain
+            <code>raw.githubusercontent.com</code> URLs under a
+            <code>/pr/{repo}/{pr_number}/scrapers</code> route — no backend, no
+            database, no auth on the read side (§7's architectural invariants
+            are explicit about this). Same UI, same components, same routes as
+            local mode — only <code>lib/scrapers.ts</code>'s implementation
+            changes (§5.2). That mode doesn't touch Documenters.org's
+            Azure/ETL/Postgres pipeline either, but it's explicitly meant to be
+            used <em>during PR review</em> — which means by PDW and CB, not just
             by a CTD apprentice at their own keyboard. The corrected diagram
-            below draws three paths, not two, and the caption says which
-            ones exist today.
+            below draws three paths, not two, and the caption says which ones
+            exist today.
           </p>
           <div class="diagram">
-            <svg viewBox="0 0 1080 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Data flow diagram: scraper output splits into three paths — a production data pipeline through Azure, ETL, and Postgres to Documenters.org; a planned PR-review path through a shared meetings-viewer-data repo into the Meetings Viewer's production mode; and a local dev path straight into the Meetings Viewer's local mode.">
+            <svg
+              viewBox="0 0 1080 360"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Data flow diagram: scraper output splits into three paths — a production data pipeline through Azure, ETL, and Postgres to Documenters.org; a planned path through a shared meetings-viewer-data repo into the Meetings Viewer's Production mode; and a local path straight into the Meetings Viewer's local mode."
+            >
               <defs>
-                <marker id="arrow2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <marker
+                  id="arrow2"
+                  viewBox="0 0 10 10"
+                  refX="9"
+                  refY="5"
+                  markerWidth="7"
+                  markerHeight="7"
+                  orient="auto-start-reverse"
+                >
                   <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
                 </marker>
               </defs>
               <style>
-                .box { fill: var(--surface, #fff); stroke: var(--rule, #d6dcd8); stroke-width: 1.5; rx: 10; }
-                .box-prod { stroke: var(--accent, #0f6e68); }
-                .box-pr { stroke: var(--amber, #8e6209); stroke-dasharray: 5 4; }
-                .box-local { stroke: var(--blue, #2b5a8c); stroke-dasharray: 5 4; }
-                .box-viewer { stroke: var(--ink, #16201e); stroke-width: 2; }
-                .lbl { font: 600 13px "Public Sans", sans-serif; fill: var(--ink, #16201e); }
-                .sub { font: 400 11px "Public Sans", sans-serif; fill: var(--ink-3, #6f7c77); }
-                .edge-prod { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; marker-end: url(#arrow2); color: var(--accent, #0f6e68); }
-                .edge-pr { stroke: var(--amber, #8e6209); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow2); color: var(--amber, #8e6209); }
-                .edge-local { stroke: var(--blue, #2b5a8c); stroke-width: 2; stroke-dasharray: 6 5; fill: none; marker-end: url(#arrow2); color: var(--blue, #2b5a8c); }
-                .tag { font: 700 10px "IBM Plex Mono", monospace; letter-spacing: 0.04em; }
+                .box {
+                  fill: var(--surface, #fff);
+                  stroke: var(--rule, #d6dcd8);
+                  stroke-width: 1.5;
+                  rx: 10;
+                }
+                .box-prod {
+                  stroke: var(--accent, #0f6e68);
+                }
+                .box-pr {
+                  stroke: var(--amber, #8e6209);
+                  stroke-dasharray: 5 4;
+                }
+                .box-local {
+                  stroke: var(--blue, #2b5a8c);
+                  stroke-dasharray: 5 4;
+                }
+                .box-viewer {
+                  stroke: var(--ink, #16201e);
+                  stroke-width: 2;
+                }
+                .lbl {
+                  font:
+                    600 13px "Public Sans",
+                    sans-serif;
+                  fill: var(--ink, #16201e);
+                }
+                .sub {
+                  font:
+                    400 11px "Public Sans",
+                    sans-serif;
+                  fill: var(--ink-3, #6f7c77);
+                }
+                .edge-prod {
+                  stroke: var(--accent, #0f6e68);
+                  stroke-width: 2;
+                  fill: none;
+                  marker-end: url(#arrow2);
+                  color: var(--accent, #0f6e68);
+                }
+                .edge-pr {
+                  stroke: var(--amber, #8e6209);
+                  stroke-width: 2;
+                  stroke-dasharray: 6 5;
+                  fill: none;
+                  marker-end: url(#arrow2);
+                  color: var(--amber, #8e6209);
+                }
+                .edge-local {
+                  stroke: var(--blue, #2b5a8c);
+                  stroke-width: 2;
+                  stroke-dasharray: 6 5;
+                  fill: none;
+                  marker-end: url(#arrow2);
+                  color: var(--blue, #2b5a8c);
+                }
+                .tag {
+                  font:
+                    700 10px "IBM Plex Mono",
+                    monospace;
+                  letter-spacing: 0.04em;
+                }
               </style>
 
               <rect x="20" y="150" width="150" height="60" class="box" />
-              <text x="95" y="175" text-anchor="middle" class="lbl">Scraper repo</text>
-              <text x="95" y="192" text-anchor="middle" class="sub">this, or a sibling</text>
+              <text x="95" y="175" text-anchor="middle" class="lbl">
+                Scraper repo
+              </text>
+              <text x="95" y="192" text-anchor="middle" class="sub">
+                this, or a sibling
+              </text>
 
               <!-- production data pipeline -->
               <path class="edge-prod" d="M170,158 C220,120 240,70 290,50" />
-              <text x="225" y="80" class="tag" fill="var(--accent,#0f6e68)">DAILY CRON</text>
-              <rect x="290" y="20" width="140" height="60" class="box box-prod" />
-              <text x="360" y="45" text-anchor="middle" class="lbl">Azure Blob</text>
-              <text x="360" y="62" text-anchor="middle" class="sub">storage</text>
+              <text x="225" y="80" class="tag" fill="var(--accent,#0f6e68)">
+                DAILY CRON
+              </text>
+              <rect
+                x="290"
+                y="20"
+                width="140"
+                height="60"
+                class="box box-prod"
+              />
+              <text x="360" y="45" text-anchor="middle" class="lbl">
+                Azure Blob
+              </text>
+              <text x="360" y="62" text-anchor="middle" class="sub">
+                storage
+              </text>
 
               <path class="edge-prod" d="M430,50 L510,50" />
-              <rect x="510" y="20" width="110" height="60" class="box box-prod" />
+              <rect
+                x="510"
+                y="20"
+                width="110"
+                height="60"
+                class="box box-prod"
+              />
               <text x="565" y="45" text-anchor="middle" class="lbl">ETL</text>
-              <text x="565" y="62" text-anchor="middle" class="sub">transform</text>
+              <text x="565" y="62" text-anchor="middle" class="sub">
+                transform
+              </text>
 
               <path class="edge-prod" d="M620,50 L710,50" />
-              <rect x="710" y="20" width="130" height="60" class="box box-prod" />
-              <text x="775" y="45" text-anchor="middle" class="lbl">Postgres</text>
-              <text x="775" y="62" text-anchor="middle" class="sub">central DB</text>
+              <rect
+                x="710"
+                y="20"
+                width="130"
+                height="60"
+                class="box box-prod"
+              />
+              <text x="775" y="45" text-anchor="middle" class="lbl">
+                Postgres
+              </text>
+              <text x="775" y="62" text-anchor="middle" class="sub">
+                central DB
+              </text>
 
               <path class="edge-prod" d="M840,50 L925,50" />
-              <rect x="925" y="10" width="135" height="80" class="box box-prod" />
-              <text x="992" y="35" text-anchor="middle" class="lbl">Documenters.org</text>
-              <text x="992" y="52" text-anchor="middle" class="sub">public site,</text>
-              <text x="992" y="66" text-anchor="middle" class="sub">manager UI, emails</text>
+              <rect
+                x="925"
+                y="10"
+                width="135"
+                height="80"
+                class="box box-prod"
+              />
+              <text x="992" y="35" text-anchor="middle" class="lbl">
+                Documenters.org
+              </text>
+              <text x="992" y="52" text-anchor="middle" class="sub">
+                public site,
+              </text>
+              <text x="992" y="66" text-anchor="middle" class="sub">
+                manager UI, emails
+              </text>
 
               <!-- PR review mode: planned -->
               <path class="edge-pr" d="M170,172 C220,168 250,163 290,158" />
-              <text x="200" y="150" class="tag" fill="var(--amber,#8e6209)">PR OPENED</text>
-              <rect x="290" y="128" width="200" height="60" class="box box-pr" />
-              <text x="390" y="153" text-anchor="middle" class="lbl">meetings-viewer-data</text>
-              <text x="390" y="170" text-anchor="middle" class="sub">public repo, PR-scoped — planned</text>
+              <text x="200" y="150" class="tag" fill="var(--amber,#8e6209)">
+                PR OPENED
+              </text>
+              <rect
+                x="290"
+                y="128"
+                width="200"
+                height="60"
+                class="box box-pr"
+              />
+              <text x="390" y="153" text-anchor="middle" class="lbl">
+                meetings-viewer-data
+              </text>
+              <text x="390" y="170" text-anchor="middle" class="sub">
+                public repo, PR-scoped — planned
+              </text>
 
               <path class="edge-pr" d="M490,158 C560,168 620,178 680,195" />
 
-              <!-- local dev mode -->
+              <!-- local mode -->
               <path class="edge-local" d="M170,196 C220,230 250,260 290,278" />
-              <text x="205" y="255" class="tag" fill="var(--blue,#2b5a8c)">scrapy crawl -O</text>
-              <rect x="290" y="248" width="200" height="60" class="box box-local" />
-              <text x="390" y="273" text-anchor="middle" class="lbl">data/scrapers/*.json</text>
-              <text x="390" y="290" text-anchor="middle" class="sub">local file, this repo only</text>
+              <text x="205" y="255" class="tag" fill="var(--blue,#2b5a8c)">
+                scrapy crawl -O
+              </text>
+              <rect
+                x="290"
+                y="248"
+                width="200"
+                height="60"
+                class="box box-local"
+              />
+              <text x="390" y="273" text-anchor="middle" class="lbl">
+                data/scrapers/*.json
+              </text>
+              <text x="390" y="290" text-anchor="middle" class="sub">
+                local file, this repo only
+              </text>
 
               <path class="edge-local" d="M490,278 C560,260 620,235 680,215" />
 
               <!-- viewer, one app, two modes -->
-              <rect x="680" y="150" width="220" height="90" class="box box-viewer" />
-              <text x="790" y="180" text-anchor="middle" class="lbl">Meetings Viewer</text>
-              <text x="790" y="198" text-anchor="middle" class="sub">production mode (planned) —</text>
-              <text x="790" y="212" text-anchor="middle" class="sub">used by CTD, PDW, CB during review</text>
-              <text x="790" y="228" text-anchor="middle" class="sub">local mode (built) — one contributor</text>
+              <rect
+                x="680"
+                y="150"
+                width="220"
+                height="90"
+                class="box box-viewer"
+              />
+              <text x="790" y="180" text-anchor="middle" class="lbl">
+                Meetings Viewer
+              </text>
+              <text x="790" y="198" text-anchor="middle" class="sub">
+                production mode (planned) —
+              </text>
+              <text x="790" y="212" text-anchor="middle" class="sub">
+                used by CTD, PDW, CB during review
+              </text>
+              <text x="790" y="228" text-anchor="middle" class="sub">
+                local mode (built) — one contributor
+              </text>
 
               <!-- legend -->
               <line x1="20" y1="330" x2="55" y2="330" class="edge-prod" />
-              <text x="62" y="334" class="sub">production data pipeline, automatic</text>
+              <text x="62" y="334" class="sub">
+                production data pipeline, automatic
+              </text>
               <line x1="330" y1="330" x2="365" y2="330" class="edge-pr" />
-              <text x="372" y="334" class="sub">PR-review mode, planned</text>
+              <text x="372" y="334" class="sub">Production mode (planned)</text>
               <line x1="620" y1="330" x2="655" y2="330" class="edge-local" />
-              <text x="662" y="334" class="sub">local dev mode, built</text>
+              <text x="662" y="334" class="sub">local mode (built)</text>
             </svg>
             <p class="diagram-caption">
-              Neither path into the Meetings Viewer touches Azure, the ETL
-              job, or Postgres — that part of the original claim holds. What
-              didn't hold: "local-only." The viewer has a second, planned
-              mode meant for PDW and CB to use directly during PR review —
-              confirmed, and specified precisely, by the Meetings Viewer
-              Technical Specification's own §6, itself headed "Production
-              mode (not yet fully planned)." <code>/docs/viewer/architecture.mdx</code>
-              (§3, below) is where this belongs, not <code>/docs/pipeline</code>
+              Neither path into the Meetings Viewer touches Azure, the ETL job,
+              or Postgres — that part of the original claim holds. What didn't
+              hold: "local-only." The viewer has a second, planned mode meant
+              for PDW and CB to use directly during PR review — confirmed, and
+              specified precisely, by the Meetings Viewer Technical
+              Specification's own §6, itself headed "Production mode (not yet
+              fully planned)." <code>/docs/viewer/architecture.mdx</code> (§3,
+              below) is where this belongs, not <code>/docs/pipeline</code>
               — a correction from this playbook's own previous draft, which
-              guessed wrong about which page this content would seed before
-              the spec was available.
+              guessed wrong about which page this content would seed before the
+              spec was available.
             </p>
           </div>
 
           <div class="note tip">
-            <span class="lab">Resolved — both source documents now provided</span>
+            <span class="lab"
+              >Resolved — both source documents now provided</span
+            >
             <p>
-              The Meetings Viewer Technical Specification is the second
-              document this playbook was missing. One correction and one
-              confirmation, both load-bearing:
+              The Meetings Viewer Technical Specification is the second document
+              this playbook was missing. One correction and one confirmation,
+              both load-bearing:
             </p>
             <ul>
               <li>
@@ -883,73 +1534,120 @@
                 exclusively about this app's own architecture: modes, pages,
                 data shapes, invariants, table-library choice. It seeds a new
                 page, <code>/docs/viewer/architecture.mdx</code> (§3's tree),
-                which becomes its ongoing Docs-sync target per §1.1 — no
+                which becomes its ongoing Docs-synced target per §1.1 — no
                 "which two files" ambiguity left, because the whole document
                 maps to one new page, not a slice of an existing section.
               </li>
               <li>
                 <strong>Confirmation:</strong> §6.5, "Items still under
-                decision," lists exactly four open items — the token
-                mechanism for cross-repo writes (PAT vs. GitHub App),
-                concurrent-workflow handling against the data repo, whether
-                merged-PR data is preserved or deleted like unmerged data,
-                and a periodic sweep for orphaned PR directories. All four
-                land on <code>/docs/viewer/architecture.mdx</code>'s
-                Production Mode section as visible <code>&lt;Callout
-                type="warn"&gt;</code> blocks, quoted near-verbatim — never
-                flattened into prose that implies more certainty than the
-                spec itself claims. Each one becomes an actual tracked issue
-                (file four, referencing this spec section) that the callout
-                links to, not permanent unowned "TBD" text (§8, P2).
+                decision," lists exactly four open items — the token mechanism
+                for cross-repo writes (PAT vs. GitHub App), concurrent-workflow
+                handling against the data repo, whether merged-PR data is
+                preserved or deleted like unmerged data, and a periodic sweep
+                for orphaned PR directories. All four land on
+                <code>/docs/viewer/architecture.mdx</code>'s Production mode
+                section as visible
+                <code>&lt;Callout type="warn"&gt;</code> blocks, quoted
+                near-verbatim — never flattened into prose that implies more
+                certainty than the spec itself claims. Each one becomes an
+                actual tracked issue (file four, referencing this spec section)
+                that the callout links to, not permanent unowned "TBD" text (§8,
+                P2).
               </li>
             </ul>
           </div>
 
-          <h3>Does this actually reach PDW, CB, and everyone past this repo?</h3>
+          <h3>
+            Does this actually reach PDW, CB, and everyone past this repo?
+          </h3>
           <p>
-            The content scope does, now — the Development Guidelines
-            integration means <code>/docs</code> describes CTD, PDW, and CB's
-            roles in the review pipeline (§3.9) and the production
-            infrastructure none of them individually owns. That's necessary
-            but not sufficient. Four things stand between "the content
-            covers them" and "they actually land here and can trust what
-            they read":
+            The content scope does, now — the Development Guidelines integration
+            means <code>/docs</code> describes CTD, PDW, and CB's roles in the
+            review pipeline (§3.9) and the production infrastructure none of
+            them individually owns. That's necessary but not sufficient. Four
+            things stand between "the content covers them" and "they actually
+            land here and can trust what they read":
           </p>
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Gap</th><th>Evidence</th><th>What it costs if unfixed</th></tr>
+                <tr>
+                  <th>Gap</th>
+                  <th>Evidence</th>
+                  <th>What it costs if unfixed</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Branding</strong></td>
-                  <td><code>SiteHeader</code> shows "Meetings Viewer" as the site identity; <code>package.json</code>'s name is <code>meetings-viewer</code>. Nothing signals "City Scrapers program" to a visitor who isn't already oriented.</td>
-                  <td>A PDW reviewer or a new CB hire who lands on <code>/docs</code> reasonably assumes it's one tool's manual, not the program's shared reference — and bounces before finding the review-process page written for them.</td>
+                  <td>
+                    <code>SiteHeader</code> shows "Meetings Viewer" as the site
+                    identity; <code>package.json</code>'s name is
+                    <code>meetings-viewer</code>. Nothing signals "City Scrapers
+                    program" to a visitor who isn't already oriented.
+                  </td>
+                  <td>
+                    A PDW reviewer or a new CB hire who lands on
+                    <code>/docs</code> reasonably assumes it's one tool's
+                    manual, not the program's shared reference — and bounces
+                    before finding the review-process page written for them.
+                  </td>
                 </tr>
                 <tr>
                   <td><strong>Discoverability</strong></td>
-                  <td>Nothing in this repo's own <code>README.md</code>, and — so far as this playbook can verify from inside this repo — nothing in <code>city-scrapers-core</code> or elsewhere, links here. No PDW/CB/Documenters.org mention exists anywhere in the current <code>content/docs/</code>.</td>
-                  <td>Correct, well-designed content that no one outside this repo's contributors ever finds. This is the single biggest risk to the "people beyond this repo will benefit" goal — bigger than any content gap.</td>
+                  <td>
+                    Nothing in this repo's own <code>README.md</code>, and — so
+                    far as this playbook can verify from inside this repo —
+                    nothing in <code>city-scrapers-core</code> or elsewhere,
+                    links here. No PDW/CB/Documenters.org mention exists
+                    anywhere in the current <code>content/docs/</code>.
+                  </td>
+                  <td>
+                    Correct, well-designed content that no one outside this
+                    repo's contributors ever finds. This is the single biggest
+                    risk to the "people beyond this repo will benefit" goal —
+                    bigger than any content gap.
+                  </td>
                 </tr>
                 <tr>
                   <td><strong>Editing authority</strong></td>
-                  <td>§1.1's git+Docs sync model is scoped to the PM/architect, scraper developers, and viewer developers — all three already have both git and Docs access. PDW and CB have neither, and aren't part of that scoping at all.</td>
-                  <td>The review-process and pipeline pages describe PDW/CB's own workflow, but PDW/CB have no path to correct them when their process changes — the exact drift this platform exists to prevent, just moved up a level to organizational process instead of code.</td>
+                  <td>
+                    §1.1's Docs sync model is scoped to the PM/architect,
+                    scraper developers, and viewer developers — all three
+                    already have both git and Docs access. PDW and CB have
+                    neither, and aren't part of that scoping at all.
+                  </td>
+                  <td>
+                    The review-process and pipeline pages describe PDW/CB's own
+                    workflow, but PDW/CB have no path to correct them when their
+                    process changes — the exact drift this platform exists to
+                    prevent, just moved up a level to organizational process
+                    instead of code.
+                  </td>
                 </tr>
                 <tr>
                   <td><strong>Front-door framing</strong></td>
-                  <td><code>/docs</code>'s two doors ("I'm building a scraper" / "I'm reviewing one") are written loosely enough to fit a PDW or CB reviewer, but nothing on the homepage says so — a CB reviewer has no signal this site is for them at all, let alone which door.</td>
-                  <td>The IA work in this section is wasted on readers who never realize it applies to them.</td>
+                  <td>
+                    <code>/docs</code>'s two doors ("I'm building a scraper" /
+                    "I'm reviewing one") are written loosely enough to fit a PDW
+                    or CB reviewer, but nothing on the homepage says so — a CB
+                    reviewer has no signal this site is for them at all, let
+                    alone which door.
+                  </td>
+                  <td>
+                    The IA work in this section is wasted on readers who never
+                    realize it applies to them.
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p>
-            None of these are content-authoring work — they're closer to
-            product decisions about who this site is for and who's allowed
-            to speak for it. §9 turns the two that need a team decision
-            (editing authority, and whether to rebrand) into explicit open
-            items rather than letting them stay implicit.
+            None of these are content-authoring work — they're closer to product
+            decisions about who this site is for and who's allowed to speak for
+            it. §9 turns the two that need a team decision (editing authority,
+            and whether to rebrand) into explicit open items rather than letting
+            them stay implicit.
           </p>
         </section>
 
@@ -958,10 +1656,10 @@
           <h2><span class="num">04</span>UX / UI system for the content</h2>
           <p>
             This is the part the original research under-weighted and this
-            playbook doesn't: the platform choice and the CI checklist are
-            both in service of pages people actually want to read. Two things
-            need to happen before the new content lands — one fix, one small
-            component set — plus a few standing rules for every page after.
+            playbook doesn't: the platform choice and the CI checklist are both
+            in service of pages people actually want to read. Two things need to
+            happen before the new content lands — one fix, one small component
+            set — plus a few standing rules for every page after.
           </p>
 
           <h3>4.1 Ship the theme mapping that was always the plan</h3>
@@ -969,111 +1667,231 @@
             <code>globals.css</code> currently only imports Fumadocs' stock
             <code>neutral.css</code> preset — none of the
             <code>--color-fd-*</code> → <code>--mui-palette-*</code> mapping
-            from the original research's §8 was ever added. Dark mode
-            switching works (<code>DarkModeSync</code> correctly drives
-            Fumadocs' <code>.dark</code> class off MUI's color scheme), but
-            <code>/docs</code> is still rendering in Fumadocs' generic gray,
-            not the app's own palette. This is a five-variable, one-time fix
-            with no new dependency — do it before any of the new pages ship,
-            so every page that follows is on-brand from day one instead of
-            needing a re-skin later.
+            from the original research's §8 was ever added. Dark mode switching
+            works (<code>DarkModeSync</code> correctly drives Fumadocs'
+            <code>.dark</code> class off MUI's color scheme), but
+            <code>/docs</code> is still rendering in Fumadocs' generic gray, not
+            the app's own palette. This is a five-variable, one-time fix with no
+            new dependency — do it before any of the new pages ship, so every
+            page that follows is on-brand from day one instead of needing a
+            re-skin later.
           </p>
 
           <h3>4.2 A small, purpose-built component set</h3>
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Component</th><th>Replaces</th><th>Why it earns its place</th></tr>
+                <tr>
+                  <th>Component</th>
+                  <th>Replaces</th>
+                  <th>Why it earns its place</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><code>&lt;RepoScope&gt;</code></td>
                   <td>Nothing — new</td>
-                  <td>One-line callout stamping a page "city-scrapers-meetings-viewer" or "city-scrapers (core + consumer repos)". Directly answers §3's cross-repo confusion risk. Cheapest, highest-leverage component on this list.</td>
+                  <td>
+                    One-line callout stamping a page
+                    "city-scrapers-meetings-viewer" or "city-scrapers (core +
+                    consumer repos)". Directly answers §3's cross-repo confusion
+                    risk. Cheapest, highest-leverage component on this list.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>&lt;SchemaTable&gt;</code></td>
                   <td>The hand-written table in <code>qa/schema.mdx</code></td>
-                  <td>Generated from a single source (§5), so the "generated" claim in §1.3 becomes true instead of aspirational. Deep-linkable per field, kept from the original research's §5.3. <strong>Permanently git-owned the moment this ships (§1.1)</strong> — <code>qa/schema.mdx</code> can never be a Docs-sync target again.</td>
+                  <td>
+                    Generated from a single source (§5), so the "generated"
+                    claim in §1.3 becomes true instead of aspirational.
+                    Deep-linkable per field, kept from the original research's
+                    §5.3.
+                    <strong
+                      >Permanently git-owned the moment this ships
+                      (§1.1)</strong
+                    >
+                    — <code>qa/schema.mdx</code> can never be a Docs-synced
+                    target again.
+                  </td>
                 </tr>
                 <tr>
-                  <td><code>&lt;PRLifecycle&gt;</code> (MUI <code>Stepper</code>)</td>
+                  <td>
+                    <code>&lt;PRLifecycle&gt;</code> (MUI <code>Stepper</code>)
+                  </td>
                   <td>Prose walkthrough of the 5-stage review</td>
-                  <td>Native to the app's own design system already — no new dependency, no second visual language the way a Mermaid diagram would introduce. See §1.4.</td>
+                  <td>
+                    Native to the app's own design system already — no new
+                    dependency, no second visual language the way a Mermaid
+                    diagram would introduce. See §1.4.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>&lt;CommandBlock&gt;</code></td>
                   <td>Static code fences repeating a spider name</td>
-                  <td>Kept from the original research's §5.4, now more valuable — the guide adds <code>genspider</code>, <code>validate</code>, <code>flake8</code>/<code>black</code>/<code>isort</code>, and several <code>pytest</code> invocations on top of the one <code>crawl -O</code> command it originally covered. <strong>Permanently git-owned wherever it's used (§1.1)</strong> — this is why the Development Guidelines doc is a one-time seed for <code>/docs/scrapers</code>, never an ongoing sync source.</td>
+                  <td>
+                    Kept from the original research's §5.4, now more valuable —
+                    the guide adds <code>genspider</code>,
+                    <code>validate</code>,
+                    <code>flake8</code>/<code>black</code>/<code>isort</code>,
+                    and several <code>pytest</code> invocations on top of the
+                    one <code>crawl -O</code> command it originally covered.
+                    <strong
+                      >Permanently git-owned wherever it's used (§1.1)</strong
+                    >
+                    — this is why the Development Guidelines doc is a one-time
+                    seed for <code>/docs/scrapers</code>, never an ongoing sync
+                    source.
+                  </td>
                 </tr>
                 <tr>
                   <td><code>&lt;RubricReport&gt;</code></td>
-                  <td>Nothing — new (restored from §5.1 of the original research)</td>
-                  <td>Drop or paste a spider's JSON output on <code>/qa</code>, get a per-field verdict against the corrected rubric (§2) — timezone-naive check, link order, status logic, duplicate IDs. Runs client-side; mostly a lift from the already-existing <code>lib/duplicates.ts</code> and the app's own status/format helpers, so it stays true to "the viewer shows exactly what the spider produced" (§2) rather than reimplementing QA logic a second way. <strong>Permanently git-owned once it ships (§1.1)</strong> — <code>/qa/index.mdx</code> leaves the sync allowlist for good at that point.</td>
+                  <td>
+                    Nothing — new (restored from §5.1 of the original research)
+                  </td>
+                  <td>
+                    Drop or paste a spider's JSON output on <code>/qa</code>,
+                    get a per-field verdict against the corrected rubric (§2) —
+                    timezone-naive check, link order, status logic, duplicate
+                    IDs. Runs client-side; mostly a lift from the
+                    already-existing <code>lib/duplicates.ts</code> and the
+                    app's own status/format helpers, so it stays true to "the
+                    viewer shows exactly what the spider produced" (§2) rather
+                    than reimplementing QA logic a second way.
+                    <strong>Permanently git-owned once it ships (§1.1)</strong>
+                    — <code>/qa/index.mdx</code> leaves the sync allowlist for
+                    good at that point.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Fumadocs per-page <code>.md</code> route + copy-as-markdown button</td>
+                  <td>
+                    Fumadocs per-page <code>.md</code> route + copy-as-markdown
+                    button
+                  </td>
                   <td>Nothing — new (restored from §5.9)</td>
-                  <td>Ships free alongside the <code>llms.txt</code>/<code>llms-full.txt</code> routes already built. No reason the <code>llms-full.txt</code> fix in P1 ships without these two.</td>
+                  <td>
+                    Ships free alongside the <code>llms.txt</code>/<code
+                      >llms-full.txt</code
+                    >
+                    routes already built. No reason the
+                    <code>llms-full.txt</code> fix in P1 ships without these
+                    two.
+                  </td>
                 </tr>
                 <tr>
                   <td>Header <code>&lt;SearchTrigger&gt;</code></td>
-                  <td>Nothing — <code>SiteHeader</code> has no search entry point today</td>
-                  <td>Restores §5.10 — ⌘K reachable from <code>/scrapers</code> and the landing page, not just <code>/docs</code>. Fumadocs' search client can be mounted outside <code>DocsLayout</code>; it already indexes via the existing search route.</td>
+                  <td>
+                    Nothing — <code>SiteHeader</code> has no search entry point
+                    today
+                  </td>
+                  <td>
+                    Restores §5.10 — ⌘K reachable from
+                    <code>/scrapers</code> and the landing page, not just
+                    <code>/docs</code>. Fumadocs' search client can be mounted
+                    outside <code>DocsLayout</code>; it already indexes via the
+                    existing search route.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Fumadocs <code>&lt;Tabs&gt;</code> (ships free, unused so far)</td>
+                  <td>
+                    Fumadocs <code>&lt;Tabs&gt;</code> (ships free, unused so
+                    far)
+                  </td>
                   <td>Parallel prose lists</td>
-                  <td>The Airtable sync docs already describe "core repo" vs. "consumer repo" file lists side by side — that's a tab pair, not two headings.</td>
+                  <td>
+                    The Airtable sync docs already describe "core repo" vs.
+                    "consumer repo" file lists side by side — that's a tab pair,
+                    not two headings.
+                  </td>
                 </tr>
                 <tr>
-                  <td>Fumadocs <code>&lt;Accordion&gt;</code> (ships free, unused so far)</td>
+                  <td>
+                    Fumadocs <code>&lt;Accordion&gt;</code> (ships free, unused
+                    so far)
+                  </td>
                   <td>Inline "known limitation" callouts</td>
-                  <td>Keeps edge cases (the Airtable duplicate-record limitation, secrets setup) out of the main reading path without deleting them.</td>
+                  <td>
+                    Keeps edge cases (the Airtable duplicate-record limitation,
+                    secrets setup) out of the main reading path without deleting
+                    them.
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <p>
-            What that stepper should look like on <code>/qa/review-process</code> —
-            five stages, each naming who's involved and what "done" looks
-            like, replacing the guide's prose walkthrough of §3.9:
+            What that stepper should look like on
+            <code>/qa/review-process</code> — five stages, each naming who's
+            involved and what "done" looks like, replacing the guide's prose
+            walkthrough of §3.9:
           </p>
           <div class="stepper">
             <div class="step">
               <div class="step-badge">1</div>
               <h4>Draft</h4>
-              <p>Contributor opens the PR as a draft once the spider is ready for a first pass.</p>
+              <p>
+                Contributor opens the PR as a draft once the spider is ready for
+                a first pass.
+              </p>
             </div>
             <div class="step">
               <div class="step-badge">2</div>
               <h4>CTD review</h4>
-              <p>Team lead QAs output against §2.5 and reviews code — logic, style, edge cases, tests.</p>
+              <p>
+                Team lead QAs output against §2.5 and reviews code — logic,
+                style, edge cases, tests.
+              </p>
             </div>
             <div class="step">
               <div class="step-badge">3</div>
               <h4>Ready for review</h4>
-              <p>Feedback addressed; PDW reviewers added; Airtable backlog moved to staging-ready.</p>
+              <p>
+                Feedback addressed; PDW reviewers added; Airtable backlog moved
+                to staging-ready.
+              </p>
             </div>
             <div class="step">
               <div class="step-badge">4</div>
               <h4>Staging + CB QA</h4>
-              <p>PDW merges to staging; City Bureau QAs the live output; PR stays open for fixes.</p>
+              <p>
+                PDW merges to staging; City Bureau QAs the live output; PR stays
+                open for fixes.
+              </p>
             </div>
             <div class="step">
               <div class="step-badge">5</div>
               <h4>Sign-off</h4>
-              <p>CB signs off in Airtable; PR merges to main; the scraper goes live.</p>
+              <p>
+                CB signs off in Airtable; PR merges to main; the scraper goes
+                live.
+              </p>
             </div>
           </div>
 
           <h3>4.3 Standing rules for every page from here on</h3>
           <ul>
-            <li><strong>One repo-scope callout</strong> on any page describing the scraper repos, placed above the fold — never assume the reader knows which codebase a command runs against.</li>
-            <li><strong>Commands are copy-pasteable as written.</strong> The guide is precise about flags that matter (<code>-O</code> not <code>-o</code>, <code>pipenv run</code> prefixes) — docs must never round that off for brevity, since the flag itself is the QA lesson.</li>
-            <li><strong>Good/bad example pairs</strong> (already used well for title formatting) become a recurring pattern, not a one-off — it's the exact shape a reviewer scans for.</li>
-            <li><strong>Dark mode + MUI parity checked before merge</strong> on every new docs page — keep this as a standing PR habit, not a one-time P0 spike item.</li>
+            <li>
+              <strong>One repo-scope callout</strong> on any page describing the
+              scraper repos, placed above the fold — never assume the reader
+              knows which codebase a command runs against.
+            </li>
+            <li>
+              <strong>Commands are copy-pasteable as written.</strong> The guide
+              is precise about flags that matter (<code>-O</code> not
+              <code>-o</code>, <code>pipenv run</code> prefixes) — docs must
+              never round that off for brevity, since the flag itself is the QA
+              lesson.
+            </li>
+            <li>
+              <strong>Good/bad example pairs</strong> (already used well for
+              title formatting) become a recurring pattern, not a one-off — it's
+              the exact shape a reviewer scans for.
+            </li>
+            <li>
+              <strong>Dark mode + MUI parity checked before merge</strong> on
+              every new docs page — keep this as a standing PR habit, not a
+              one-time P0 spike item.
+            </li>
           </ul>
         </section>
 
@@ -1083,97 +1901,112 @@
           <p>
             Right now there is no CI for the docs at all — no
             <code>.github/workflows</code> in this repo. Four small,
-            deterministic workflows close the actual gaps found in this
-            audit and enforce §1.1's sync model; everything heavier from the
-            original research's tool table is deliberately deferred (§1.2).
-            None of them cost money — every check below runs on facts
-            already in the repo or free API calls, never a paid step.
+            deterministic workflows close the actual gaps found in this audit
+            and enforce §1.1's sync model; everything heavier from the original
+            research's tool table is deliberately deferred (§1.2). None of them
+            cost money — every check below runs on facts already in the repo or
+            free API calls, never a paid step.
           </p>
           <div class="phase">
             <div class="tag">CI-1</div>
             <div>
-              <h3 style="margin-top:0">docs-build.yml</h3>
+              <h3 style="margin-top: 0">docs-build.yml</h3>
               <p>
                 On any PR touching <code>content/docs/**</code> or
-                <code>components/docs/**</code>: run <code>next build</code>
-                (catches broken MDX and bad imports) and a ~40-line link
-                checker that walks <code>source.getPages()</code> and
-                confirms every <code>/docs/...</code> link and
-                <code>#anchor</code> in the content resolves against real
-                pages and headings. This is the check that would have caught
-                the dead <code>#drift-detection</code> link in §2 before it
-                shipped.
+                <code>components/docs/**</code>: run
+                <code>next build</code> (catches broken MDX and bad imports) and
+                a ~40-line link checker that walks
+                <code>source.getPages()</code> and confirms every
+                <code>/docs/...</code> link and <code>#anchor</code> in the
+                content resolves against real pages and headings. This is the
+                check that would have caught the dead
+                <code>#drift-detection</code> link in §2 before it shipped.
               </p>
             </div>
           </div>
           <div class="phase">
             <div class="tag">CI-2</div>
             <div>
-              <h3 style="margin-top:0">docs-freshness-score.yml</h3>
+              <h3 style="margin-top: 0">docs-freshness-score.yml</h3>
               <p>
                 Upgraded from a single regenerate-and-diff check into a
-                composite score per page, computed in CI, fully
-                deterministic:
+                composite score per page, computed in CI, fully deterministic:
               </p>
               <ul>
-                <li><strong>Git-age delta</strong> — days since the page's last commit vs. days since the source-of-truth it cites last changed (the Doc's <code>modifiedTime</code>, or the code symbol's last commit, per §1.1's citation stamp).</li>
-                <li><strong>TTL</strong> — a per-page <code>ttl_days</code> frontmatter value (kept from the original research's P5); expired pages flag even with no upstream change, since some content ages out on its own (a schedule reference, a version number).</li>
-                <li><strong>Symbol-existence check</strong> — for pages naming a specific code symbol (a type, a field, a function), confirm it still exists at the cited path. A renamed or removed symbol fails the check immediately, before any age threshold is reached.</li>
+                <li>
+                  <strong>Git-age delta</strong> — days since the page's last
+                  commit vs. days since the source-of-truth it cites last
+                  changed (the Doc's <code>modifiedTime</code>, or the code
+                  symbol's last commit, per §1.1's citation stamp).
+                </li>
+                <li>
+                  <strong>TTL</strong> — a per-page
+                  <code>ttl_days</code> frontmatter value (kept from the
+                  original research's P5); expired pages flag even with no
+                  upstream change, since some content ages out on its own (a
+                  schedule reference, a version number).
+                </li>
+                <li>
+                  <strong>Symbol-existence check</strong> — for pages naming a
+                  specific code symbol (a type, a field, a function), confirm it
+                  still exists at the cited path. A renamed or removed symbol
+                  fails the check immediately, before any age threshold is
+                  reached.
+                </li>
               </ul>
               <p>
-                For <code>&lt;SchemaTable&gt;</code> specifically, this
-                subsumes the old regenerate-and-diff idea: run the
-                generator, fail if <code>git diff</code> is non-empty. The
-                composite score generalizes it to every page with a citation
-                stamp, not just the one generated page.
+                For <code>&lt;SchemaTable&gt;</code> specifically, this subsumes
+                the old regenerate-and-diff idea: run the generator, fail if
+                <code>git diff</code> is non-empty. The composite score
+                generalizes it to every page with a citation stamp, not just the
+                one generated page.
               </p>
             </div>
           </div>
           <div class="phase">
             <div class="tag">CI-3</div>
             <div>
-              <h3 style="margin-top:0">docs-sync-conflict-guard.yml</h3>
+              <h3 style="margin-top: 0">docs-sync-conflict-guard.yml</h3>
               <p>
-                Implements §1.1's bidirectional guard: before the Docs-sync
+                Implements §1.1's bidirectional guard: before the Docs sync
                 writes a page, or a git-direct PR touches one still on the
                 allowlist, compare the page's frontmatter marker (last-synced
                 Doc revision, or last git-direct commit hash) against both
                 sources' current state. Either side having moved past that
-                marker is fine; <em>both</em> having moved is a conflict —
-                fail open into a flagged PR with both diffs attached, never
-                an automatic merge in either direction.
+                marker is fine; <em>both</em> having moved is a conflict — fail
+                open into a flagged PR with both diffs attached, never an
+                automatic merge in either direction.
               </p>
             </div>
           </div>
           <div class="phase">
             <div class="tag">CI-4</div>
             <div>
-              <h3 style="margin-top:0">docs-facts-regenerate-check.yml</h3>
+              <h3 style="margin-top: 0">docs-facts-regenerate-check.yml</h3>
               <p>
-                One input-source layer for this repo's own code-native
-                facts (schema fields, Node version, mode-status flags),
-                feeding <code>README.md</code>, the landing page, and the
-                relevant docs pages. Live import for code consumers —
-                exactly what <code>&lt;SchemaTable&gt;</code> already does.
-                For places that can't import a component (static prose like
+                One input-source layer for this repo's own code-native facts
+                (schema fields, Node version, mode-status flags), feeding
+                <code>README.md</code>, the landing page, and the relevant docs
+                pages. Live import for code consumers — exactly what
+                <code>&lt;SchemaTable&gt;</code> already does. For places that
+                can't import a component (static prose like
                 <code>README.md</code>): generate the value and fail if
-                <code>git diff</code> is non-empty, the same pattern as
-                CI-2, scoped to facts instead of a whole page.
+                <code>git diff</code> is non-empty, the same pattern as CI-2,
+                scoped to facts instead of a whole page.
               </p>
               <div class="note danger">
                 <span class="lab">Pilot case, already found</span>
                 <p>
                   <code>README.md</code> line 39 says
                   <code>Node.js 18.18+</code>. <code>package.json</code>'s
-                  <code>engines</code> field says <code>&gt;=20.9.0</code>.
-                  Two hand-maintained copies of the same fact, already
-                  disagreeing. Validate this layer against fixing that one
-                  pair first — a single generated line sourced from
-                  <code>package.json</code>'s own <code>engines</code> field
-                  — before expanding to schema fields (already covered by
-                  <code>&lt;SchemaTable&gt;</code>) and mode-status flags
-                  (README's "(planned)" on Production Mode, currently
-                  typed in two places by hand).
+                  <code>engines</code> field says <code>&gt;=20.9.0</code>. Two
+                  hand-maintained copies of the same fact, already disagreeing.
+                  Validate this layer against fixing that one pair first — a
+                  single generated line sourced from <code>package.json</code>'s
+                  own <code>engines</code> field — before expanding to schema
+                  fields (already covered by <code>&lt;SchemaTable&gt;</code>)
+                  and mode-status flags (README's "(planned)" on Production
+                  mode, currently typed in two places by hand).
                 </p>
               </div>
             </div>
@@ -1181,127 +2014,158 @@
           <div class="note info">
             <span class="lab">Explicitly deferred, not rejected</span>
             <p>
-              Vale + cspell, a lychee link-rot crawl, axe-core + Lighthouse
-              CI, and Fiberplane Drift all remain reasonable additions —
-              later. Revisit each once its specific failure mode actually
-              shows up (prose drift across many authors, external
-              <code>.gov</code> link rot, a11y regressions, code-vs-docs
-              drift outside what CI-2/CI-4 already cover), not on a fixed
-              schedule.
+              Vale + cspell, a lychee link-rot crawl, axe-core + Lighthouse CI,
+              and Fiberplane Drift all remain reasonable additions — later.
+              Revisit each once its specific failure mode actually shows up
+              (prose drift across many authors, external
+              <code>.gov</code> link rot, a11y regressions, code-vs-docs drift
+              outside what CI-2/CI-4 already cover), not on a fixed schedule.
             </p>
           </div>
         </section>
 
         <!-- ============ 06 ============ -->
         <section id="s6" class="col">
-          <h2><span class="num">06</span>Fleet &amp; performance, for senior developers</h2>
+          <h2>
+            <span class="num">06</span>Fleet &amp; performance, for senior
+            developers
+          </h2>
           <p>
             Everything so far serves two readers: someone building a spider,
-            someone reviewing one. Neither view answers a question a team
-            lead actually has — <em>across every spider this cohort has
-            shipped, what's healthy, what's stale, and is the docs platform
-            itself fast?</em> That's a third audience, and it's a different
-            job: fleet-wide visibility, not single-spider QA.
+            someone reviewing one. Neither view answers a question a team lead
+            actually has —
+            <em
+              >across every spider this cohort has shipped, what's healthy,
+              what's stale, and is the docs platform itself fast?</em
+            >
+            That's a third audience, and it's a different job: fleet-wide
+            visibility, not single-spider QA.
           </p>
           <div class="note danger">
-            <span class="lab">Correction — this is by design, not unfinished</span>
+            <span class="lab"
+              >Correction — this is by design, not unfinished</span
+            >
             <p>
-              <code>components/scrapers/ScrapersTable.tsx</code> already
-              defines <code>Status</code> and <code>Last Run</code> columns
-              (fields <code>last_run_status</code> and <code>last_run</code>)
-              on the spider list, and <code>lib/scrapers.ts</code>'s
+              <code>components/scrapers/ScrapersTable.tsx</code> already defines
+              <code>Status</code> and <code>Last Run</code> columns (fields
+              <code>last_run_status</code> and <code>last_run</code>) on the
+              spider list, and <code>lib/scrapers.ts</code>'s
               <code>SpiderEntry</code> type declares both fields, but
               <code>listScrapers()</code> only ever returns
-              <code>{ slug }</code>. This playbook's previous draft called
-              that "half-built and never finished." The Meetings Viewer
-              spec says otherwise, explicitly (§5.4, "Local fields
-              explicitly out of scope"): <code>agency</code>,
-              <code>last_run</code>, and <code>last_run_status</code> are
-              deliberately unpopulated in local mode — "no local mechanism
-              produces or stores them." The placeholder isn't a gap. It's
-              the local half of a shape whose other half is Production Mode
-              (§4.2 of the spec: "The shape supports adding optional fields
-              … in production without breaking the local consumer").
+              <code>{ slug }</code>. This playbook's previous draft called that
+              "half-built and never finished." The Meetings Viewer spec says
+              otherwise, explicitly (§5.4, "Local fields explicitly out of
+              scope"): <code>agency</code>, <code>last_run</code>, and
+              <code>last_run_status</code> are deliberately unpopulated in local
+              mode — "no local mechanism produces or stores them." The
+              placeholder isn't a gap. It's the local half of a shape whose
+              other half is Production mode (§4.2 of the spec: "The shape
+              supports adding optional fields … in production without breaking
+              the local consumer").
             </p>
           </div>
 
-          <h3>Real fleet data waits on Production Mode — it isn't a local workaround</h3>
+          <h3>
+            Real fleet data waits on Production mode — it isn't a local
+            workaround
+          </h3>
           <p>
-            That correction changes the plan, not just the framing.
-            §3's diagram already shows two things that aren't the
-            Documenters.org production pipeline: local mode and the
-            viewer's own planned Production Mode. Fleet data belongs on the
-            second one, not invented locally:
+            That correction changes the plan, not just the framing. §3's diagram
+            already shows two things that aren't the Documenters.org production
+            pipeline: local mode and the viewer's own planned Production mode.
+            Fleet data belongs on the second one, not invented locally:
           </p>
           <ul>
             <li>
-              <strong>The real source is Production Mode's
-              <code>manifest.json</code></strong>, fetched the same way the
-              viewer's own production mode will (§3's spec citation) —
-              <code>raw.githubusercontent.com</code>, no backend. A local
-              mtime-and-self-check substitute (this playbook's own earlier
-              draft) would directly contradict the spec's §5.4 and §7 —
-              scrapped, not built.
+              <strong
+                >The real source is Production mode's
+                <code>manifest.json</code></strong
+              >, fetched the same way the viewer's own production mode will
+              (§3's spec citation) — <code>raw.githubusercontent.com</code>, no
+              backend. A local mtime-and-self-check substitute (this playbook's
+              own earlier draft) would directly contradict the spec's §5.4 and
+              §7 — scrapped, not built.
             </li>
             <li>
-              <strong>This gates the fleet KPI panel on Production Mode
-              shipping</strong> (§8's flagged, not-scoped-here app feature).
-              Until then, <code>/docs/analytics</code>'s fleet panel ships
-              as an honest empty state — "waiting on Production Mode," not a
-              fabricated local number.
+              <strong
+                >This gates the fleet KPI panel on Production mode
+                shipping</strong
+              >
+              (§8's flagged, not-scoped-here app feature). Until then,
+              <code>/docs/analytics</code>'s fleet panel ships as an honest
+              empty state — "waiting on Production mode," not a fabricated local
+              number.
             </li>
             <li>
-              <strong>The Airtable-backed alternative is now weaker, not
-              just bigger scope</strong> — see §9. Beyond the write-scoped
-              PAT needing a server-only Route Handler, that handler would be
-              an application-managed API server, which the spec's §7 lists
-              as an architectural invariant that "should not be broken
-              without explicit revisit." Production Mode's static-file fetch
-              doesn't have that problem. Prefer it once it exists, rather
-              than building a second, invariant-breaking path to the same
-              data.
+              <strong
+                >The Airtable-backed alternative is now weaker, not just bigger
+                scope</strong
+              >
+              — see §9. Beyond the write-scoped PAT needing a server-only Route
+              Handler, that handler would be an application-managed API server,
+              which the spec's §7 lists as an architectural invariant that
+              "should not be broken without explicit revisit." Production mode's
+              static-file fetch doesn't have that problem. Prefer it once it
+              exists, rather than building a second, invariant-breaking path to
+              the same data.
             </li>
           </ul>
 
           <h3>The other half: is the docs platform itself fast?</h3>
           <p>
-            §1.2 deferred axe-core + Lighthouse CI for having no place to
-            show results. This tab is that place — the condition is now met,
-            so it's back on the roadmap (§8, P7), scoped tightly: Lighthouse
-            CI writes one JSON artifact per build; this page renders it. No
-            new runtime dependency, no telemetry service, nothing that
-            phones out from a user's browser.
+            §1.2 deferred axe-core + Lighthouse CI for having no place to show
+            results. This tab is that place — the condition is now met, so it's
+            back on the roadmap (§8, P7), scoped tightly: Lighthouse CI writes
+            one JSON artifact per build; this page renders it. No new runtime
+            dependency, no telemetry service, nothing that phones out from a
+            user's browser.
           </p>
 
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Panel</th><th>Data source</th><th>Chart form</th></tr>
+                <tr>
+                  <th>Panel</th>
+                  <th>Data source</th>
+                  <th>Chart form</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Fleet health KPIs</td>
-                  <td>Production Mode's <code>manifest.json</code>, once it ships — empty state until then</td>
-                  <td>Stat tiles, status-colored — a count is the whole story, no chart needed</td>
+                  <td>
+                    Production mode's <code>manifest.json</code>, once it ships
+                    — empty state until then
+                  </td>
+                  <td>
+                    Stat tiles, status-colored — a count is the whole story, no
+                    chart needed
+                  </td>
                 </tr>
                 <tr>
                   <td>Fleet table</td>
                   <td>Same source</td>
-                  <td>Extends the existing <code>ScrapersTable</code> DataGrid — the "table view" a KPI row always needs, for free</td>
+                  <td>
+                    Extends the existing <code>ScrapersTable</code> DataGrid —
+                    the "table view" a KPI row always needs, for free
+                  </td>
                 </tr>
                 <tr>
                   <td>Docs performance trend</td>
                   <td>Lighthouse CI JSON, one point per build</td>
-                  <td>Single-hue sparkline, one axis, last value direct-labeled — never score and milliseconds on one dual-axis chart</td>
+                  <td>
+                    Single-hue sparkline, one axis, last value direct-labeled —
+                    never score and milliseconds on one dual-axis chart
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <p>
-            Mocked below as it looks <em>once Production Mode ships</em> and
-            the fleet numbers are real — with this document's own tokens for
-            the mockup itself, but the real build must pull
+            Mocked below as it looks <em>once Production mode ships</em> and the
+            fleet numbers are real — with this document's own tokens for the
+            mockup itself, but the real build must pull
             <code>success</code>/<code>warning</code>/<code>error</code>
             straight from the MUI theme (the same three values
             <code>StatusChip</code> already uses, per
@@ -1313,7 +2177,9 @@
             <div class="kpi-row">
               <div class="kpi-tile good">
                 <div class="kpi-num">41</div>
-                <div class="kpi-lab">Healthy — ran &amp; validated within 24h</div>
+                <div class="kpi-lab">
+                  Healthy — ran &amp; validated within 24h
+                </div>
               </div>
               <div class="kpi-tile warn">
                 <div class="kpi-num">6</div>
@@ -1325,33 +2191,66 @@
               </div>
               <div class="kpi-tile">
                 <div class="kpi-num">94</div>
-                <div class="kpi-lab">Docs Lighthouse performance, last build</div>
+                <div class="kpi-lab">
+                  Docs Lighthouse performance, last build
+                </div>
               </div>
             </div>
-            <svg viewBox="0 0 560 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sparkline of docs Lighthouse performance score over the last eight builds, trending from 86 to 94.">
+            <svg
+              viewBox="0 0 560 90"
+              xmlns="http://www.w3.org/2000/svg"
+              role="img"
+              aria-label="Sparkline of docs Lighthouse performance score over the last eight builds, trending from 86 to 94."
+            >
               <style>
-                .spark-line { stroke: var(--accent, #0f6e68); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-                .spark-end { fill: var(--accent, #0f6e68); }
-                .spark-axis { stroke: var(--rule, #d6dcd8); stroke-width: 1; }
-                .spark-lbl { font: 600 12px "IBM Plex Mono", monospace; fill: var(--ink-2, #46544f); }
-                .spark-cap { font: 400 11px "Public Sans", sans-serif; fill: var(--ink-3, #6f7c77); }
+                .spark-line {
+                  stroke: var(--accent, #0f6e68);
+                  stroke-width: 2;
+                  fill: none;
+                  stroke-linecap: round;
+                  stroke-linejoin: round;
+                }
+                .spark-end {
+                  fill: var(--accent, #0f6e68);
+                }
+                .spark-axis {
+                  stroke: var(--rule, #d6dcd8);
+                  stroke-width: 1;
+                }
+                .spark-lbl {
+                  font:
+                    600 12px "IBM Plex Mono",
+                    monospace;
+                  fill: var(--ink-2, #46544f);
+                }
+                .spark-cap {
+                  font:
+                    400 11px "Public Sans",
+                    sans-serif;
+                  fill: var(--ink-3, #6f7c77);
+                }
               </style>
               <line x1="10" y1="70" x2="550" y2="70" class="spark-axis" />
-              <path class="spark-line" d="M10,52 L80,58 L150,44 L220,50 L290,34 L360,30 L430,22 L500,16" />
+              <path
+                class="spark-line"
+                d="M10,52 L80,58 L150,44 L220,50 L290,34 L360,30 L430,22 L500,16"
+              />
               <circle cx="500" cy="16" r="3.5" class="spark-end" />
               <text x="512" y="20" class="spark-lbl">94</text>
-              <text x="10" y="86" class="spark-cap">last 8 builds — Lighthouse performance score, /docs</text>
+              <text x="10" y="86" class="spark-cap">
+                last 8 builds — Lighthouse performance score, /docs
+              </text>
             </svg>
           </div>
 
           <h3>Where this lives</h3>
           <p>
-            A new nav entry, <code>/docs/analytics</code>, in its own
-            sidebar group — not folded into the two-doors home, and not
-            hidden: a short callout at the top states plainly who it's for
-            ("team leads and senior developers tracking fleet health — not
-            needed for day-to-day scraper QA") so apprentices aren't left
-            wondering why a page full of counts doesn't apply to them.
+            A new nav entry, <code>/docs/analytics</code>, in its own sidebar
+            group — not folded into the two-doors home, and not hidden: a short
+            callout at the top states plainly who it's for ("team leads and
+            senior developers tracking fleet health — not needed for day-to-day
+            scraper QA") so apprentices aren't left wondering why a page full of
+            counts doesn't apply to them.
           </p>
         </section>
 
@@ -1359,27 +2258,26 @@
         <section id="s7" class="col">
           <h2><span class="num">07</span>Agents, memory &amp; skills</h2>
           <p>
-            A new category, deliberately started thin: a shared place for
-            how teams use AI coding agents effectively — not just CTD, but
-            the frontend team on this repo, whoever owns the scraper repos,
-            whoever owns the CI/CD automation in §3's <code>/pipeline</code>,
-            and any team that comes after. The goal is the same one behind
-            everything else in this playbook: less duplicated tribal
-            knowledge, less onboarding by osmosis. The difference here is
-            that almost none of the content exists yet — so this section is
-            a method for growing it team by team, not a finished IA to fill
-            in.
+            A new category, deliberately started thin: a shared place for how
+            teams use AI coding agents effectively — not just CTD, but the
+            frontend team on this repo, whoever owns the scraper repos, whoever
+            owns the CI/CD automation in §3's <code>/pipeline</code>, and any
+            team that comes after. The goal is the same one behind everything
+            else in this playbook: less duplicated tribal knowledge, less
+            onboarding by osmosis. The difference here is that almost none of
+            the content exists yet — so this section is a method for growing it
+            team by team, not a finished IA to fill in.
           </p>
 
           <div class="note info">
             <span class="lab">Where this repo actually stands today</span>
             <p>
               One file: <code>AGENTS.md</code>, one rule (a warning that this
-              app's pinned Next.js version has breaking changes versus a
-              model's training data). No <code>.claude/skills/</code>, no
-              <code>.claude/agents/</code>, no hooks. That's the honest
-              starting point — nothing below invents practices this repo
-              doesn't have yet.
+              app's pinned Next.js version has breaking changes versus a model's
+              training data). No <code>.claude/skills/</code>, no
+              <code>.claude/agents/</code>, no hooks. That's the honest starting
+              point — nothing below invents practices this repo doesn't have
+              yet.
             </p>
           </div>
 
@@ -1387,69 +2285,94 @@
           <div class="scroll">
             <table>
               <thead>
-                <tr><th>Mechanism</th><th>Lives at</th><th>For</th><th>In this repo, today</th></tr>
+                <tr>
+                  <th>Mechanism</th>
+                  <th>Lives at</th>
+                  <th>For</th>
+                  <th>In this repo, today</th>
+                </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Memory</strong></td>
-                  <td><code>AGENTS.md</code> / <code>CLAUDE.md</code>, repo root</td>
-                  <td>Standing context every agent session in this repo loads automatically — the guardrails you'd otherwise repeat in every prompt</td>
+                  <td>
+                    <code>AGENTS.md</code> / <code>CLAUDE.md</code>, repo root
+                  </td>
+                  <td>
+                    Standing context every agent session in this repo loads
+                    automatically — the guardrails you'd otherwise repeat in
+                    every prompt
+                  </td>
                   <td>One rule (above)</td>
                 </tr>
                 <tr>
                   <td><strong>Skill</strong></td>
                   <td><code>.claude/skills/&lt;name&gt;/SKILL.md</code></td>
-                  <td>A packaged, reusable procedure — a checklist or workflow invoked by name mid-session, not repeated from memory each time</td>
+                  <td>
+                    A packaged, reusable procedure — a checklist or workflow
+                    invoked by name mid-session, not repeated from memory each
+                    time
+                  </td>
                   <td>None yet</td>
                 </tr>
                 <tr>
                   <td><strong>Subagent</strong></td>
                   <td><code>.claude/agents/&lt;name&gt;.md</code></td>
-                  <td>A specialized persona with its own tool access, for a recurring task worth a dedicated role — a reviewer, a researcher</td>
+                  <td>
+                    A specialized persona with its own tool access, for a
+                    recurring task worth a dedicated role — a reviewer, a
+                    researcher
+                  </td>
                   <td>None yet</td>
                 </tr>
                 <tr>
                   <td><strong>Hook</strong></td>
                   <td><code>.claude/settings.json</code></td>
-                  <td>An automated action on a session event — run a formatter after every edit, block a risky command</td>
+                  <td>
+                    An automated action on a session event — run a formatter
+                    after every edit, block a risky command
+                  </td>
                   <td>None yet</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p>
-            The decision method is short: something every session must
-            always know → memory. A procedure you'd explain the same way
-            every time → a skill. A distinct role worth its own context and
-            tool scope → a subagent. Something that should happen
-            automatically, unasked → a hook. Most teams starting out will
-            only ever need the first two.
+            The decision method is short: something every session must always
+            know → memory. A procedure you'd explain the same way every time → a
+            skill. A distinct role worth its own context and tool scope → a
+            subagent. Something that should happen automatically, unasked → a
+            hook. Most teams starting out will only ever need the first two.
           </p>
 
           <h3>The method: how a team adds its own section</h3>
           <ol>
             <li>
               <strong>Write down one real thing, not a speculative one.</strong>
-              The smallest actual convention your team already applies with
-              an agent — not an aspirational list of everything a
-              well-run team's agent setup could someday include. This
-              playbook's own rule against building for hypothetical readers
-              (§1) applies here too.
+              The smallest actual convention your team already applies with an
+              agent — not an aspirational list of everything a well-run team's
+              agent setup could someday include. This playbook's own rule
+              against building for hypothetical readers (§1) applies here too.
             </li>
             <li>
-              <strong>The real file lives in your team's own repo, not here.</strong>
-              An agent session working in <code>city-scrapers-core</code>
-              only ever reads that repo's <code>AGENTS.md</code> and
+              <strong
+                >The real file lives in your team's own repo, not here.</strong
+              >
+              An agent session working in <code>city-scrapers-core</code> only
+              ever reads that repo's <code>AGENTS.md</code> and
               <code>.claude/</code> directory — nothing hosted only in
-              <code>city-scrapers-meetings-viewer</code>'s docs is ever
-              loaded by a session working elsewhere. Put the actual
+              <code>city-scrapers-meetings-viewer</code>'s docs is ever loaded
+              by a session working elsewhere. Put the actual
               memory/skill/agent/hook file where it will actually be read.
             </li>
             <li>
-              <strong>This site links to it and summarizes intent in two or
-              three sentences — never a copy.</strong> Same reasoning as
-              §1.3: a duplicate goes stale the moment the source changes and
-              nobody notices. A link can't drift out of sync with itself.
+              <strong
+                >This site links to it and summarizes intent in two or three
+                sentences — never a copy.</strong
+              >
+              Same reasoning as §1.3: a duplicate goes stale the moment the
+              source changes and nobody notices. A link can't drift out of sync
+              with itself.
             </li>
             <li>
               <strong>List it on <code>/docs/agents</code>'s team table</strong>
@@ -1462,31 +2385,51 @@
             <p>
               §9 raises a real open question about who can correct content
               describing PDW/CB's own process, because they don't have git
-              access to this repo. That problem doesn't apply here: every
-              team this section is for — scrapers, this app's own
-              frontend team, whoever owns CI/CD — already has git access to
-              their own repo. The only discipline this category needs is
-              link-not-duplicate, above; it doesn't need a new governance
-              decision in §9.
+              access to this repo. That problem doesn't apply here: every team
+              this section is for — scrapers, this app's own frontend team,
+              whoever owns CI/CD — already has git access to their own repo. The
+              only discipline this category needs is link-not-duplicate, above;
+              it doesn't need a new governance decision in §9.
             </p>
           </div>
 
           <h3>What ships now vs. what's a stub</h3>
           <div class="tree">
-<span class="k">/docs/agents</span>
-  index.mdx                        <span class="k">— the vocabulary, the decision method, the team table</span>
-  how-to-add-a-section.mdx         <span class="k">— the four-step method above, as a copy-pasteable checklist</span>
-  meetings-viewer.mdx              <span class="k">— ships now: this repo's one real rule, honestly, plus what to add next</span>
-  scrapers.mdx                     <span class="k">— stub: "owned by the city-scrapers-core team — not written yet"</span>
-  devops.mdx                       <span class="k">— stub: "owned by whoever maintains the CI/CD in /pipeline — not written yet"</span>
-  <span class="k">+ one page per team, added as each team runs the method above</span>
+            <span class="k">/docs/agents</span>
+            index.mdx
+            <span class="k"
+              >— the vocabulary, the decision method, the team table</span
+            >
+            how-to-add-a-section.mdx
+            <span class="k"
+              >— the four-step method above, as a copy-pasteable checklist</span
+            >
+            meetings-viewer.mdx
+            <span class="k"
+              >— ships now: this repo's one real rule, honestly, plus what to
+              add next</span
+            >
+            scrapers.mdx
+            <span class="k"
+              >— stub: "owned by the city-scrapers-core team — not written
+              yet"</span
+            >
+            devops.mdx
+            <span class="k"
+              >— stub: "owned by whoever maintains the CI/CD in /pipeline — not
+              written yet"</span
+            >
+            <span class="k"
+              >+ one page per team, added as each team runs the method
+              above</span
+            >
           </div>
           <p>
-            <code>meetings-viewer.mdx</code>'s "what to add next" isn't a
-            guess — this playbook already wrote the candidate content in
-            §4.3's standing rules (repo-scope callouts, commands
-            copy-pasteable as written, dark-mode parity before merge). That's
-            a real skill's worth of material sitting right there, unpackaged.
+            <code>meetings-viewer.mdx</code>'s "what to add next" isn't a guess
+            — this playbook already wrote the candidate content in §4.3's
+            standing rules (repo-scope callouts, commands copy-pasteable as
+            written, dark-mode parity before merge). That's a real skill's worth
+            of material sitting right there, unpackaged.
           </p>
         </section>
 
@@ -1494,29 +2437,45 @@
         <section id="s8" class="col">
           <h2><span class="num">08</span>Roadmap</h2>
           <p>
-            Same phase numbering as the original research where the work
-            carries over, so progress against it stays legible. Content
-            correctness now comes before interactivity — shipping the wrong
-            QA rule is worse than shipping no rubric explorer at all.
+            Same phase numbering as the original research where the work carries
+            over, so progress against it stays legible. Content correctness now
+            comes before interactivity — shipping the wrong QA rule is worse
+            than shipping no rubric explorer at all.
           </p>
 
           <div class="phase">
             <div class="tag">P0<em>done</em></div>
             <div>
-              <h3 style="margin-top:0">Spike and decide</h3>
-              <p><span class="pill done">SHIPPED</span> Fumadocs mounted at <code>/docs</code>, coexists with MUI, dark mode bridged via <code>DarkModeSync</code>.</p>
+              <h3 style="margin-top: 0">Spike and decide</h3>
+              <p>
+                <span class="pill done">SHIPPED</span> Fumadocs mounted at
+                <code>/docs</code>, coexists with MUI, dark mode bridged via
+                <code>DarkModeSync</code>.
+              </p>
             </div>
           </div>
 
           <div class="phase">
             <div class="tag">P1<em>close-out</em></div>
             <div>
-              <h3 style="margin-top:0">Finish the shell</h3>
-              <p>Mostly shipped already (route group, <code>lib/source.ts</code>, search route, nav, Callouts, the two-doors index). Remaining before new content lands:</p>
+              <h3 style="margin-top: 0">Finish the shell</h3>
+              <p>
+                Mostly shipped already (route group, <code>lib/source.ts</code>,
+                search route, nav, Callouts, the two-doors index). Remaining
+                before new content lands:
+              </p>
               <ul>
                 <li>Theme variable mapping (§4.1) — 5 lines, do this first.</li>
-                <li>Make <code>llms-full.txt</code> actually full — it currently emits title + description per page, not page bodies — and add per-page <code>.md</code> routes and a copy-as-markdown button alongside it (§4.2).</li>
-                <li>Build <code>&lt;RepoScope&gt;</code> (§4.2) — needed by nearly every page in P2.</li>
+                <li>
+                  Make <code>llms-full.txt</code> actually full — it currently
+                  emits title + description per page, not page bodies — and add
+                  per-page <code>.md</code> routes and a copy-as-markdown button
+                  alongside it (§4.2).
+                </li>
+                <li>
+                  Build <code>&lt;RepoScope&gt;</code> (§4.2) — needed by nearly
+                  every page in P2.
+                </li>
               </ul>
             </div>
           </div>
@@ -1524,18 +2483,35 @@
           <div class="phase">
             <div class="tag">P1.5<em>before P2</em></div>
             <div>
-              <h3 style="margin-top:0">Resolve the sync model — gates everything below</h3>
+              <h3 style="margin-top: 0">
+                Resolve the sync model — gates everything below
+              </h3>
               <p>
                 Nothing in P2 gets authored until these exist. Not full
-                automation yet — just the mechanism decisions and the
-                minimum scaffolding so P2's content has somewhere correct to
-                land:
+                automation yet — just the mechanism decisions and the minimum
+                scaffolding so P2's content has somewhere correct to land:
               </p>
               <ul>
-                <li>Build the citation-stamp component (§1.1) — date + source, wired to the Drive API for synced pages and git log for owned pages, before a single P2 page ships without one.</li>
-                <li><code>CODEOWNERS</code> reflecting review-pool-by-directory, not authorship gating (§1.1).</li>
-                <li>Decide and document, in writing, which actual tool implements the explicit-allowlist Docs sync (§1.1, §9) — this playbook specifies its required behavior, not its vendor or implementation.</li>
-                <li>The frontmatter convention for the conflict-guard marker (last-synced Doc revision or last git-direct commit hash) — needed before either path writes a single P2 page.</li>
+                <li>
+                  Build the citation-stamp component (§1.1) — date + source,
+                  wired to the Drive API for synced pages and git log for owned
+                  pages, before a single P2 page ships without one.
+                </li>
+                <li>
+                  <code>CODEOWNERS</code> reflecting review-pool-by-directory,
+                  not authorship gating (§1.1).
+                </li>
+                <li>
+                  Decide and document, in writing, which actual tool implements
+                  the explicit-allowlist Docs sync (§1.1, §9) — this playbook
+                  specifies its required behavior, not its vendor or
+                  implementation.
+                </li>
+                <li>
+                  The frontmatter convention for the conflict-guard marker
+                  (last-synced Doc revision or last git-direct commit hash) —
+                  needed before either path writes a single P2 page.
+                </li>
               </ul>
             </div>
           </div>
@@ -1543,16 +2519,52 @@
           <div class="phase">
             <div class="tag">P2<em>1 sprint</em></div>
             <div>
-              <h3 style="margin-top:0">Correctness, then the new sections</h3>
+              <h3 style="margin-top: 0">Correctness, then the new sections</h3>
               <ol>
-                <li>Apply every fix in §2's table — five files, no new pages yet.</li>
-                <li>Migrate the Development Guidelines content into the new <code>/scrapers</code> pages as a <strong>one-time seed</strong> (§1.1) — not an ongoing sync. The moment <code>&lt;CommandBlock&gt;</code> lands on any of them (P3), that page is permanently git-owned regardless.</li>
-                <li>Write the new <code>/scrapers</code> pages: source-analysis, spider-patterns, bot-detection, testing, contributing (§3).</li>
-                <li>Write <code>/qa/review-process</code> and stand up the new <code>/pipeline</code> section (§3), including the data-flow diagram in §3.</li>
-                <li>Write <code>/docs/viewer/architecture.mdx</code> from the Meetings Viewer spec — modes, pages, data shapes, invariants, table-library rationale (§3) — as its ongoing Docs-sync target from day one (§1.1).</li>
-                <li>File four tracked tickets for the spec's §6.5 items (token mechanism, concurrent-write handling, merged-data retention, orphan sweep) and link each from the matching <code>&lt;Callout&gt;</code> on that page (§3, §9) — before the page ships, not after.</li>
-                <li>Mount <code>&lt;SearchTrigger&gt;</code> in <code>SiteHeader</code> (§4.2) — small, independent of the content work above.</li>
-                <li>Rewrite <code>/docs/contributing</code> to document the §1.1 model itself: which pages are git-owned vs. Doc-synced and why (naming the three components), how to edit each, what a conflict-guard flag means, and the date+source-not-author citation rule.</li>
+                <li>
+                  Apply every fix in §2's table — five files, no new pages yet.
+                </li>
+                <li>
+                  Migrate the Development Guidelines content into the new
+                  <code>/scrapers</code> pages as a
+                  <strong>one-time seed</strong> (§1.1) — not an ongoing sync.
+                  The moment <code>&lt;CommandBlock&gt;</code> lands on any of
+                  them (P3), that page is permanently git-owned regardless.
+                </li>
+                <li>
+                  Write the new <code>/scrapers</code> pages: source-analysis,
+                  spider-patterns, bot-detection, testing, contributing (§3).
+                </li>
+                <li>
+                  Write <code>/qa/review-process</code> and stand up the new
+                  <code>/pipeline</code> section (§3), including the data-flow
+                  diagram in §3.
+                </li>
+                <li>
+                  Write <code>/docs/viewer/architecture.mdx</code> from the
+                  Meetings Viewer spec — modes, pages, data shapes, invariants,
+                  table-library rationale (§3) — as its ongoing Docs-synced
+                  target from day one (§1.1).
+                </li>
+                <li>
+                  File four tracked tickets for the spec's §6.5 items (token
+                  mechanism, concurrent-write handling, merged-data retention,
+                  orphan sweep) and link each from the matching
+                  <code>&lt;Callout&gt;</code> on that page (§3, §9) — before
+                  the page ships, not after.
+                </li>
+                <li>
+                  Mount <code>&lt;SearchTrigger&gt;</code> in
+                  <code>SiteHeader</code> (§4.2) — small, independent of the
+                  content work above.
+                </li>
+                <li>
+                  Rewrite <code>/docs/contributing</code> to document the §1.1
+                  model itself: which pages are git-owned vs. Docs-synced and
+                  why (naming the three components), how to edit each, what a
+                  conflict-guard flag means, and the date+source-not-author
+                  citation rule.
+                </li>
               </ol>
             </div>
           </div>
@@ -1560,13 +2572,27 @@
           <div class="phase">
             <div class="tag">P3<em>1 sprint</em></div>
             <div>
-              <h3 style="margin-top:0">Interactive layer</h3>
+              <h3 style="margin-top: 0">Interactive layer</h3>
               <ul>
-                <li><code>&lt;SchemaTable&gt;</code>, generated (§1.3, §4.2, §5).</li>
-                <li><code>&lt;RubricReport&gt;</code> on <code>/qa</code> (§4.2) — the highest-value single feature on this list.</li>
-                <li><code>&lt;PRLifecycle&gt;</code> stepper on <code>/qa/review-process</code> (§4.2).</li>
-                <li><code>&lt;CommandBlock&gt;</code> on the spider-running and contributing pages (§4.2).</li>
-                <li>Exportable QA checklist (kept from the original research's §5.5) — real value now that the rubric itself is correct.</li>
+                <li>
+                  <code>&lt;SchemaTable&gt;</code>, generated (§1.3, §4.2, §5).
+                </li>
+                <li>
+                  <code>&lt;RubricReport&gt;</code> on <code>/qa</code> (§4.2) —
+                  the highest-value single feature on this list.
+                </li>
+                <li>
+                  <code>&lt;PRLifecycle&gt;</code> stepper on
+                  <code>/qa/review-process</code> (§4.2).
+                </li>
+                <li>
+                  <code>&lt;CommandBlock&gt;</code> on the spider-running and
+                  contributing pages (§4.2).
+                </li>
+                <li>
+                  Exportable QA checklist (kept from the original research's
+                  §5.5) — real value now that the rubric itself is correct.
+                </li>
               </ul>
             </div>
           </div>
@@ -1574,11 +2600,24 @@
           <div class="phase">
             <div class="tag">P4<em>3–4 days</em></div>
             <div>
-              <h3 style="margin-top:0">Governance, minus the CMS</h3>
+              <h3 style="margin-top: 0">Governance, minus the CMS</h3>
               <ul>
-                <li><code>CODEOWNERS</code> for <code>content/docs/</code>; a docs section in <code>.github/PULL_REQUEST_TEMPLATE.md</code> — cheap, do regardless of the Keystatic decision.</li>
-                <li>Keystatic: explicitly deferred for CTD content (§1.1). Don't build it in this phase.</li>
-                <li>Resolve §9's editing-authority decision for the PDW/CB-owned pages before publishing <code>/qa/review-process</code> and <code>/pipeline</code> — get sign-off from someone on those teams, at minimum, even if the editing mechanism stays git-only for now.</li>
+                <li>
+                  <code>CODEOWNERS</code> for <code>content/docs/</code>; a docs
+                  section in <code>.github/PULL_REQUEST_TEMPLATE.md</code> —
+                  cheap, do regardless of the Keystatic decision.
+                </li>
+                <li>
+                  Keystatic: explicitly deferred for CTD content (§1.1). Don't
+                  build it in this phase.
+                </li>
+                <li>
+                  Resolve §9's editing-authority decision for the PDW/CB-owned
+                  pages before publishing <code>/qa/review-process</code> and
+                  <code>/pipeline</code> — get sign-off from someone on those
+                  teams, at minimum, even if the editing mechanism stays
+                  git-only for now.
+                </li>
               </ul>
             </div>
           </div>
@@ -1586,24 +2625,31 @@
           <div class="phase">
             <div class="tag">P5<em>4–5 days</em></div>
             <div>
-              <h3 style="margin-top:0">Automation</h3>
-              <p>Ship all four CI workflows from §5 — build+links, the composite freshness score, the sync conflict guard, and the facts-regeneration check (Node-version pilot first). Nothing heavier, yet.</p>
+              <h3 style="margin-top: 0">Automation</h3>
+              <p>
+                Ship all four CI workflows from §5 — build+links, the composite
+                freshness score, the sync conflict guard, and the
+                facts-regeneration check (Node-version pilot first). Nothing
+                heavier, yet.
+              </p>
             </div>
           </div>
 
           <div class="phase">
             <div class="tag">P5.5<em>not this playbook</em></div>
             <div>
-              <h3 style="margin-top:0">Production Mode — flagged, not scoped here</h3>
+              <h3 style="margin-top: 0">
+                Production mode — flagged, not scoped here
+              </h3>
               <p>
-                The viewer's planned "Production Mode" (§3) — fetching
-                PR-scoped output from <code>meetings-viewer-data</code> for
-                PDW/CB to use during review — is app functionality, not docs
-                platform work, and belongs in its own plan. It's listed here
-                only so it doesn't stay invisible: it's the concrete reason
-                PDW and CB are real users of this repo's output, not just
-                readers of docs about it, and §9's branding/discoverability
-                decisions should be made with it in mind.
+                The viewer's planned "Production mode" (§3) — fetching PR-scoped
+                output from <code>meetings-viewer-data</code> for PDW/CB to use
+                during review — is app functionality, not docs platform work,
+                and belongs in its own plan. It's listed here only so it doesn't
+                stay invisible: it's the concrete reason PDW and CB are real
+                users of this repo's output, not just readers of docs about it,
+                and §9's branding/discoverability decisions should be made with
+                it in mind.
               </p>
             </div>
           </div>
@@ -1611,20 +2657,42 @@
           <div class="phase">
             <div class="tag">P6<em>ongoing</em></div>
             <div>
-              <h3 style="margin-top:0">Revisit the deferred list</h3>
-              <p>Vale/cspell, lychee, axe-core + Lighthouse CI, Fiberplane Drift, Keystatic — each gets picked back up only when its specific problem is observed, not scheduled. Lighthouse CI's condition is met by P7 below — revisit it there specifically.</p>
+              <h3 style="margin-top: 0">Revisit the deferred list</h3>
+              <p>
+                Vale/cspell, lychee, axe-core + Lighthouse CI, Fiberplane Drift,
+                Keystatic — each gets picked back up only when its specific
+                problem is observed, not scheduled. Lighthouse CI's condition is
+                met by P7 below — revisit it there specifically.
+              </p>
             </div>
           </div>
 
           <div class="phase">
             <div class="tag">P7<em>1 sprint</em></div>
             <div>
-              <h3 style="margin-top:0">Fleet &amp; performance, for senior developers</h3>
+              <h3 style="margin-top: 0">
+                Fleet &amp; performance, for senior developers
+              </h3>
               <ul>
-                <li>Stand up <code>/docs/analytics</code> now: the Lighthouse trend panel is independent of Production Mode and ships this phase (§6).</li>
-                <li>Axe-core + Lighthouse CI, finally justified (§1.2/P6) — write one JSON artifact per build for the trend panel to read.</li>
-                <li>Ship the fleet KPI panel and extended table as an honest empty state — "waiting on Production Mode" — not a local mtime substitute (§6, corrected). Wire them to real data only once Production Mode's <code>manifest.json</code> exists.</li>
-                <li>No local-vs-Airtable decision left to gate on (§9, resolved) — Production Mode's own data source supersedes both options.</li>
+                <li>
+                  Stand up <code>/docs/analytics</code> now: the Lighthouse
+                  trend panel is independent of Production mode and ships this
+                  phase (§6).
+                </li>
+                <li>
+                  Axe-core + Lighthouse CI, finally justified (§1.2/P6) — write
+                  one JSON artifact per build for the trend panel to read.
+                </li>
+                <li>
+                  Ship the fleet KPI panel and extended table as an honest empty
+                  state — "waiting on Production mode" — not a local mtime
+                  substitute (§6, corrected). Wire them to real data only once
+                  Production mode's <code>manifest.json</code> exists.
+                </li>
+                <li>
+                  No local-vs-Airtable decision left to gate on (§9, resolved) —
+                  Production mode's own data source supersedes both options.
+                </li>
               </ul>
             </div>
           </div>
@@ -1632,12 +2700,28 @@
           <div class="phase">
             <div class="tag">P8<em>ongoing</em></div>
             <div>
-              <h3 style="margin-top:0">Agents, memory &amp; skills</h3>
+              <h3 style="margin-top: 0">Agents, memory &amp; skills</h3>
               <ul>
-                <li>Ship <code>/docs/agents</code>'s index and <code>how-to-add-a-section.mdx</code> — the method, not team content (§7).</li>
-                <li>Write <code>meetings-viewer.mdx</code> for real: package §4.3's standing rules into this repo's first actual <code>.claude/skills/</code> entry, then document it (§7).</li>
-                <li>Publish <code>scrapers.mdx</code> and <code>devops.mdx</code> as stubs with the method linked — don't wait on those teams to have content before the page exists to invite it.</li>
-                <li>No fixed end date: a team's page lands whenever that team runs the four-step method, not on this playbook's schedule.</li>
+                <li>
+                  Ship <code>/docs/agents</code>'s index and
+                  <code>how-to-add-a-section.mdx</code> — the method, not team
+                  content (§7).
+                </li>
+                <li>
+                  Write <code>meetings-viewer.mdx</code> for real: package
+                  §4.3's standing rules into this repo's first actual
+                  <code>.claude/skills/</code> entry, then document it (§7).
+                </li>
+                <li>
+                  Publish <code>scrapers.mdx</code> and
+                  <code>devops.mdx</code> as stubs with the method linked —
+                  don't wait on those teams to have content before the page
+                  exists to invite it.
+                </li>
+                <li>
+                  No fixed end date: a team's page lands whenever that team runs
+                  the four-step method, not on this playbook's schedule.
+                </li>
               </ul>
             </div>
           </div>
@@ -1650,9 +2734,9 @@
             <span class="lab">Closed</span>
             <p>
               <strong>Raw-string rendering, no normalization, ever.</strong>
-              The viewer shows exactly what the spider produced — confirmed
-              with the team (§2). Not an open question anymore; a stated
-              principle to write into <code>qa/schema.mdx</code>.
+              The viewer shows exactly what the spider produced — confirmed with
+              the team (§2). Not an open question anymore; a stated principle to
+              write into <code>qa/schema.mdx</code>.
             </p>
           </div>
           <ul>
@@ -1666,82 +2750,85 @@
               <strong>Source-of-truth risk for the CI/CD pages.</strong> The
               Airtable sync and cron-workflow content describes
               <code>city-scrapers-core</code>'s actual automation. If that
-              repo's workflows change, this copy goes stale silently — the
-              exact failure mode this whole platform exists to prevent.
-              Consider a <code>last_reviewed</code> callout on those three
-              pages specifically, even before the general freshness-tracking
-              idea from the original research's P5 exists anywhere else.
+              repo's workflows change, this copy goes stale silently — the exact
+              failure mode this whole platform exists to prevent. Consider a
+              <code>last_reviewed</code> callout on those three pages
+              specifically, even before the general freshness-tracking idea from
+              the original research's P5 exists anywhere else.
             </li>
             <li>
               <strong>Keystatic: closed unless someone is named.</strong> Per
-              §1.1, don't keep this as a recurring "should we" question —
-              treat it as decided until a specific non-engineer editor needs
-              it.
+              §1.1, don't keep this as a recurring "should we" question — treat
+              it as decided until a specific non-engineer editor needs it.
             </li>
             <li>
-              <strong>Resolved: fleet data source (§6).</strong> Neither a
-              local mtime substitute (contradicts the spec's §5.4) nor a
-              live Airtable-backed Route Handler (contradicts its §7 "no
-              application-managed API server" invariant) — Production
-              Mode's own <code>manifest.json</code> is both the honest and
-              the invariant-compliant source. The only real open item is
-              timing: the fleet KPI panel ships an empty state until
-              Production Mode exists, not before.
+              <strong>Resolved: fleet data source (§6).</strong> Neither a local
+              mtime substitute (contradicts the spec's §5.4) nor a live
+              Airtable-backed Route Handler (contradicts its §7 "no
+              application-managed API server" invariant) — Production Mode's own
+              <code>manifest.json</code> is both the honest and the
+              invariant-compliant source. The only real open item is timing: the
+              fleet KPI panel ships an empty state until Production mode exists,
+              not before.
             </li>
             <li>
-              <strong>Who can correct PDW/CB-described content, and how
-              (§3)?</strong> §1.1's git+Docs sync model is scoped to three
-              roles who already have both kinds of access — it doesn't
-              extend to PDW or CB, who have neither. Options range from "someone on
-              those teams reviews and signs off on the relevant pages
-              in-PR without needing write access themselves" to a scoped
-              Keystatic instance limited to <code>/qa/review-process</code>
-              and <code>/pipeline</code>. Pick one before those pages ship,
-              not after they've already drifted once.
+              <strong
+                >Who can correct PDW/CB-described content, and how (§3)?</strong
+              >
+              §1.1's Docs sync model is scoped to three roles who already have
+              both kinds of access — it doesn't extend to PDW or CB, who have
+              neither. Options range from "someone on those teams reviews and
+              signs off on the relevant pages in-PR without needing write access
+              themselves" to a scoped Keystatic instance limited to
+              <code>/qa/review-process</code> and <code>/pipeline</code>. Pick
+              one before those pages ship, not after they've already drifted
+              once.
             </li>
             <li>
               <strong>Rebrand, or add a program-level frame (§3)?</strong>
               The site currently presents as "Meetings Viewer" end to end —
-              accurate for a CTD apprentice, misleading for anyone landing
-              on <code>/docs</code> looking for the City Scrapers program as
-              a whole. This doesn't have to mean a new name: a header
-              breadcrumb ("City Scrapers — Meetings Viewer"), a distinct
+              accurate for a CTD apprentice, misleading for anyone landing on
+              <code>/docs</code> looking for the City Scrapers program as a
+              whole. This doesn't have to mean a new name: a header breadcrumb
+              ("City Scrapers — Meetings Viewer"), a distinct
               <code>/docs</code> masthead, or a one-line "what is this site"
-              banner on first visit could all resolve it far more cheaply
-              than a rename. Whatever's picked, it needs a decision, not a
-              default — and it should account for §8's planned Production
-              Mode, which is the concrete reason non-CTD readers will
-              eventually use this repo's output directly, not just its docs.
+              banner on first visit could all resolve it far more cheaply than a
+              rename. Whatever's picked, it needs a decision, not a default —
+              and it should account for §8's planned Production Mode, which is
+              the concrete reason non-CTD readers will eventually use this
+              repo's output directly, not just its docs.
             </li>
             <li>
-              <strong>Filing the four §6.5 tickets is the one piece of this
-              still outstanding (§3, P2).</strong> Both source documents are
-              now in hand and the previous blocker is closed. What's left is
-              mechanical, not open: create the four tracked issues (token
-              mechanism, concurrent-write handling, merged-data retention,
-              orphan sweep) and link each from
-              <code>/docs/viewer/architecture.mdx</code>'s Production Mode
+              <strong
+                >Filing the four §6.5 tickets is the one piece of this still
+                outstanding (§3, P2).</strong
+              >
+              Both source documents are now in hand and the previous blocker is
+              closed. What's left is mechanical, not open: create the four
+              tracked issues (token mechanism, concurrent-write handling,
+              merged-data retention, orphan sweep) and link each from
+              <code>/docs/viewer/architecture.mdx</code>'s Production mode
               callouts before that page ships.
             </li>
             <li>
-              <strong>Which tool actually runs the Docs↔git sync (§1.1)?</strong>
-              This playbook specifies required behavior — explicit
-              per-section allowlist, Drive API metadata for the citation
-              stamp, a frontmatter conflict marker — not an implementation.
-              Options span a custom Apps Script + Drive API webhook +
-              GitHub Action, to an existing Docs-to-Markdown sync tool
-              adapted to the allowlist and conflict-guard requirements.
-              Resolve this as part of P1.5 — content authoring in P2
-              shouldn't start against a mechanism that's still notional.
+              <strong>Which tool actually runs the Docs sync (§1.1)?</strong>
+              This playbook specifies required behavior — explicit per-section
+              allowlist, Drive API metadata for the citation stamp, a
+              frontmatter conflict marker — not an implementation. Options span
+              a custom Apps Script + Drive API webhook + GitHub Action, to an
+              existing Docs-to-Markdown sync tool adapted to the allowlist and
+              conflict-guard requirements. Resolve this as part of P1.5 —
+              content authoring in P2 shouldn't start against a mechanism that's
+              still notional.
             </li>
           </ul>
         </section>
 
         <footer>
           Companion to <code>cs-121-docs-platform-research.html</code> in this
-          same directory. Where the two disagree, this file — grounded in
-          what's actually shipped and in the Development Guidelines v1.1 —
-          is the current plan.
+          same directory. Where the two disagree, this file — grounded in what's
+          actually shipped and in the Development Guidelines v1.1 — is the
+          current plan.
         </footer>
       </main>
     </div>
