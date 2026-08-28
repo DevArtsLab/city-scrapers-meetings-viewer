@@ -623,7 +623,7 @@
               >Supersedes&nbsp;<b>cs-121-docs-platform-research.html</b></span
             >
             <span>Drafted&nbsp;<b>Aug 2026</b></span>
-            <span>Status&nbsp;<b>Implementation playbook</b></span>
+            <span>Status&nbsp;<b>Implementation playbook — phase 2</b></span>
           </div>
           <h1>Building the rest of it</h1>
           <p class="standfirst">
@@ -633,22 +633,41 @@
             doesn't need yet, folds in the team's new
             <em>City Scrapers Development Guidelines v1.1</em>, and treats the
             reading experience — not the tooling checklist — as the actual
-            deliverable.
+            deliverable. This revision closes the source set: five further
+            documents — including the program-level <em>Tech Guide</em> owned
+            outside CTD, a curated developer link list, and two agent skills —
+            are now accounted for, and they force one genuinely new
+            architectural decision (§1.5) and one correctness finding that
+            reaches past this repo (§2.1).
+          </p>
+        </div>
+
+        <div class="note warn">
+          <span class="lab">Notation — planning only, never shipped</span>
+          <p>
+            The <code>§</code> shorthand throughout this playbook is a drafting
+            convention for cross-referencing source documents and this
+            playbook's own sections. It must not survive into the built site: no
+            <code>§</code> in any MDX page, heading, nav label, or component.
+            Published pages name their source in prose ("per the Development
+            Guidelines, Meeting schema") and link to headings by anchor. Section
+            numbers also collide by coincidence between documents — where the
+            source isn't obvious from the sentence, this playbook names the
+            document explicitly.
           </p>
         </div>
 
         <div class="note info">
           <span class="lab">Glossary</span>
           <p>
-            <strong>CTD</strong> = Code the Dream, the organization that builds
-            and maintains the scrapers, the Meetings Viewer repo and its
-            documentation platform. <strong>PDW</strong> = Public Data Works,
-            the partner engineering/design studio that operates Documenters.org
-            and its data pipeline. <strong>CB</strong> = City Bureau, the
-            partner org that runs the Documenters civic-journalism program and
-            does editorial/data QA on scraper output. These three abbreviations
-            recur throughout this playbook without re-expansion after this
-            point.
+            <strong>CTD</strong> = Code the Dream, the apprenticeship
+            organization that builds and maintains the scrapers and this
+            Meetings Viewer repo. <strong>PDW</strong> = Public Data Works, the
+            partner engineering/design studio that operates Documenters.org and
+            its data pipeline. <strong>CB</strong> = City Bureau, the partner
+            org that runs the Documenters civic-journalism program and does
+            editorial/data QA on scraper output. These three abbreviations recur
+            throughout this playbook without re-expansion after this point.
           </p>
         </div>
 
@@ -944,6 +963,135 @@
             content that's actually a graph: the data-flow diagram in §3, and
             the two-workflow trust boundary behind the Airtable sync automation.
           </p>
+          <h3>1.5 A third ownership class: mirrored external sources</h3>
+          <p>
+            §1.1's model has exactly two classes — git-owned and Docs-synced —
+            and both assume the source is something this team can write to. The
+            new source set breaks that assumption. The
+            <em>City Scraper Project Tech Guide</em> and PDW's
+            <em>Overview of code review/QA issues</em> are program-level
+            documents owned <strong>outside CTD</strong>: nobody in §1.1's
+            three-role scope can edit them, and neither lives in Google Docs, so
+            the sync has nothing to attach to. Treating them as git-owned would
+            quietly convert someone else's document into our copy, with no
+            mechanism to notice when the original moves.
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Class</th>
+                  <th>Source of truth</th>
+                  <th>Who writes</th>
+                  <th>Drift is caught by</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Git-owned</strong></td>
+                  <td>The MDX file itself</td>
+                  <td>Anyone with repo access, via PR</td>
+                  <td>Nothing needed — the file is the truth</td>
+                </tr>
+                <tr>
+                  <td><strong>Docs-synced</strong></td>
+                  <td>An allowlisted Google Doc section</td>
+                  <td>PM/architect, scraper devs, viewer devs</td>
+                  <td>CI-3's bidirectional conflict guard</td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>Mirrored</strong> <span class="new-tag">NEW</span>
+                  </td>
+                  <td>A document owned by another org</td>
+                  <td>Nobody here — we restate, we don't author</td>
+                  <td>
+                    CI-2 freshness TTL + a named human reviewer on the other
+                    team
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h4>Mirror or link? The deciding factor is machine-readability</h4>
+          <p>
+            The instinct is to link and be done — a link can't drift, which is
+            §7's own rule. That instinct is right for most external material and
+            wrong for this one case, for a reason worth stating precisely rather
+            than as a preference:
+          </p>
+          <div class="note danger">
+            <span class="lab"
+              >Verified: the PDW review doc is not machine-readable</span
+            >
+            <p>
+              <code>docs.pdw.co/city-scrapers-overview-of-reviews</code> is a
+              Craft-hosted single-page app. Fetching it returns a
+              <code>&lt;div id="root"&gt;</code>, a
+              <code>&lt;noscript&gt;</code>, and nothing else — the content
+              renders only after JavaScript executes. It also carries
+              <code>&lt;meta name="robots" content="noindex"&gt;</code>. That
+              means: our link checker cannot validate it beyond a 200, our site
+              search cannot index it, it has no stable heading anchors to
+              deep-link, and — the point the team actually cares about —
+              <strong
+                >an agent reading our docs to give a developer feedback cannot
+                read it either.</strong
+              >
+              A link to it is a dead end for every automated consumer this
+              platform is being built to serve.
+            </p>
+          </div>
+          <p>
+            So:
+            <strong
+              >mirror the substance, link the source, and never pretend we own
+              it.</strong
+            >
+            A mirrored page restates the review criteria in our own structure,
+            carries a visible provenance line naming PDW and linking the
+            original, and is explicitly not authoritative — where the two
+            disagree, PDW's document wins and ours is the bug. Three rules keep
+            that honest:
+          </p>
+          <ul>
+            <li>
+              <strong
+                >A named reviewer on the owning team, recorded in
+                frontmatter.</strong
+              >
+              Not "PDW" as an abstraction — a person who agreed to be asked.
+              Without one, the page doesn't ship; this is the concrete instance
+              of §9's editing-authority question, and it blocks here rather than
+              being deferred again.
+            </li>
+            <li>
+              <strong
+                >A short <code>ttl_days</code> — 90, not the default.</strong
+              >
+              Mirrors of documents we can't watch decay faster than pages whose
+              source we control. CI-2 already reads this field; a mirror just
+              sets it lower.
+            </li>
+            <li>
+              <strong>Never mirror a page that imports a component.</strong>
+              Same hard rule as §1.1, for the same reason: the mirror is
+              refreshed by rewriting it.
+            </li>
+          </ul>
+          <div class="note info">
+            <span class="lab">Where the line falls</span>
+            <p>
+              Mirror only what an automated consumer must be able to read: PDW's
+              review criteria, and the Tech Guide's schema and scraper taxonomy.
+              Everything else — the YouTube tutorials, Postman, the Scrapy and
+              Legistar upstream docs, individual example spiders on GitHub —
+              stays a link, because all of it is already public, stable,
+              machine-readable, and owned by people who never agreed to be
+              mirrored. §3's link registry is where those live.
+            </p>
+          </div>
         </section>
 
         <!-- ============ 02 ============ -->
@@ -1113,6 +1261,114 @@
             place. Do it before writing a single new page — new content built on
             the wrong schema description just multiplies the error.
           </p>
+
+          <h3>2.1 The schema now has five descriptions, and they disagree</h3>
+          <p>
+            The new sources make a latent problem explicit. The meeting schema
+            is now described independently in five places — the Development
+            Guidelines (checked in the table above), the Tech Guide, both agent
+            skills, and this site's own pages — while only one source is
+            executable: <code>constants.py</code> in
+            <code>city-scrapers-core</code>, the package every scraper repo
+            imports. Everything else is prose <em>about</em> it. Checking the
+            three new prose sources against that code found errors that have
+            nothing to do with this repo — they are wrong at the program level,
+            in the document new developers are onboarded with:
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Fact</th>
+                  <th><code>city-scrapers-core</code> (authoritative)</th>
+                  <th>Tech Guide</th>
+                  <th>PDW review skill</th>
+                  <th>Spider Development skill</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Unclassified fallback</td>
+                  <td><code>NOT_CLASSIFIED = "Not classified"</code></td>
+                  <td>
+                    <code>UNCLASSIFIED</code> —
+                    <strong>no such constant</strong>
+                  </td>
+                  <td>Not listed</td>
+                  <td><code>NOT_CLASSIFIED</code> — correct</td>
+                </tr>
+                <tr>
+                  <td>Cancelled spelling</td>
+                  <td><code>CANCELLED = "cancelled"</code></td>
+                  <td><code>CANCELED</code> — <strong>one L</strong></td>
+                  <td><code>cancelled</code> — correct</td>
+                  <td><code>CANCELLED</code> — correct</td>
+                </tr>
+                <tr>
+                  <td>Full status set</td>
+                  <td>
+                    <code>tentative</code>, <code>confirmed</code>,
+                    <code>passed</code>, <code>cancelled</code>
+                  </td>
+                  <td>
+                    Three — <strong>omits <code>confirmed</code></strong>
+                  </td>
+                  <td>
+                    Three — <strong>omits <code>confirmed</code></strong>
+                  </td>
+                  <td>Not enumerated</td>
+                </tr>
+                <tr>
+                  <td>Council classification</td>
+                  <td><code>CITY_COUNCIL = "City Council"</code></td>
+                  <td>
+                    <code>COUNCIL</code> — <strong>no such constant</strong>
+                  </td>
+                  <td>"BOARD, COMMITTEE, COMMISSION, etc."</td>
+                  <td>Maps three of the eight constants</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note danger">
+            <span class="lab">The status row has teeth</span>
+            <p>
+              PDW's review skill validates <code>status</code> against
+              <code>tentative</code>, <code>passed</code>,
+              <code>cancelled</code> — and that skill is meant to run as a
+              GitHub Actions check on scraper PRs. A spider that correctly emits
+              <code>confirmed</code>, a real constant in
+              <code>city-scrapers-core</code>, would be flagged invalid by the
+              automated reviewer. That isn't a documentation nit; it's a false
+              positive in a check that gates other people's work.
+            </p>
+          </div>
+          <div class="note tip">
+            <span class="lab">What this justifies</span>
+            <p>
+              Four independent prose copies of one enum, three already wrong, is
+              a far stronger argument for §5's CI-4 generate-and-diff layer than
+              this repo's Node-version pilot — and unlike that pilot, it affects
+              every scraper repo. The fix is not "correct the four copies"; it's
+              <strong
+                >one generated table sourced from
+                <code>constants.py</code></strong
+              >
+              that the docs render and the skills cite. Hand-correcting the
+              copies only resets the clock on the same drift.
+            </p>
+          </div>
+          <div class="note warn">
+            <span class="lab">Not ours to correct directly</span>
+            <p>
+              The Tech Guide is a mirrored source under §1.5 — CTD doesn't own
+              it. Report these to whoever maintains it rather than silently
+              fixing them in our copy, and have our page render the generated
+              table either way. That's the mirror contract working as designed:
+              where mirror and source disagree the source wins; where source and
+              <em>code</em> disagree the code wins and someone gets told.
+            </p>
+          </div>
         </section>
 
         <!-- ============ 03 ============ -->
@@ -1173,12 +1429,31 @@
               >— fork/pipenv/genspider/validate/lint, command reference
               (§3.1–3.8)</span
             >
+            scraper-types.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— the 6-way taxonomy (static HTML, multi-page, API, iCalendar,
+              dynamic, PDF/OCR) — mirrored from the Tech Guide, §1.5</span
+            >
+            scoping-a-target.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— robots.txt policy, minimum-data threshold, "not worth
+              scraping?", time range, filtering fluff — mirrored from the Tech
+              Guide, §1.5</span
+            >
             <span class="k">/qa</span> (QA &amp; Review) index.mdx, schema.mdx,
             rubric.mdx <span class="fix-tag">FIX</span>
-            <span class="k">— corrections from §2</span> review-process.mdx
-            <span class="new-tag">NEW</span>
+            <span class="k"
+              >— corrections from §2; schema.mdx renders the generated constants
+              table (§2.1)</span
+            >
+            review-process.mdx <span class="new-tag">NEW</span>
             <span class="k"
               >— the 5-stage pipeline, rendered as a Stepper (§3.9)</span
+            >
+            review-issues.mdx <span class="new-tag">NEW</span>
+            <span class="k"
+              >— PDW's recurring review/QA findings — mirrored, named reviewer +
+              ttl_days: 90 (§1.5)</span
             >
             <span class="k">/viewer</span> (Meetings Viewer — existing,
             unchanged pages + one new) index.mdx, quick-start.mdx
@@ -1222,8 +1497,170 @@
             >
             meetings-viewer.mdx
             <span class="k">— ships now, honest and thin (§7)</span>
-            scrapers.mdx, devops.mdx
-            <span class="k">— stubs, owned by those teams (§7)</span>
+            scrapers.mdx <span class="fix-tag">FIX</span>
+            <span class="k"
+              >— no longer a stub: two real skills exist (§7.1)</span
+            >
+            devops.mdx
+            <span class="k"
+              >— stub, owned by whoever maintains /pipeline (§7)</span
+            >
+            <span class="k">/reference</span> (Reference)
+            <span class="new-tag">NEW SECTION, §3.1</span> links.mdx
+            <span class="k"
+              >— the curated external link index, generated from one registry
+              file (§3.1)</span
+            >
+            glossary.mdx
+            <span class="k"
+              >— scraper vs. spider vs. slug, CTD/PDW/CB, Local vs. Production
+              mode (§3.1)</span
+            >
+          </div>
+
+          <h3>3.1 Where the new sources land, and who owns each</h3>
+          <p>
+            Every page above traces to a document, and every document has an
+            owner who decides what it says. Getting that mapping wrong is how a
+            docs site ends up quietly asserting authority over someone else's
+            process. The full provenance table, with the §1.5 class for each:
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Source</th>
+                  <th>Owner</th>
+                  <th>Class</th>
+                  <th>Lands at</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Development Guidelines v1.1</td>
+                  <td>CTD (PM/architect)</td>
+                  <td>Git-owned after a one-time seed</td>
+                  <td>
+                    <code>/scrapers/*</code>, <code>/qa/*</code>,
+                    <code>/pipeline/*</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Meetings Viewer Technical Spec</td>
+                  <td>CTD (PM/architect)</td>
+                  <td>Docs-synced, ongoing</td>
+                  <td><code>/viewer/architecture.mdx</code></td>
+                </tr>
+                <tr>
+                  <td>City Scraper Project Tech Guide</td>
+                  <td><strong>Documenters Network — not CTD</strong></td>
+                  <td>Mirrored</td>
+                  <td>
+                    <code>/scrapers/scraper-types</code>,
+                    <code>/scrapers/scoping-a-target</code>, plus program
+                    framing on <code>/docs</code>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Overview of code review/QA issues</td>
+                  <td><strong>PDW</strong></td>
+                  <td>Mirrored</td>
+                  <td><code>/qa/review-issues.mdx</code></td>
+                </tr>
+                <tr>
+                  <td>Developer link list ("For scrapy project")</td>
+                  <td>CTD</td>
+                  <td>Git-owned, as a data file</td>
+                  <td>
+                    <code>/reference/links.mdx</code> + inline on topic pages
+                  </td>
+                </tr>
+                <tr>
+                  <td>Spider Development skill</td>
+                  <td>CTD (Amir)</td>
+                  <td>Linked, lives in the scraper repos</td>
+                  <td><code>/agents/scrapers.mdx</code> (§7.1)</td>
+                </tr>
+                <tr>
+                  <td>Code-review skill</td>
+                  <td>PDW</td>
+                  <td>Linked, runs in scraper-repo CI</td>
+                  <td><code>/agents/scrapers.mdx</code> (§7.1)</td>
+                </tr>
+                <tr>
+                  <td><code>city-scrapers-core/constants.py</code></td>
+                  <td>City Bureau</td>
+                  <td>Generated — code is the source</td>
+                  <td>
+                    <code>&lt;SchemaTable&gt;</code> on
+                    <code>/qa/schema.mdx</code> (§2.1, §5)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note tip">
+            <span class="lab"
+              >The Tech Guide answers the framing question §9 has been
+              carrying</span
+            >
+            <p>
+              §9 asks whether the site needs a program-level frame or a rebrand.
+              The Tech Guide already contains the answer, written by the program
+              itself: who the Documenters Network is, why the project scrapes,
+              and the Azure → ETL → Documenters.org architecture. Mirroring its
+              first two sections onto
+              <code>/docs</code>'s landing page gives a PDW or CB reader the
+              orientation they currently don't get — without inventing framing
+              CTD has no standing to author. The decision in §9 narrows to
+              presentation, which is much cheaper than it looked.
+            </p>
+          </div>
+
+          <h4>The link list becomes a registry, not a page of links</h4>
+          <p>
+            The curated developer links — Scrapy and Python tutorials, the
+            cityscrapers.org docs, the template repo, Postman, and the six
+            worked spider examples chosen to illustrate one technique each — are
+            genuinely valuable and currently live in a document nobody outside
+            the team can find. Two rules keep them useful:
+          </p>
+          <ul>
+            <li>
+              <strong>One registry file, many render points.</strong> Links live
+              once in <code>content/links.yml</code> (URL, label, what it
+              demonstrates, tags). <code>/reference/links</code> renders the
+              full index; topic pages render a filtered slice — the six spider
+              examples appear inline on
+              <code>scrapers/spider-patterns</code> beside the pattern each one
+              demonstrates, not only in a far-away list. Same
+              one-input-many-outputs discipline as §5's CI-4, applied to links.
+            </li>
+            <li>
+              <strong>A registry is checkable; prose links are not.</strong>
+              §1.2's build check validates internal links today. External ones
+              pointing at <code>.gov</code> sites and pinned GitHub blobs are
+              exactly the class that rots — and a registry gives CI one list to
+              walk. This is the specific failure mode §5 deferred lychee
+              against; when it shows up, the registry is already the shape
+              lychee wants.
+            </li>
+          </ul>
+          <div class="note warn">
+            <span class="lab"
+              >Two gaps to close while migrating, not after</span
+            >
+            <p>
+              The link list pins several examples to
+              <code>main</code> rather than a commit SHA — those will drift
+              silently as the referenced spiders are refactored; pin the SHA the
+              way the Tech Guide already does for its examples. And the Tech
+              Guide's "Starting a new city-scrapers repo" section is literally
+              <code>&lt;Details to come&gt;</code>. Mirror it as a visible,
+              dated gap rather than omitting it — a known hole someone can fill
+              is worth more than a silent absence, and it's the single most
+              useful page CTD could contribute back upstream.
+            </p>
           </div>
 
           <h3>
@@ -1961,6 +2398,19 @@
                 generalizes it to every page with a citation stamp, not just the
                 one generated page.
               </p>
+              <p>
+                <strong
+                  >Mirrored pages (§1.5) lean entirely on the TTL leg.</strong
+                >
+                Their source is a document this repo can't watch — no
+                <code>modifiedTime</code>, no commit history, no symbol to check
+                — so the age delta and symbol checks have nothing to read.
+                That's the whole reason the mirror contract sets
+                <code>ttl_days: 90</code> rather than the default: on a mirrored
+                page the TTL isn't a backstop, it's the only signal there is,
+                and its expiry means "go ask the named reviewer whether this
+                still matches," not "this is stale."
+              </p>
             </div>
           </div>
           <div class="phase">
@@ -2007,6 +2457,32 @@
                   fields (already covered by <code>&lt;SchemaTable&gt;</code>)
                   and mode-status flags (README's "(planned)" on Production
                   mode, currently typed in two places by hand).
+                </p>
+              </div>
+              <div class="note warn">
+                <span class="lab"
+                  >Second input, higher stakes: the schema constants</span
+                >
+                <p>
+                  §2.1 found the same failure mode with far more reach — one
+                  enum, four prose copies, three of them wrong, in documents
+                  that onboard developers and gate PRs across every scraper
+                  repo. Add <code>city-scrapers-core</code>'s
+                  <code>constants.py</code> as a second input to this layer:
+                  fetch it at build time, pinned to a release tag, and generate
+                  the classification and status tables that
+                  <code>&lt;SchemaTable&gt;</code> renders. Fail the build if
+                  the pinned tag's constants no longer match what the site
+                  publishes.
+                </p>
+                <p>
+                  It's a cross-repo fetch, which the rest of this playbook
+                  deliberately avoids — the justification is that this is the
+                  one fact the docs assert that other teams' automation already
+                  acts on. Pin the tag rather than tracking
+                  <code>main</code>, so an upstream change surfaces as a
+                  deliberate bump in a PR, not as a silent shift under a page
+                  nobody re-read.
                 </p>
               </div>
             </div>
@@ -2381,17 +2857,153 @@
           </ol>
 
           <div class="note tip">
-            <span class="lab">Lighter governance than §3's PDW/CB content</span>
+            <span class="lab"
+              >Lighter governance than §3's PDW/CB content — with one
+              exception</span
+            >
             <p>
               §9 raises a real open question about who can correct content
               describing PDW/CB's own process, because they don't have git
-              access to this repo. That problem doesn't apply here: every team
-              this section is for — scrapers, this app's own frontend team,
-              whoever owns CI/CD — already has git access to their own repo. The
-              only discipline this category needs is link-not-duplicate, above;
-              it doesn't need a new governance decision in §9.
+              access to this repo. For most of this section that doesn't apply:
+              every team it's written for — scrapers, this app's frontend team,
+              whoever owns CI/CD — already has git access to their own repo, and
+              the only discipline needed is link-not-duplicate, above.
+            </p>
+            <p>
+              The exception is §7.1's code-review skill, which PDW owns. The
+              page describes it and links to it; it must not restate its
+              checklist or imply CTD maintains it. Link plus a two-sentence
+              summary of intent — step 3 of the method above — is the whole
+              treatment, and it keeps this page out of §9's editing-authority
+              problem rather than adding a second instance of it.
             </p>
           </div>
+
+          <h3>7.1 Two skills already exist — the stub was wrong</h3>
+          <p>
+            The tree below listed <code>scrapers.mdx</code> as a stub owned by
+            another team. That's now out of date: two real skills exist, they're
+            already in use, and together they cover both ends of the scraper
+            lifecycle. This becomes the section's most substantial page rather
+            than its emptiest.
+          </p>
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Spider Development skill</th>
+                  <th>Code-review skill</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Owner</strong></td>
+                  <td>CTD</td>
+                  <td>PDW</td>
+                </tr>
+                <tr>
+                  <td><strong>When it fires</strong></td>
+                  <td>While writing a spider — build, refactor, debug</td>
+                  <td>
+                    After the PR opens — standalone or a GitHub Actions check
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Shape</strong></td>
+                  <td>
+                    Prescriptive: seven spider types with code, required
+                    standards, API patterns (CivicClerk, Legistar, Diligent,
+                    Drupal), anti-blocking recipes
+                  </td>
+                  <td>
+                    Evaluative: review mindset, a process, a large reference
+                    checklist, output-validation tables
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>Invocation</strong></td>
+                  <td>
+                    <code>trigger: model_decision</code> — fires on the model's
+                    judgment
+                  </td>
+                  <td>Invoked deliberately, per PR</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            Two skills at two lifecycle stages is a genuinely good split, and
+            worth documenting as the recommended shape for any team that adds
+            its own:
+            <strong
+              >one skill that helps you write it, one that checks what you
+              wrote, and no overlap between them.</strong
+            >
+            That's the reusable lesson <code>/agents</code> exists to carry.
+          </p>
+
+          <div class="note danger">
+            <span class="lab"
+              >Defect, worth fixing before this page cites it</span
+            >
+            <p>
+              The Spider Development skill's frontmatter still carries the
+              template placeholder:
+              <code
+                >description: A brief description, shown to the model to help it
+                understand when to use this skill</code
+              >. Paired with <code>trigger: model_decision</code>, the
+              description is the <em>only</em> signal the model has for when to
+              load it — so as written, it either never fires when it should or
+              fires when it shouldn't. The skill's own body has the real
+              description in its first line ("Use this skill when building,
+              refactoring, or debugging Scrapy spiders for city-scrapers
+              projects"); it just needs to move up into the frontmatter.
+              One-line fix, and it's the difference between a skill that works
+              and one that's installed but inert.
+            </p>
+          </div>
+
+          <h4>Skills cite the docs; they don't restate them</h4>
+          <p>
+            Both skills currently carry their own copies of facts the docs also
+            publish — the meeting schema, the status and classification
+            constants, the lint and test commands, the validation checklist.
+            §2.1 is what that costs: the copies have already drifted from
+            <code>constants.py</code>, and one of them will fail a correct
+            spider in CI. The rule that prevents a repeat is the mirror of §7's
+            link-not-duplicate rule, pointed the other way:
+          </p>
+          <div class="note tip">
+            <span class="lab"
+              >The docs hold the facts; the skills hold the judgment</span
+            >
+            <p>
+              A skill should carry procedure, heuristics, and worked examples —
+              the things that are genuinely its own. For anything enumerable and
+              generated (schema fields, constants, commands, the QA rubric) it
+              should link to the doc anchor instead of restating it. That's only
+              workable because the site publishes per-page
+              <code>.md</code> routes and <code>llms-full.txt</code> (§4.2): an
+              agent can follow the link and read the canonical text directly.
+              This is the concrete answer to "we want agents reading our docs to
+              give developers feedback" — the docs stop being a copy of the
+              skill and become the thing the skill defers to.
+            </p>
+          </div>
+          <p>
+            Two consequences worth building for. First,
+            <code>&lt;RubricReport&gt;</code> (§4.2) and PDW's review checklist
+            are validating the same output against the same rules — both should
+            read §5's generated constants, so a fix in
+            <code>city-scrapers-core</code> reaches the interactive checker and
+            the CI reviewer at once. Second, treat agent-readability as a page
+            requirement rather than a nice-to-have: a mirrored page whose whole
+            justification is that agents can't read the original (§1.5) has to
+            be reachable as clean Markdown, or it inherits the defect it was
+            created to fix.
+          </p>
 
           <h3>What ships now vs. what's a stub</h3>
           <div class="tree">
@@ -2409,10 +3021,10 @@
               >— ships now: this repo's one real rule, honestly, plus what to
               add next</span
             >
-            scrapers.mdx
+            scrapers.mdx <span class="fix-tag">FIX</span>
             <span class="k"
-              >— stub: "owned by the city-scrapers-core team — not written
-              yet"</span
+              >— ships now, not a stub: the two-skill lifecycle split, both
+              skills linked, the docs-hold-the-facts rule (§7.1)</span
             >
             devops.mdx
             <span class="k"
@@ -2512,6 +3124,25 @@
                   (last-synced Doc revision or last git-direct commit hash) —
                   needed before either path writes a single P2 page.
                 </li>
+                <li>
+                  <strong>Name the two mirror reviewers (§1.5)</strong> — one
+                  person at PDW for <code>/qa/review-issues</code>, one at the
+                  Documenters Network for the Tech Guide pages. No mirrored page
+                  is authored until its reviewer has agreed. This is §9's
+                  editing-authority question arriving as a concrete, answerable
+                  ask instead of an abstraction.
+                </li>
+                <li>
+                  Report §2.1's four constant errors upstream (Tech Guide) and
+                  to PDW (the missing <code>confirmed</code> status in the
+                  review skill) — a message, not a code change, but it should go
+                  out before the mirrors publish.
+                </li>
+                <li>
+                  Fix the Spider Development skill's placeholder frontmatter
+                  description (§7.1) — one line, in the scraper repo, and the
+                  skill doesn't reliably trigger until it's done.
+                </li>
               </ul>
             </div>
           </div>
@@ -2563,7 +3194,37 @@
                   model itself: which pages are git-owned vs. Docs-synced and
                   why (naming the three components), how to edit each, what a
                   conflict-guard flag means, and the date+source-not-author
-                  citation rule.
+                  citation rule — now three classes, including mirrored (§1.5).
+                </li>
+                <li>
+                  Stand up <code>/reference</code> (§3.1): move the developer
+                  link list into <code>content/links.yml</code>, render the
+                  index, and surface the six worked spider examples inline on
+                  <code>spider-patterns</code> beside the technique each
+                  demonstrates. Pin every GitHub example to a commit SHA, not
+                  <code>main</code>.
+                </li>
+                <li>
+                  Write the two mirrored Tech Guide pages —
+                  <code>scrapers/scraper-types</code> and
+                  <code>scrapers/scoping-a-target</code> — with provenance
+                  lines, <code>ttl_days: 90</code>, and the named reviewer from
+                  P1.5 (§1.5). Mirror the "Starting a new city-scrapers repo"
+                  gap as a visible, dated hole rather than dropping it.
+                </li>
+                <li>
+                  Write <code>/qa/review-issues</code> from PDW's overview under
+                  the same mirror contract (§1.5).
+                </li>
+                <li>
+                  Write <code>/agents/scrapers.mdx</code> for real (§7.1) — the
+                  two-skill lifecycle split, both skills linked not restated,
+                  and the docs-hold-the-facts rule.
+                </li>
+                <li>
+                  Add the program-level framing to <code>/docs</code>'s landing
+                  page from the Tech Guide's own words (§3.1) — the cheapest
+                  available answer to §9's rebrand question.
                 </li>
               </ol>
             </div>
@@ -2765,7 +3426,7 @@
               <strong>Resolved: fleet data source (§6).</strong> Neither a local
               mtime substitute (contradicts the spec's §5.4) nor a live
               Airtable-backed Route Handler (contradicts its §7 "no
-              application-managed API server" invariant) — Production Mode's own
+              application-managed API server" invariant) — Production mode's own
               <code>manifest.json</code> is both the honest and the
               invariant-compliant source. The only real open item is timing: the
               fleet KPI panel ships an empty state until Production mode exists,
@@ -2782,7 +3443,35 @@
               themselves" to a scoped Keystatic instance limited to
               <code>/qa/review-process</code> and <code>/pipeline</code>. Pick
               one before those pages ship, not after they've already drifted
-              once.
+              once. <strong>§1.5 narrows this considerably</strong>: the mirror
+              contract answers it for mirrored pages — a named reviewer, no
+              write access needed — so what's genuinely still open is only the
+              pages CTD authors <em>about</em> PDW/CB process, chiefly
+              <code>/qa/review-process</code> and <code>/pipeline</code>.
+            </li>
+            <li>
+              <strong
+                >Resolved: mirror or link the external docs (§1.5).</strong
+              >
+              Mirror the two documents automated consumers must read — PDW's
+              review overview and the Tech Guide's schema and taxonomy — under a
+              provenance line, a named reviewer, and a 90-day TTL. Link
+              everything else. The deciding evidence wasn't preference: the PDW
+              document is a JavaScript-rendered Craft page that returns no
+              content to a fetch and carries
+              <code>noindex</code>, so linking it hands every agent, the link
+              checker, and site search a dead end.
+            </li>
+            <li>
+              <strong
+                >Does mirroring need PDW and the Documenters Network to say yes
+                first?</strong
+              >
+              The mirror contract assumes a named reviewer agrees to be asked.
+              Nobody has been asked yet. If either declines, that page becomes a
+              link with an honest note that its content can't be indexed — a
+              worse outcome, but not a blocked one. Ask before P2 authoring, not
+              after the page exists.
             </li>
             <li>
               <strong>Rebrand, or add a program-level frame (§3)?</strong>
@@ -2794,7 +3483,7 @@
               <code>/docs</code> masthead, or a one-line "what is this site"
               banner on first visit could all resolve it far more cheaply than a
               rename. Whatever's picked, it needs a decision, not a default —
-              and it should account for §8's planned Production Mode, which is
+              and it should account for §8's planned Production mode, which is
               the concrete reason non-CTD readers will eventually use this
               repo's output directly, not just its docs.
             </li>
@@ -2821,14 +3510,33 @@
               content authoring in P2 shouldn't start against a mechanism that's
               still notional.
             </li>
+            <li>
+              <strong
+                >Is a cross-repo fetch acceptable for the constants
+                (§5)?</strong
+              >
+              §2.1 makes the case that <code>constants.py</code> should be a
+              build-time input, pinned to a release tag. That's the one
+              dependency this playbook otherwise avoids — the docs build would
+              fail if an upstream repo were unreachable. The alternative is
+              vendoring the constants with a CI check that compares them against
+              upstream weekly, which trades build fragility for a slower
+              feedback loop. Pick one deliberately in P1.5; both are defensible,
+              and doing neither means keeping the four drifting copies §2.1
+              found.
+            </li>
           </ul>
         </section>
 
         <footer>
           Companion to <code>cs-121-docs-platform-research.html</code> in this
           same directory. Where the two disagree, this file — grounded in what's
-          actually shipped and in the Development Guidelines v1.1 — is the
-          current plan.
+          actually shipped, in the Development Guidelines v1.1, the Meetings
+          Viewer Technical Specification, the City Scraper Project Tech Guide,
+          and <code>city-scrapers-core</code>'s own <code>constants.py</code> —
+          is the current plan. Source set closed; this is the revision the build
+          works from. The <code>§</code>
+          notation is planning shorthand and ships nowhere.
         </footer>
       </main>
     </div>

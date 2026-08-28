@@ -1,0 +1,169 @@
+---
+title: Overview of code review/QA issues for city-scrapers
+description: PDW's analysis of 23 pull requests across three city-scrapers repositories — the recurring review findings, why they happen, and what changes going forward.
+ownership: mirrored
+source_owner: Public Data Works
+source_title: Overview of code review/QA issues for city-scrapers
+source_url: https://docs.pdw.co/city-scrapers-overview-of-reviews
+source_reviewer: TODO-before-publish
+last_verified: 2026-08-28
+ttl_days: 90
+---
+
+<MirrorNotice
+  owner="Public Data Works"
+  href="https://docs.pdw.co/city-scrapers-overview-of-reviews"
+  verified="2026-08-28"
+/>
+
+We looked at 23 pull requests across three repositories: `city-scrapers-tulsa` (12), `city-scrapers-colgo` (7), and `city-scrapers-kancit` (4).
+
+For each PR, we catalogued the review comments, grouped them by type, and looked for patterns.
+
+## The Top Issues (Ranked by Data Quality Impact)
+
+### 1. Parsing and Data Extraction Bugs (~10 of 23 PRs)
+
+**Why it happens:** Government websites are inconsistent in ways that only become visible when you look at real data. Regex patterns and CSS selectors written against a small test fixture tend to work for the clean cases and fail silently on edge cases — a title with a slightly different formatting variant, a field that sometimes contains the wrong data type, a location name that differs from what the page displays. These gaps are very hard to anticipate without first running the spider against a representative sample of live data.
+
+**How confident are we:** High. The specific examples from the PRs are unambiguous — the regex missed `-Live Stream` (no leading space), the fallback field was `agendaName` which contains date-formatted document names, the location name didn't match the authoritative source. These aren't ambiguous patterns.
+
+**How we'll address it going forward:**
+
+- The **pre-submission requirement** will be to run the spider against the live site and inspect at least 10–20 real items _before_ writing parsing logic. The raw data shapes the code; doing it the other way around is what produces these gaps.
+- The **test-and-verify-scraper-outputs SKILL** (in development) will automate a sample-based live run as part of CI, flagging when output values look structurally wrong (e.g., a title field that contains a date string).
+- PDW will be clearer upfront about **acceptance criteria** per scraper — specifically listing known edge cases from the source site that the spider must handle correctly.
+
+### 2. Silent Error Handling (~5–8 of 23 PRs)
+
+**Why it happens:** The instinct to wrap risky code in a `try/except` is correct — you don't want the whole spider to crash because one item failed. The gap is in what happens inside the `except` block. A bare `pass` or a silent `return` suppresses the exception without recording that anything went wrong. From the outside, the spider appears to have succeeded. It ran, it exited cleanly, it just... produced nothing useful.
+
+**How confident are we:** High. This is a well-understood pattern in Python scraping, and the specific examples from the PRs are clear-cut: `except json.JSONDecodeError: pass` produced zero items with no warning; the `len(response.text) < 10000` early return looked like a clean exit. The underlying cause — not wanting the spider to crash — is understandable, but the fix is straightforward.
+
+**How we'll address it going forward:**
+
+- The **code review SKILL** (already in use by Duong) flags bare `pass` statements inside `except` blocks. Once packaged for CtD use, this will catch these before review.
+- The **standard** going forward: every `except` block logs at least a `logger.warning(...)` with enough context to diagnose the issue later. If a response looks malformed, log it.
+- The **anomaly detection system** (Phase 1 of the Scrapers Stability System) will catch spiders that suddenly start returning zero items — a signal that either an error is being swallowed or the site changed. This is a detection backstop, not a prevention mechanism, but it shortens the time between failure and discovery.
+
+### 3. Scrapy Compatibility Issues (2 of 23 PRs — critical when it happens)
+
+**Why it happens:** Scrapy's API has evolved, and newer tutorials and documentation online reference newer APIs. `async def start()` is valid Scrapy 2.13+ syntax that appears in recent examples. The problem is that our city-scrapers repos pin Scrapy at 2.11.2 for stability reasons. When a spider uses the newer API, it doesn't throw an error — it just skips the `start()` method entirely and produces zero items. There's no warning because from Scrapy 2.11.2's perspective, it simply didn't find a `start_requests()` method and moved on.
+
+**How confident are we:** High for the root cause (version mismatch + silent fallback behavior). We're less certain about _why_ the newer syntax gets chosen — it may be that AI coding assistants or recent documentation defaulted to 2.13+ syntax without flagging the compatibility constraint. That's our best guess, but we haven't confirmed it directly.
+
+**How we'll address it going forward:**
+
+- The **pre-submission checklist** includes: check `Pipfile` for the pinned Scrapy version before using any newer API. Use `start_requests()`, not `async def start()`.
+- The **code review SKILL** will include a Scrapy version compatibility check that flags `async def start()` and other 2.13+ patterns.
+- Longer term, we should evaluate whether to upgrade the Scrapy pin. The current 2.11.2 pin was set for stability, but running behind by multiple major versions creates this exact class of confusion. This is a PDW infrastructure decision, not a CtD ask.
+
+### 4. Test Quality (~6 of 23 PRs)
+
+**Why it happens (loose assertions):** The instinct behind `assert len(items) >= 5` is reasonable — the developer knows the spider should return _some_ items, and exact counts vary by what's on the live site on a given day. The problem is that test fixtures are static. The test will always return the same number of items because it's running against a fixed HTML file. An exact assertion is both reliable and meaningful against a fixture.
+
+**Why it happens (untested logic paths):** When a PR adds a new feature alongside existing fallback logic, it's natural to focus testing on the behavior you can easily see — and fallback paths are often simpler to trigger in a test fixture. The primary path (the new feature) may require more setup. Under time pressure, this gets skipped.
+
+**How confident are we:** High on both explanations. These are canonical patterns in scraper testing, and the specific examples from the PRs confirm them.
+
+**How we'll address it going forward:**
+
+- The **pre-submission checklist** requires exact assertions against fixtures and at least one test that exercises the primary logic path of any new feature.
+- The **code review SKILL** checks for `>= N` or `> 0` style assertions and flags them as candidates for exactness.
+- PDW will try to be more explicit in scraper specs about what test cases we expect to see — particularly when a scraper has complex branching logic (e.g., calendar datetime vs. fallback extraction). Known edge cases belong in the spec, not discovered in review.
+
+### 5. Date and Time Handling (~5 of 23 PRs)
+
+**Why it happens:** Datetime handling in Python has multiple historical approaches, and the "correct" one has shifted over time. `datetime.utcnow()` was standard for years and is still widely referenced in older documentation and tutorials. Hardcoded year ranges are a pragmatic shortcut that works fine during development and breaks silently at year rollover. The timezone comparison issue is subtler — `datetime.now()` without a timezone argument returns the system's local time, which is typically UTC on CI runners but local time on a developer's machine. Tests pass locally and fail in CI, or worse, pass everywhere but produce wrong data for scrapers whose meetings are in a different timezone.
+
+**How confident are we:** High on `utcnow()` (clear deprecation, confirmed in the PRs). High on hardcoded year ranges (direct reviewer feedback, obvious failure mode). Medium-high on the CI/local timezone divergence — we've seen the pattern in the PRs and it's a well-known class of bug, but we haven't confirmed exactly which scrapers produced wrong data in production as a result. Our best guess is that most of the `datetime.now()` uses in current scrapers are in non-critical positions (computing scraping windows, not comparing meeting dates), which is why it hasn't caused visible production problems yet. But it's worth fixing preventively.
+
+**How we'll address it going forward:**
+
+- The **code review SKILL** flags `datetime.utcnow()`, `datetime.now()` without a timezone argument when used in date comparison contexts, and hardcoded year ranges in `range()` calls.
+- The **standard** for any date comparison against meeting times: `datetime.now(tz=ZoneInfo(self.timezone))`. For general timestamps: `datetime.now(timezone.utc)`.
+- PDW will add a **datetime handling reference** to the scraper development guide — a short section with the three or four patterns and which to use in which context. It's the kind of thing that's easy to get right once you've seen it laid out clearly.
+
+### 6. Code Quality and Style (~12 of 23 PRs — low data risk, high maintenance cost)
+
+**Why it happens:** This is the most common category by PR count, but the lowest data quality risk. Duplicate code blocks, redundant method calls, misleading variable names, unused imports — these don't cause wrong data, but they make the codebase harder to maintain and fix when something does go wrong. The root cause is usually time pressure during development: the first working version gets submitted rather than a cleaned-up version.
+
+**How confident are we:** High. Code quality issues are straightforward to identify. What we're less certain about is the right threshold for how much to flag in review versus accept as good enough. We've been flagging more than strictly necessary, which adds review cycles without proportional benefit.
+
+**How we'll address it going forward:**
+
+- The **code review SKILL** catches the mechanical patterns (duplicated regex, double `.strip()` calls, empty `__init__` methods, commented-out code). These will become automated checks rather than manual review comments.
+- PDW will distinguish more clearly in reviews between **blocking issues** (must fix before merge) and **suggestions** (nice to have, won't block). Code quality issues are almost always suggestions unless they indicate a structural problem.
+- Running `isort`, `black`, and `flake8` locally before every PR submission eliminates the lint-related subset of this category entirely.
+
+### 7. Performance (~2 of 23 PRs — low urgency)
+
+**Why it happens:** Regex patterns compiled inside per-item methods get recompiled on every call — potentially thousands of times per spider run. This is a standard Python performance pitfall: Python does cache compiled regex, but only up to a fixed number of patterns, and the overhead is real at scale.
+
+**How confident are we:** Medium. We know regex recompilation is slower than class-level compilation, but we haven't profiled the actual impact on our spiders specifically. The Wayne County scraper taking 90+ minutes is a documented performance issue, but that's likely caused more by Harambe's browser automation overhead than regex compilation. For conventional scrapers, the regex issue is worth fixing but probably isn't the bottleneck.
+
+**How we'll address it going forward:**
+
+- The **pre-submission checklist** and code review SKILL include: compile regex at class level when used in per-item methods.
+- We'll flag performance issues in review but not as blockers unless there's evidence of an actual impact. Once the test-and-verify skill is running, we'll have timing data per spider run that makes it easier to spot real performance regressions.
+
+### 8. Lint and CI Failures (~4 of 23 PRs — no data risk, pure friction)
+
+**Why it happens:** Lint failures are almost always an environment setup issue — the developer's local environment doesn't have `isort`, `black`, or `flake8` configured to match the repo's settings, so code that looks fine locally fails CI. This isn't a knowledge gap; it's a tooling setup gap.
+
+**How confident are we:** High. Lint failures are deterministic — they either pass or they don't, and the fix is always the same.
+
+**How we'll address it going forward:**
+
+- Once the CtD team runs `isort`, `black`, `flake8`, and `pytest` locally before every PR, these disappear entirely. This is a zero-ambiguity ask.
+- We're exploring **pre-commit hooks** that run these checks automatically on every commit. If CtD uses a shared repo configuration, the hooks would catch lint issues before the code even gets pushed. We'll include setup instructions in the scraper dev guide.
+- The **GitHub Actions CI check** already catches these — the goal is just to move detection from "PDW sees it in review" to "CtD catches it before submitting."
+
+## The Pre-Submission Checklist
+
+These checks, if run before every PR submission, should eliminate most of the recurring review comments:
+
+**Before writing code:**
+
+- Run the spider against the live site and inspect raw output (10–20 items minimum)
+- Check the pinned Scrapy version in `Pipfile` — use `start_requests()`, not `async def start()`
+
+**While writing code:**
+
+- Add null checks before calling methods on CSS selector results (`.get()` can return `None`)
+- Log warnings instead of swallowing exceptions
+- Use `datetime.now(timezone.utc)` not `datetime.utcnow()`
+- Compile regex patterns at class level, not inside per-item methods
+- Add `errback=self.handle_error` to all `scrapy.Request` calls, especially detail pages
+- Account for spelling variants (`cancelled` and `canceled`)
+- Use dynamic date ranges — never hardcode year values
+- Use explicit keys for deduplication, not array position
+
+**Writing tests:**
+
+- Test new logic, not just fallbacks — if you added a new parsing strategy, test it
+- Use exact assertions: `assert len(items) == 42`, not `assert len(items) >= 5`
+- Test edge cases for any new filtering or dedup logic
+
+**Before submitting:**
+
+- Run the spider against the live site one more time — check titles, dates, locations, links
+- Remove commented-out code, unused imports, empty `__init__` methods
+- Run `isort`, `black`, `flake8`, `pytest` locally
+
+## Tooling We're Building to Help
+
+We already have a code review SKILL.md that automates many of these checks. We're working on packaging it so the CtD team can run it independently — either as a standalone script or as a GitHub Actions check that runs automatically when you open or update a PR.
+
+<FileAttachment
+  name="SKILL.md"
+  kind="Text File"
+  size="21.6 KB"
+  href="/docs/agents/scrapers#code-review-skill"
+/>
+
+The vision is a three-step automated pipeline:
+
+1. **Code review check** — catches patterns from the list above
+2. **Spider output verification** — runs the spider against the live site, validates required fields, checks for duplicates
+3. **Staging deploy** — deploys passing scrapers automatically
