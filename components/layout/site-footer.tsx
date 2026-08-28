@@ -4,6 +4,7 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
 import { CONTENT_MAX_WIDTH } from "@/lib/layout";
+import { siteConfig } from "@/lib/site";
 
 export function SiteFooter({
   showLandingLinks = false,
@@ -47,7 +48,7 @@ export function SiteFooter({
                 color: "text.secondary",
               }}
             >
-              Meetings Viewer — QA tooling for city-scrapers output
+              {`${siteConfig.name} - ${siteConfig.footerTagline}`}
             </Typography>
           </Link>
 

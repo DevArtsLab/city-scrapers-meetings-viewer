@@ -5,6 +5,7 @@ import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
 import { LogoMark } from "./logo-mark";
 import { CONTENT_MAX_WIDTH } from "@/lib/layout";
+import { siteConfig } from "@/lib/site";
 
 export function SiteHeader({
   showLandingLinks = false,
@@ -49,7 +50,7 @@ export function SiteHeader({
               component="span"
               sx={{ fontWeight: 600, fontSize: "1.125rem" }}
             >
-              Meetings Viewer
+              {siteConfig.name}
             </Typography>
           </Link>
 

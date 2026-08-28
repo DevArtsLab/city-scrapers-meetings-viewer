@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import PageHeader from "@/components/scrapers/PageHeader";
 import ScraperWorkspace from "@/components/scrapers/ScraperWorkspace";
 import { getScraperOutput, type MeetingRecord } from "@/lib/scrapers";
+import { pageTitle } from "@/lib/site";
 
 export async function generateMetadata({
   params,
@@ -11,7 +12,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { spider } = await params;
   return {
-    title: `${spider} — Meetings Viewer`,
+    title: pageTitle(spider),
     description: `Inspect the JSON output of the ${spider} scraper.`,
   };
 }

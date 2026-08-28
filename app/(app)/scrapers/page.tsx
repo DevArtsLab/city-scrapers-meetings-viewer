@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/scrapers/PageHeader";
 import ScrapersTable from "@/components/scrapers/ScrapersTable";
 import { listScrapers } from "@/lib/scrapers";
+import { pageTitle } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Scrapers — Meetings Viewer",
+  title: pageTitle("Scrapers"),
   description:
     "Browse available city-meeting scrapers and inspect their output.",
 };

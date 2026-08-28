@@ -5,6 +5,7 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { CONTENT_MAX_WIDTH } from "@/lib/layout";
+import { siteConfig } from "@/lib/site";
 
 const facts = [
   "No database",
@@ -86,7 +87,7 @@ export function Hero() {
               mb: 4,
             }}
           >
-            Meetings Viewer turns raw Scrapy JSON into a browsable, filterable
+            {siteConfig.name} turns raw Scrapy JSON into a browsable, filterable
             table. Review a spider&apos;s output in minutes instead of an
             afternoon — and stop debating whether a scraper is actually working.
           </Typography>

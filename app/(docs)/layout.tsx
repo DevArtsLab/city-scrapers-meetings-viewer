@@ -4,6 +4,7 @@ import { source } from "@/lib/source";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { DarkModeSync } from "@/components/docs/dark-mode-sync";
+import { siteConfig } from "@/lib/site";
 
 export default function DocsLayoutRoot({
   children,
@@ -20,7 +21,7 @@ export default function DocsLayoutRoot({
       <RootProvider theme={{ enabled: false, hotKey: false }}>
         <DocsLayout
           tree={source.pageTree}
-          nav={{ title: "City Scrapers Docs", enabled: false }}
+          nav={{ title: siteConfig.docsNavTitle, enabled: false }}
           sidebar={{
             enabled: true,
           }}
