@@ -344,7 +344,7 @@
                 <tr>
                   <td>Visual editing</td>
                   <td>Keystatic at <code>/keystatic</code>, P3</td>
-                  <td>Stay git-only. See §1.1.</td>
+                  <td>Skip it — git and Docs sync instead, allowlisted and conflict-guarded. See §1.1.</td>
                 </tr>
                 <tr>
                   <td>Prose / link / a11y / perf CI</td>
@@ -387,31 +387,143 @@
             </ul>
           </div>
 
-          <h3>1.1 Skip Keystatic — the git path <em>is</em> the point</h3>
+          <h3>1.1 Skip Keystatic — git and Docs are both already first-class</h3>
           <p>
             The original research treated GitHub-account editing as a
-            limitation to work around. The new Development Guidelines say
-            otherwise: apprentices are already required to fork, branch,
-            open a draft PR, and carry it through a three-stage human review
-            (§3.8–3.9 of the guide, and §3 of this playbook). Git literacy
-            isn't incidental to the program — it's a large part of what it
-            teaches. Standing up a second CMS surface with its own auth and
-            content model to spare editors that exact workflow works against
-            the thing the org is optimizing for.
+            limitation to work around. The Development Guidelines confirm
+            apprentices are already required to fork, branch, open a draft
+            PR, and carry it through a three-stage human review (§3.8–3.9 of
+            the guide, and §3 of this playbook) — git literacy isn't
+            incidental to the program, it's a large part of what it teaches.
+            But the team writing <em>this</em> repo's own docs — the PM/
+            architect, the scraper developers, and the viewer developers —
+            already has both git access to this repo <em>and</em> edit
+            access to the source Google Docs those docs are drafted in. A
+            WYSIWYG CMS would be solving an access problem nobody on that
+            team actually has. Keystatic stays skipped, permanently, not
+            just deferred (§9 still tracks it separately for PDW/CB, who
+            genuinely lack both).
           </p>
           <p>
-            <strong>Keep the git path as the only path</strong> through at
-            least P4 — for CTD-authored content. That reasoning is scoped to
-            CTD apprentices specifically; it doesn't extend to PDW or CB
-            (§3), who aren't in the apprenticeship and have no stated reason
-            to want GitHub access to this repo. If a specific non-engineer
-            editor is later named who genuinely can't use
-            <a href="https://github.dev">github.dev</a> (already documented
-            in <code>contributing/index.mdx</code> as the stopgap) — which,
-            per §3, PDW or CB may already qualify as for the pages that
-            describe their own process — revisit Keystatic then, scoped to
-            those specific pages, not as a platform-wide default.
+            What replaces it isn't "git-only" either — it's git and Docs as
+            two first-class, converging paths, resolved below.
           </p>
+
+          <h4>The sync is an explicit allowlist, never "watch the whole doc"</h4>
+          <p>
+            The Docs sync maps specific document sections to specific target
+            files — never "watch this whole doc, regenerate that whole
+            folder." Two source documents, two different treatments:
+          </p>
+          <ul>
+            <li>
+              <strong>Development Guidelines → <code>/docs/scrapers</code>,
+              one-time seed only.</strong> This doc was never configured as
+              an ongoing sync source. It seeded the P2 migration once, and
+              from that point those pages are permanently git-owned — not
+              because the doc might change, but because of the hard rule
+              below. An unrelated edit anywhere else in that document must
+              never be able to trigger a regeneration that deletes a live
+              component.
+            </li>
+            <li>
+              <strong>Meetings Viewer spec → may stay an ongoing source</strong>,
+              scoped only to the specific sections feeding
+              <code>/pipeline</code>'s component-free files. Exactly which
+              files those are is finalized once that document is available
+              (§9) — the test is the same hard rule, not a fixed list.
+            </li>
+          </ul>
+
+          <h4>Ownership is by content type, not by author identity</h4>
+          <p>
+            <code>CODEOWNERS</code> assigns a <em>reviewing</em> pool per
+            directory — it doesn't gate authorship. There's no single named
+            "owner" to route around: anyone on the team may author a change
+            through either path. The one hard, non-negotiable rule is
+            technical, not political:
+          </p>
+          <div class="note danger">
+            <span class="lab">Any page importing a live app component is permanently git-owned</span>
+            <p>
+              A Docs-sync run regenerates the whole target file from the
+              document and has no way to represent a component import — it
+              would silently delete it. Three components already planned
+              trigger this rule (§4.2): <code>&lt;SchemaTable&gt;</code> on
+              <code>qa/schema.mdx</code>, <code>&lt;CommandBlock&gt;</code>
+              across the scraper docs, and <code>&lt;RubricReport&gt;</code>
+              on <code>/qa</code>. Once a page imports one of these, it never
+              goes back to being a sync target — permanently, not until the
+              next content review.
+            </p>
+          </div>
+          <p>
+            On any page that isn't component-locked, either path is open to
+            anyone: edit the relevant Doc section and let the sync open the
+            PR, or branch directly in git and open one yourself. Neither is
+            gated behind the other. For a quick discovery worth documenting
+            immediately — a new code pattern, a fix worth writing down before
+            it's forgotten — <strong>go git-direct</strong>: fewer steps and
+            lower latency than drafting in a Doc and waiting on the sync's
+            next run and its conversion step. The Doc path is for prose
+            someone would rather draft outside Markdown, not the default for
+            speed.
+          </p>
+
+          <h4>A bidirectional conflict guard, not a silent overwrite</h4>
+          <p>
+            Before either mechanism writes a page, it checks whether the
+            <em>other</em> path has moved since the last recorded sync
+            point — a frontmatter marker carrying either the last-synced Doc
+            revision ID or the last git-direct commit hash. If both moved,
+            it fails open into a flagged PR for a human to reconcile, never
+            a silent overwrite in either direction. This is the same
+            discipline as §5's link checker: catch the collision in CI,
+            don't let it ship as a surprise.
+          </p>
+
+          <h4>The citation stamp: date and source, never an author</h4>
+          <p>
+            Every page shows the reader "as of <em>[date]</em>, per
+            <em>[source doc + version]</em>" — never who opened the PR or
+            wrote the edit. The date is never hand-typed:
+          </p>
+          <ul>
+            <li>Doc-synced pages pull it from the Google Drive API's <code>modifiedTime</code>/revision metadata at fetch time.</li>
+            <li>Git-owned pages use the last commit date on that file.</li>
+          </ul>
+          <div class="note warn">
+            <span class="lab">Verified, not assumed</span>
+            <p>
+              The Development Guidelines <code>.docx</code> — a manual
+              Google Docs export — contains no <code>docProps/core.xml</code>
+              at all: not a blank author field, no metadata stream to hold
+              one. <code>unzip -l</code> on the file confirms it. A manually
+              exported <code>.docx</code> simply cannot be the source of a
+              reliable date; the Drive API and git history are the only two
+              sources this stamp is allowed to read from.
+            </p>
+          </div>
+          <p>
+            Nobody should ever be asked to hand-type a version line into a
+            living internal doc just to keep this working — the moment a
+            date is manually typed, it starts lying the first time someone
+            forgets to update it, which is exactly the failure mode this
+            whole playbook exists to design out.
+          </p>
+
+          <div class="note info">
+            <span class="lab">Scope boundary</span>
+            <p>
+              None of this changes anything for the Python scraper
+              developers working in <code>city-scrapers-core</code> and
+              consumer repos — they remain readers of
+              <code>/docs/scrapers</code> and <code>/docs/qa</code>, in
+              codebases this build has no visibility into. The payoff is
+              internal: less duplicated maintenance and faster publishing
+              for whoever on the CTD team is updating this repo's own docs.
+            </p>
+          </div>
 
           <h3>1.2 Replace the tool roster with one build check</h3>
           <p>
@@ -594,7 +706,7 @@
     scheduled-runs.mdx             <span class="k">— cron.yml / archive.yml (§4.2)</span>
     airtable-sync.mdx              <span class="k">— two-workflow trust boundary, secrets, known limitation (§4.3)</span>
   <span class="k">/contributing</span>  (unchanged, this repo only)
-    index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— add a one-line pointer: scraper contribution lives under /docs/scrapers/contributing</span>
+    index.mdx                      <span class="fix-tag">FIX</span> <span class="k">— pointer to /docs/scrapers/contributing, PLUS the §1.1 model: git-owned vs Doc-synced pages and why, how to edit each, what a conflict flag means, the date+source-not-author rule</span>
   <span class="k">/analytics</span>  (Fleet &amp; performance)  <span class="new-tag">NEW SECTION, §6</span>
     index.mdx                      <span class="k">— for senior developers, not the two doors — fleet health + docs performance (§6, P7)</span>
   <span class="k">/agents</span>  (Agents, memory &amp; skills)  <span class="new-tag">NEW SECTION, §7</span>
@@ -726,6 +838,26 @@
             </p>
           </div>
 
+          <div class="note warn">
+            <span class="lab">Blocked — second source document not yet provided</span>
+            <p>
+              This "technical specification" — the Meetings Viewer's own
+              spec, referenced by name in this repo's README — has not been
+              uploaded to this session. Only the Development Guidelines
+              document has. Two things wait on it specifically:
+            </p>
+            <ul>
+              <li>Migrating it as the real source for whichever <code>/pipeline</code> pages it seeds (§1.1), rather than this playbook guessing at its structure.</li>
+              <li>Its §6.5 — described as containing "not yet decided" items — needs to land as visible callouts on the relevant docs pages, never flattened into confident prose that overstates how settled something is, and each item there should become a tracked ticket the page links to, not permanent unowned "TBD" text.</li>
+            </ul>
+            <p>
+              Until it's provided, <code>/docs/pipeline</code>'s exact page
+              list and the "two component-free files" split in §1.1 stay
+              provisional — upload the spec and this section gets finished
+              accurately instead of guessed at.
+            </p>
+          </div>
+
           <h3>Does this actually reach PDW, CB, and everyone past this repo?</h3>
           <p>
             The content scope does, now — the Development Guidelines
@@ -754,7 +886,7 @@
                 </tr>
                 <tr>
                   <td><strong>Editing authority</strong></td>
-                  <td>§1.1 keeps editing git-only, reasoned from CTD apprentices already learning git. PDW and CB are not part of that apprenticeship and have no stated reason to have GitHub write access to <em>this</em> repo.</td>
+                  <td>§1.1's git+Docs sync model is scoped to the PM/architect, scraper developers, and viewer developers — all three already have both git and Docs access. PDW and CB have neither, and aren't part of that scoping at all.</td>
                   <td>The review-process and pipeline pages describe PDW/CB's own workflow, but PDW/CB have no path to correct them when their process changes — the exact drift this platform exists to prevent, just moved up a level to organizational process instead of code.</td>
                 </tr>
                 <tr>
@@ -815,7 +947,7 @@
                 <tr>
                   <td><code>&lt;SchemaTable&gt;</code></td>
                   <td>The hand-written table in <code>qa/schema.mdx</code></td>
-                  <td>Generated from a single source (§5), so the "generated" claim in §1.3 becomes true instead of aspirational. Deep-linkable per field, kept from the original research's §5.3.</td>
+                  <td>Generated from a single source (§5), so the "generated" claim in §1.3 becomes true instead of aspirational. Deep-linkable per field, kept from the original research's §5.3. <strong>Permanently git-owned the moment this ships (§1.1)</strong> — <code>qa/schema.mdx</code> can never be a Docs-sync target again.</td>
                 </tr>
                 <tr>
                   <td><code>&lt;PRLifecycle&gt;</code> (MUI <code>Stepper</code>)</td>
@@ -825,12 +957,12 @@
                 <tr>
                   <td><code>&lt;CommandBlock&gt;</code></td>
                   <td>Static code fences repeating a spider name</td>
-                  <td>Kept from the original research's §5.4, now more valuable — the guide adds <code>genspider</code>, <code>validate</code>, <code>flake8</code>/<code>black</code>/<code>isort</code>, and several <code>pytest</code> invocations on top of the one <code>crawl -O</code> command it originally covered.</td>
+                  <td>Kept from the original research's §5.4, now more valuable — the guide adds <code>genspider</code>, <code>validate</code>, <code>flake8</code>/<code>black</code>/<code>isort</code>, and several <code>pytest</code> invocations on top of the one <code>crawl -O</code> command it originally covered. <strong>Permanently git-owned wherever it's used (§1.1)</strong> — this is why the Development Guidelines doc is a one-time seed for <code>/docs/scrapers</code>, never an ongoing sync source.</td>
                 </tr>
                 <tr>
                   <td><code>&lt;RubricReport&gt;</code></td>
                   <td>Nothing — new (restored from §5.1 of the original research)</td>
-                  <td>Drop or paste a spider's JSON output on <code>/qa</code>, get a per-field verdict against the corrected rubric (§2) — timezone-naive check, link order, status logic, duplicate IDs. Runs client-side; mostly a lift from the already-existing <code>lib/duplicates.ts</code> and the app's own status/format helpers, so it stays true to "the viewer shows exactly what the spider produced" (§2) rather than reimplementing QA logic a second way.</td>
+                  <td>Drop or paste a spider's JSON output on <code>/qa</code>, get a per-field verdict against the corrected rubric (§2) — timezone-naive check, link order, status logic, duplicate IDs. Runs client-side; mostly a lift from the already-existing <code>lib/duplicates.ts</code> and the app's own status/format helpers, so it stays true to "the viewer shows exactly what the spider produced" (§2) rather than reimplementing QA logic a second way. <strong>Permanently git-owned once it ships (§1.1)</strong> — <code>/qa/index.mdx</code> leaves the sync allowlist for good at that point.</td>
                 </tr>
                 <tr>
                   <td>Fumadocs per-page <code>.md</code> route + copy-as-markdown button</td>
@@ -903,10 +1035,12 @@
           <h2><span class="num">05</span>Automation, the lean version</h2>
           <p>
             Right now there is no CI for the docs at all — no
-            <code>.github/workflows</code> in this repo. Two small workflows
-            close the actual gaps found in this audit; everything heavier
-            from the original research's tool table is deliberately deferred
-            (§1.2).
+            <code>.github/workflows</code> in this repo. Four small,
+            deterministic workflows close the actual gaps found in this
+            audit and enforce §1.1's sync model; everything heavier from the
+            original research's tool table is deliberately deferred (§1.2).
+            None of them cost money — every check below runs on facts
+            already in the repo or free API calls, never a paid step.
           </p>
           <div class="phase">
             <div class="tag">CI-1</div>
@@ -928,14 +1062,73 @@
           <div class="phase">
             <div class="tag">CI-2</div>
             <div>
-              <h3 style="margin-top:0">docs-generate-check.yml</h3>
+              <h3 style="margin-top:0">docs-freshness-score.yml</h3>
               <p>
-                Once <code>&lt;SchemaTable&gt;</code>'s generator (§4.2)
-                exists: run it and fail the build if <code>git diff</code> is
-                non-empty. This is the original research's P5
-                "regenerate-and-diff" idea, scoped to the one page that
-                actually needs it instead of a platform-wide drift product.
+                Upgraded from a single regenerate-and-diff check into a
+                composite score per page, computed in CI, fully
+                deterministic:
               </p>
+              <ul>
+                <li><strong>Git-age delta</strong> — days since the page's last commit vs. days since the source-of-truth it cites last changed (the Doc's <code>modifiedTime</code>, or the code symbol's last commit, per §1.1's citation stamp).</li>
+                <li><strong>TTL</strong> — a per-page <code>ttl_days</code> frontmatter value (kept from the original research's P5); expired pages flag even with no upstream change, since some content ages out on its own (a schedule reference, a version number).</li>
+                <li><strong>Symbol-existence check</strong> — for pages naming a specific code symbol (a type, a field, a function), confirm it still exists at the cited path. A renamed or removed symbol fails the check immediately, before any age threshold is reached.</li>
+              </ul>
+              <p>
+                For <code>&lt;SchemaTable&gt;</code> specifically, this
+                subsumes the old regenerate-and-diff idea: run the
+                generator, fail if <code>git diff</code> is non-empty. The
+                composite score generalizes it to every page with a citation
+                stamp, not just the one generated page.
+              </p>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="tag">CI-3</div>
+            <div>
+              <h3 style="margin-top:0">docs-sync-conflict-guard.yml</h3>
+              <p>
+                Implements §1.1's bidirectional guard: before the Docs-sync
+                writes a page, or a git-direct PR touches one still on the
+                allowlist, compare the page's frontmatter marker (last-synced
+                Doc revision, or last git-direct commit hash) against both
+                sources' current state. Either side having moved past that
+                marker is fine; <em>both</em> having moved is a conflict —
+                fail open into a flagged PR with both diffs attached, never
+                an automatic merge in either direction.
+              </p>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="tag">CI-4</div>
+            <div>
+              <h3 style="margin-top:0">docs-facts-regenerate-check.yml</h3>
+              <p>
+                One input-source layer for this repo's own code-native
+                facts (schema fields, Node version, mode-status flags),
+                feeding <code>README.md</code>, the landing page, and the
+                relevant docs pages. Live import for code consumers —
+                exactly what <code>&lt;SchemaTable&gt;</code> already does.
+                For places that can't import a component (static prose like
+                <code>README.md</code>): generate the value and fail if
+                <code>git diff</code> is non-empty, the same pattern as
+                CI-2, scoped to facts instead of a whole page.
+              </p>
+              <div class="note danger">
+                <span class="lab">Pilot case, already found</span>
+                <p>
+                  <code>README.md</code> line 39 says
+                  <code>Node.js 18.18+</code>. <code>package.json</code>'s
+                  <code>engines</code> field says <code>&gt;=20.9.0</code>.
+                  Two hand-maintained copies of the same fact, already
+                  disagreeing. Validate this layer against fixing that one
+                  pair first — a single generated line sourced from
+                  <code>package.json</code>'s own <code>engines</code> field
+                  — before expanding to schema fields (already covered by
+                  <code>&lt;SchemaTable&gt;</code>) and mode-status flags
+                  (README's "(planned)" on Production Mode, currently
+                  typed in two places by hand).
+                </p>
+              </div>
             </div>
           </div>
           <div class="note info">
@@ -946,7 +1139,8 @@
               later. Revisit each once its specific failure mode actually
               shows up (prose drift across many authors, external
               <code>.gov</code> link rot, a11y regressions, code-vs-docs
-              drift outside the one generated page), not on a fixed schedule.
+              drift outside what CI-2/CI-4 already cover), not on a fixed
+              schedule.
             </p>
           </div>
         </section>
@@ -1264,14 +1458,35 @@
           </div>
 
           <div class="phase">
+            <div class="tag">P1.5<em>before P2</em></div>
+            <div>
+              <h3 style="margin-top:0">Resolve the sync model — gates everything below</h3>
+              <p>
+                Nothing in P2 gets authored until these exist. Not full
+                automation yet — just the mechanism decisions and the
+                minimum scaffolding so P2's content has somewhere correct to
+                land:
+              </p>
+              <ul>
+                <li>Build the citation-stamp component (§1.1) — date + source, wired to the Drive API for synced pages and git log for owned pages, before a single P2 page ships without one.</li>
+                <li><code>CODEOWNERS</code> reflecting review-pool-by-directory, not authorship gating (§1.1).</li>
+                <li>Decide and document, in writing, which actual tool implements the explicit-allowlist Docs sync (§1.1, §9) — this playbook specifies its required behavior, not its vendor or implementation.</li>
+                <li>The frontmatter convention for the conflict-guard marker (last-synced Doc revision or last git-direct commit hash) — needed before either path writes a single P2 page.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="phase">
             <div class="tag">P2<em>1 sprint</em></div>
             <div>
               <h3 style="margin-top:0">Correctness, then the new sections</h3>
               <ol>
                 <li>Apply every fix in §2's table — five files, no new pages yet.</li>
+                <li>Migrate the Development Guidelines content into the new <code>/scrapers</code> pages as a <strong>one-time seed</strong> (§1.1) — not an ongoing sync. The moment <code>&lt;CommandBlock&gt;</code> lands on any of them (P3), that page is permanently git-owned regardless.</li>
                 <li>Write the new <code>/scrapers</code> pages: source-analysis, spider-patterns, bot-detection, testing, contributing (§3).</li>
                 <li>Write <code>/qa/review-process</code> and stand up the new <code>/pipeline</code> section (§3), including the data-flow diagram in §3.</li>
                 <li>Mount <code>&lt;SearchTrigger&gt;</code> in <code>SiteHeader</code> (§4.2) — small, independent of the content work above.</li>
+                <li>Rewrite <code>/docs/contributing</code> to document the §1.1 model itself: which pages are git-owned vs. Doc-synced and why (naming the three components), how to edit each, what a conflict-guard flag means, and the date+source-not-author citation rule.</li>
               </ol>
             </div>
           </div>
@@ -1303,10 +1518,10 @@
           </div>
 
           <div class="phase">
-            <div class="tag">P5<em>3–4 days</em></div>
+            <div class="tag">P5<em>4–5 days</em></div>
             <div>
               <h3 style="margin-top:0">Automation</h3>
-              <p>Ship <code>docs-build.yml</code> and <code>docs-generate-check.yml</code> from §5. Nothing else, yet.</p>
+              <p>Ship all four CI workflows from §5 — build+links, the composite freshness score, the sync conflict guard, and the facts-regeneration check (Node-version pilot first). Nothing heavier, yet.</p>
             </div>
           </div>
 
@@ -1411,9 +1626,9 @@
             </li>
             <li>
               <strong>Who can correct PDW/CB-described content, and how
-              (§3)?</strong> The git-only decision in §1.1 is reasoned from
-              CTD apprentices learning git as part of the program — it
-              doesn't extend to PDW or CB. Options range from "someone on
+              (§3)?</strong> §1.1's git+Docs sync model is scoped to three
+              roles who already have both kinds of access — it doesn't
+              extend to PDW or CB, who have neither. Options range from "someone on
               those teams reviews and signs off on the relevant pages
               in-PR without needing write access themselves" to a scoped
               Keystatic instance limited to <code>/qa/review-process</code>
@@ -1433,6 +1648,28 @@
               default — and it should account for §8's planned Production
               Mode, which is the concrete reason non-CTD readers will
               eventually use this repo's output directly, not just its docs.
+            </li>
+            <li>
+              <strong>Blocking: the Meetings Viewer technical specification
+              hasn't been provided (§3).</strong> Only the Development
+              Guidelines document has been uploaded to this session. The
+              exact <code>/pipeline</code> page split in §1.1, and all of
+              points 9–10 from this revision's source instructions
+              (migrating that document, preserving its §6.5 as visible
+              callouts, converting those items into tracked tickets) stay
+              provisional until it's supplied. This is the single highest-
+              priority input this playbook is missing.
+            </li>
+            <li>
+              <strong>Which tool actually runs the Docs↔git sync (§1.1)?</strong>
+              This playbook specifies required behavior — explicit
+              per-section allowlist, Drive API metadata for the citation
+              stamp, a frontmatter conflict marker — not an implementation.
+              Options span a custom Apps Script + Drive API webhook +
+              GitHub Action, to an existing Docs-to-Markdown sync tool
+              adapted to the allowlist and conflict-guard requirements.
+              Resolve this as part of P1.5 — content authoring in P2
+              shouldn't start against a mechanism that's still notional.
             </li>
           </ul>
         </section>
