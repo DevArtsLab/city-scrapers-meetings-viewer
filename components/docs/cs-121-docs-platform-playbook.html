@@ -427,11 +427,14 @@
               component.
             </li>
             <li>
-              <strong>Meetings Viewer spec → may stay an ongoing source</strong>,
-              scoped only to the specific sections feeding
-              <code>/pipeline</code>'s component-free files. Exactly which
-              files those are is finalized once that document is available
-              (§9) — the test is the same hard rule, not a fixed list.
+              <strong>Meetings Viewer Technical Spec → <code>/docs/viewer/architecture.mdx</code>,
+              ongoing source.</strong> Unlike the Development Guidelines,
+              this one maps to exactly one page, so it can stay wired as a
+              live sync — right up until that page imports a component
+              (§4.2's <code>&lt;SchemaTable&gt;</code> is a candidate, per
+              §3, since the spec's own §4.1 data shapes overlap with
+              <code>qa/schema.mdx</code>). The same hard rule applies the
+              moment it does.
             </li>
           </ul>
 
@@ -576,12 +579,15 @@
           <h2><span class="num">02</span>Fix the record before adding anything</h2>
           <p>
             The Development Guidelines v1.1 is the authoritative source for
-            the Meeting schema — it's the document CTD reviewers actually QA
-            against. Cross-checking it against what's live on
-            <code>/docs</code> today turned up four factual errors, one dead
-            cross-reference, and confirmed the fabricated "generated" claim
-            from §1.3. All four schema errors were verified against a real
-            fixture, not just the guide's prose:
+            QA-facing schema guidance — it's the document CTD reviewers
+            actually check output against. The Meetings Viewer Technical
+            Specification is the authoritative source for the app's own data
+            contract — the same schema, described from the engineering side.
+            Cross-checking both against what's live on <code>/docs</code>
+            today turned up five factual errors, one dead cross-reference,
+            and confirmed the fabricated "generated" claim from §1.3. Every
+            schema error was verified against a real fixture, not just
+            either document's prose:
           </p>
           <div class="note danger">
             <span class="lab">Verified against data/scrapers/test_spider1.json</span>
@@ -651,14 +657,21 @@
                   <td>—</td>
                   <td>Either make it true (§1.3, §5) or stop claiming it</td>
                 </tr>
+                <tr>
+                  <td><code>qa/schema.mdx</code></td>
+                  <td><code>id</code> described loosely as "conventionally a slug derived from the agency, date, and title"</td>
+                  <td>Exact format <code>{"{spider}/{timestamp}/{...}"}</code>, per the Meetings Viewer spec §4.1</td>
+                  <td>State the precise format — verified against <code>data/scrapers/test_spider1.json</code>'s real <code>id</code>: <code>"example_spider_city_council/202406171300/x/board"</code>, an exact match</td>
+                </tr>
               </tbody>
             </table>
           </div>
           <p>
-            None of this is generated-content work. It's five files, read
-            once against the guide, corrected in place. Do it before writing
-            a single new page — new content built on the wrong schema
-            description just multiplies the error.
+            None of this is generated-content work. It's six fixes across
+            five files, read once against the two source documents,
+            corrected in place. Do it before writing a single new page —
+            new content built on the wrong schema description just
+            multiplies the error.
           </p>
         </section>
 
@@ -701,8 +714,11 @@
   <span class="k">/qa</span>  (QA &amp; Review)
     index.mdx, schema.mdx, rubric.mdx   <span class="fix-tag">FIX</span> <span class="k">— corrections from §2</span>
     review-process.mdx             <span class="new-tag">NEW</span> <span class="k">— the 5-stage pipeline, rendered as a Stepper (§3.9)</span>
-  <span class="k">/pipeline</span>  (How it all fits together)  <span class="new-tag">NEW SECTION</span>
-    index.mdx                      <span class="k">— system architecture + data-flow diagram (§4.1)</span>
+  <span class="k">/viewer</span>  (Meetings Viewer — existing, unchanged pages + one new)
+    index.mdx, quick-start.mdx     <span class="k">— unchanged</span>
+    architecture.mdx               <span class="new-tag">NEW</span> <span class="k">— the real ongoing Docs-sync target for the Viewer spec: modes, data shapes, invariants, table-library rationale (§3)</span>
+  <span class="k">/pipeline</span>  (How the scraper-repo CI/CD fits together)  <span class="new-tag">NEW SECTION</span>
+    index.mdx                      <span class="k">— system architecture + data-flow diagram (§4.1) — Documenters.org's pipeline only, not the Viewer's</span>
     scheduled-runs.mdx             <span class="k">— cron.yml / archive.yml (§4.2)</span>
     airtable-sync.mdx              <span class="k">— two-workflow trust boundary, secrets, known limitation (§4.3)</span>
   <span class="k">/contributing</span>  (unchanged, this repo only)
@@ -727,19 +743,29 @@
             in-context links, never competing with the homepage's choice.
           </p>
 
-          <h3>The pipeline diagram missed a mode — corrected</h3>
+          <h3>The pipeline diagram missed a mode — corrected, then confirmed</h3>
           <p>
             This diagram's first draft said the Meetings Viewer "never
-            touches production" and left it there. That's wrong in a way
-            that matters: this repo's own <code>README.md</code> describes a
-            second, <strong>planned</strong> "Production Mode" — the viewer
-            fetching PR-scoped scraper output from a dedicated
-            <code>meetings-viewer-data</code> repo, populated by GitHub
-            Actions attached to each city-scrapers repo, created when a PR
-            opens and removed when it closes. Same UI, same components —
-            only <code>lib/scrapers.ts</code>'s data source changes. That
-            mode doesn't touch Documenters.org's Azure/ETL/Postgres pipeline
-            either, but it's explicitly meant to be used
+            touches production" and left it there. That was wrong in a way
+            that matters, and the now-provided Meetings Viewer Technical
+            Specification confirms it precisely (§6, its own "Production
+            mode (not yet fully planned)"): a second, planned mode fetches
+            PR-scoped scraper output from a dedicated public
+            <code>meetings-viewer-data</code> repo, laid out as
+            <code>prs/{scraper_repo}/{pr_number}/manifest.json</code>
+            plus a <code>scrapers/</code> subfolder — populated by two
+            workflows living in each scraper repo: <code>run-and-save.yml</code>
+            (runs on PR open/update, commits output) and
+            <code>cleanup-data.yml</code> (runs on PR close, deletes that
+            PR's directory regardless of merge state). The viewer reads it
+            via plain <code>raw.githubusercontent.com</code> URLs under a
+            <code>/pr/{repo}/{pr_number}/scrapers</code> route —
+            no backend, no database, no auth on the read side (§7's
+            architectural invariants are explicit about this). Same UI, same
+            components, same routes as local mode — only
+            <code>lib/scrapers.ts</code>'s implementation changes (§5.2).
+            That mode doesn't touch Documenters.org's Azure/ETL/Postgres
+            pipeline either, but it's explicitly meant to be used
             <em>during PR review</em> — which means by PDW and CB, not just
             by a CTD apprentice at their own keyboard. The corrected diagram
             below draws three paths, not two, and the caption says which
@@ -830,32 +856,53 @@
               Neither path into the Meetings Viewer touches Azure, the ETL
               job, or Postgres — that part of the original claim holds. What
               didn't hold: "local-only." The viewer has a second, planned
-              mode meant for PDW and CB to use directly during PR review. It
-              isn't built yet (README: "Implementation details are tracked
-              in the technical specification and are not part of the
-              current build") — <code>/docs/pipeline</code> needs to say
-              that plainly, and the roadmap (§8) needs a line item for it.
+              mode meant for PDW and CB to use directly during PR review —
+              confirmed, and specified precisely, by the Meetings Viewer
+              Technical Specification's own §6, itself headed "Production
+              mode (not yet fully planned)." <code>/docs/viewer/architecture.mdx</code>
+              (§3, below) is where this belongs, not <code>/docs/pipeline</code>
+              — a correction from this playbook's own previous draft, which
+              guessed wrong about which page this content would seed before
+              the spec was available.
             </p>
           </div>
 
-          <div class="note warn">
-            <span class="lab">Blocked — second source document not yet provided</span>
+          <div class="note tip">
+            <span class="lab">Resolved — both source documents now provided</span>
             <p>
-              This "technical specification" — the Meetings Viewer's own
-              spec, referenced by name in this repo's README — has not been
-              uploaded to this session. Only the Development Guidelines
-              document has. Two things wait on it specifically:
+              The Meetings Viewer Technical Specification is the second
+              document this playbook was missing. One correction and one
+              confirmation, both load-bearing:
             </p>
             <ul>
-              <li>Migrating it as the real source for whichever <code>/pipeline</code> pages it seeds (§1.1), rather than this playbook guessing at its structure.</li>
-              <li>Its §6.5 — described as containing "not yet decided" items — needs to land as visible callouts on the relevant docs pages, never flattened into confident prose that overstates how settled something is, and each item there should become a tracked ticket the page links to, not permanent unowned "TBD" text.</li>
+              <li>
+                <strong>Correction:</strong> it doesn't seed
+                <code>/pipeline</code> at all — that section is scraper-repo
+                CI/CD (the Documenters.org pipeline, the Airtable sync),
+                entirely from the Development Guidelines. The Viewer spec is
+                exclusively about this app's own architecture: modes, pages,
+                data shapes, invariants, table-library choice. It seeds a new
+                page, <code>/docs/viewer/architecture.mdx</code> (§3's tree),
+                which becomes its ongoing Docs-sync target per §1.1 — no
+                "which two files" ambiguity left, because the whole document
+                maps to one new page, not a slice of an existing section.
+              </li>
+              <li>
+                <strong>Confirmation:</strong> §6.5, "Items still under
+                decision," lists exactly four open items — the token
+                mechanism for cross-repo writes (PAT vs. GitHub App),
+                concurrent-workflow handling against the data repo, whether
+                merged-PR data is preserved or deleted like unmerged data,
+                and a periodic sweep for orphaned PR directories. All four
+                land on <code>/docs/viewer/architecture.mdx</code>'s
+                Production Mode section as visible <code>&lt;Callout
+                type="warn"&gt;</code> blocks, quoted near-verbatim — never
+                flattened into prose that implies more certainty than the
+                spec itself claims. Each one becomes an actual tracked issue
+                (file four, referencing this spec section) that the callout
+                links to, not permanent unowned "TBD" text (§8, P2).
+              </li>
             </ul>
-            <p>
-              Until it's provided, <code>/docs/pipeline</code>'s exact page
-              list and the "two component-free files" split in §1.1 stay
-              provisional — upload the spec and this section gets finished
-              accurately instead of guessed at.
-            </p>
           </div>
 
           <h3>Does this actually reach PDW, CB, and everyone past this repo?</h3>
@@ -1156,48 +1203,63 @@
             itself fast?</em> That's a third audience, and it's a different
             job: fleet-wide visibility, not single-spider QA.
           </p>
-          <div class="note info">
-            <span class="lab">This isn't invented — it's half-built already</span>
+          <div class="note danger">
+            <span class="lab">Correction — this is by design, not unfinished</span>
             <p>
               <code>components/scrapers/ScrapersTable.tsx</code> already
               defines <code>Status</code> and <code>Last Run</code> columns
               (fields <code>last_run_status</code> and <code>last_run</code>)
-              on the spider list. <code>lib/scrapers.ts</code>'s
-              <code>SpiderEntry</code> type declares both fields. But
+              on the spider list, and <code>lib/scrapers.ts</code>'s
+              <code>SpiderEntry</code> type declares both fields, but
               <code>listScrapers()</code> only ever returns
-              <code>{"{"} slug {"}"}</code> — <code>agency</code>,
+              <code>{ slug }</code>. This playbook's previous draft called
+              that "half-built and never finished." The Meetings Viewer
+              spec says otherwise, explicitly (§5.4, "Local fields
+              explicitly out of scope"): <code>agency</code>,
               <code>last_run</code>, and <code>last_run_status</code> are
-              never populated, so every row renders the
-              <code>—</code> placeholder permanently. The table was built for
-              fleet visibility and never finished.
+              deliberately unpopulated in local mode — "no local mechanism
+              produces or stores them." The placeholder isn't a gap. It's
+              the local half of a shape whose other half is Production Mode
+              (§4.2 of the spec: "The shape supports adding optional fields
+              … in production without breaking the local consumer").
             </p>
           </div>
 
-          <h3>Keep it local, the same way the rest of the app already is</h3>
+          <h3>Real fleet data waits on Production Mode — it isn't a local workaround</h3>
           <p>
-            §3's diagram established that this app is a local, dev-time tool
-            — it never talks to Azure, the ETL job, or Postgres. Fleet data
-            should hold that same line rather than reaching for the real
-            Airtable spider registry from client code:
+            That correction changes the plan, not just the framing.
+            §3's diagram already shows two things that aren't the
+            Documenters.org production pipeline: local mode and the
+            viewer's own planned Production Mode. Fleet data belongs on the
+            second one, not invented locally:
           </p>
           <ul>
             <li>
-              <strong>Local signal, computed from what's already on disk.</strong>
-              File mtime on each <code>data/scrapers/&lt;slug&gt;.json</code>
-              stands in for <code>last_run</code>; a schema self-check —
-              reusing <code>&lt;RubricReport&gt;</code>'s validation from §4.2
-              — stands in for <code>last_run_status</code>
-              (<code>healthy</code> / <code>stale</code> /
-              <code>schema-errors</code>). This finishes
-              <code>SpiderEntry</code> honestly with zero new integrations.
+              <strong>The real source is Production Mode's
+              <code>manifest.json</code></strong>, fetched the same way the
+              viewer's own production mode will (§3's spec citation) —
+              <code>raw.githubusercontent.com</code>, no backend. A local
+              mtime-and-self-check substitute (this playbook's own earlier
+              draft) would directly contradict the spec's §5.4 and §7 —
+              scrapped, not built.
             </li>
             <li>
-              <strong>The real Airtable-backed version is a separate, bigger
-              decision</strong> — see §9. The Airtable PAT is a
-              write-scoped org secret (per the guide's §4.3); it can never
-              reach client-side code in this Next.js app. A live version
-              needs a server-only Route Handler and its own security review,
-              not a quick client fetch.
+              <strong>This gates the fleet KPI panel on Production Mode
+              shipping</strong> (§8's flagged, not-scoped-here app feature).
+              Until then, <code>/docs/analytics</code>'s fleet panel ships
+              as an honest empty state — "waiting on Production Mode," not a
+              fabricated local number.
+            </li>
+            <li>
+              <strong>The Airtable-backed alternative is now weaker, not
+              just bigger scope</strong> — see §9. Beyond the write-scoped
+              PAT needing a server-only Route Handler, that handler would be
+              an application-managed API server, which the spec's §7 lists
+              as an architectural invariant that "should not be broken
+              without explicit revisit." Production Mode's static-file fetch
+              doesn't have that problem. Prefer it once it exists, rather
+              than building a second, invariant-breaking path to the same
+              data.
             </li>
           </ul>
 
@@ -1219,7 +1281,7 @@
               <tbody>
                 <tr>
                   <td>Fleet health KPIs</td>
-                  <td>Local <code>SpiderEntry</code> completion, above</td>
+                  <td>Production Mode's <code>manifest.json</code>, once it ships — empty state until then</td>
                   <td>Stat tiles, status-colored — a count is the whole story, no chart needed</td>
                 </tr>
                 <tr>
@@ -1237,8 +1299,10 @@
           </div>
 
           <p>
-            Mocked below with this document's own tokens — the real build
-            must pull <code>success</code>/<code>warning</code>/<code>error</code>
+            Mocked below as it looks <em>once Production Mode ships</em> and
+            the fleet numbers are real — with this document's own tokens for
+            the mockup itself, but the real build must pull
+            <code>success</code>/<code>warning</code>/<code>error</code>
             straight from the MUI theme (the same three values
             <code>StatusChip</code> already uses, per
             <code>components/ui/StatusChip.tsx</code>), not hand-picked hex.
@@ -1485,6 +1549,8 @@
                 <li>Migrate the Development Guidelines content into the new <code>/scrapers</code> pages as a <strong>one-time seed</strong> (§1.1) — not an ongoing sync. The moment <code>&lt;CommandBlock&gt;</code> lands on any of them (P3), that page is permanently git-owned regardless.</li>
                 <li>Write the new <code>/scrapers</code> pages: source-analysis, spider-patterns, bot-detection, testing, contributing (§3).</li>
                 <li>Write <code>/qa/review-process</code> and stand up the new <code>/pipeline</code> section (§3), including the data-flow diagram in §3.</li>
+                <li>Write <code>/docs/viewer/architecture.mdx</code> from the Meetings Viewer spec — modes, pages, data shapes, invariants, table-library rationale (§3) — as its ongoing Docs-sync target from day one (§1.1).</li>
+                <li>File four tracked tickets for the spec's §6.5 items (token mechanism, concurrent-write handling, merged-data retention, orphan sweep) and link each from the matching <code>&lt;Callout&gt;</code> on that page (§3, §9) — before the page ships, not after.</li>
                 <li>Mount <code>&lt;SearchTrigger&gt;</code> in <code>SiteHeader</code> (§4.2) — small, independent of the content work above.</li>
                 <li>Rewrite <code>/docs/contributing</code> to document the §1.1 model itself: which pages are git-owned vs. Doc-synced and why (naming the three components), how to edit each, what a conflict-guard flag means, and the date+source-not-author citation rule.</li>
               </ol>
@@ -1555,10 +1621,10 @@
             <div>
               <h3 style="margin-top:0">Fleet &amp; performance, for senior developers</h3>
               <ul>
-                <li>Finish <code>SpiderEntry</code> locally: mtime-derived <code>last_run</code>, schema-self-check <code>last_run_status</code> (§6).</li>
-                <li>Stand up <code>/docs/analytics</code>: KPI tiles, the extended fleet table, the Lighthouse trend panel (§6) — status colors pulled from the MUI theme, not re-picked.</li>
+                <li>Stand up <code>/docs/analytics</code> now: the Lighthouse trend panel is independent of Production Mode and ships this phase (§6).</li>
                 <li>Axe-core + Lighthouse CI, finally justified (§1.2/P6) — write one JSON artifact per build for the trend panel to read.</li>
-                <li>Gate on §9's local-vs-Airtable decision before scoping anything past the local version.</li>
+                <li>Ship the fleet KPI panel and extended table as an honest empty state — "waiting on Production Mode" — not a local mtime substitute (§6, corrected). Wire them to real data only once Production Mode's <code>manifest.json</code> exists.</li>
+                <li>No local-vs-Airtable decision left to gate on (§9, resolved) — Production Mode's own data source supersedes both options.</li>
               </ul>
             </div>
           </div>
@@ -1613,16 +1679,14 @@
               it.
             </li>
             <li>
-              <strong>Local fleet signal vs. a live Airtable-backed one
-              (§6).</strong> The local version (file mtime + schema
-              self-check) ships in P7 with zero new integrations. A version
-              backed by the real spider registry is materially bigger scope
-              — a server-only Route Handler, a read-scoped Airtable token
-              held as a Vercel environment variable, and its own security
-              review before any senior developer sees real fleet data in
-              this app. Decide explicitly before P7 drifts into building it;
-              don't let it happen by accident because "the API's right
-              there."
+              <strong>Resolved: fleet data source (§6).</strong> Neither a
+              local mtime substitute (contradicts the spec's §5.4) nor a
+              live Airtable-backed Route Handler (contradicts its §7 "no
+              application-managed API server" invariant) — Production
+              Mode's own <code>manifest.json</code> is both the honest and
+              the invariant-compliant source. The only real open item is
+              timing: the fleet KPI panel ships an empty state until
+              Production Mode exists, not before.
             </li>
             <li>
               <strong>Who can correct PDW/CB-described content, and how
@@ -1650,15 +1714,14 @@
               eventually use this repo's output directly, not just its docs.
             </li>
             <li>
-              <strong>Blocking: the Meetings Viewer technical specification
-              hasn't been provided (§3).</strong> Only the Development
-              Guidelines document has been uploaded to this session. The
-              exact <code>/pipeline</code> page split in §1.1, and all of
-              points 9–10 from this revision's source instructions
-              (migrating that document, preserving its §6.5 as visible
-              callouts, converting those items into tracked tickets) stay
-              provisional until it's supplied. This is the single highest-
-              priority input this playbook is missing.
+              <strong>Filing the four §6.5 tickets is the one piece of this
+              still outstanding (§3, P2).</strong> Both source documents are
+              now in hand and the previous blocker is closed. What's left is
+              mechanical, not open: create the four tracked issues (token
+              mechanism, concurrent-write handling, merged-data retention,
+              orphan sweep) and link each from
+              <code>/docs/viewer/architecture.mdx</code>'s Production Mode
+              callouts before that page ships.
             </li>
             <li>
               <strong>Which tool actually runs the Docs↔git sync (§1.1)?</strong>
