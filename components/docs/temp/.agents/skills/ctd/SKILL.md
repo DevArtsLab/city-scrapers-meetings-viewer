@@ -1,11 +1,13 @@
 ---
-name: scrapy-resources
-description: A brief description, shown to the model to help it understand when to use this skill
+name: ctd
+description: CTD guidance for City Scrapers projects
 ---
 
-# Scrapy Spider Development Skill
+<!-- author: Code The Dream | last_updated: 2026-05-21 -->
 
-Use this skill when building, refactoring, or debugging Scrapy spiders for city-scrapers projects.
+# CTD Guidance
+
+Use this skill when building, refactoring, or debugging Scrapy spiders for City Scrapers projects.
 
 ## Pre-Implementation Checklist
 
