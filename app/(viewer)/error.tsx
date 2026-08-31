@@ -17,11 +17,20 @@ export default function Error({
   reset: () => void;
 }) {
   return (
-    <Box sx={{ textAlign: "center", py: { xs: 6, sm: 10 } }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
         Something went wrong
       </Typography>
-      <Typography color="text.secondary" sx={{ mb: 1 }}>
+      <Typography color="text.secondary" sx={{ mb: 2 }}>
         {error.message ||
           "An unexpected error occurred while loading scraper data."}
       </Typography>

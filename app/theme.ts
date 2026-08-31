@@ -7,7 +7,13 @@ const theme = createTheme({
     colorSchemeSelector: "data",
   },
   colorSchemes: {
-    light: true,
+    light: {
+      palette: {
+        primary: {
+          main: "#4f7cc7",
+        },
+      },
+    },
     dark: true,
   },
   typography: {

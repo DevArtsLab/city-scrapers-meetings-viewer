@@ -1,6 +1,6 @@
 ---
-name: pwd
-description: Review code for bugs, style, and improvements
+name: spider-review
+description: Reviewing spider PRs for City Scrapers, including review mindset, process, reference checklist, output validation, and data quality checks
 ---
 
 ## Review Mindset

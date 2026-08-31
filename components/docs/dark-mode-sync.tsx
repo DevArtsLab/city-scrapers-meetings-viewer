@@ -13,9 +13,16 @@ function applyDarkClass(isDark: boolean) {
 }
 
 /**
- * Syncs the `.dark` class on <html> with MUI's color scheme.
- * Fumadocs uses `.dark` for its dark-mode CSS variables;
- * MUI uses `data-mui-color-scheme`. This bridges the two.
+ * Client-side companion to DocsDarkModeSyncScript.
+ *
+ * Both components exist because Fumadocs and MUI use different dark-mode
+ * mechanisms that need bridging:
+ * - Fumadocs applies a `.dark` CSS class on <html> for its CSS variables.
+ * - MUI uses `data-mui-color-scheme` on <html> for its color scheme.
+ *
+ * DocsDarkModeSyncScript runs before hydration to prevent a flash of
+ * wrong theme. This component runs after hydration to keep the `.dark`
+ * class in sync when the user toggles color scheme at runtime.
  */
 export function DarkModeSync() {
   const { mode, systemMode } = useColorScheme();

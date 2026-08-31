@@ -1,6 +1,6 @@
 ---
-name: ctd
-description: CTD guidance for City Scrapers projects
+name: spider-dev
+description: Building Scrapy spiders for City Scrapers projects, including spider types, required standards, testing, common API patterns, and rate limiting
 ---
 
 <!-- author: Code The Dream | last_updated: 2026-05-21 -->

@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import PageHeader from "@/components/scrapers/PageHeader";
 import ScrapersTable from "@/components/scrapers/ScrapersTable";
 import { listScrapers } from "@/lib/scrapers";
-import { pageTitle } from "@/lib/site";
+import { pageTitle, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: pageTitle("Scrapers"),
-  description:
-    "Browse available city-meeting scrapers and inspect their output.",
+  title: pageTitle(siteConfig.pages.scrapers.title),
+  description: siteConfig.pages.scrapers.description,
 };
 
 export default async function ScrapersPage() {

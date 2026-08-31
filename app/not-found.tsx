@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { PAGE_PADDING } from "@/lib/layout";
 
 /**
  * Root not-found fallback. Catches all unmatched routes (e.g. /a, /foo).
- * Rendered outside the AppShell, so it is viewport-centered with no
- * header or footer.
+ * Rendered inside the root layout, so header and footer are present.
  */
 export default function NotFound() {
   return (
@@ -15,12 +15,12 @@ export default function NotFound() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        minHeight: "100dvh",
+        flex: 1,
         textAlign: "center",
-        px: 2,
+        p: PAGE_PADDING,
       }}
     >
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
         Page not found
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 4 }}>

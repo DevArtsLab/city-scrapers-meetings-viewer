@@ -1,15 +1,18 @@
-import Container from "@mui/material/Container";
-import { AppShell } from "@/components/layout/app-shell";
-import { CONTENT_MAX_WIDTH } from "@/lib/layout";
-
-const PAGE_SPACING = { pt: { xs: 2, sm: 3 }, pb: { xs: 3, sm: 6 } };
+import Box from "@mui/material/Box";
+import { PAGE_PADDING, SECTION_GAP } from "@/lib/layout";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell>
-      <Container maxWidth={CONTENT_MAX_WIDTH} sx={PAGE_SPACING}>
-        {children}
-      </Container>
-    </AppShell>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: SECTION_GAP,
+        flex: 1,
+        p: PAGE_PADDING,
+      }}
+    >
+      {children}
+    </Box>
   );
 }

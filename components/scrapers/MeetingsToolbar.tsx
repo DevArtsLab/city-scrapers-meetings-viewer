@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import type { MeetingRecord } from "@/lib/scrapers";
 import FilterButton from "@/components/scrapers/FilterButton";
 import MeetingStats from "@/components/scrapers/MeetingStats";
+import { SECTION_GAP } from "@/lib/layout";
 
 interface MeetingsToolbarProps {
   records: MeetingRecord[];
@@ -28,10 +29,9 @@ export default function MeetingsToolbar({
       sx={{
         display: "flex",
         flexDirection: { xs: "column", sm: "row" },
+        gap: SECTION_GAP,
         alignItems: { xs: "stretch", sm: "center" },
         justifyContent: { sm: "space-between" },
-        gap: 2,
-        mb: 2,
       }}
     >
       <FilterButton

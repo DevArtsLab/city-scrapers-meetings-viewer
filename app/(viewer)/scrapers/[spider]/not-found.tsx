@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import { PAGE_PADDING } from "@/lib/layout";
 
 /**
  * Not-found fallback for /scrapers/[spider]. Rendered when a spider name
@@ -8,8 +9,18 @@ import Typography from "@mui/material/Typography";
  */
 export default function SpiderNotFound() {
   return (
-    <Box sx={{ textAlign: "center", py: { xs: 6, sm: 10 } }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        flex: 1,
+        textAlign: "center",
+        p: PAGE_PADDING,
+      }}
+    >
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
         Spider not found
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 4 }}>

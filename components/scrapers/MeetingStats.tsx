@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import type { MeetingRecord } from "@/lib/scrapers";
@@ -91,14 +92,16 @@ export default function MeetingStats({
   }, [records]);
 
   return (
-    <Box
+    <Stack
       role="list"
       aria-label="Meeting statistics"
+      direction="row"
+      useFlexGap
+      spacing={1}
       sx={{
-        display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
-        gap: { xs: 0.75, sm: 1 },
+        flexWrap: "wrap",
         width: { xs: "100%", sm: "auto" },
+        justifyContent: { xs: "center", sm: "flex-start" },
       }}
     >
       {STAT_ITEMS.map((item) => (
@@ -115,6 +118,6 @@ export default function MeetingStats({
           }
         />
       ))}
-    </Box>
+    </Stack>
   );
 }

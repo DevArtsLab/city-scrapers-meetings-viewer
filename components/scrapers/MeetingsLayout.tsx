@@ -7,6 +7,7 @@ import { MeetingSelectionProvider } from "@/contexts/MeetingSelectionContext";
 import MeetingsTable from "@/components/scrapers/MeetingsTable";
 import MeetingDetailPanel from "@/components/scrapers/MeetingDetailPanel";
 import type { SearchField } from "@/hooks/useMeetingFilters";
+import { SECTION_GAP } from "@/lib/layout";
 
 export default function MeetingsLayout({
   records,
@@ -27,7 +28,14 @@ export default function MeetingsLayout({
 }) {
   return (
     <MeetingSelectionProvider>
-      <Box sx={{ display: "flex", gap: 2, alignItems: "flex-start" }}>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          gap: SECTION_GAP,
+          alignItems: "flex-start",
+        }}
+      >
         <MeetingsTable
           records={records}
           totalCount={totalCount}

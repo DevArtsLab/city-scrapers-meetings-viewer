@@ -12,6 +12,13 @@ export const siteConfig = {
     "Turn raw Scrapy JSON into a browsable, filterable table. Review a spider's output in minutes instead of an afternoon.",
   docsNavTitle: "City Scrapers Docs",
   footerTagline: "QA tooling for city-scrapers output",
+  pages: {
+    scrapers: {
+      title: "Scrapers",
+      description:
+        "Browse available city-meeting scrapers and inspect their output.",
+    },
+  },
 } as const;
 
 /** Build a page title in the `Subtitle - App Name` format. */

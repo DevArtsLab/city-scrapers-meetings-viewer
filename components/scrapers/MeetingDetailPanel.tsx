@@ -2,10 +2,14 @@
 
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
 import Close from "@mui/icons-material/Close";
 import { locationText, normalizeStatus } from "@/lib/meetings";
+import type { MeetingRecord } from "@/lib/scrapers";
 import { StatusChip } from "@/components/ui/StatusChip";
 import {
   useSelectedMeeting,
@@ -40,30 +44,15 @@ function Section({
   );
 }
 
-export default function MeetingDetailPanel() {
-  const selectedMeeting = useSelectedMeeting();
-  const setSelectedMeeting = useSetSelectedMeeting();
-
-  if (!selectedMeeting) return null;
-
-  const record = selectedMeeting;
-
+function PanelContent({
+  record,
+  onClose,
+}: {
+  record: MeetingRecord;
+  onClose: () => void;
+}) {
   return (
-    <Box
-      sx={{
-        position: "sticky",
-        top: 16,
-        width: 340,
-        flexShrink: 0,
-        height: "calc(100vh - 32px)",
-        border: "1px solid",
-        borderColor: "divider",
-        borderRadius: 1,
-        bgcolor: "background.paper",
-        display: { xs: "none", md: "flex" },
-        flexDirection: "column",
-      }}
-    >
+    <>
       <Box sx={{ p: 2.5, pb: 0, flexShrink: 0 }}>
         <Box
           sx={{
@@ -93,7 +82,7 @@ export default function MeetingDetailPanel() {
           </Box>
           <IconButton
             size="small"
-            onClick={() => setSelectedMeeting(null)}
+            onClick={onClose}
             aria-label="Close panel"
             sx={{ flexShrink: 0 }}
           >
@@ -208,6 +197,58 @@ export default function MeetingDetailPanel() {
           </Typography>
         </Section>
       </Box>
-    </Box>
+    </>
+  );
+}
+
+export default function MeetingDetailPanel() {
+  const selectedMeeting = useSelectedMeeting();
+  const setSelectedMeeting = useSetSelectedMeeting();
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up("md"));
+
+  const handleClose = () => setSelectedMeeting(null);
+
+  return (
+    <>
+      {/* Desktop: sticky sidebar panel (md and up) */}
+      {isDesktop && selectedMeeting && (
+        <Box
+          sx={{
+            position: "sticky",
+            top: 16,
+            width: 340,
+            flexShrink: 0,
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 1,
+            bgcolor: "background.paper",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <PanelContent record={selectedMeeting} onClose={handleClose} />
+        </Box>
+      )}
+
+      {/* Tablet/mobile: slide-in drawer (below md) */}
+      <Drawer
+        open={!!selectedMeeting && !isDesktop}
+        onClose={handleClose}
+        anchor="right"
+        ModalProps={{ disableScrollLock: true }}
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: { xs: "100%", sm: 340 },
+            display: "flex",
+            flexDirection: "column",
+          },
+        }}
+      >
+        {selectedMeeting && (
+          <PanelContent record={selectedMeeting} onClose={handleClose} />
+        )}
+      </Drawer>
+    </>
   );
 }

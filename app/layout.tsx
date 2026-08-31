@@ -1,12 +1,16 @@
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v16-appRouter";
 import InitColorSchemeScript from "@mui/material/InitColorSchemeScript";
+import Box from "@mui/material/Box";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import { siteConfig } from "@/lib/site";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import { SiteHeader } from "@/components/layout/site-header";
+import { DocsDarkModeSyncScript } from "@/components/layout/dark-mode-sync-script";
 import theme from "./theme";
 import "./globals.css";
+import { SiteFooter } from "@/components/layout/site-footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,25 +45,30 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body>
         <InitColorSchemeScript attribute="data" />
         {/* Sync Fumadocs .dark class with MUI color scheme before hydration */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){
-              try{
-                var s=document.documentElement.getAttribute('data-mui-color-scheme');
-                var dark = s==='dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                if(dark){document.documentElement.classList.add('dark')}
-              }catch(e){}
-            })()`,
-          }}
-        />
+        <DocsDarkModeSyncScript />
         {/* enableCssLayer keeps MUI's generated styles inside @layer mui so Tailwind utilities win. */}
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            {children}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "100vh",
+              }}
+            >
+              <SiteHeader />
+              <Box
+                component="main"
+                sx={{ display: "flex", flexDirection: "column", flex: 1 }}
+              >
+                {children}
+              </Box>
+              <SiteFooter />
+            </Box>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>

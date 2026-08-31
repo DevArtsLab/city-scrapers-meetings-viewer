@@ -8,6 +8,7 @@ import FiltersPanel from "@/components/scrapers/FiltersPanel";
 import MeetingFilters from "@/components/scrapers/MeetingFilters";
 import MeetingsLayout from "@/components/scrapers/MeetingsLayout";
 import { useMeetingFilters } from "@/hooks/useMeetingFilters";
+import { SECTION_GAP } from "@/lib/layout";
 import { ColumnVisibilityProvider } from "@/contexts/ColumnVisibilityContext";
 
 const FILTERS_PANEL_ID = "meetings-filters-panel";
@@ -23,7 +24,7 @@ export default function ScraperWorkspace({
   const openFiltersPanel = useCallback(() => setFiltersOpen(true), []);
 
   return (
-    <Box>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: SECTION_GAP }}>
       <MeetingsToolbar
         ref={filterButtonRef}
         records={records}
@@ -37,6 +38,7 @@ export default function ScraperWorkspace({
           sx={{
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
+            gap: { xs: SECTION_GAP, sm: filtersOpen ? SECTION_GAP : 0 },
             alignItems: { xs: "stretch", sm: "flex-start" },
           }}
         >

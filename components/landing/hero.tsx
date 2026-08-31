@@ -2,9 +2,8 @@ import ArrowForwardRounded from "@mui/icons-material/ArrowForwardRounded";
 import CheckCircleRounded from "@mui/icons-material/CheckCircleRounded";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
-import { CONTENT_MAX_WIDTH } from "@/lib/layout";
+import { PAGE_PADDING } from "@/lib/layout";
 import { siteConfig } from "@/lib/site";
 
 const facts = [
@@ -34,7 +33,7 @@ export function Hero() {
         },
       }}
     >
-      <Container maxWidth={CONTENT_MAX_WIDTH} sx={{ position: "relative" }}>
+      <Box sx={{ px: PAGE_PADDING, position: "relative" }}>
         <Box sx={{ maxWidth: 800, mx: "auto", textAlign: "center" }}>
           <Typography
             component="p"
@@ -157,7 +156,7 @@ export function Hero() {
             ))}
           </Box>
         </Box>
-      </Container>
+      </Box>
     </Box>
   );
 }

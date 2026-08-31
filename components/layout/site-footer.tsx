@@ -1,27 +1,30 @@
+"use client";
+
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
+import { usePathname } from "next/navigation";
 import { LogoMark } from "./logo-mark";
-import { CONTENT_MAX_WIDTH } from "@/lib/layout";
+import { PAGE_PADDING } from "@/lib/layout";
 import { siteConfig } from "@/lib/site";
 
-export function SiteFooter({
-  showLandingLinks = false,
-}: {
-  showLandingLinks?: boolean;
-}) {
+export function SiteFooter() {
+  const pathname = usePathname();
+  const isLanding = pathname === "/";
+  const isDocs = pathname.startsWith("/docs");
+
+  if (isDocs) return null;
+
   return (
     <Box
       component="footer"
       sx={{
         borderTop: 1,
         borderColor: "divider",
-        py: 3,
         bgcolor: "background.paper",
       }}
     >
-      <Container maxWidth={CONTENT_MAX_WIDTH}>
+      <Box sx={{ p: PAGE_PADDING }}>
         <Box
           sx={{
             display: "flex",
@@ -73,7 +76,7 @@ export function SiteFooter({
             >
               Scrapers
             </Link>
-            {showLandingLinks && (
+            {isLanding && (
               <Link
                 href="/docs/viewer/quick-start"
                 underline="hover"
@@ -87,7 +90,7 @@ export function SiteFooter({
             )}
           </Box>
         </Box>
-      </Container>
+      </Box>
     </Box>
   );
 }

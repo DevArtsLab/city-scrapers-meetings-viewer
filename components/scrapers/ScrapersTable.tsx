@@ -66,7 +66,7 @@ export default function ScrapersTable({ spiders }: { spiders: SpiderEntry[] }) {
   const rows = spiders.map((spider) => ({ id: spider.slug, ...spider }));
 
   return (
-    <Paper variant="outlined" sx={{ mt: 3 }}>
+    <Paper variant="outlined">
       <DataGrid
         rows={rows}
         columns={columns}

@@ -439,7 +439,7 @@ export default function MeetingsTable({
   };
 
   const handleRowClick = (row: MeetingRecord) => {
-    setSelectedMeeting((prev) => (prev?._idx === row._idx ? null : row));
+    setSelectedMeeting((prev) => (prev?.id === row.id ? null : row));
   };
 
   return (
@@ -555,14 +555,19 @@ export default function MeetingsTable({
           <EmptyState />
         ) : (
           sortedRecords.map((record, index) => (
-            <MeetingCard
+            <Box
               key={index}
-              record={record}
-              titleHighlight={highlightFor("title")}
-              locationHighlight={highlightFor("location")}
-              isFirstDuplicate={sortedDupInfo[index].isFirst}
-              duplicateCount={sortedDupInfo[index].count}
-            />
+              onClick={() => handleRowClick(record)}
+              sx={{ cursor: "pointer" }}
+            >
+              <MeetingCard
+                record={record}
+                titleHighlight={highlightFor("title")}
+                locationHighlight={highlightFor("location")}
+                isFirstDuplicate={sortedDupInfo[index].isFirst}
+                duplicateCount={sortedDupInfo[index].count}
+              />
+            </Box>
           ))
         )}
       </Stack>

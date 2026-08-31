@@ -1,4 +1,9 @@
-import type { Breakpoint } from "@mui/material/styles";
+/* Padding from screen edges. Used as
+ * p on site header, footer, and viewer layout,
+ * px on landing sections. */
+export const PAGE_PADDING = 2;
 
-/** Single source of truth for the app's content width. */
-export const CONTENT_MAX_WIDTH: Breakpoint = "xl";
+/* Spacing between the major blocks that compose a page
+ * (toolbar, filter, table, detail, and page header).
+ */
+export const SECTION_GAP = 2;

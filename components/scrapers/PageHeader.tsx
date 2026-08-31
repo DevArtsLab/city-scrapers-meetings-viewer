@@ -24,28 +24,36 @@ export default function PageHeader({
   return (
     <Box
       sx={{
-        display: "grid",
-        gridTemplateColumns: backHref ? "1fr auto 1fr" : "1fr",
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
         alignItems: "center",
-        columnGap: 2,
-        mb: 2,
+        gap: 1,
       }}
     >
-      {backHref && (
-        <Box>
-          <BackLink href={backHref} label={backLabel} />
-        </Box>
-      )}
+      {backHref && <BackLink href={backHref} label={backLabel} />}
       <Typography
         sx={{
           fontWeight: 600,
           fontSize: { xs: "1.25rem", sm: "1.5rem" },
-          gridColumn: backHref ? 2 : 1,
-          justifySelf: "center",
+          textAlign: "center",
+          flexGrow: { xs: 0, sm: 1 },
+          flexBasis: { xs: "auto", sm: "0%" },
         }}
       >
         {title}
       </Typography>
+      {backHref && (
+        <Box
+          sx={{
+            display: { xs: "none", sm: "block" },
+            visibility: "hidden",
+            flexShrink: 0,
+          }}
+          aria-hidden
+        >
+          <BackLink href={backHref} label={backLabel} />
+        </Box>
+      )}
     </Box>
   );
 }

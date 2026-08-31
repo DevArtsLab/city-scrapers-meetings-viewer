@@ -70,9 +70,7 @@ export default function FiltersPanel({
         // an explicit percentage animates down to 0 when crossing into the
         // row layout, briefly starving the content column of all its width.
         width: { xs: "auto", sm: open ? PANEL_WIDTH : 0 },
-        mr: { sm: open ? 2 : 0 },
-        mb: { xs: open ? 2 : 0, sm: 0 },
-        maxHeight: { xs: open ? 2000 : 0, sm: "none" },
+        maxHeight: { xs: open ? "none" : 0 },
         opacity: open ? 1 : 0,
         transform: open ? "translateX(0)" : "translateX(-6px)",
         pointerEvents: open ? "auto" : "none",
@@ -97,7 +95,6 @@ export default function FiltersPanel({
         flexDirection: "column",
         position: { sm: "sticky" },
         top: { sm: 16 },
-        height: { sm: "calc(100vh - 32px)" },
         overflow: "hidden",
       }}
     >
