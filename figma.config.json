@@ -1,0 +1,8 @@
+{
+  "codeConnect": {
+    "include": ["components/**/*.tsx"],
+    "paths": {
+      "@/*": ["./*"]
+    }
+  }
+}
