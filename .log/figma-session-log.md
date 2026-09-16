@@ -5,7 +5,7 @@ session: wealthy-crater
 project: meetings-viewer
 figma_file: Meetings Viewer - Design System
 figma_file_key: YYPijzhubmRVR6ofAIZNa4
-dates: 2026-09-14 to 2026-09-15
+dates: 2026-09-14 to 2026-09-16
 timezone: EDT
 ---
 
@@ -17,9 +17,10 @@ timezone: EDT
 - [Building components, screens, and dark mode](#building-components-screens-and-dark-mode)
 - [Auditing screens against the codebase](#auditing-screens-against-the-codebase)
 - [Error screens, Code Connect mappings, and polish](#error-screens-code-connect-mappings-and-polish)
+- [FigJam screens, Slides deck, and missing frames](#figjam-screens-slides-deck-and-missing-frames)
 - [Challenges faced during the build](#challenges-faced-during-the-build)
 - [Lessons learned and Prevention keywords](#lessons-learned-and-prevention-keywords)
-- [Session token usage](#session-token-usage)
+- [Token usage methodology](#token-usage-methodology)
 
 ## Figma MCP setup and file creation
 
@@ -29,6 +30,8 @@ _Sunday, September 14, 2026_
 - 11:39 PM - First Figma MCP connection attempt ("now connect to figma")
 - 11:45 PM - Hit access/permission issues on target folder; wrong Figma account logged in
 - 11:55 PM - Revoked Figma MCP OAuth, re-authenticated with correct account
+- Token usage: `wealthy-crater` - 57 requests,
+  263,969 tokens (219,536 in / 44,433 out), 3,922,009 cache reads.
 
 _Monday, September 15, 2026_
 
@@ -80,6 +83,39 @@ _Monday, September 15, 2026_
 - 06:26 PM - Code Connect: installed @figma/code-connect@1.5.3, figma.config.json, 14 .figma.tsx files, 47 connections (all repo components + MUI primitives + icons); parse clean, lint/tsc clean
 - 06:27 PM - Cover redesign: 1280x560 hero, radial glows, glass logo card (tilted, real LogoMark instance), accent bars, top gradient line, left-aligned layout, 80px title; fixed LogoMark SCALE constraints
 - 06:28 PM - This log file created
+- Token usage: `wealthy-crater` - 1,083 requests,
+  5,996,110 tokens (5,250,008 in / 746,102 out), 120,658,391 cache reads.
+
+## FigJam screens, Slides deck, and missing frames
+
+_Wednesday, September 16, 2026_
+
+- FigJam board (`0TXHEIqgEG6RWhsOBJ2dt3`):
+  - "App screens" section: 10 live captures via Playwright MCP
+    - desktop light + dark, mobile light
+    - saved under `.playwright-mcp/figjam-captures/`
+    - uploaded as nodes `13:383`-`13:392`
+  - "App sitemap" section: generated from `figjam/app-sitemap.md` mermaid source
+  - "Screen wireframes" section: 5 shape-drawn mini mockups
+  - updated `figjam/meetings-viewer-board.figjam.md` manifest
+- Slides deck "City Scrapers - Meetings Viewer" (`hqtgwYeuosA2g2sSx1loR1`):
+  - 8 slides in 3 sections: Intro, Product, Buzz + wrap
+  - slides: title, problem, pipeline, workspace, landing+docs, buzz, roadmap, closing
+  - workspace slide uses the live dark-mode screenshot
+  - rewrote Problem copy for project relevance (duplicates, schema drift, manual review)
+  - fixed slide 2 title/body wrap collision
+  - removed stray "LAUNCH" text in slide 6 badge
+- Recreated missing `Mobile - Docs` frames:
+  - light `307:6` on 05 - Pages / Light (x=1648, y=8632; inner `307:8`)
+  - dark `309:7` on 06 - Pages / Dark (x=1721; Colors mode `4:2` on outer frame)
+  - content matches live /docs at 390px
+    - nav row, heading, reader-path sections, underlined bullets
+    - warning callout, Meetings Viewer card
+  - fixed nav chevron rotation (90 -> -90, points down)
+- Housekeeping: removed TEMP `html-to-design/capture.js` script from `app/layout.tsx`
+- Token usage: `wealthy-crater` - 39 requests, 160,491 tokens (151,446 in / 9,045 out), 5,450,624 cache reads.
+  - `beautiful-bistro` - 91 requests, 520,618 tokens (476,423 in / 44,195 out), 8,069,694 cache reads.
+  - `evanescent-hero` - 141 requests, 587,267 tokens (513,116 in / 74,151 out), 12,758,559 cache reads.
 
 ## Challenges faced during the build
 
@@ -97,6 +133,7 @@ _Monday, September 15, 2026_
 12. **Package versioning** - latest @figma/code-connect is fresh 2.x major; pinned 1.5.3 stable
 13. **Figma API can't set prototype navigation reactions** - flow links must be added manually in Prototype tab
 14. **Theme boundary** - MUI semantic vars vs fumadocs/Tailwind docs palette vs wireframe grays needed explicit separation, not blanket binding
+15. **No removeChild on frames** - Figma Plugin API has no `removeChild` on FRAME nodes; reparent with `appendChild` (it detaches from the old parent automatically)
 
 ## Lessons learned and Prevention keywords
 
@@ -116,17 +153,14 @@ _Monday, September 15, 2026_
 - `screen frame convention: parent name+tag+pin, label text sibling, inner unpinned`
 - `Figma API cannot set prototype reactions: do manually`
 - `log user-requested file moves via git mv; never stage/commit unasked`
+- `no removeChild on frames: reparent via appendChild`
 
-## Session token usage
+## Token usage methodology
 
-Source: Devin CLI session DB (`sessions.db`), deduplicated by message_id.
+All numbers above are read live from the Devin CLI session DB
+(`~/.local/share/devin/cli/sessions.db`), deduplicated by `message_id`,
+grouped by EDT day. A "request" is one message carrying token metrics.
+Cache reads are prompt-cache hits (re-reads of context), not fresh input.
 
-| Metric             | Value       |
-| ------------------ | ----------- |
-| Assistant messages | 1,151       |
-| Input tokens       | 5,604,726   |
-| Output tokens      | 792,793     |
-| Total tokens       | 6,397,519   |
-| Cache read tokens  | 125,949,154 |
-
-Note: cache reads are prompt-cache hits (re-reads of context), not fresh input.
+- Total (all sessions, Sept 14-16): 1,411 requests, 7,528,455 tokens
+  (6,610,529 in / 917,926 out), 150,859,277 cache reads.
