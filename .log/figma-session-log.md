@@ -1,7 +1,15 @@
-# Meetings Viewer - Figma Design System Build Log
+---
+title: Meetings Viewer - Figma Design System Build Log
+type: session-log
+session: wealthy-crater
+project: meetings-viewer
+figma_file: Meetings Viewer - Design System
+figma_file_key: YYPijzhubmRVR6ofAIZNa4
+dates: 2026-09-14 to 2026-09-15
+timezone: EDT
+---
 
-Session: `wealthy-crater` | File: `Meetings Viewer - Design System` (YYPijzhubmRVR6ofAIZNa4)
-All times EDT.
+# Meetings Viewer - Figma Design System Build Log
 
 ## Sunday, September 14, 2026
 
