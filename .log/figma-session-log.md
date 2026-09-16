@@ -11,23 +11,33 @@ timezone: EDT
 
 # Meetings Viewer - Figma Design System Build Log
 
-## Sunday, September 14, 2026
+## Contents
+
+- [Figma MCP setup and file creation](#figma-mcp-setup-and-file-creation)
+- [Building components, screens, and dark mode](#building-components-screens-and-dark-mode)
+- [Auditing screens against the codebase](#auditing-screens-against-the-codebase)
+- [Error screens, Code Connect mappings, and polish](#error-screens-code-connect-mappings-and-polish)
+- [Challenges faced during the build](#challenges-faced-during-the-build)
+- [Lessons learned and Prevention keywords](#lessons-learned-and-prevention-keywords)
+- [Session token usage](#session-token-usage)
+
+## Figma MCP setup and file creation
+
+_Sunday, September 14, 2026_
 
 - 11:20 PM - Session started in meetings-viewer repo
 - 11:39 PM - First Figma MCP connection attempt ("now connect to figma")
 - 11:45 PM - Hit access/permission issues on target folder; wrong Figma account logged in
 - 11:55 PM - Revoked Figma MCP OAuth, re-authenticated with correct account
 
-## Monday, September 15, 2026
-
-### Phase 1: Setup and file creation
+_Monday, September 15, 2026_
 
 - 01:07 AM - Provided team folder URL; confirmed MCP access; delivered the core request: full assets, primitives, components, pages, wireframes, desktop, mobile, workflows. No FigJam. "perfect figma from code"
 - 01:20 AM - Created Figma file, defined variable collections: Primitives, Colors (Light/Dark modes), Layout
 - 01:35 AM - Built Foundations page: color swatches, spacing/radii tokens mapped from `app/theme.ts` + `lib/ui-constants.ts`
 - 01:51 AM - Set up Figma local Dev Mode MCP server (http://127.0.0.1:3845/mcp); evaluated extra tooling
 
-### Phase 2: Components and screens
+## Building components, screens, and dark mode
 
 - 02:10 AM - Built Primitives page: Button set (contained/outlined/tonal x sm/md/lg), StatusChip set, StatChips, inputs, switches, IconButtons, SearchTrigger, FilterButton set, BackLink, icon library (18 icons)
 - 02:30 AM - Navigation page: LogoMark, SiteHeader Desktop+Mobile, NavDrawer, PageHeader, SiteFooter
@@ -37,7 +47,7 @@ timezone: EDT
 - 03:30 AM - Built 15 screen families on Pages/Light: Landing, Scrapers Index, Workspace (+detail/filters variants), Docs, 404, Search Dialog; mobile equivalents incl. Nav Drawer, Meeting Detail sheet
 - 03:50 AM - Added Dark mode: cloned page, bound variables, dark palette resolution
 
-### Phase 3: Audit and parity fixes
+## Auditing screens against the codebase
 
 - 04:05 AM - Decided page structure: keep separate Pages/Light + Pages/Dark (don't merge desktop+mobile)
 - 04:15 AM - Identified stale layers on both pages; added gap between desktop/mobile groups
@@ -53,7 +63,7 @@ timezone: EDT
 - 05:50 AM - Added Docs platform wireframe (Keystatic/fumadocs); reviewed wireframe justify-content; primitives input fixes
 - 06:00 AM - Verified flows reflect app incl. docs platform + Keystatic; bound layout vars to lib/ui-constants (PAGE_PADDING, SECTION_GAP, panel widths); fixed desktop vertical padding (header 126->70px, spacers, section py per breakpoints)
 
-### Phase 4: Continuation after summary compaction
+## Error screens, Code Connect mappings, and polish
 
 - 06:05 PM - Fixed detached Landing header, phantom 243px spacer, landing px80->16; measured live DataGrid via Playwright and rebuilt MeetingsTable/ScrapersTable (header 39px, 16px cells, 62px footer); swapped 18 custom mobile headers for SiteHeader/Mobile instances; fixed Meeting Detail close IconButton
 - 06:10 PM - Organized Data Display sections (named, ordered); sorted Pages layer lists by canvas position; zero-overlap check
@@ -71,9 +81,7 @@ timezone: EDT
 - 06:27 PM - Cover redesign: 1280x560 hero, radial glows, glass logo card (tilted, real LogoMark instance), accent bars, top gradient line, left-aligned layout, 80px title; fixed LogoMark SCALE constraints
 - 06:28 PM - This log file created
 
----
-
-## Challenges Faced
+## Challenges faced during the build
 
 1. **Figma MCP auth** - Connected account had no access to target team folder; required OAuth revoke and re-login with a different account
 2. **Figma API gaps** - `setRangeTextDecorationAsync` doesn't exist on TEXT nodes; `characters` unavailable on FRAME nodes; null `id`/`map`/`length` on some node types required defensive traversal
@@ -90,9 +98,7 @@ timezone: EDT
 13. **Figma API can't set prototype navigation reactions** - flow links must be added manually in Prototype tab
 14. **Theme boundary** - MUI semantic vars vs fumadocs/Tailwind docs palette vs wireframe grays needed explicit separation, not blanket binding
 
----
-
-## Prevention Keywords (for future sessions / new projects)
+## Lessons learned and Prevention keywords
 
 - `verify node.type before .characters/.fills access`
 - `loadFontAsync before any text property write`
@@ -110,3 +116,17 @@ timezone: EDT
 - `screen frame convention: parent name+tag+pin, label text sibling, inner unpinned`
 - `Figma API cannot set prototype reactions: do manually`
 - `log user-requested file moves via git mv; never stage/commit unasked`
+
+## Session token usage
+
+Source: Devin CLI session DB (`sessions.db`), deduplicated by message_id.
+
+| Metric             | Value       |
+| ------------------ | ----------- |
+| Assistant messages | 1,151       |
+| Input tokens       | 5,604,726   |
+| Output tokens      | 792,793     |
+| Total tokens       | 6,397,519   |
+| Cache read tokens  | 125,949,154 |
+
+Note: cache reads are prompt-cache hits (re-reads of context), not fresh input.
