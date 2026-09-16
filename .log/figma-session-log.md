@@ -30,12 +30,12 @@ _Sunday, September 14, 2026_
 - 11:39 PM - First Figma MCP connection attempt ("now connect to figma")
 - 11:45 PM - Hit access/permission issues on target folder; wrong Figma account logged in
 - 11:55 PM - Revoked Figma MCP OAuth, re-authenticated with correct account
-- Token usage: `wealthy-crater` - 57 requests,
+- Token usage: `wealthy-crater` - 9 prompts, 57 requests,
   263,969 tokens (219,536 in / 44,433 out), 3,922,009 cache reads.
 
 _Monday, September 15, 2026_
 
-- 01:07 AM - Provided team folder URL; confirmed MCP access; delivered the core request: full assets, primitives, components, pages, wireframes, desktop, mobile, workflows. No FigJam. "perfect figma from code"
+- 01:07 AM - Provided team folder URL; confirmed MCP access; delivered the core request: full assets, primitives, components, pages, wireframes, desktop, mobile, workflows. From code.
 - 01:20 AM - Created Figma file, defined variable collections: Primitives, Colors (Light/Dark modes), Layout
 - 01:35 AM - Built Foundations page: color swatches, spacing/radii tokens mapped from `app/theme.ts` + `lib/ui-constants.ts`
 - 01:51 AM - Set up Figma local Dev Mode MCP server (http://127.0.0.1:3845/mcp); evaluated extra tooling
@@ -83,7 +83,7 @@ _Monday, September 15, 2026_
 - 06:26 PM - Code Connect: installed @figma/code-connect@1.5.3, figma.config.json, 14 .figma.tsx files, 47 connections (all repo components + MUI primitives + icons); parse clean, lint/tsc clean
 - 06:27 PM - Cover redesign: 1280x560 hero, radial glows, glass logo card (tilted, real LogoMark instance), accent bars, top gradient line, left-aligned layout, 80px title; fixed LogoMark SCALE constraints
 - 06:28 PM - This log file created
-- Token usage: `wealthy-crater` - 1,083 requests,
+- Token usage: `wealthy-crater` - 85 prompts, 1,083 requests,
   5,996,110 tokens (5,250,008 in / 746,102 out), 120,658,391 cache reads.
 
 ## FigJam screens, Slides deck, and missing frames
@@ -113,9 +113,9 @@ _Wednesday, September 16, 2026_
     - warning callout, Meetings Viewer card
   - fixed nav chevron rotation (90 -> -90, points down)
 - Housekeeping: removed TEMP `html-to-design/capture.js` script from `app/layout.tsx`
-- Token usage: `wealthy-crater` - 39 requests, 160,491 tokens (151,446 in / 9,045 out), 5,450,624 cache reads.
-  - `beautiful-bistro` - 91 requests, 520,618 tokens (476,423 in / 44,195 out), 8,069,694 cache reads.
-  - `evanescent-hero` - 141 requests, 587,267 tokens (513,116 in / 74,151 out), 12,758,559 cache reads.
+- Token usage: `wealthy-crater` - 18 prompts, 39 requests, 160,491 tokens (151,446 in / 9,045 out), 5,450,624 cache reads.
+  - `beautiful-bistro` - 17 prompts, 91 requests, 520,618 tokens (476,423 in / 44,195 out), 8,069,694 cache reads.
+  - `evanescent-hero` - 13 prompts, 141 requests, 587,267 tokens (513,116 in / 74,151 out), 12,758,559 cache reads.
 
 ## Challenges faced during the build
 
@@ -159,8 +159,9 @@ _Wednesday, September 16, 2026_
 
 All numbers above are read live from the Devin CLI session DB
 (`~/.local/share/devin/cli/sessions.db`), deduplicated by `message_id`,
-grouped by EDT day. A "request" is one message carrying token metrics.
-Cache reads are prompt-cache hits (re-reads of context), not fresh input.
+grouped by EDT day. A "prompt" is one user message (`role='user'`); a
+"request" is one message carrying token metrics. Cache reads are
+prompt-cache hits (re-reads of context), not fresh input.
 
-- Total (all sessions, Sept 14-16): 1,411 requests, 7,528,455 tokens
-  (6,610,529 in / 917,926 out), 150,859,277 cache reads.
+- Total (all sessions, Sept 14-16): 142 prompts, 1,411 requests,
+  7,528,455 tokens (6,610,529 in / 917,926 out), 150,859,277 cache reads.
