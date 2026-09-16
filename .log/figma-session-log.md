@@ -1,7 +1,6 @@
 ---
 title: Meetings Viewer - Figma Design System Build Log
 type: session-log
-session: wealthy-crater
 project: meetings-viewer
 figma_file: Meetings Viewer - Design System
 figma_file_key: YYPijzhubmRVR6ofAIZNa4
@@ -90,14 +89,25 @@ _Monday, September 15, 2026_
 
 _Wednesday, September 16, 2026_
 
-- FigJam board (`0TXHEIqgEG6RWhsOBJ2dt3`):
+- 12:08 PM - Log maintenance: added front matter, table of contents, challenges, lessons sections; iterated on section titles and labels
+- 01:00 PM - New thread: what else the Figma educational seat can do for this codebase (FigJam ideas)
+- FigJam board "meetings-viewer data pipeline" (`0TXHEIqgEG6RWhsOBJ2dt3`):
+  - created via generate_diagram: 4 scraper repos -> `scrapy crawl` -> JSON data modes -> `lib/scraper-data.ts` -> app surfaces; MeetingRecord contract as hexagon
+  - 01:12 PM - user moved board into City Scrapers project; staying on Code the Dream team
+  - UI pass: color-coded lanes, title/subtitle, "How to read" legend, spec open questions as stickies
+  - added 4 diagrams: MeetingRecord ER (12 fields, 4 statuses, 8 classifications), crawl->review->fix sequence, status state diagram, PR lifecycle flowchart
+  - fixed connector routing after node moves broke endpoint bindings (rebuilt connectors with correct stroke caps)
+  - organized all diagrams into titled tinted sections
   - "App screens" section: 10 live captures via Playwright MCP
     - desktop light + dark, mobile light
     - saved under `.playwright-mcp/figjam-captures/`
     - uploaded as nodes `13:383`-`13:392`
   - "App sitemap" section: generated from `figjam/app-sitemap.md` mermaid source
   - "Screen wireframes" section: 5 shape-drawn mini mockups
-  - updated `figjam/meetings-viewer-board.figjam.md` manifest
+  - saved Mermaid sources + manifest in repo: `figjam/*.md`, updated `figjam/meetings-viewer-board.figjam.md`
+- Code Connect suggestions: blocked, AI mapping tools need Org/Enterprise seat; existing CLI `.figma.tsx` mappings unaffected
+- Compared Figma variables vs `app/theme.ts`: in sync (`mui-palette-primary-main` #4f7cc7 matches)
+- Screens capture file (`tDUWEnMMuqvNEyHMM7gRTM`): created in City Scrapers project, landing page captured via generate_figma_design + temp capture script tag; /scrapers and /docs captures pending
 - Slides deck "City Scrapers - Meetings Viewer" (`hqtgwYeuosA2g2sSx1loR1`):
   - 8 slides in 3 sections: Intro, Product, Buzz + wrap
   - slides: title, problem, pipeline, workspace, landing+docs, buzz, roadmap, closing
@@ -105,6 +115,15 @@ _Wednesday, September 16, 2026_
   - rewrote Problem copy for project relevance (duplicates, schema drift, manual review)
   - fixed slide 2 title/body wrap collision
   - removed stray "LAUNCH" text in slide 6 badge
+- Slides live-embed work (later Sept 16):
+  - 04:07 PM - request: replace static slide screenshots with linked design frames so design edits reflect in Slides; improve deck UI
+  - converted `Desktop - Scraper Workspace (dark)` (`325:68`) and `Desktop - Landing` (`325:69`) to components in place
+  - new page "09 - Slide Embeds" (`325:70`): viewport frames `325:71` (1440x900) + `325:516` (1440x1104) holding same-file instances, prototype flow starting points set
+  - deck polish: slide numbers `01/08`-`08/08`, "Live view - reflects design file edits" captions, accent arrows on pipeline slide, image frames renamed with insert links
+  - API finding: Slides sandbox lacks `createEmbedAsync`/`createLinkPreviewAsync`/`createImageAsync`; embeds are UI-only
+  - 04:47 PM - inserted via Chrome DevTools MCP driving Slides UI: Slides mode > Live interaction > Prototype > Add by link
+  - live prototype embeds placed: workspace `26:2` on slide 4 (880x550 @ 880,240), landing `30:4` on slide 5 (860x658 @ 900,200); static image frames `2:2`/`2:3` removed
+  - embed node x/y writable via API, width/height read-only: resized via Design mode W field (aspect-locked)
 - Recreated missing `Mobile - Docs` frames:
   - light `307:6` on 05 - Pages / Light (x=1648, y=8632; inner `307:8`)
   - dark `309:7` on 06 - Pages / Dark (x=1721; Colors mode `4:2` on outer frame)
@@ -134,6 +153,10 @@ _Wednesday, September 16, 2026_
 13. **Figma API can't set prototype navigation reactions** - flow links must be added manually in Prototype tab
 14. **Theme boundary** - MUI semantic vars vs fumadocs/Tailwind docs palette vs wireframe grays needed explicit separation, not blanket binding
 15. **No removeChild on frames** - Figma Plugin API has no `removeChild` on FRAME nodes; reparent with `appendChild` (it detaches from the old parent automatically)
+16. **Slides sandbox limits** - no `createEmbedAsync`/`createLinkPreviewAsync`/`createImageAsync`; live prototype embeds are UI-only, driven via Chrome DevTools MCP
+17. **Embed resize** - INTERACTIVE_SLIDE_ELEMENT x/y writable but width/height read-only via API; resized through Design mode W field (aspect-locked)
+18. **Unpublished library** - `importComponentByKeyAsync` fails without a published library; used same-file component instances on a dedicated Slide Embeds page instead
+19. **Page APIs** - no `loadAllPagesAsync` and `currentPage` is read-only; use per-page `loadAsync` + `setCurrentPageAsync`
 
 ## Lessons learned and Prevention keywords
 
@@ -154,6 +177,11 @@ _Wednesday, September 16, 2026_
 - `Figma API cannot set prototype reactions: do manually`
 - `log user-requested file moves via git mv; never stage/commit unasked`
 - `no removeChild on frames: reparent via appendChild`
+- `slides sandbox: no createEmbedAsync/createLinkPreviewAsync/createImageAsync; live embeds are UI-only`
+- `embed resize is UI-only too: set x/y via API, set W in Design mode panel (aspect-locked)`
+- `drive Figma UI via chrome-devtools MCP: slides mode > Live interaction > Prototype > Add by link`
+- `importComponentByKeyAsync needs a published library; same-file instances need no publish`
+- `no loadAllPagesAsync in design files: per-page loadAsync; use setCurrentPageAsync`
 
 ## Token usage methodology
 
