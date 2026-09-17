@@ -4,7 +4,7 @@ type: session-log
 project: meetings-viewer
 figma_file: Meetings Viewer - Design System
 figma_file_key: YYPijzhubmRVR6ofAIZNa4
-dates: 2026-09-14 to 2026-09-16
+dates: 2026-09-14 to 2026-09-17
 timezone: EDT
 ---
 
@@ -17,6 +17,7 @@ timezone: EDT
 - [Auditing screens against the codebase](#auditing-screens-against-the-codebase)
 - [Error screens, Code Connect mappings, and polish](#error-screens-code-connect-mappings-and-polish)
 - [FigJam screens, Slides deck, and missing frames](#figjam-screens-slides-deck-and-missing-frames)
+- [Docs platform automations diagram](#docs-platform-automations-diagram)
 - [Challenges faced during the build](#challenges-faced-during-the-build)
 - [Lessons learned and Prevention keywords](#lessons-learned-and-prevention-keywords)
 - [Token usage methodology](#token-usage-methodology)
@@ -139,6 +140,21 @@ _Wednesday, September 16, 2026_
   - beautiful-bistro - 17 prompts, 91 requests, 520,618 tokens (476,423 in / 44,195 out), 8,069,694 cache reads.
   - evanescent-hero - 13 prompts, 141 requests, 587,267 tokens (513,116 in / 74,151 out), 12,758,559 cache reads.
 
+## Docs platform automations diagram
+
+_Thursday, September 17, 2026_
+
+- 12:50 AM - Read docs-platform engine sources (check.ts, evaluate.ts, extract.ts, owners.ts, generate-schema.ts, check-links.ts, sync-sources.ts) plus drift/claims.ts, sources.json, and the .github/workflows docs-* files to map what each docs:* npm script does
+- 01:00 AM - Added "docs platform automations" flowchart to the existing FigJam board via generate_diagram: 4 script lanes (docs:sync, docs:drift/check, docs:schema/check, docs:links) + GitHub Actions gates lane; dotted cross-lane edges for sync->drift mirror freshness and the schema-page-generated claim; thick "fails PR check" edges into CI nodes
+- 01:09 AM - Saved Mermaid source of truth at figjam/docs-automations.md; registered the diagram in figjam/meetings-viewer-board.figjam.md
+- Token usage: use `/session-stats` in-session to read.
+- Response statistics:
+  - Model: SWE-2 High
+  - Agent messages: 47 messages
+  - Input tokens: 173702 tokens
+  - Output tokens: 22201 tokens
+  - Cached input tokens: 3409003 tokens
+
 ## Challenges faced during the build
 
 1. Figma MCP auth - Connected account had no access to target team folder; required OAuth revoke and re-login with a different account
@@ -188,12 +204,13 @@ _Wednesday, September 16, 2026_
 
 ## Token usage methodology
 
-- All numbers above are read live from the Devin CLI session DB (sessions.db), deduplicated by message_id, grouped by EDT day. 
-- A "prompt" is one user message (role='user'). 
-- A "request" is one message carrying token metrics. 
+- Numbers above are read live from the Devin CLI session DB (sessions.db), deduplicated by message_id, grouped by EDT day.
+- Token usage: use `/session-stats` in-session.
+- A "prompt" is one user message (role='user').
+- A "request" is one message carrying token metrics.
 - Cache reads are prompt-cache hits (re-reads of context), not fresh input.
 
-- Total (all sessions, Sept 14-16): 
+- Total (all sessions, Sept 14-16):
   - 142 prompts
   - 1,411 requests
   - 7,528,455 tokens (6,610,529 in / 917,926 out)

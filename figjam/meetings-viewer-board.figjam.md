@@ -11,14 +11,15 @@ the Figma MCP `generate_diagram` tool (see the figjam-sync skill).
 
 ## Diagrams on the board
 
-| Section                  | Source file           | Diagram name                  |
-| ------------------------ | --------------------- | ----------------------------- |
-| Pipeline (top)           | `data-pipeline.md`    | meetings-viewer data pipeline |
-| MeetingRecord schema     | `meeting-schema.md`   | MeetingRecord schema          |
-| Scraper PR review cycle  | `review-cycle.md`     | Scraper PR review cycle       |
-| Meeting status lifecycle | `status-lifecycle.md` | Meeting status lifecycle      |
-| Scraper PR lifecycle     | `pr-lifecycle.md`     | Scraper PR lifecycle          |
-| App sitemap              | `app-sitemap.md`      | meetings-viewer sitemap       |
+| Section                   | Source file           | Diagram name                  |
+| ------------------------- | --------------------- | ----------------------------- |
+| Pipeline (top)            | `data-pipeline.md`    | meetings-viewer data pipeline |
+| MeetingRecord schema      | `meeting-schema.md`   | MeetingRecord schema          |
+| Scraper PR review cycle   | `review-cycle.md`     | Scraper PR review cycle       |
+| Meeting status lifecycle  | `status-lifecycle.md` | Meeting status lifecycle      |
+| Scraper PR lifecycle      | `pr-lifecycle.md`     | Scraper PR lifecycle          |
+| App sitemap               | `app-sitemap.md`      | meetings-viewer sitemap       |
+| Docs platform automations | `docs-automations.md` | docs platform automations     |
 
 ## Non-diagram sections
 
